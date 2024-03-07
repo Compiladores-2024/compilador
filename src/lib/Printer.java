@@ -1,10 +1,12 @@
 package src.lib;
 
+import java.util.ArrayList;
+
 import src.lib.tokenHelper.Token;
 
 public class Printer {
 
-    public static  void showTokens (Token tokens []) {
+    public static  void showTokens (ArrayList<Token> tokens) {
         System.out.println("CORRECTO: ANALISIS LEXICO");
         System.out.println("| TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |");
 
