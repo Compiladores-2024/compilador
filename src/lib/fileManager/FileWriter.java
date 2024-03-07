@@ -3,9 +3,24 @@ package src.lib.fileManager;
 import java.util.ArrayList;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Esta clase se utilizará para escribir los resultados de la ejecución o
+ * testing de los diferentes analizadores
+ * 
+ * @author Cristian Serrano
+ * @since 07/03/2024
+ */
 public class FileWriter {
+    FileWriter () {}
 
-    public static void writeResults (ArrayList<Token> tokens, String path) {
+    /**
+     * Método que se utiliza para escribir los resultados del analizador léxico.
+     * 
+     * @since 07/03/2024
+     * @param tokens Lista de Tokens que se escribirían en el archivo de salida.
+     * @param path Path hacia el archivo resultante.
+     */
+    public static void writeResults(ArrayList<Token> tokens, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
 
@@ -20,7 +35,8 @@ public class FileWriter {
 
             //Cierra el escritor
             writer.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("ERROR: No se ha podido crear el archivo resultado.");
         }
     }

@@ -3,9 +3,27 @@ package src.lib.fileManager;
 import java.io.BufferedReader;
 import java.io.File;
 
+/**
+ * Esta clase se utilizará para leer línea por línea el código fuente de los
+ * archivos .ru
+ * 
+ * @author Cristian Serrano
+ * @since 06/03/2024
+ */
 public class FileReader {
     private BufferedReader bufferedReader;
 
+    /**
+     * Constructor de la clase. 
+     * 
+     * <br/>RECORDAR QUE EL PATH COMIENZA CON LA RUTA DONDE NOS ENCONTRAMOS EN LA
+     * TERMINAL AL MOMENTO DE EJECUTAR EL PROGRAMA.
+     * 
+     * <br/>Por ejemplo: C:\\user\\code\\
+     * 
+     * @since 06/03/2024
+     * @param path Path hacia el fichero que se desea importar como código fuente.
+     */
     public FileReader(String path){
         File file = new File(path);
 
@@ -24,8 +42,15 @@ public class FileReader {
         }
     }
 
-    public String getLine () {
+    /**
+     * Método que lee y retorna la siguiente línea del documento.
+     * 
+     * @since 06/03/2024
+     * @return Siguiente línea del documento.
+     */
+    public String getLine() {
         String line = null;
+        
         //Valida que se haya creado el bufferedReader
         if(bufferedReader != null){
             try {
