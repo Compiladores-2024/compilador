@@ -1,5 +1,9 @@
 # Errores lexicos
 
+***Reporta identificadores mal formados, caracteres tabulares, símbolos inválidos, comentarios no cerrados***
+
+
+### Casos de prueba
 @ en cualquier parte (Excepto dentro de string)
 Caracter con más de una letra
 Abrir string y nunca cerrarlo
