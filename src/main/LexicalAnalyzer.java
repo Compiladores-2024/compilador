@@ -83,6 +83,8 @@ public class LexicalAnalyzer {
         
         boolean flagNextLine=false;
 
+        boolean incrementCol=true;
+
         
         while(reading && currentLineString!=null){
             System.out.println("Currtoken: "+currToken);
@@ -181,9 +183,7 @@ public class LexicalAnalyzer {
                     }
                 }
 
-                else if (currToken=="id_class" || currToken=="id_objeto" 
-                
-                        && (charAscii!=59)    ){
+                else if (currToken=="id_class" || currToken=="id_objeto" ){
                     System.out.println("ACA");
                     // si viene [a..z] o guion bajo _  o [A..Z] o numeros [0..9] entonces se sigue formando el lexema
                     if ((charAscii > 64 && charAscii < 91) 
@@ -192,15 +192,16 @@ public class LexicalAnalyzer {
                         currLexeme = currLexeme + character;
                     }
                     //llega un espacio o punto y coma
-                    else if ( charAscii==32 || charAscii==59){
-                        // token.setLexema(currLexeme);
-                        // token.setName(IDToken.constSTR);                                        ///////////////////////////////////////////////////
-                        // token.setLine(numLine);
-                        // token.setColumn(numColumn);
+                    else if ( charAscii==32 || charAscii==59 || charAscii==44){
+                        token.setLexema(currLexeme);
+                        token.setName(IDToken.constSTR);                                        ///////////////////////////////////////////////////
+                        token.setLine(numLine);
+                        token.setColumn(numColumn);
                         
-                        // // Token token= new Token(currToken, currLexeme, numLine, numColumn);
-                        // // addToken(token);
-                        // reading=false;
+                        // Token token= new Token(currToken, currLexeme, numLine, numColumn);
+                        // addToken(token);
+                        reading=false;
+                        incrementCol=false;
                     }
                     //caso contrario llego un simbolo invalido para la definicion de identificador
                     else{
@@ -210,22 +211,32 @@ public class LexicalAnalyzer {
 
 
                     }
-                    //si el lexema es una palabra clave
-                    if (key_words.contains(currLexeme)){
-                        // int col= numColumn-currLexeme.length();
-                        token.setLexema(currLexeme);
-                        token.setName(IDToken.constSTR);
-                        token.setLine(numLine);
-                        token.setColumn(numColumn);
-                        
-                        reading=false;
-                        currLexeme="";
-                        currToken="";
-                        // Token token= new Token(currToken, currLexeme, numLine, numColumn);
-                        // addToken(token);
+                    if (numColumn+1 < line.length && 
+                        !((line[numColumn+1]>64 && line[numColumn+1]<91) ||
+                        (line[numColumn+1]>96 && line[numColumn+1]<123 ||
+                        line[numColumn+1]==95)) ){
+
+                            //si el lexema es una palabra clave
+                            if (key_words.contains(currLexeme)){
+                                // int col= numColumn-currLexeme.length();
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.constSTR);
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+                                
+                                reading=false;
+                                currLexeme="";
+                                currToken="";
+                                // Token token= new Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                            }
                         
                     }
+                            
                 }
+
+                
 
             
                 //ignora espacio alt+32, tab horizontal alt+9
@@ -563,7 +574,7 @@ public class LexicalAnalyzer {
                             //si hay un currToken analizando se deberia guardar
                             if (currToken!=""){
                             
-                                
+
                                 token.setLexema(currLexeme);
                                 token.setName(IDToken.idVAR);                                 //////////////////
                                 token.setLine(numLine);
@@ -574,26 +585,34 @@ public class LexicalAnalyzer {
                                 // addToken(token);
                                 
                                 reading=false;
+                                currLexeme="";
+                                currToken="";
+                            }
+                            else{
+                                String s = String.valueOf(character);
+                                token.setLexema(s);
+                                token.setName(IDToken.sCOLON);
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+                                // Token token= Token("op_div", character, numLine, i);
+                                // addToken(token);
+                                reading=false;
+                                currLexeme="";
+                                currToken="";
                             }
 
-                            String s = String.valueOf(character);
-                            token.setLexema(s);
-                            token.setName(IDToken.sCOLON);
-                            token.setLine(numLine);
-                            token.setColumn(numColumn);
-                            // Token token= Token("op_div", character, numLine, i);
-                            // addToken(token);
-                            reading=false;
-                            currLexeme="";
-                            currToken="";
+   
                         }
 
 
                         // es punto y coma ; alt+59
                         else if (charAscii==59){
+
                             //si hay un currToken analizando se deberia guardar
                             if (currToken!=""){
-     
+         
+                                System.out.println("SEMIIII COLOON");
+                                
                                 token.setLexema(currLexeme);
                                 token.setName(IDToken.idVAR);                                 //////////////////
                                 token.setLine(numLine);
@@ -609,17 +628,22 @@ public class LexicalAnalyzer {
 
 
                             }
+                            else{
+                                String s = String.valueOf(character);
+                                token.setLexema(s);
+                                token.setName(IDToken.sSEMICOLON);
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+                                                           
+                                // Token token= Token("op_div", character, numLine, i);
+                                // addToken(token);
+                                reading=false;
+                                currLexeme+=character;
+                                currToken="sSEMICOL";
+                                
+                            }
 
-                            // String s = String.valueOf(character);
-                            // token.setLexema(s);
-                            // token.setName(IDToken.sSEMICOLON);
-                            // token.setLine(numLine);
-                            // token.setColumn(numColumn);
-                            // Token token= Token("op_div", character, numLine, i);
-                            // addToken(token);
-                            reading=true;
-                            currLexeme+=character;
-                            currToken="sSEMICOL";
+ 
                         }
 
                         // es corchete abre [   alt+91
@@ -944,7 +968,11 @@ public class LexicalAnalyzer {
                 numColumn=0;
             }
             else{
-                numColumn++;
+                if(incrementCol==true){
+                    numColumn++;
+                }
+                incrementCol=true;
+                
             }
             flagNextLine=false;
             
