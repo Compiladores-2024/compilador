@@ -1,12 +1,12 @@
-package src.lib.fileManager;
+package src.lib;
 
 import java.io.BufferedReader;
 import java.io.File;
 
-public class FileReader {
+public class FileManager {
     private BufferedReader bufferedReader;
 
-    public FileReader(String path){
+    public FileManager(String path){
         File file = new File(path);
 
         //Valida que el archivo exista y no sea un direcctorio
@@ -16,11 +16,11 @@ public class FileReader {
                 bufferedReader = new BufferedReader(new java.io.FileReader(file));
             }
             catch (Exception e) {
-                System.out.println("ERROR: No se ha podido crear el lector de archivo.");
+                System.out.println(Const.ERROR_CREATE_FILE_READER);
             }
         }
         else {
-            System.out.println("ERROR: El archivo no existe o es un directorio. Se busca en: " + file.getAbsolutePath());
+            System.out.println(Const.ERROR_READ_FILE + file.getAbsolutePath());
         }
     }
 
@@ -36,7 +36,7 @@ public class FileReader {
                 }
             }
             catch (Exception e) {
-                System.out.println("ERROR: No se ha podido leer la siguiente linea del archivo.");
+                System.out.println(Const.ERROR_READ_NEXT_LINE);
             }
         }
         return line;
