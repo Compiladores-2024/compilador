@@ -15,6 +15,10 @@ public class Token {
     private Integer line;
     private Integer column;
 
+    public Token(){
+
+    }
+
     /**
      * Constructor de la clase.
      * 
@@ -41,4 +45,30 @@ public class Token {
     public String toString() {
         return "| " + name + " | " + lexema + " | LINEA " + line.toString() + " (COLUMNA " + column.toString() + ") |";
     }
+
+    public void setLexema(String lex){
+        this.lexema=lex;
+    }
+
+    public void setLine(int numLine){
+        this.line=numLine;
+    }
+
+    public void setColumn(int numCol){
+        this.column=numCol;
+    }
+
+    public void setName(IDToken value){
+        this.name=value;
+
+    }
+
+    public int getLine(){
+        return line;
+    }
+
+    public String getLexema(){
+        return lexema;
+    }
+
 }

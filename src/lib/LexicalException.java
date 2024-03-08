@@ -1,5 +1,13 @@
 package src.lib;
 
+
+/**
+ * Clase LexicalException encargada de generar la excepcion lexica
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 06/03/2024
+ */
 public class LexicalException extends RuntimeException {
 
     
