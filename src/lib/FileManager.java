@@ -1,4 +1,4 @@
-package src.lib.fileManager;
+package src.lib;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,9 +8,10 @@ import java.io.File;
  * archivos .ru
  * 
  * @author Cristian Serrano
+ * @author Federico Gimenez
  * @since 06/03/2024
  */
-public class FileReader {
+public class FileManager {
     private BufferedReader bufferedReader;
 
     /**
@@ -24,7 +25,7 @@ public class FileReader {
      * @since 06/03/2024
      * @param path Path hacia el fichero que se desea importar como código fuente.
      */
-    public FileReader(String path){
+    public FileManager(String path){
         File file = new File(path);
 
         //Valida que el archivo exista y no sea un direcctorio
@@ -34,11 +35,11 @@ public class FileReader {
                 bufferedReader = new BufferedReader(new java.io.FileReader(file));
             }
             catch (Exception e) {
-                System.out.println("ERROR: No se ha podido crear el lector de archivo.");
+                System.out.println(Const.ERROR_CREATE_FILE_READER);
             }
         }
         else {
-            System.out.println("ERROR: El archivo no existe o es un directorio. Se busca en: " + file.getAbsolutePath());
+            System.out.println(Const.ERROR_READ_FILE + file.getAbsolutePath());
         }
     }
 
@@ -48,9 +49,8 @@ public class FileReader {
      * @since 06/03/2024
      * @return Siguiente línea del documento.
      */
-    public String getLine() {
+    public String getLine () {
         String line = null;
-        
         //Valida que se haya creado el bufferedReader
         if(bufferedReader != null){
             try {
@@ -61,7 +61,7 @@ public class FileReader {
                 }
             }
             catch (Exception e) {
-                System.out.println("ERROR: No se ha podido leer la siguiente linea del archivo.");
+                System.out.println(Const.ERROR_READ_NEXT_LINE);
             }
         }
         return line;

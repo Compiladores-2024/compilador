@@ -6,6 +6,7 @@ package src.lib.tokenHelper;
  * de estos en todo el proyecto.
  *  
  * @author Cristian Serrano
+ * @author Federico Gimenez
  * @since 07/03/2024
  */
 public class Token {
@@ -23,7 +24,7 @@ public class Token {
      * @param line Línea en la que se encuentra el token.
      * @param column Columna en la que se encuentra el token.
      */
-    public Token(IDToken name, String lexema, Integer line, Integer column) {
+    public Token (IDToken name, String lexema, Integer line, Integer column) {
         this.name = name;
         this.lexema = lexema;
         this.line = line;
@@ -36,6 +37,7 @@ public class Token {
      * 
      * @since 07/03/2024
      */
+    @Override
     public String toString() {
         return "| " + name + " | " + lexema + " | LINEA " + line.toString() + " (COLUMNA " + column.toString() + ") |";
     }
