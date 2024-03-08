@@ -125,7 +125,7 @@ public class LexicalAnalyzer {
                 reading=false;
             }
         
-            else{
+            else if (currentLineString.length()>0){
 
                 
                 System.out.println("bbb");
@@ -138,30 +138,7 @@ public class LexicalAnalyzer {
                 System.out.println("CharASCII: "+charAscii);
                 char character = (char) charAscii;
                 System.out.println(character);
-                // Si lee EOF añade el token y termina el bucle asignando reading false
-                // if (charAscii==-1){
-                //     System.out.println("BBBB");
-                    
-                //     token.setLexema("EOF");
-                //     token.setName(null);                                            /////////////////////////////////////
-                //     token.setLine(numLine);
-                //     token.setColumn(numColumn);
-                //     reading=false;
-                //     //Token token= Token("EOF", "EOF", numLine, numColumn);
-                //     //addToken(token);
 
-                // }
-
-
-                
-                // //si viene una linea nueva se deben actualizar los indices de fila y columna
-                // else if (charAscii == 10 || charAscii == 11) {
-                //     //con nueva línea o tab vertical
-                    
-                //     this.numLine += 1;
-                //     this.numColumn = 1;
-                //     System.out.println("NEW LINE");
-                // }
                 if (charAscii == 32 || charAscii == 9) {
                     // espacio o tab horizontal 
                     // this.numColumn += 1;
@@ -249,7 +226,7 @@ public class LexicalAnalyzer {
                 else if (charAscii != 32 && charAscii != 9) {
                     //si aparece un entero es un literal entero
                     if ( (charAscii>47 && charAscii<58 && (currToken=="" || currToken=="lit_ent" )  ) ){
-                        currToken="lit_ent";
+                        currToken="lit_ent";  //IDToken.constINT
                         currLexeme+=character;
 
 
@@ -273,6 +250,7 @@ public class LexicalAnalyzer {
 
                     // y distinto de ñ y Ñ
                     else if ( (charAscii==33) || (charAscii>34 && charAscii<39) || 
+                    (charAscii>39 && charAscii<47) ||
                     (charAscii>57 && charAscii<65) || (charAscii>90 && charAscii<97)
                     || (charAscii>122) && charAscii!=164 && charAscii!=165 ){
 
@@ -302,8 +280,9 @@ public class LexicalAnalyzer {
                         }
 
                         // es modulo %
-                        if(  charAscii==37 ){
+                        else if(  charAscii==37 ){
                             //si hay un currToken analizando se deberia guardar
+                            System.out.println("MODULO");
                             if (currToken!=""){
                             
                             
@@ -330,7 +309,508 @@ public class LexicalAnalyzer {
                             currLexeme="";
                             currToken="";
                         }
+                        //es parentesis abre ( * alt+40
+                        else if (charAscii==40){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
                             
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sPAR_OPEN);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+                        //parentesis cierra ) alt+41
+                        else if (charAscii==41){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sPAR_CLOSE);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+                        //es multiplicacion * alt+42
+                        else if (charAscii==42){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.oMULT);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+                        //es suma + alt+43
+                        else if (charAscii==43){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.oSUM);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+                        //es coma ,  alt+44
+                        else if (charAscii==44){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sCOM);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+                        
+                        //es resta - alt+45
+                        else if (charAscii==45){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.oSUB);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+                        // es punto . alt+46
+                        else if (charAscii==46){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sDOT);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+                        // dos puntos : alt+58
+                        else if (charAscii==58){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sCOLON);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+
+                        // es punto y coma ; alt+59
+                        else if (charAscii==59){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sSEMICOLON);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+                        // es corchete abre [   alt+91
+                        else if (charAscii==91){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sCOR_OPEN);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+                        // es corchete cierra ] ; alt+93
+                        else if (charAscii==93){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sCOR_CLOSE);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+                        // es llave abre { ; alt+123
+                        else if (charAscii==123){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sKEY_OPEN);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+
+                        // es llave cierra } ; alt+125
+                        else if (charAscii==125){
+                            //si hay un currToken analizando se deberia guardar
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            String s = String.valueOf(character);
+                            token.setLexema(s);
+                            token.setName(IDToken.sKEY_CLOSE);
+                            token.setLine(numLine);
+                            token.setColumn(numColumn);
+                            // Token token= Token("op_div", character, numLine, i);
+                            // addToken(token);
+                            reading=false;
+                            currLexeme="";
+                            currToken="";
+                        }
+
+
+
+                        //operador comparacion menor < alt+60
+                        else if (charAscii==60){
+                            //si hay un currToken analizando se deberia guardar
+
+                            if (currToken!="" && (currToken!="op_menor" || currToken!="op_mayor"  )   ){
+                                throw new LexicalException(numLine, numColumn, "Operador mal formado: se esperaba signo =");
+                            }
+
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            if (currToken==""){
+                                currToken="op_menor";
+                                currLexeme+=character;
+
+                            }
+
+                            
+                        }
+
+
+
+
+
+
+
+
+                        //operador comparacion mayor > alt+62
+                        else if (charAscii==62){
+                            //si hay un currToken analizando se deberia guardar
+
+                            if (currToken!="" && (currToken!="op_menor" || currToken!="op_mayor"  )   ){
+                                throw new LexicalException(numLine, numColumn, "Operador mal formado: se esperaba signo =");
+                            }
+
+                            if (currToken!=""){
+                            
+                                
+                                token.setLexema(currLexeme);
+                                token.setName(IDToken.idVAR);                                 //////////////////
+                                token.setLine(numLine);
+                                token.setColumn(numColumn);
+    
+    
+                                // Token token= Token(currToken, currLexeme, numLine, numColumn);
+                                // addToken(token);
+                                
+                                reading=false;
+                            }
+
+                            if (currToken==""){
+                                currToken="op_mayor";
+                                currLexeme+=character;
+
+                            }
+
+                            
+                        }
+
+
+                        //operador igual = alt+61
+
+                            //puede que se haya estado analizando un < entonces menor-igual
+
+
+                            //puede que se haya estado analizando un > entonces mayor-igual
+
+
+                            //puede que se haya estado analizando un ! entonces distinto
+
+
+                            //puede que se haya estado analizando un = entonces igual
+
+
+                            // sino sera un operador asignacion 
+
+
+
+                        //operador and &&
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // operador or ||
+
+
+
+
+
+
+
 
                         // Simbolo invalido
                         else{
@@ -391,7 +871,7 @@ public class LexicalAnalyzer {
                             currToken="";
                         }
 
-
+                    //
 
 
                     //si aparece un caracter de letra [a..z] es un id_objeto
