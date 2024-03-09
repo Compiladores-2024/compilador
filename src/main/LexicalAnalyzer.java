@@ -1,11 +1,10 @@
 package src.main;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import src.lib.LexicalException;
-import src.lib.FileManager;
+import src.lib.Const;
+import src.lib.lexicalHelper.FileManager;
+import src.lib.lexicalHelper.LexicalException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
@@ -27,16 +26,8 @@ public class LexicalAnalyzer {
 
     ArrayList<Token> tokenList = new ArrayList<Token>();
 
-
-    public static final String KEY_WORDS[] = new String[]{
-        "struct", "impl", "else", "false", "if", "ret", "while", "true", "nil", "false",
-        "new", "fn", "st", "pri", "self"};
-
     public LexicalAnalyzer(String path){
-        
         reader = new FileManager(path);
-
-        
     }
 
 	/**
@@ -49,15 +40,6 @@ public class LexicalAnalyzer {
 	}
 
     public Token nextToken() throws IOException{
-
-
-        
-        
-        // se genera una lista con las keywords
-        // para poder verificar si un identificador que se este analizando pertenece
-        // o no a las palabras reservadas 
-        List key_words = Arrays.asList(KEY_WORDS);
-
         // se define un int que tomara el valor entero (ASCII) del simbolo leido caracter por caracter del codigo fuente
         int charAscii;
 
@@ -220,7 +202,7 @@ public class LexicalAnalyzer {
                         line[numColumn+1]==95)) ){
 
                             //si el lexema es una palabra clave
-                            if (key_words.contains(currLexeme)){
+                            if (Const.KEY_WORDS.contains(currLexeme)){
                                 // int col= numColumn-currLexeme.length();
                                 token.setLexema(currLexeme);
                                 token.setName(IDToken.constSTR);
