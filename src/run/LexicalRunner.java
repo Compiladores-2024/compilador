@@ -4,11 +4,11 @@ package src.run;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import src.lib.LexicalException;
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
-import src.lib.FileManager;
 import src.lib.Static;
+import src.lib.lexicalHelper.FileManager;
+import src.lib.lexicalHelper.LexicalException;
 
 /**
  * Clase LexicalRunner encargada de ejecutar el analizador lexico
