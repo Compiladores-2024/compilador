@@ -1,5 +1,8 @@
 package src.lib;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Esta clase se encarga de contener los strings u objetos constantes que se
  * utilizarán en todo el programa.
@@ -21,4 +24,25 @@ public class Const {
     public static final String ERROR_CREATE_FILE_READER = "ERROR: No se ha podido crear el lector de archivo.";
     public static final String ERROR_READ_FILE = "ERROR: El archivo no existe o es un directorio. Se busca en: ";
     public static final String ERROR_READ_NEXT_LINE = "ERROR: No se ha podido leer la siguiente linea del archivo.";
+
+    //Hash que guarda el valor de las palabra reservada
+    public static final HashSet<String> KEY_WORDS = new HashSet<String>(
+        Set.of(
+            "struct",
+            "impl",
+            "else",
+            "false",
+            "if",
+            "ret",
+            "while",
+            "true",
+            "nil",
+            "new",
+            "fn",
+            "st",
+            "pri",
+            "self"
+        )
+    );
+
 }

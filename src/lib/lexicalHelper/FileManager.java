@@ -1,7 +1,9 @@
-package src.lib;
+package src.lib.lexicalHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
+
+import src.lib.Const;
 
 /**
  * Esta clase se utilizará para leer línea por línea el código fuente de los
