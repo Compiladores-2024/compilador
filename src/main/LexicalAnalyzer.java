@@ -1,10 +1,9 @@
 package src.main;
 
-import java.io.IOException;
-
 import src.lib.Const;
+import src.lib.Error;
+import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
-import src.lib.lexicalHelper.LexicalException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
@@ -27,7 +26,7 @@ public class LexicalAnalyzer {
         reader = new FileManager(path);
     }
 
-    public Token nextToken() throws IOException {
+    public Token nextToken() throws LexicalException {
         // Tomara el valor entero (ASCII) del simbolo leido caracter por caracter del
         // codigo fuente
         int charAscii;
@@ -145,7 +144,7 @@ public class LexicalAnalyzer {
                     // caso contrario llego un simbolo invalido para la definicion de identificador
                     else {
                         currLexeme = currLexeme + character;
-                        throw new LexicalException(numLine, numColumn, "Identificador invalido: " + currLexeme);
+                        throw new LexicalException(new Error(numLine, numColumn, "Identificador invalido: " + currLexeme), "");
 
                     }
                     // si hay mas caracteres pero no son letras ni guion bajo
@@ -170,7 +169,7 @@ public class LexicalAnalyzer {
                     System.out.println("curr token: " + currToken);
                     // si se esta analizando lit_ent y aparece otra cosa es un error
                     if (!(charAscii > 47 && charAscii < 58) && (currToken == "lit_ent")) {
-                        throw new LexicalException(numLine, numColumn, "Literal entero invalido");
+                        throw new LexicalException(new Error(numLine, numColumn, "Literal entero invalido"), "");
                     }
                     // si aparece un entero es un literal entero
                     else if ((charAscii > 47 && charAscii < 58 && (currToken == "" || currToken == "lit_ent"))) {
@@ -383,8 +382,7 @@ public class LexicalAnalyzer {
                             currLexeme += character;
                             if ((currToken == "op_menor" || currToken == "op_mayor")) {
 
-                                throw new LexicalException(numLine, numColumn,
-                                        "Operador mal formado: se esperaba signo = para el lexema: " + currLexeme);
+                                throw new LexicalException(new Error(numLine, numColumn, "Operador mal formado: se esperaba signo = para el lexema: " + currLexeme), "");
                             }
 
                             if (currToken == "") {
@@ -400,9 +398,7 @@ public class LexicalAnalyzer {
                             currLexeme += character;
                             if ((currToken == "op_menor" || currToken == "op_mayor")) {
 
-                                throw new LexicalException(numLine, numColumn,
-
-                                        "Operador mal formado: se esperaba signo = para el lexema: " + currLexeme);
+                                throw new LexicalException(new Error(numLine, numColumn, "Operador mal formado: se esperaba signo = para el lexema: " + currLexeme), "");
                             }
 
                             if (currToken == "") {
@@ -430,8 +426,7 @@ public class LexicalAnalyzer {
 
                         // Simbolo invalido
                         else {
-
-                            throw new LexicalException(numLine, numColumn, "Simbolo invalido: " + character);
+                            throw new LexicalException(new Error(numLine, numColumn, "Simbolo invalido: " + character), "");
 
                         }
 
