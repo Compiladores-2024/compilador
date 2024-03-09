@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
 import src.lib.Static;
+import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
-import src.lib.lexicalHelper.LexicalException;
 
 /**
  * Clase LexicalRunner encargada de ejecutar el analizador lexico
@@ -25,7 +25,7 @@ public class LexicalRunner {
 
         if (args.length<1){
 
-            new LexicalException(0, 0, "No se ingreso codigo fuente a analizar");
+            // new LexicalException(0, 0, "No se ingreso codigo fuente a analizar");
 
         }
 
@@ -52,13 +52,12 @@ public class LexicalRunner {
 
         // si se solicita generar un archivo de salida con los tokens
         if (args.length == 2) {
-             
-            Static.writeTokenResults(tokenList, args[1]);
-
-        // sino solo imprime por pantalla
+            Static.showTokens(tokenList, args[1]);
+            
+            // sino solo imprime por pantalla
         }else{
-
-            Static.showTokens(tokenList);
+            
+            Static.showTokens(tokenList, null);
         }
 
     }
