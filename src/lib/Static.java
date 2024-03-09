@@ -61,8 +61,8 @@ public class Static {
      * @param description Descripción del error.
      * @param type Tipo de error. Puede ser LEXICO, SEMANTICO, SINTACTICO, etc.
      */
-    public static void showErrors (Integer line, Integer column, String descripcion) {
+    public static void showErrors (Error e) {
         System.out.println(Const.ERROR_LEXICAL_HEADER);
-        System.out.println("| LINEA " + line.toString() + " | COLUMNA " + column.toString() + " | " + descripcion + " |");
+        System.out.println(e.toString());
     }
 }
