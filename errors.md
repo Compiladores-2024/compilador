@@ -62,7 +62,7 @@ LexicalAnalyzer () {
         Sino sigue leyendo
 }
 
-CheckToken ( lecturaActual = '', nextChar = '' ) {
+TokenChecker ( lecturaActual = '', nextChar = '' ) {
     lecturaActual y lecturaActual + nextChar es invalido
 
     Validar lecturaActual y lecturaActual + nextChar

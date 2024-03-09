@@ -6,6 +6,8 @@ import java.io.File;
 import src.lib.Const;
 
 /**
+ * Clase auxiliar de analizador léxico.<br/>
+ * 
  * Esta clase se utilizará para leer línea por línea el código fuente de los
  * archivos .ru
  * 
