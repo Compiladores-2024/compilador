@@ -198,7 +198,7 @@ public class LexicalAnalyzer {
                     currentRead+=nextChar;
                     idToken = IDToken.oEQUAL;
                 }
-                // Es operador de asignacion
+                // Es operador de asignacion =
                 else {
                     idToken = IDToken.ASSIGN;
                     colNumber--;
@@ -279,7 +279,6 @@ public class LexicalAnalyzer {
             if (currentRead.equals("<")) {
                 // Es <=
                 if (nextChar.charValue() == 61) {   
-                    System.out.println("aaaaaaa");
                     currentRead+=nextChar;
                     idToken = IDToken.oMIN_EQ;
                 }
@@ -316,9 +315,9 @@ public class LexicalAnalyzer {
              * 
              */
 
-            // Pasa a analizar el siguiente simbolo
+            // Pasa a analizar el siguiente simbolo (en el iterador del while se incrementara una vez mas)
             if (idToken != null) {
-                colNumber += 2;
+                colNumber += 1;
             }
         }
         return idToken == null;
@@ -427,7 +426,7 @@ public class LexicalAnalyzer {
 
                     }
                 } else {
-                    throw new LexicalException(new CustomError(lineNumber, colNumber, "Identificador inválido: "+currentRead+nextChar), null);
+                    throw new LexicalException(new CustomError(lineNumber, colNumber, "Identificador inválido: "+currentRead), null);
                 }
             }
         }
