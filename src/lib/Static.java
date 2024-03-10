@@ -29,7 +29,7 @@ public class Static {
         }
         
         //Escribe o muestra el resultado
-        if(path != null){
+        if(path == null){
             System.out.println(text);
         }
         else {

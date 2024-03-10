@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import src.lib.tokenHelper.Token;
-import src.main.LexicalAnalyzerBack;
+import src.main.LexicalAnalyzer;
 import src.lib.Static;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
-
+import src.lib.CustomError;
 /**
  * Clase LexicalRunner encargada de ejecutar el analizador lexico
  * 
@@ -25,11 +25,11 @@ public class LexicalRunner {
 
         if (args.length<1){
 
-            // new LexicalException(0, 0, "No se ingreso codigo fuente a analizar");
+            throw new LexicalException(new CustomError(0, 0, "No se ingreso codigo fuente"), null);
 
         }
 
-        LexicalAnalyzerBack lexA= new LexicalAnalyzerBack(args[0]);
+        LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
 
         ArrayList<Token> tokenList = new ArrayList<Token>();
 
@@ -37,10 +37,10 @@ public class LexicalRunner {
         while (flag){
             Token token = lexA.nextToken();
             
-            
+            // System.out.println("lex: "+token.getLexema());
             //si el token recibido es distinto de null
-            if (token.getLexema() != null){
-                System.out.println(token.getLine());
+            if (token != null){
+                
                 tokenList.add(token);
 
             }
@@ -56,7 +56,6 @@ public class LexicalRunner {
             
             // sino solo imprime por pantalla
         }else{
-            
             Static.showTokens(tokenList, null);
         }
 
