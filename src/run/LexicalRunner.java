@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import src.lib.tokenHelper.Token;
-import src.main.LexicalAnalyzer;
+import src.main.LexicalAnalyzerBack;
 import src.lib.Static;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
@@ -29,7 +29,7 @@ public class LexicalRunner {
 
         }
 
-        LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
+        LexicalAnalyzerBack lexA= new LexicalAnalyzerBack(args[0]);
 
         ArrayList<Token> tokenList = new ArrayList<Token>();
 

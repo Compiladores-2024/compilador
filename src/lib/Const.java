@@ -1,7 +1,8 @@
 package src.lib;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+
+import src.lib.tokenHelper.IDToken;
 
 /**
  * Esta clase se encarga de contener los strings u objetos constantes que se
@@ -26,23 +27,31 @@ public class Const {
     public static final String ERROR_READ_NEXT_LINE = "ERROR: No se ha podido leer la siguiente linea del archivo.";
 
     //Hash que guarda el valor de las palabra reservada
-    public static final HashSet<String> KEY_WORDS = new HashSet<String>(
-        Set.of(
-            "struct",
-            "impl",
-            "else",
-            "false",
-            "if",
-            "ret",
-            "while",
-            "true",
-            "nil",
-            "new",
-            "fn",
-            "st",
-            "pri",
-            "self"
-        )
-    );
+    public static final HashMap<String, IDToken> KEY_WORDS = new HashMap<String, IDToken>() {{
+        put("struct", IDToken.pSTRUCT);
+        put("impl", IDToken.pIMPL);
+        put("else", IDToken.pELSE);
+        put("false", IDToken.pFALSE);
+        put("if", IDToken.pIF);
+        put("ret", IDToken.pRET);
+        put("while", IDToken.pWHILE);
+        put("true", IDToken.pTRUE);
+        put("nil", IDToken.pNIL);
+        put("new", IDToken.pNEW);
+        put("fn", IDToken.pFN);
+        put("st", IDToken.pST);
+        put("pub", IDToken.pPUB);
+        put("pri", IDToken.pPRI);
+        put("self", IDToken.pSELF);
+        put("void", IDToken.typeVOID);
+    }};
 
+    //Hash que guarda el valor de los tipos de datos
+    public static final HashMap<String, IDToken> KEY_TYPE_WORDS = new HashMap<String, IDToken>() {{
+        put("Int", IDToken.typeINT);
+        put("Str", IDToken.typeSTR);
+        put("Char", IDToken.typeCHAR);
+        put("Bool", IDToken.typeBOOL);
+        put("Array", IDToken.typeARRAY);
+    }};
 }

@@ -54,17 +54,17 @@ Metodos heredados (Deben tener la misma firma)
 
 
 LexicalAnalyzer () {
-    Llamar al CheckToken con cada nuevo caracter y su sucesor
 
-    Si es error, termina ejecucion
-    Sino
-        Si es fin de linea, retorna el Token
-        Sino sigue leyendo
+    Recorrera linea por linea el codigo fuente
+        Llamar al CheckToken con cada nuevo caracter y su sucesor
+
+        Si es error, termina ejecucion
+        Sino
+            Si es fin de linea, retorna el Token
+            Sino sigue leyendo
 }
 
 TokenChecker ( lecturaActual = '', nextChar = '' ) {
-    lecturaActual y lecturaActual + nextChar es invalido
-
     Validar lecturaActual y lecturaActual + nextChar
         
     Si lecturaActual + nextChar es un id válido: isEnd = false
@@ -75,22 +75,27 @@ TokenChecker ( lecturaActual = '', nextChar = '' ) {
 }
 
 
-Validador(string = 'struct', next = ' ') {
+Validador(lecturaActual = 'struct', nextChar = ' ') {
+    //lecturaActual y lecturaActual + nextChar es invalido
 
-    //Si string esta compuesto de un solo caracter, se restablecen los datos
+    //Si lecturaActual esta compuesto de un solo caracter, se restablecen los datos
 
-    //Si se espera string y next es null, nada es valido
+    //Si se espera string y nextChar es null, nada es valido
 
-    //Comparar string
-    //Comparar string + next (Solo si no es null)
+    //Comparar lecturaActual
+    //Comparar lecturaActual + nextChar (Solo si no es null)
 
-    //Si se espera string y next es ", deja de esperar string
-    //Si se espera string, asigna el token y avisa que espera " en next
+    //Si se espera string y nextChar es ", deja de esperar string
+    //Si se espera string, asigna el token y avisa que espera " en nextChar
 
-    //Retorna si string y string + next son validos
+    //Retorna si lecturaActual y lecturaActual + nextChar son validos, sino retorna mensaje descriptivo
 }
 
 Comparador (string) {
 
     Retorna si es un identificador valido o no
 }
+
+
+    //Constructor de clase
+    /** Para el nombre del constructor de la clase */ CONSTRUCTOR,

@@ -44,9 +44,26 @@ public class Static {
         }
     }
 
+    /**
+     * Imprime un error lexico.
+     * 
+     * @since 07/03/2024
+     * @param error Tipo de dato error con los detalles a mostrar.
+     * @param write Especifica si se debe escribir en un archivo o no.
+     */
+    public static void lexicalError (CustomError error, String path) {
+        //Escribe o muestra el resultado
+        if(path != null){
+            writeError(error, "LEXICO", path);
+        }
+        else {
+            showError(error, "LEXICO");
+        }
+    }
+
     //Muestra un error por pantalla
-    private static void showError (Error e, String typeError) {
-        switch (typeError) {
+    private static void showError (CustomError e, String errorType) {
+        switch (errorType) {
             case "LEXICO":
                 System.out.println(Const.ERROR_LEXICAL_HEADER);
                 break;
@@ -57,8 +74,8 @@ public class Static {
         System.out.println(e.toString());
     }
     //Escribe un error en el archivo indicado
-    private static void writeError (Error e, String typeError, String path){
-        switch (typeError) {
+    private static void writeError (CustomError e, String errorType, String path){
+        switch (errorType) {
             case "LEXICO":
                 System.out.println(Const.ERROR_LEXICAL_HEADER);
                 break;
@@ -67,22 +84,5 @@ public class Static {
                 break;
         }
     }
-
-
-    /**
-     * Imprime un error lexico.
-     * 
-     * @since 07/03/2024
-     * @param error Tipo de dato error con los detalles a mostrar.
-     * @param write Especifica si se debe escribir en un archivo o no.
-     */
-    public static void lexicalError (Error error, String path) {
-        //Escribe o muestra el resultado
-        if(path != null){
-            writeError(error, "LEXICO", path);
-        }
-        else {
-            showError(error, "LEXICO");
-        }
-    }
+    
 }

@@ -9,7 +9,7 @@ package src.lib;
  * @author Federico Gimenez
  * @since 07/03/2024
  */
-public class Error {
+public class CustomError {
     private int line;
     private int column;
     private String description;
@@ -22,7 +22,7 @@ public class Error {
      * @param column Columna en la que se encuentra el error.
      * @param description Descripción del error.
      */
-    public Error (int line, int column, String description) {
+    public CustomError (int line, int column, String description) {
         this.line = line;
         this.column = column;
         this.description = description;

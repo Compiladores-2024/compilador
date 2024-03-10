@@ -1,6 +1,6 @@
 package src.lib.exceptionHelper;
 
-import src.lib.Error;
+import src.lib.CustomError;
 import src.lib.Static;
 
 /**
@@ -11,7 +11,7 @@ import src.lib.Static;
  * @since 06/03/2024
  */
 public class LexicalException extends RuntimeException {
-    public LexicalException(Error e, String path){
+    public LexicalException(CustomError e, String path){
         Static.lexicalError(e, path);
         System.exit(1);
     }

@@ -1,5 +1,7 @@
 package src.lib.lexicalHelper;
 
+import src.lib.lexicalHelper.resultTypes.ValidatorResult;
+
 /**
  * Clase auxiliar de analizador léxico.<br/>
  * 
@@ -12,5 +14,13 @@ package src.lib.lexicalHelper;
  * @since 09/03/2024
  */
 public class Validator {
-    
+    public Validator () {}
+
+    public ValidatorResult validate (String current, char next) {
+        boolean currentRead = false, currentReadWithChar = false;
+        String descriptionError = "";
+        
+
+        return new ValidatorResult(currentRead, currentReadWithChar, descriptionError);
+    }
 }
