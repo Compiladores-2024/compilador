@@ -195,6 +195,7 @@ public class LexicalAnalyzer {
             if (currentRead.equals("=")) {
                 // Es operador de comparacion
                 if (nextChar.charValue() == 61) {
+                    currentRead+=nextChar;
                     idToken = IDToken.oEQUAL;
                 }
                 // Es operador de asignacion
@@ -213,6 +214,7 @@ public class LexicalAnalyzer {
                 // Es flecha de metodo
                 else {
                     if (nextChar.charValue() == 62) {
+                        currentRead+=nextChar;
                         idToken = IDToken.sARROW_METHOD;
                     }
                     // Es operador -
@@ -227,6 +229,7 @@ public class LexicalAnalyzer {
             if (currentRead.equals("+")) {
                 // Es ++
                 if (nextChar.charValue() == 43) {
+                    currentRead+=nextChar;
                     idToken = IDToken.oSUM_SUM;
                 }
                 // Es +
@@ -240,6 +243,7 @@ public class LexicalAnalyzer {
             if (currentRead.equals("!")) {
                 // Es !=
                 if (nextChar.charValue() == 61) {
+                    currentRead+=nextChar;
                     idToken = IDToken.oNOT_EQ;
                 }
                 // Es !
@@ -254,6 +258,7 @@ public class LexicalAnalyzer {
                 // Es >=
                 if (nextChar.charValue() == 61) {
                     idToken = IDToken.oMAX_EQ;
+                    currentRead+=nextChar;
                 }
                 // Es >
                 else {
@@ -273,7 +278,9 @@ public class LexicalAnalyzer {
             // Valida todo lo que comience con <
             if (currentRead.equals("<")) {
                 // Es <=
-                if (nextChar.charValue() == 61) {
+                if (nextChar.charValue() == 61) {   
+                    System.out.println("aaaaaaa");
+                    currentRead+=nextChar;
                     idToken = IDToken.oMIN_EQ;
                 }
                 else {
@@ -291,11 +298,13 @@ public class LexicalAnalyzer {
 
             // Valida si es &&
             if ((currentRead + nextChar) == "&&") {
+                currentRead+=nextChar;
                 idToken = IDToken.oAND;
             }
 
             // Valida si es ||
             if ((currentRead + nextChar) == "||") {
+                currentRead+=nextChar;
                 idToken = IDToken.oOR;
             }
 
