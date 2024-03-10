@@ -327,9 +327,7 @@ public class LexicalAnalyzer {
         // Valida los identificadores
         if (isLowercase || isUppercase) {
             // Si el siguiente caracter no cumple las condiciones
-            // si viene null o el nextchar es simbolo valido, 
-            // por ejemplo a(), a[], a{}, a= , a< , a>, a+, a-, a*, a/, a!, a%, 
-            if (nextChar==null || nextChar==60){
+            if (nextChar==null ){
                 // Empieza con minusculas
                 if (isLowercase) {
                     checkLowers();
@@ -462,9 +460,13 @@ public class LexicalAnalyzer {
         // Valida si es un tipo de dato predefinido
         idToken = Const.KEY_WORDS.containsKey(currentRead) ? Const.KEY_WORDS.get(currentRead) : null;
 
-        // No es tipo de dato predefinido, entonces es id de estructura
+        // No es keyword entonces puede ser type predefinido o IdStruct
         if (idToken == null) {
-            idToken = IDToken.idSTRUCT;
+            idToken = Const.KEY_TYPE_WORDS.containsKey(currentRead) ? Const.KEY_TYPE_WORDS.get(currentRead) : null;
+            if (idToken==null){
+                idToken = IDToken.idSTRUCT;
+            }
+            
         }
     }
 
