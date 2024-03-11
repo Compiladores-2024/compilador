@@ -462,17 +462,14 @@ public class LexicalAnalyzer {
             idToken = IDToken.spOBJECT;
         }
 
-        // Valida si es un tipo de dato predefinido
-        idToken = Const.KEY_WORDS.containsKey(currentRead) ? Const.KEY_WORDS.get(currentRead) : null;
-
-        // No es keyword entonces puede ser type predefinido o IdStruct
-        if (idToken == null) {
-            idToken = Const.KEY_TYPE_WORDS.containsKey(currentRead) ? Const.KEY_TYPE_WORDS.get(currentRead) : null;
-            if (idToken==null){
-                idToken = IDToken.idSTRUCT;
-            }
-            
-        }
+        // Valida si es un tipo de dato predefinido, palabra reservada o IDstruct
+        idToken = Const.KEY_WORDS.containsKey(currentRead) ? 
+        Const.KEY_WORDS.get(currentRead) : 
+        (
+            Const.KEY_TYPE_WORDS.containsKey(currentRead) ?
+                Const.KEY_TYPE_WORDS.get(currentRead) :
+                IDToken.idSTRUCT
+        );
     }
 
 
