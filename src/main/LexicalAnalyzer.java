@@ -43,7 +43,7 @@ public class LexicalAnalyzer {
 
         // Inicializa indices
         colNumber = 0;
-        lineNumber = 0;
+        lineNumber = 1;
 
         // Inicializa la lectura actual
         currentRead = "";
@@ -58,42 +58,54 @@ public class LexicalAnalyzer {
     }
 
     public Token nextToken() throws LexicalException {
+        token=null;
+        idToken=null;
         // Mientras tenga lineas para recorrer y no haya encontrado un token
         while (currentLine != null && token == null) {
             // Mientras tenga caracteres para leer en la linea
-            while (colNumber < maxColumnNumber && token == null) {
+            if (colNumber < maxColumnNumber && token == null) {
                 // Establece la lectura actual
                 currentRead += currentLine[colNumber];
                 // Establece el caracter siguiente
                 nextChar = (colNumber + 1 < maxColumnNumber) ? currentLine[colNumber + 1] : null;
 
                 // Si es un comentario, omite la linea
-                if ((currentRead + nextChar) == "/?") {
-                    colNumber = maxColumnNumber;
-                } else {
-                    // valida si es un identificador valido
-                    validate();
-                    // Revisa si debe generar el token
-                    if (idToken != null) {
-                        token = new Token(idToken, currentRead, lineNumber, colNumber - currentRead.length() + 1);
-                        currentRead = "";
-                        initFlags();
-                    }
-                    // Pasa al siguiente caracter
-                    colNumber++;
+                String comentario= currentRead+nextChar;
+                if (comentario.equals("/?")){
+                        colNumber = maxColumnNumber;
                 }
+                else {
+                    // saltea los espacios
+                    if(currentRead.charAt(0)==32){
+                        currentRead="";
+                    }
+                    else{
+                        // valida si es un identificador valido
+                        validate();
+                        // Revisa si debe generar el token
+                        if (idToken != null) {
+                            token = new Token(idToken, currentRead, lineNumber, colNumber - currentRead.length() + 2);
+                            currentRead = "";
+                            initFlags();
+                        }
+                    }
+                }
+                // Pasa al siguiente caracter
+                colNumber++;
+                
             }
             // Obtiene la siguiente linea
-            if (maxColumnNumber <= colNumber) {
+            else {
                 currentLine = reader.getLine();
                 // Valida si es el fin del archivo
                 if (currentLine != null) {
                     colNumber = 0;
                     maxColumnNumber = currentLine.length;
+                    currentRead="";
                 }
                 // Pasa a la siguiente fila
                 lineNumber++;
-            }
+            }            
         }
         return token;
     }
@@ -168,6 +180,10 @@ public class LexicalAnalyzer {
             case ';':
                 idToken = IDToken.sSEMICOLON;
                 break;
+            case '.':
+                idToken = IDToken.sDOT;
+                break;
+
             case '/':
                 idToken = IDToken.oDIV;
                 break;
@@ -178,44 +194,74 @@ public class LexicalAnalyzer {
     }
 
     private boolean checkDoubleSimbol() {
-        if (nextChar != null) {
+
             // Valida todo lo que comience con =
             if (currentRead.equals("=")) {
-                // Es operador de comparacion
-                if (nextChar.charValue() == 61) {
-                    idToken = IDToken.oEQUAL;
+                if (nextChar != null) {
+                    // Es operador de comparacion
+                    if (nextChar.charValue() == 61) {
+                        currentRead+=nextChar;
+                        idToken = IDToken.oEQUAL;
+                    }
+                    // Es operador de asignacion =
+                    else {
+                    idToken = IDToken.ASSIGN;
+                    colNumber--;
+                    }
                 }
-                // Es operador de asignacion
+                // Es operador de asignacion =
                 else {
                     idToken = IDToken.ASSIGN;
                     colNumber--;
                 }
             }
-
             // Valida todo lo que comience con -
             if (currentRead.equals("-")) {
-                // Es --
-                if (nextChar.charValue() == 45) {
-                    idToken = IDToken.oSUB_SUB;
-                }
-                // Es flecha de metodo
-                else {
-                    if (nextChar.charValue() == 62) {
-                        idToken = IDToken.sARROW_METHOD;
+                if (nextChar != null) {
+
+                    // Es --
+                    if (nextChar.charValue() == 45) {
+                        idToken = IDToken.oSUB_SUB;
+                        currentRead+=nextChar;
                     }
-                    // Es operador -
+                    // Es flecha de metodo
                     else {
-                        idToken = IDToken.oSUB;
-                        colNumber--;
+                        if (nextChar.charValue() == 62) {
+                            currentRead+=nextChar;
+                            idToken = IDToken.sARROW_METHOD;
+                        }
+                        // Es operador -
+                        else {
+                            idToken = IDToken.oSUB;
+                            colNumber--;
+                        }
                     }
+   
+                    
                 }
+                // Es operador -
+                else {
+                    idToken = IDToken.oSUB;
+                    colNumber--;
+                }
+
             }
 
             // Valida todo lo que comience con +
             if (currentRead.equals("+")) {
-                // Es ++
-                if (nextChar.charValue() == 43) {
-                    idToken = IDToken.oSUM_SUM;
+                if (nextChar != null) {
+
+                    // Es ++
+                    if (nextChar.charValue() == 43) {
+                        currentRead+=nextChar;
+                        idToken = IDToken.oSUM_SUM;
+                    }
+                     // Es +
+                    else {
+                        idToken = IDToken.oSUM;
+                        colNumber--;
+                    }
+
                 }
                 // Es +
                 else {
@@ -226,9 +272,17 @@ public class LexicalAnalyzer {
 
             // Valida todo lo que comience con !
             if (currentRead.equals("!")) {
-                // Es !=
-                if (nextChar.charValue() == 61) {
-                    idToken = IDToken.oNOT_EQ;
+                if (nextChar!=null) {
+                    // Es !=
+                    if (nextChar.charValue() == 61) {
+                        currentRead+=nextChar;
+                        idToken = IDToken.oNOT_EQ;
+                    }
+                    // Es !
+                    else {
+                        idToken = IDToken.oNOT;
+                        colNumber--;
+                    }
                 }
                 // Es !
                 else {
@@ -239,53 +293,83 @@ public class LexicalAnalyzer {
 
             // Valida todo lo que comience con >
             if (currentRead.equals(">")) {
-                // Es >=
-                if (nextChar.charValue() == 61) {
-                    idToken = IDToken.oMAX_EQ;
+                if (nextChar!=null){
+
+                    // Es >=
+                    if (nextChar.charValue() == 61) {
+                        idToken = IDToken.oMAX_EQ;
+                        currentRead+=nextChar;
+                    }
+                    // Es >
+                    else {
+    
+                        // si es >< entonces es error
+                        if (nextChar==60) {
+                            throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar), null);
+                        }
+                        // Es >
+                        else{
+                            idToken = IDToken.oMAX;
+                            colNumber--;
+    
+                        }
+                    }
+
                 }
                 // Es >
-                else {
+                else{
                     idToken = IDToken.oMAX;
                     colNumber--;
+
                 }
             }
 
             // Valida todo lo que comience con <
             if (currentRead.equals("<")) {
-                // Es <=
-                if (nextChar.charValue() == 61) {
-                    idToken = IDToken.oMIN_EQ;
+                if(nextChar!=null){
+
+                    // Es <=
+                    if (nextChar.charValue() == 61) {   
+                        currentRead+=nextChar;
+                        idToken = IDToken.oMIN_EQ;
+                    }
+                    else {
+                        // si es <> entonces es error
+                        if (nextChar==62) {
+                            throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar), null);
+                        }
+                        // Es <
+                        else{
+                            idToken = IDToken.oMIN;
+                            colNumber--;
+                        }
+                    }
+
                 }
                 // Es <
-                else {
+                else{
                     idToken = IDToken.oMIN;
                     colNumber--;
                 }
             }
 
             // Valida si es &&
-            if ((currentRead + nextChar) == "&&") {
+            if ((currentRead + nextChar).equals("&&") ) {
+                currentRead+=nextChar;
                 idToken = IDToken.oAND;
             }
 
             // Valida si es ||
-            if ((currentRead + nextChar) == "||") {
+            if ((currentRead + nextChar).equals("||") ) {
+                currentRead+=nextChar;
                 idToken = IDToken.oOR;
             }
 
-            /**
-             * 
-             * 
-             * VALIDAR CONSTRUCTOR DE CLASE
-             * 
-             * 
-             */
-
-            // Pasa a analizar el siguiente simbolo
+            // Pasa a analizar el siguiente simbolo (en el iterador del while se incrementara una vez mas)
             if (idToken != null) {
-                colNumber += 2;
+                colNumber += 1;
             }
-        }
+        
         return idToken == null;
     }
 
@@ -293,39 +377,26 @@ public class LexicalAnalyzer {
         // Valida los identificadores
         if (isLowercase || isUppercase) {
             // Si el siguiente caracter no cumple las condiciones
-            if (!(isLowercase(nextChar) || isUppercase(nextChar) || isNumber(nextChar) || nextChar == 95)) {
-
+            if (nextChar==null ){
                 // Empieza con minusculas
                 if (isLowercase) {
-                    // Validamos si es una palabra reservada y cual
-                    idToken = Const.KEY_WORDS.containsKey(currentRead) ? Const.KEY_WORDS.get(currentRead) : null;
-
-                    // No es palabra reservada, entonces es id de Variable o id de Metodo
-                    if (idToken == null) {
-                        // Valida si es el metodo especial start
-                        if (currentRead.equals("start")) {
-                            idToken = IDToken.idSTART;
-                        } else {
-                            idToken = IDToken.idOBJECT;
-                        }
-                    }
+                    checkLowers();
                 }
                 // Empieza con mayusculas
                 else {
-                    // Validamos si es estructura predefinida
-                    if (currentRead.equals("IO")) {
-                        idToken = IDToken.spIO;
+                    checkUppers();
+                }
+            }
+            else{
+                if (!(isLowercase(nextChar) || isUppercase(nextChar) || isNumber(nextChar) || nextChar == 95)) {
+    
+                    // Empieza con minusculas
+                    if (isLowercase) {
+                        checkLowers();
                     }
-                    if (currentRead.equals("Object")) {
-                        idToken = IDToken.spOBJECT;
-                    }
-
-                    // Valida si es un tipo de dato predefinido
-                    idToken = Const.KEY_WORDS.containsKey(currentRead) ? Const.KEY_WORDS.get(currentRead) : null;
-
-                    // No es tipo de dato predefinido, entonces es id de estructura
-                    if (idToken == null) {
-                        idToken = IDToken.idSTRUCT;
+                    // Empieza con mayusculas
+                    else {
+                        checkUppers();
                     }
                 }
             }
@@ -336,9 +407,9 @@ public class LexicalAnalyzer {
                 if (nextChar == null) {
                     // Valida si no cierra string o char
                     if (isWaitingForString) {
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Se esperaba \""), "");
+                        throw new LexicalException(new CustomError(lineNumber, colNumber, "String invalido se esperaba \" para el string:"+currentRead), null);
                     } else {
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Se esperaba '"), "");
+                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter:"+currentRead), null);
                     }
                 } else {
                     if (isWaitingForChar) {
@@ -350,9 +421,20 @@ public class LexicalAnalyzer {
                             if (currentRead.equals("'\\")) {
                                 // Valida si es n, r, t, v o 0. Si no lo es, elimina el \ del lexema para guardar su
                                 // valor
-                                if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
-                                    currentRead.replace("\\", "");
+
+                                // Valida que no ingrese '\0'
+                                if (nextChar == 48) {
+                                    throw new LexicalException(new CustomError(lineNumber, colNumber,
+                                            "No se permite valor null (\\0) en un caracter."), null);
                                 }
+                                else{
+
+                                    if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
+                                        //se elimina la barra invertida
+                                        currentRead = currentRead.replace("'\\", "'");
+                                    }
+                                }
+
                             } else {
                                 // Si lo que vamos leyendo tiene 2 caracteres (' y una letra), nextChar debe ser
                                 // '. Sino, es error
@@ -360,15 +442,18 @@ public class LexicalAnalyzer {
                             }
 
                             // Si el proximo caracter debe ser una comilla simple y no lo es, muestra error
-                            if (isCharEnding && nextChar != 39) {
-                                throw new LexicalException(new CustomError(lineNumber, colNumber, "Se esperaba '"), "");
+                            if (isCharEnding && nextChar == 39) {
+                                idToken = IDToken.constCHAR;
+                                colNumber++;
+                                currentRead += nextChar;
                             }
+                            
                         }
                     } else {
                         // Valida que no ingrese \0
                         if (validateCERO && nextChar == 48) {
                             throw new LexicalException(new CustomError(lineNumber, colNumber,
-                                    "No se permite valor null (\\0) en una cadena."), "");
+                                    "No se permite valor null (\\0) en una cadena."), null);
                         }
 
                         // Si el proximo caracter es "
@@ -380,7 +465,7 @@ public class LexicalAnalyzer {
                             // Valida que la cadena no posea más de 1024 caracteres
                             if (currentRead.length() >= 1024) {
                                 throw new LexicalException(new CustomError(lineNumber, colNumber,
-                                        "No se permiten cadenas con más de 1024 caracteres."), "");
+                                        "No se permiten cadenas con más de 1024 caracteres."), null);
                             }
 
                             // Avisa que valide \0
@@ -393,15 +478,62 @@ public class LexicalAnalyzer {
             } else {
                 if (isNumber) {
                     // Si el siguiente caracter no cumple las condiciones
-                    if (!(isNumber(nextChar))) {
+                    if (nextChar==null){
                         idToken = IDToken.constINT;
                     }
+                    else{
+                        if (!(isNumber(nextChar))) {
+                            idToken = IDToken.constINT;
+                        }
+
+                    }
                 } else {
-                    throw new LexicalException(new CustomError(lineNumber, colNumber, "Identificador inválido."), "");
+                    throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Identificador invalido: "+currentRead), null);
                 }
             }
         }
     }
+
+
+    private void checkLowers(){
+
+        // Validamos si es una palabra reservada y cual
+        idToken = Const.KEY_WORDS.containsKey(currentRead) ? Const.KEY_WORDS.get(currentRead) : null;
+
+        // No es palabra reservada, entonces es id de Variable o id de Metodo
+        if (idToken == null) {
+            // Valida si es el metodo especial start
+            if (currentRead.equals("start")) {
+                idToken = IDToken.idSTART;
+            } else {
+                idToken = IDToken.idOBJECT;
+            }
+        }
+
+    }
+
+    private void checkUppers(){
+        // Validamos si es estructura predefinida
+        if (currentRead.equals("IO")) {
+            idToken = IDToken.spIO;
+        }
+        else{
+            if (currentRead.equals("Object")) {
+                idToken = IDToken.spOBJECT;
+            }
+            else{
+                // Valida si es un tipo de dato predefinido
+                idToken = Const.KEY_TYPE_WORDS.containsKey(currentRead) ? Const.KEY_TYPE_WORDS.get(currentRead) : null;
+        
+                // No es tipo de dato predefinido entonces puede ser solo IdStruct
+                if (idToken == null) {
+                    idToken = IDToken.idSTRUCT;
+                }
+                
+            }
+        }
+    }
+
 
     private boolean isUppercase(char c) {
         boolean result = false;
@@ -421,7 +553,7 @@ public class LexicalAnalyzer {
 
     private boolean isNumber(char c) {
         boolean result = false;
-        if (47 < c && c < 58) {
+        if (47 < c && c < 58 ) {
             result = true;
         }
         return result;

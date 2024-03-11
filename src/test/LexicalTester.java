@@ -8,6 +8,7 @@ import src.lib.Static;
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
 
+
 public class LexicalTester {
     private static String tester = "lexicalTests";
 
