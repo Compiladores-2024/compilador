@@ -33,6 +33,7 @@ public class LexicalTester {
                         //Realiza el test sobre ese archivo
                         lexicalAnalyzer = new LexicalAnalyzer(file.getAbsolutePath());
                         flag = true;
+                        resultsToken = new ArrayList<Token>();
                         while (flag) {
                             token = lexicalAnalyzer.nextToken();
                             if (token != null) {
@@ -44,7 +45,7 @@ public class LexicalTester {
                         Static.showTokens(resultsToken, null);
                     }
                     catch (Exception e) {
-                        System.out.println(Const.ERROR_CREATE_FILE_READER);
+                        System.out.println(Const.ERROR_CREATE_FILE_READER + file.getAbsolutePath());
                     }
                 }
                 else {
