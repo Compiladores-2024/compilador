@@ -71,7 +71,7 @@ public class Static {
                 System.out.println(Const.ERROR_LEXICAL_HEADER);
                 break;
         }
-        System.out.println(e.toString());
+        System.out.println(e.toString() + "\n");
     }
     //Escribe un error en el archivo indicado
     private static void writeError (CustomError e, String errorType, String path){

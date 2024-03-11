@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import src.lib.Const;
 import src.lib.Static;
+import src.lib.exceptionHelper.LexicalException;
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
 
@@ -30,6 +31,9 @@ public class LexicalTester {
                 //Valida que el archivo exista y no sea un direcctorio
                 if(file.exists() && file.isFile()){
                     try {
+                        //Muestra el archivo que se esta testeando
+                        System.out.println("Se verifica: " + file.getName());
+                        
                         //Realiza el test sobre ese archivo
                         lexicalAnalyzer = new LexicalAnalyzer(file.getAbsolutePath());
                         flag = true;
@@ -44,6 +48,7 @@ public class LexicalTester {
                         }
                         Static.showTokens(resultsToken, null);
                     }
+                    catch (LexicalException e) { }
                     catch (Exception e) {
                         System.out.println(Const.ERROR_CREATE_FILE_READER + file.getAbsolutePath());
                     }

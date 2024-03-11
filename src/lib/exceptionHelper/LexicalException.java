@@ -13,6 +13,6 @@ import src.lib.Static;
 public class LexicalException extends RuntimeException {
     public LexicalException(CustomError e, String path){
         Static.lexicalError(e, path);
-        System.exit(1);
+        // System.exit(1);
     }
 }
