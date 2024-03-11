@@ -43,7 +43,7 @@ public class LexicalAnalyzer {
 
         // Inicializa indices
         colNumber = 0;
-        lineNumber = 0;
+        lineNumber = 1;
 
         // Inicializa la lectura actual
         currentRead = "";
@@ -84,7 +84,7 @@ public class LexicalAnalyzer {
                         validate();
                         // Revisa si debe generar el token
                         if (idToken != null) {
-                            token = new Token(idToken, currentRead, lineNumber, colNumber - currentRead.length() + 1);
+                            token = new Token(idToken, currentRead, lineNumber, colNumber - currentRead.length() + 2);
                             currentRead = "";
                             initFlags();
                         }
@@ -180,6 +180,10 @@ public class LexicalAnalyzer {
             case ';':
                 idToken = IDToken.sSEMICOLON;
                 break;
+            case '.':
+                idToken = IDToken.sDOT;
+                break;
+
             case '/':
                 idToken = IDToken.oDIV;
                 break;
@@ -357,10 +361,9 @@ public class LexicalAnalyzer {
                 if (nextChar == null) {
                     // Valida si no cierra string o char
                     if (isWaitingForString) {
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "String invalido se esperaba \""), null);
+                        throw new LexicalException(new CustomError(lineNumber, colNumber, "String invalido se esperaba \" para el string:"+currentRead), null);
                     } else {
-                        System.out.println("Aaa");
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Caracter invalido se esperaba '"), null);
+                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter:"+currentRead), null);
                     }
                 } else {
                     if (isWaitingForChar) {
@@ -372,10 +375,20 @@ public class LexicalAnalyzer {
                             if (currentRead.equals("'\\")) {
                                 // Valida si es n, r, t, v o 0. Si no lo es, elimina el \ del lexema para guardar su
                                 // valor
-                                if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
-                                    //se elimina la barra invertida
-                                    currentRead = currentRead.replace("'\\", "'");
+
+                                // Valida que no ingrese '\0'
+                                if (nextChar == 48) {
+                                    throw new LexicalException(new CustomError(lineNumber, colNumber,
+                                            "No se permite valor null (\\0) en un caracter."), null);
                                 }
+                                else{
+
+                                    if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
+                                        //se elimina la barra invertida
+                                        currentRead = currentRead.replace("'\\", "'");
+                                    }
+                                }
+
                             } else {
                                 // Si lo que vamos leyendo tiene 2 caracteres (' y una letra), nextChar debe ser
                                 // '. Sino, es error
@@ -429,7 +442,7 @@ public class LexicalAnalyzer {
 
                     }
                 } else {
-                    throw new LexicalException(new CustomError(lineNumber, colNumber, "Identificador invalido: "+currentRead), null);
+                    throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Identificador invalido: "+currentRead), null);
                 }
             }
         }

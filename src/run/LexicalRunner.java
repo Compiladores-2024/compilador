@@ -25,7 +25,7 @@ public class LexicalRunner {
 
         if (args.length<1){
 
-            throw new LexicalException(new CustomError(0, 0, "No se ingreso codigo fuente"), null);
+            throw new LexicalException(new CustomError(1, 1, "No se ingreso codigo fuente"), null);
 
         }
 
