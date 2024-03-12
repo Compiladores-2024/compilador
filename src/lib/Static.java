@@ -29,6 +29,9 @@ public class Static {
         for (Token token : tokens) {
             text += token.toString() + "\n";
         }
+
+        //Elimino el ultimo salto de linea
+        text = text.substring(0, text.length() - 2);
         
         //Escribe o muestra el resultado
         if(path == null){
