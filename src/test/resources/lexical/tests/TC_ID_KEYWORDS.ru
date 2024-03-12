@@ -1,0 +1,16 @@
+struct
+impl
+else
+false
+if
+ret
+while
+true
+nil
+new
+fn
+st
+pub
+pri
+self
+void

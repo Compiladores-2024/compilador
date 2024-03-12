@@ -1,0 +1,18 @@
+CORRECTO: ANALISIS LEXICO
+| TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |
+| pSTRUCT | struct | LINEA 1 (COLUMNA 1) |
+| pIMPL | impl | LINEA 2 (COLUMNA 1) |
+| pELSE | else | LINEA 3 (COLUMNA 1) |
+| pFALSE | false | LINEA 4 (COLUMNA 1) |
+| pIF | if | LINEA 5 (COLUMNA 1) |
+| pRET | ret | LINEA 6 (COLUMNA 1) |
+| pWHILE | while | LINEA 7 (COLUMNA 1) |
+| pTRUE | true | LINEA 8 (COLUMNA 1) |
+| pNIL | nil | LINEA 9 (COLUMNA 1) |
+| pNEW | new | LINEA 10 (COLUMNA 1) |
+| pFN | fn | LINEA 11 (COLUMNA 1) |
+| pST | st | LINEA 12 (COLUMNA 1) |
+| pPUB | pub | LINEA 13 (COLUMNA 1) |
+| pPRI | pri | LINEA 14 (COLUMNA 1) |
+| pSELF | self | LINEA 15 (COLUMNA 1) |
+| typeVOID | void | LINEA 16 (COLUMNA 1) 

@@ -1,6 +1,8 @@
 package src.lib;
 
 import java.util.ArrayList;
+
+import src.lib.exceptionHelper.CustomException;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -11,58 +13,62 @@ import src.lib.tokenHelper.Token;
  * @since 07/03/2024
  */
 public class Static {
-
     /**
-     * Método que se utiliza para escribir los resultados del analizador léxico.
+     * Método que se utiliza para escribir los resultados del analizador léxico
+     * ya sea por consola o en un fichero específico.
      * 
-     * @since 07/03/2024
-     * @param tokens Lista de Tokens que se escribirían en el archivo de salida.
+     * @since 09/03/2024
+     * @param tokens Lista de Tokens que se escribirán.
      * @param path Path hacia el archivo resultante.
      */
-    public static void writeTokenResults (ArrayList<Token> tokens, String path) {
+    public static void writeTokens (ArrayList<Token> tokens, String path) {
+        //Genera el texto que se debe guardar
+        String text = Const.SUCCESS_LEXICAL_HEADER + "\n";
+
+        //Escribir cada elemento en una línea separada
+        for (Token token : tokens) {
+            text += token.toString() + "\n";
+        }
+
+        //Elimino el ultimo salto de linea
+        text = text.substring(0, text.length() - 2);
+        
+        //Escribe o muestra el resultado
+        if(path == null){
+            System.out.println(text);
+        }
+        else {
+            write(text, path);
+        }
+    }
+
+    /**
+     * Imprime o escribe un error.
+     * 
+     * @since 07/03/2024
+     * @param error Tipo de dato error con los detalles a mostrar.
+     * @param write Especifica si se debe escribir en un archivo o no.
+     */
+    public static void writeError(CustomException error, String path) {
+        //Escribe el resultado
+        if(path != null){
+            write(error.getMessage(), path);
+        }
+        //Muestra el resultado por consola
+        else {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    //Escribe un string en un archivo dado
+    private static void write (String text, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
-
-            //Agrega la cabecera
-            writer.write(Const.SUCCESS_LEXICAL_HEADER + "\n");
-
-            //Escribir cada elemento en una línea separada
-            for (Token token : tokens) {
-                writer.write(token.toString() + "\n");
-            }
-
-            //Cierra el escritor
+            writer.write(text);
             writer.close();
-        } catch (Exception e) {
-            System.out.println(Const.ERROR_CREATE_FILE);
         }
-    }
-
-    /**
-     * Imprime una lista de tokens dada.
-     * 
-     * @since 07/03/2024
-     * @param tokens ArrayList con elementos de la clase Token
-     */
-    public static  void showTokens (ArrayList<Token> tokens) {
-        System.out.println(Const.SUCCESS_LEXICAL_HEADER);
-
-        for (Token token : tokens) {
-            System.out.println(token.toString());
+        catch (Exception e) {
+            System.out.println(Const.ERROR_CREATE_FILE_WRITER);
         }
-    }
-
-    /**
-     * Imprime un error.
-     * 
-     * @since 07/03/2024
-     * @param line Línea en la que ocurrió el error.
-     * @param column Columna en la que ocurrió el error.
-     * @param description Descripción del error.
-     * @param type Tipo de error. Puede ser LEXICO, SEMANTICO, SINTACTICO, etc.
-     */
-    public static void showErrors (Error e) {
-        System.out.println(Const.ERROR_LEXICAL_HEADER);
-        System.out.println(e.toString());
     }
 }

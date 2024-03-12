@@ -1,9 +1,13 @@
-package src.lib;
+package src.lib.lexicalHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
 
+import src.lib.Const;
+
 /**
+ * Clase auxiliar de analizador léxico.<br/>
+ * 
  * Esta clase se utilizará para leer línea por línea el código fuente de los
  * archivos .ru
  * 
@@ -49,14 +53,16 @@ public class FileManager {
      * @since 06/03/2024
      * @return Siguiente línea del documento.
      */
-    public String getLine () {
-        String line = null;
+    public char[] getLine () {
+        char[] r = null;
+        String result = null;
+
         //Valida que se haya creado el bufferedReader
         if(bufferedReader != null){
             try {
-                line = bufferedReader.readLine();
+                result = bufferedReader.readLine();
                 //Cierra el reader si termina de leer
-                if(line == null){
+                if(result == null){
                     bufferedReader.close();
                 }
             }
@@ -64,6 +70,9 @@ public class FileManager {
                 System.out.println(Const.ERROR_READ_NEXT_LINE);
             }
         }
-        return line;
+        if (result != null) {
+            r = result.toCharArray();
+        }
+        return r;
     }
 }
