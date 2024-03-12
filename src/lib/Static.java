@@ -29,7 +29,7 @@ public class Static {
         //Escribir cada elemento en una línea separada
         for (Token token : tokens) {
             text += token.toString() + (count > 0 ? "\n" : "");
-            count++;
+            count--;
         }
         
         //Escribe o muestra el resultado
