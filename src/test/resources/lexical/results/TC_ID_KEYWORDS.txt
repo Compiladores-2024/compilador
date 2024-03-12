@@ -15,4 +15,4 @@ CORRECTO: ANALISIS LEXICO
 | pPUB | pub | LINEA 13 (COLUMNA 1) |
 | pPRI | pri | LINEA 14 (COLUMNA 1) |
 | pSELF | self | LINEA 15 (COLUMNA 1) |
-| typeVOID | void | LINEA 16 (COLUMNA 1) 
+| typeVOID | void | LINEA 16 (COLUMNA 1) |

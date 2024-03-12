@@ -4,4 +4,4 @@ CORRECTO: ANALISIS LEXICO
 | typeSTR | Str | LINEA 2 (COLUMNA 1) |
 | typeCHAR | Char | LINEA 3 (COLUMNA 1) |
 | typeBOOL | Bool | LINEA 4 (COLUMNA 1) |
-| typeARRAY | Array | LINEA 5 (COLUMNA 1) 
+| typeARRAY | Array | LINEA 5 (COLUMNA 1) |
