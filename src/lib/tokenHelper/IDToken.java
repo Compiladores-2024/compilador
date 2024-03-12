@@ -9,8 +9,6 @@ package src.lib.tokenHelper;
  * @since 06/03/2024
  */
 public enum IDToken {
-    //Constructor de clase
-    /** Para el nombre del constructor de la clase */ CONSTRUCTOR,
     //Operador de asignacion =
     /** = */ ASSIGN,
 
