@@ -22,7 +22,7 @@ public class LexicalAnalyzer {
     // Guarda el siguiente caracter
     Character nextChar;
     // Flags de validaciones
-    boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase, isNumber, isCharEnding, validateCERO;
+    boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase,isUnderscore, isNumber, isCharEnding, validateCERO;
 
     public LexicalAnalyzer(String path) {
         // Inicializa el lector de archivos
@@ -125,6 +125,8 @@ public class LexicalAnalyzer {
                     // Avisa que el primer caracter es minuscula
                     isLowercase = isLowercase(currentRead.charAt(0));
 
+                    // Avisa que el primer caracter es underscore
+                    isUnderscore = isUnderscore(currentRead.charAt(0));
                     // Avisa que el primer caracter es un numero
                     isNumber = isNumber(currentRead.charAt(0));
                 }
@@ -368,11 +370,11 @@ public class LexicalAnalyzer {
 
     private void check() {
         // Valida los identificadores
-        if (isLowercase || isUppercase) {
+        if (isLowercase || isUppercase || isUnderscore) {
             // Si el siguiente caracter no cumple las condiciones
             if (nextChar==null ){
                 // Empieza con minusculas
-                if (isLowercase) {
+                if (isLowercase || isUnderscore) {
                     checkLowers();
                 }
                 // Empieza con mayusculas
@@ -520,7 +522,20 @@ public class LexicalAnalyzer {
         
                 // No es tipo de dato predefinido entonces puede ser solo IdStruct
                 if (idToken == null) {
-                    idToken = IDToken.idSTRUCT;
+                    //Los identificadores de tipo (struct) comienzan con una 
+                    //letra mayuscula y terminan con una letra
+                    //mayuscula o una letra minuscula
+
+                    if (isUppercase(currentRead.charAt(currentRead.length()-1))
+                        || isLowercase(currentRead.charAt(currentRead.length()-1))){
+
+                        idToken = IDToken.idSTRUCT;
+                    }
+                    else{
+                        //throw error
+                        throw new LexicalException(lineNumber, colNumber+1, "Identificador de struct invalido: "+currentRead);
+
+                    }
                 }
                 
             }
@@ -536,6 +551,10 @@ public class LexicalAnalyzer {
         return result;
     }
 
+
+    private boolean isUnderscore(char c){
+        return c==95;
+    }
     private boolean isLowercase(char c) {
         boolean result = false;
         if (96 < c && c < 123) {
@@ -560,5 +579,6 @@ public class LexicalAnalyzer {
         isNumber = false;
         isCharEnding = false;
         validateCERO = false;
+        isUnderscore=false;
     }
 }
