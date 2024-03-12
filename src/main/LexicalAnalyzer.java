@@ -406,9 +406,9 @@ public class LexicalAnalyzer {
                 if (nextChar == null) {
                     // Valida si no cierra string o char
                     if (isWaitingForString) {
-                        throw new LexicalException(lineNumber, colNumber, "String invalido se esperaba \" para el string:"+currentRead);
+                        throw new LexicalException(lineNumber, colNumber, "String invalido se esperaba \" para el string: "+currentRead);
                     } else {
-                        throw new LexicalException(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter:"+currentRead);
+                        throw new LexicalException(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter: "+currentRead);
                     }
                 } else {
                     if (isWaitingForChar) {
