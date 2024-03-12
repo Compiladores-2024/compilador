@@ -1,7 +1,5 @@
 package src.main;
 
-import java.util.List;
-
 import src.lib.Const;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
@@ -25,10 +23,6 @@ public class LexicalAnalyzer {
     Character nextChar;
     // Flags de validaciones
     boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase, isNumber, isCharEnding, validateCERO;
-
-    // Array con ID de token posible
-    List<IDToken> PossibleConstant;
-    List<IDToken> possibleIDTokens;
 
     public LexicalAnalyzer(String path) {
         // Inicializa el lector de archivos
