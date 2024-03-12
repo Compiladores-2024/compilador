@@ -17,35 +17,39 @@ import src.lib.exceptionHelper.LexicalException;
 
 public class LexicalRunner {
     public static void main(String[] args) {
-        LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
-        ArrayList<Token> tokenList = new ArrayList<Token>();
-        String pathToResult = args.length == 2 ? args[1] : null;
-
-        try {
-            boolean flag=true;
-            while (flag){
-                Token token = lexA.nextToken();
+        if (args.length > 0) {
+            LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
+            ArrayList<Token> tokenList = new ArrayList<Token>();
+            String pathToResult = args.length == 2 ? args[1] : null;
     
-                //si el token recibido es distinto de null, lo agrega al array resultado
-                if (token != null){
-                    tokenList.add(token);
+            try {
+                boolean flag=true;
+                while (flag){
+                    Token token = lexA.nextToken();
+        
+                    //si el token recibido es distinto de null, lo agrega al array resultado
+                    if (token != null){
+                        tokenList.add(token);
+                    }
+                    else{
+                        flag=false;
+                    }
                 }
-                else{
-                    flag=false;
-                }
+        
+                // si se solicita generar un archivo de salida con los tokens
+                Static.writeTokens(tokenList, pathToResult);
+    
             }
-    
-            // si se solicita generar un archivo de salida con los tokens
-            Static.writeTokens(tokenList, pathToResult);
-
-        }
-        //Captura el error lexico y lo muestra por pantalla o escribe
-        catch (LexicalException e) {
-            Static.writeError(e, pathToResult);
-        }
-        //Captura cualquier otro tipo de error y lo muestra por consola
-        catch (Exception e) {
-            System.out.println("Ocurrió un error al analizar lexicamente." + e.getMessage());
+            //Captura el error lexico y lo muestra por pantalla o escribe
+            catch (LexicalException e) {
+                Static.writeError(e, pathToResult);
+            }
+            //Captura cualquier otro tipo de error y lo muestra por consola
+            catch (Exception e) {
+                System.out.println("Ocurrió un error al analizar lexicamente." + e.getMessage());
+            }
+        } else {
+            System.out.println("No se ha proporcionado un código fuente.");
         }
     }
 }
