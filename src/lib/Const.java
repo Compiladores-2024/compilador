@@ -23,6 +23,7 @@ public class Const {
     //Strings de errores en el compilador
     public static final String ERROR_CREATE_FILE = "ERROR: No se ha podido crear el archivo resultado.";
     public static final String ERROR_CREATE_FILE_READER = "ERROR: No se ha podido crear el lector de archivo.";
+    public static final String ERROR_CREATE_FILE_WRITER = "ERROR: No se ha podido crear el escritor de archivo.";
     public static final String ERROR_READ_FILE = "ERROR: El archivo no existe o es un directorio. Se busca en: ";
     public static final String ERROR_READ_NEXT_LINE = "ERROR: No se ha podido leer la siguiente linea del archivo.";
 

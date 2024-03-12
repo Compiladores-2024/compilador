@@ -1,15 +1,12 @@
 package src.run;
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
 import src.lib.Static;
 import src.lib.exceptionHelper.LexicalException;
-import src.lib.lexicalHelper.FileManager;
-import src.lib.CustomError;
+
 /**
  * Clase LexicalRunner encargada de ejecutar el analizador lexico
  * 
@@ -19,46 +16,37 @@ import src.lib.CustomError;
  */
 
 public class LexicalRunner {
-    
-    public static void main(String[] args) throws IOException {
-        
-
-        if (args.length<1){
-
-            throw new LexicalException(new CustomError(1, 1, "No se ingreso codigo fuente"), null);
-
-        }
-
+    public static void main(String[] args) {
         LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
-
         ArrayList<Token> tokenList = new ArrayList<Token>();
+        String pathToResult = args.length == 2 ? args[1] : null;
 
-        boolean flag=true;
-        while (flag){
-            Token token = lexA.nextToken();
-            
-            // System.out.println("lex: "+token.getLexema());
-            //si el token recibido es distinto de null
-            if (token != null){
-                
-                tokenList.add(token);
-
+        try {
+            boolean flag=true;
+            while (flag){
+                Token token = lexA.nextToken();
+    
+                //si el token recibido es distinto de null, lo agrega al array resultado
+                if (token != null){
+                    tokenList.add(token);
+                }
+                else{
+                    flag=false;
+                }
             }
-            else{
-                flag=false;
-            }
+    
+            // si se solicita generar un archivo de salida con los tokens
+            Static.writeTokens(tokenList, pathToResult);
+
         }
-
-
-        // si se solicita generar un archivo de salida con los tokens
-        if (args.length == 2) {
-            Static.showTokens(tokenList, args[1]);
-            
-            // sino solo imprime por pantalla
-        }else{
-            Static.showTokens(tokenList, null);
+        //Captura el error lexico y lo muestra por pantalla o escribe
+        catch (LexicalException e) {
+            Static.writeError(e, pathToResult);
         }
-
+        //Captura cualquier otro tipo de error y lo muestra por consola
+        catch (Exception e) {
+            System.out.println("Ocurrió un error al analizar lexicamente." + e.getMessage());
+        }
     }
 }
 

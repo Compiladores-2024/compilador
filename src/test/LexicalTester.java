@@ -46,7 +46,7 @@ public class LexicalTester {
                                 flag = false;
                             }
                         }
-                        Static.showTokens(resultsToken, null);
+                        Static.writeTokens(resultsToken, null);
                     }
                     catch (LexicalException e) { }
                     catch (Exception e) {

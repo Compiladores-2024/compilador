@@ -3,7 +3,6 @@ package src.main;
 import java.util.List;
 
 import src.lib.Const;
-import src.lib.CustomError;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.lexicalHelper.FileManager;
 import src.lib.tokenHelper.IDToken;
@@ -305,7 +304,7 @@ public class LexicalAnalyzer {
     
                         // si es >< entonces es error
                         if (nextChar==60) {
-                            throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar), null);
+                            throw new LexicalException(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar);
                         }
                         // Es >
                         else{
@@ -336,7 +335,7 @@ public class LexicalAnalyzer {
                     else {
                         // si es <> entonces es error
                         if (nextChar==62) {
-                            throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar), null);
+                            throw new LexicalException(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar);
                         }
                         // Es <
                         else{
@@ -407,9 +406,9 @@ public class LexicalAnalyzer {
                 if (nextChar == null) {
                     // Valida si no cierra string o char
                     if (isWaitingForString) {
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "String invalido se esperaba \" para el string:"+currentRead), null);
+                        throw new LexicalException(lineNumber, colNumber, "String invalido se esperaba \" para el string:"+currentRead);
                     } else {
-                        throw new LexicalException(new CustomError(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter:"+currentRead), null);
+                        throw new LexicalException(lineNumber, colNumber, "Caracter invalido se esperaba ' para el caracter:"+currentRead);
                     }
                 } else {
                     if (isWaitingForChar) {
@@ -424,8 +423,8 @@ public class LexicalAnalyzer {
 
                                 // Valida que no ingrese '\0'
                                 if (nextChar == 48) {
-                                    throw new LexicalException(new CustomError(lineNumber, colNumber,
-                                            "No se permite valor null (\\0) en un caracter."), null);
+                                    throw new LexicalException(lineNumber, colNumber,
+                                            "No se permite valor null (\\0) en un caracter.");
                                 }
                                 else{
 
@@ -452,8 +451,8 @@ public class LexicalAnalyzer {
                     } else {
                         // Valida que no ingrese \0
                         if (validateCERO && nextChar == 48) {
-                            throw new LexicalException(new CustomError(lineNumber, colNumber,
-                                    "No se permite valor null (\\0) en una cadena."), null);
+                            throw new LexicalException(lineNumber, colNumber,
+                                    "No se permite valor null (\\0) en una cadena.");
                         }
 
                         // Si el proximo caracter es "
@@ -464,8 +463,8 @@ public class LexicalAnalyzer {
                         } else {
                             // Valida que la cadena no posea más de 1024 caracteres
                             if (currentRead.length() >= 1024) {
-                                throw new LexicalException(new CustomError(lineNumber, colNumber,
-                                        "No se permiten cadenas con más de 1024 caracteres."), null);
+                                throw new LexicalException(lineNumber, colNumber,
+                                        "No se permiten cadenas con más de 1024 caracteres.");
                             }
 
                             // Avisa que valide \0
@@ -488,7 +487,7 @@ public class LexicalAnalyzer {
 
                     }
                 } else {
-                    throw new LexicalException(new CustomError(lineNumber, colNumber+1, "Identificador invalido: "+currentRead), null);
+                    throw new LexicalException(lineNumber, colNumber+1, "Identificador invalido: "+currentRead);
                 }
             }
         }
