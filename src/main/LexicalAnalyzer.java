@@ -386,7 +386,7 @@ public class LexicalAnalyzer {
                 if (!(isLowercase(nextChar) || isUppercase(nextChar) || isNumber(nextChar) || nextChar == 95)) {
     
                     // Empieza con minusculas
-                    if (isLowercase) {
+                    if (isLowercase || isUnderscore ) {
                         checkLowers();
                     }
                     // Empieza con mayusculas
