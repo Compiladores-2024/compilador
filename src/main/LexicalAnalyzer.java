@@ -384,7 +384,7 @@ public class LexicalAnalyzer {
                 if (!(isLowercase(nextChar) || isUppercase(nextChar) || isNumber(nextChar) || nextChar == 95)) {
     
                     // Empieza con minusculas
-                    if (isLowercase) {
+                    if (isLowercase ) {
                         checkLowers();
                     }
                     // Empieza con mayusculas
@@ -520,7 +520,20 @@ public class LexicalAnalyzer {
         
                 // No es tipo de dato predefinido entonces puede ser solo IdStruct
                 if (idToken == null) {
-                    idToken = IDToken.idSTRUCT;
+                    //Los identificadores de tipo (struct) comienzan con una 
+                    //letra mayuscula y terminan con una letra
+                    //mayuscula o una letra minuscula
+
+                    if (isUppercase(currentRead.charAt(currentRead.length()-1))
+                        || isLowercase(currentRead.charAt(currentRead.length()-1))){
+
+                        idToken = IDToken.idSTRUCT;
+                    }
+                    else{
+                        //throw error
+                        throw new LexicalException(lineNumber, colNumber+1, "Identificador de struct invalido: "+currentRead);
+
+                    }
                 }
                 
             }
@@ -535,6 +548,7 @@ public class LexicalAnalyzer {
         }
         return result;
     }
+
 
     private boolean isLowercase(char c) {
         boolean result = false;
