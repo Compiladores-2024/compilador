@@ -22,7 +22,7 @@ public class LexicalAnalyzer {
     // Guarda el siguiente caracter
     Character nextChar;
     // Flags de validaciones
-    boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase,isUnderscore, isNumber, isCharEnding, validateCERO;
+    boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase, isNumber, isCharEnding, validateCERO;
 
     public LexicalAnalyzer(String path) {
         // Inicializa el lector de archivos
@@ -125,8 +125,6 @@ public class LexicalAnalyzer {
                     // Avisa que el primer caracter es minuscula
                     isLowercase = isLowercase(currentRead.charAt(0));
 
-                    // Avisa que el primer caracter es underscore
-                    isUnderscore = isUnderscore(currentRead.charAt(0));
                     // Avisa que el primer caracter es un numero
                     isNumber = isNumber(currentRead.charAt(0));
                 }
@@ -370,11 +368,11 @@ public class LexicalAnalyzer {
 
     private void check() {
         // Valida los identificadores
-        if (isLowercase || isUppercase || isUnderscore) {
+        if (isLowercase || isUppercase) {
             // Si el siguiente caracter no cumple las condiciones
             if (nextChar==null ){
                 // Empieza con minusculas
-                if (isLowercase || isUnderscore) {
+                if (isLowercase) {
                     checkLowers();
                 }
                 // Empieza con mayusculas
@@ -386,7 +384,7 @@ public class LexicalAnalyzer {
                 if (!(isLowercase(nextChar) || isUppercase(nextChar) || isNumber(nextChar) || nextChar == 95)) {
     
                     // Empieza con minusculas
-                    if (isLowercase || isUnderscore ) {
+                    if (isLowercase ) {
                         checkLowers();
                     }
                     // Empieza con mayusculas
@@ -552,9 +550,6 @@ public class LexicalAnalyzer {
     }
 
 
-    private boolean isUnderscore(char c){
-        return c==95;
-    }
     private boolean isLowercase(char c) {
         boolean result = false;
         if (96 < c && c < 123) {
@@ -579,6 +574,5 @@ public class LexicalAnalyzer {
         isNumber = false;
         isCharEnding = false;
         validateCERO = false;
-        isUnderscore=false;
     }
 }
