@@ -3,8 +3,8 @@ import subprocess
 
 # Define las rutas al archivo .jar, la carpeta 1 y la carpeta 2
 jar_file_path = "compilador-2024.jar"
-folder1_path = "resources/lexicalTests"
-folder2_path = "resources/lexicalResults"
+folder1_path = "resources/lexical/tests"
+folder2_path = "resources/lexical/results"
 
 # Obtiene una lista de todos los archivos en la carpeta 1
 folder1_files = [os.path.join(folder1_path, filename) for filename in os.listdir(folder1_path)]
