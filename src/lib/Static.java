@@ -22,16 +22,15 @@ public class Static {
      * @param path Path hacia el archivo resultante.
      */
     public static void writeTokens (ArrayList<Token> tokens, String path) {
+        int count = tokens.size() - 1;
         //Genera el texto que se debe guardar
         String text = Const.SUCCESS_LEXICAL_HEADER + "\n";
 
         //Escribir cada elemento en una línea separada
         for (Token token : tokens) {
-            text += token.toString() + "\n";
+            text += token.toString() + (count > 0 ? "\n" : "");
+            count++;
         }
-
-        //Elimino el ultimo salto de linea
-        text = text.substring(0, text.length() - 2);
         
         //Escribe o muestra el resultado
         if(path == null){
