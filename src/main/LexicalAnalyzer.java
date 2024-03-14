@@ -295,17 +295,9 @@ public class LexicalAnalyzer {
                     }
                     // Es >
                     else {
-    
-                        // si es >< entonces es error
-                        if (nextChar==60) {
-                            throw new LexicalException(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar);
-                        }
                         // Es >
-                        else{
-                            idToken = IDToken.oMAX;
-                            colNumber--;
-    
-                        }
+                        idToken = IDToken.oMAX;
+                        colNumber--;
                     }
 
                 }
@@ -327,15 +319,9 @@ public class LexicalAnalyzer {
                         idToken = IDToken.oMIN_EQ;
                     }
                     else {
-                        // si es <> entonces es error
-                        if (nextChar==62) {
-                            throw new LexicalException(lineNumber, colNumber+1, "Operador invalido: "+currentRead+nextChar);
-                        }
                         // Es <
-                        else{
-                            idToken = IDToken.oMIN;
-                            colNumber--;
-                        }
+                        idToken = IDToken.oMIN;
+                        colNumber--;
                     }
 
                 }
