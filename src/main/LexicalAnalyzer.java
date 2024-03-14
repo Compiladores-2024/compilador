@@ -393,9 +393,6 @@ public class LexicalAnalyzer {
                     }
                 } else {
                     if (isWaitingForChar) {
-                        System.out.println("Char");
-                        System.out.println("current: "+currentRead);
-                        System.out.println("next: "+nextChar);
                         // Se espera una comilla simple ya que es un caracter que comienza con \
                         if (isCharEnding) {
                             idToken = IDToken.constCHAR;

@@ -12,7 +12,7 @@ CORRECTO: ANALISIS LEXICO
 | pNEW | new | LINEA 10 (COLUMNA 1) |
 | pFN | fn | LINEA 11 (COLUMNA 1) |
 | pST | st | LINEA 12 (COLUMNA 1) |
-| pPUB | pub | LINEA 13 (COLUMNA 1) |
+| idOBJECT | pub | LINEA 13 (COLUMNA 1) |
 | pPRI | pri | LINEA 14 (COLUMNA 1) |
 | pSELF | self | LINEA 15 (COLUMNA 1) |
 | typeVOID | void | LINEA 16 (COLUMNA 1) |
