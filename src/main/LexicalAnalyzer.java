@@ -23,6 +23,7 @@ public class LexicalAnalyzer {
     Character nextChar;
     // Flags de validaciones
     boolean isWaitingForString, isWaitingForChar, isUppercase, isLowercase, isNumber, isCharEnding, validateCERO;
+    boolean flagReplaced;
 
     public LexicalAnalyzer(String path) {
         // Inicializa el lector de archivos
@@ -392,6 +393,9 @@ public class LexicalAnalyzer {
                     }
                 } else {
                     if (isWaitingForChar) {
+                        System.out.println("Char");
+                        System.out.println("current: "+currentRead);
+                        System.out.println("next: "+nextChar);
                         // Se espera una comilla simple ya que es un caracter que comienza con \
                         if (isCharEnding) {
                             idToken = IDToken.constCHAR;
@@ -408,9 +412,18 @@ public class LexicalAnalyzer {
                                 }
                                 else{
 
-                                    if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
+                                    if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48 
+                                        && flagReplaced==false) {
                                         //se elimina la barra invertida
                                         currentRead = currentRead.replace("'\\", "'");
+                                        flagReplaced=true;
+                                    }
+                                    else{
+                                        if (nextChar==39){
+                                            idToken = IDToken.constCHAR;
+                                            colNumber++;
+                                            currentRead += nextChar;
+                                        }
                                     }
                                 }
 
@@ -418,17 +431,20 @@ public class LexicalAnalyzer {
                                 // Si lo que vamos leyendo tiene 2 caracteres (' y una letra), nextChar debe ser
                                 // '. Sino, es error
                                 isCharEnding = currentRead.length() >= 2;
+                                // Si el proximo caracter debe ser una comilla simple y no lo es, muestra error
+                                if (isCharEnding && nextChar == 39) {
+                                    idToken = IDToken.constCHAR;
+                                    colNumber++;
+                                    currentRead += nextChar;
+                                }
+                                else{
+                                    // es char vacio
+                                    if(isCharEnding==false && nextChar==39){
+                                        throw new LexicalException(lineNumber, colNumber+1, "Caracter vacio invalido: "+currentRead+nextChar);
+                                    }
+                                }
                             }
 
-                            // Si el proximo caracter debe ser una comilla simple y no lo es, muestra error
-                            if (isCharEnding && nextChar == 39) {
-                                idToken = IDToken.constCHAR;
-                                colNumber++;
-                                currentRead += nextChar;
-                            }
-                            else{
-                                throw new LexicalException(lineNumber, colNumber+1, "Caracter vacio invalido: "+currentRead+nextChar);
-                            }
                             
                         }
                     } else {
@@ -575,5 +591,6 @@ public class LexicalAnalyzer {
         isNumber = false;
         isCharEnding = false;
         validateCERO = false;
+        flagReplaced=false;
     }
 }
