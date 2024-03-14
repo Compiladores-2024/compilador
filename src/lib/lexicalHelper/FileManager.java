@@ -31,7 +31,6 @@ public class FileManager {
      */
     public FileManager(String path){
         String extension=getFileExtension(path);
-        System.out.println(extension);
         if (extension.equals("ru")){
             
             File file = new File(path);
