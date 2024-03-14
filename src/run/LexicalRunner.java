@@ -49,7 +49,7 @@ public class LexicalRunner {
                 System.out.println("Ocurrio un error al analizar lexicamente." + e.getMessage());
             }
         } else {
-            System.out.println("No se ha proporcionado un codigo fuente.");
+            System.out.println("ERROR: No se ha proporcionado un codigo fuente.");
         }
     }
 }
