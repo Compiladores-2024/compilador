@@ -417,7 +417,7 @@ public class LexicalAnalyzer {
 
                                 // Valida que no ingrese '\0'
                                 if (nextChar == 48) {
-                                    throw new LexicalException(lineNumber, colNumber,
+                                    throw new LexicalException(lineNumber, colNumber+1,
                                             "No se permite valor null (\\0) en un caracter.");
                                 }
                                 else{
@@ -440,32 +440,47 @@ public class LexicalAnalyzer {
                                 colNumber++;
                                 currentRead += nextChar;
                             }
+                            else{
+                                throw new LexicalException(lineNumber, colNumber+1, "Caracter vacio invalido: "+currentRead+nextChar);
+                            }
                             
                         }
                     } else {
+                        // si es string vacio "" entonces muestra error
+                        if (currentRead.equals("\"")){
+                            if (nextChar==34){
+                                throw new LexicalException(lineNumber, colNumber+1, "String vacio invalido: "+currentRead+nextChar);
+                            }
+                        }
                         // Valida que no ingrese \0
                         if (validateCERO && nextChar == 48) {
-                            throw new LexicalException(lineNumber, colNumber,
+                            throw new LexicalException(lineNumber, colNumber+1,
                                     "No se permite valor null (\\0) en una cadena.");
                         }
-
-                        // Si el proximo caracter es "
-                        if (nextChar == 34) {
-                            idToken = IDToken.constSTR;
-                            colNumber++;
-                            currentRead += nextChar;
-                        } else {
-                            // Valida que la cadena no posea más de 1024 caracteres
-                            if (currentRead.length() >= 1024) {
-                                throw new LexicalException(lineNumber, colNumber,
-                                        "No se permiten cadenas con más de 1024 caracteres.");
-                            }
-
-                            // Avisa que valide \0
-                            if (nextChar == 92) {
-                                validateCERO = true;
+                        else{
+                            // se reinicia validateCERO
+                            validateCERO=false;
+                            // Si el proximo caracter es "
+                            if (nextChar == 34) {
+                                idToken = IDToken.constSTR;
+                                colNumber++;
+                                currentRead += nextChar;
+                            } else {
+                                // Valida que la cadena no posea más de 1024 caracteres
+                                if (currentRead.length() >= 1024) {
+                                    throw new LexicalException(lineNumber, colNumber,
+                                            "No se permiten cadenas con más de 1024 caracteres.");
+                                }
+    
+                                // Avisa que valide \0,  
+                                // 92 es \
+                                if (nextChar == 92) {
+                                    validateCERO = true;
+                                }
                             }
                         }
+
+                        
                     }
                 }
             } else {
