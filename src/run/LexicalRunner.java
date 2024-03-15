@@ -46,10 +46,10 @@ public class LexicalRunner {
             }
             //Captura cualquier otro tipo de error y lo muestra por consola
             catch (Exception e) {
-                System.out.println("Ocurrió un error al analizar lexicamente." + e.getMessage());
+                System.out.println("Ocurrio un error al analizar lexicamente." + e.getMessage());
             }
         } else {
-            System.out.println("No se ha proporcionado un código fuente.");
+            System.out.println("ERROR: No se ha proporcionado un codigo fuente.");
         }
     }
 }

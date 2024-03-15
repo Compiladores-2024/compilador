@@ -1,3 +1,12 @@
 CORRECTO: ANALISIS LEXICO
 | TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |
-| constCHAR | '\n' | LINEA 1 (COLUMNA 1) |
+| constCHAR | 'x' | LINEA 1 (COLUMNA 2) |
+| constCHAR | '\r' | LINEA 2 (COLUMNA 1) |
+| constCHAR | '\n' | LINEA 3 (COLUMNA 1) |
+| constCHAR | '\t' | LINEA 4 (COLUMNA 1) |
+| constCHAR | '\r' | LINEA 5 (COLUMNA 1) |
+| constCHAR | 'a' | LINEA 6 (COLUMNA 2) |
+| constCHAR | '+' | LINEA 7 (COLUMNA 2) |
+| constCHAR | ''' | LINEA 8 (COLUMNA 2) |
+| constCHAR | '\' | LINEA 9 (COLUMNA 2) |
+| constCHAR | '"' | LINEA 10 (COLUMNA 2) |

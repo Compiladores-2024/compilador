@@ -41,7 +41,7 @@ public class Const {
         put("new", IDToken.pNEW);
         put("fn", IDToken.pFN);
         put("st", IDToken.pST);
-        put("pub", IDToken.pPUB);
+        // put("pub", IDToken.pPUB);
         put("pri", IDToken.pPRI);
         put("self", IDToken.pSELF);
         put("void", IDToken.typeVOID);

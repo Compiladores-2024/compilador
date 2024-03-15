@@ -30,20 +30,30 @@ public class FileManager {
      * @param path Path hacia el fichero que se desea importar como código fuente.
      */
     public FileManager(String path){
-        File file = new File(path);
-
-        //Valida que el archivo exista y no sea un direcctorio
-        if(file.exists() && file.isFile()){
-            try {
-                //Crea el bufferedReader
-                bufferedReader = new BufferedReader(new java.io.FileReader(file));
+        String extension=getFileExtension(path);
+        if (extension.equals("ru")){
+            
+            File file = new File(path);
+    
+            //Valida que el archivo exista y no sea un direcctorio
+            if(file.exists() && file.isFile()){
+                try {
+                    //Crea el bufferedReader
+                    bufferedReader = new BufferedReader(new java.io.FileReader(file));
+                }
+                catch (Exception e) {
+                    System.out.println(Const.ERROR_CREATE_FILE_READER);
+                    System.exit(0);
+                }
             }
-            catch (Exception e) {
-                System.out.println(Const.ERROR_CREATE_FILE_READER);
+            else {
+                System.out.println(Const.ERROR_READ_FILE + file.getAbsolutePath());
+                System.exit(0);
             }
         }
-        else {
-            System.out.println(Const.ERROR_READ_FILE + file.getAbsolutePath());
+        else{
+            System.out.println("ERROR: El archivo fuente es invalido, no tiene extension .ru");
+            System.exit(0);
         }
     }
 
@@ -75,4 +85,16 @@ public class FileManager {
         }
         return r;
     }
+
+    // Function to get the extension from a file path 
+    public static String getFileExtension(String filePath) 
+    { 
+        int lastIndexOfDot = filePath.lastIndexOf('.'); 
+        if (lastIndexOfDot == -1) { 
+            return "No extension"; 
+        } 
+        
+        return filePath.substring(lastIndexOfDot + 1); 
+    } 
+
 }
