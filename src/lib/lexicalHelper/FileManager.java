@@ -86,15 +86,18 @@ public class FileManager {
         return r;
     }
 
-    // Function to get the extension from a file path 
-    public static String getFileExtension(String filePath) 
-    { 
-        int lastIndexOfDot = filePath.lastIndexOf('.'); 
-        if (lastIndexOfDot == -1) { 
-            return "No extension"; 
-        } 
+    /**
+     * Método valida el nombre del archivo a leer
+     * 
+     * @since 14/03/2024
+     * @return Extensión del archivo.
+     */
+    private String getFileExtension(String filePath) {
+        int lastIndexOfDot = filePath.lastIndexOf('.');
+        if (lastIndexOfDot == -1) {
+            return "No extension";
+        }
         
-        return filePath.substring(lastIndexOfDot + 1); 
-    } 
-
+        return filePath.substring(lastIndexOfDot + 1);
+    }
 }

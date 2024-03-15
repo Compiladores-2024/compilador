@@ -41,8 +41,4 @@ public class Token {
     public String toString() {
         return "| " + name + " | " + lexema + " | LINEA " + Integer.toString(line) + " (COLUMNA " + Integer.toString(column) + ") |";
     }
-    
-    public String getLexema(){
-        return lexema;
-    }
 }

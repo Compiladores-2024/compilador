@@ -46,7 +46,7 @@ public class Static {
      * 
      * @since 07/03/2024
      * @param error Tipo de dato error con los detalles a mostrar.
-     * @param write Especifica si se debe escribir en un archivo o no.
+     * @param path Ubicación del archivo que guardará la respuesta.
      */
     public static void writeError(CustomException error, String path) {
         //Escribe el resultado
@@ -59,7 +59,13 @@ public class Static {
         }
     }
 
-    //Escribe un string en un archivo dado
+    /**
+     * Escribe un string en un archivo dado.
+     * 
+     * @since 12/03/2024
+     * @param text Texto completo a escribir.
+     * @param path Ubicación al archivo en el que se guardará el resultado.
+     */
     private static void write (String text, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
@@ -69,5 +75,38 @@ public class Static {
         catch (Exception e) {
             System.out.println(Const.ERROR_CREATE_FILE_WRITER);
         }
+    }
+
+    /**
+     * Valida si un caracter es mayúscula.
+     * 
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
+     */
+    public static boolean isUppercase(char c) {
+        return 64 < c && c < 9;
+    }
+
+    /**
+     * Valida si un caracter es minúscula.
+     * 
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
+     */
+    public static boolean isLowercase(char c) {
+        return 96 < c && c < 12;
+    }
+
+    /**
+     * Valida si un caracter es un número.
+     * 
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
+     */
+    public static boolean isNumber(char c) {
+        return 47 < c && c < 58;
     }
 }

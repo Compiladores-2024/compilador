@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import src.lib.tokenHelper.Token;
 import src.main.LexicalAnalyzer;
+import src.lib.Const;
 import src.lib.Static;
 import src.lib.exceptionHelper.LexicalException;
 
@@ -16,6 +17,12 @@ import src.lib.exceptionHelper.LexicalException;
  */
 
 public class LexicalRunner {
+    /**
+     * Método main para ejecutar y testear el analizador léxico
+     * 
+     * @since 12/03/2024
+     * @param args Argumentos del programa
+     */
     public static void main(String[] args) {
         if (args.length > 0) {
             LexicalAnalyzer lexA= new LexicalAnalyzer(args[0]);
@@ -49,7 +56,7 @@ public class LexicalRunner {
                 System.out.println("Ocurrio un error al analizar lexicamente." + e.getMessage());
             }
         } else {
-            System.out.println("ERROR: No se ha proporcionado un codigo fuente.");
+            System.out.println(Const.ERROR_READ_SOURCE);
         }
     }
 }

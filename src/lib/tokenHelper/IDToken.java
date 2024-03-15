@@ -48,7 +48,7 @@ public enum IDToken {
     /** &lt; */ oMIN,
     /** &le; */ oMIN_EQ,
     /** == */ oEQUAL,
-    /** &gt */ oMAX,
+    /** &gt; */ oMAX,
     /** &ge; */ oMAX_EQ,
     /** != */ oNOT_EQ,
 
