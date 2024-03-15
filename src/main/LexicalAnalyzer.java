@@ -515,7 +515,7 @@ public class LexicalAnalyzer {
                                 currentRead += nextChar;
                             } else {
                                 // Valida que la cadena no posea más de 1024 caracteres
-                                if (currentRead.length() >= 1024) {
+                                if (currentRead.length() > 1024) {
                                     throw new LexicalException(lineNumber, colNumber,
                                             "No se permiten cadenas con más de 1024 caracteres.");
                                 }
