@@ -442,6 +442,9 @@ public class LexicalAnalyzer {
                     }
                 } else {
                     if (isWaitingForChar) {
+                        if (checkNextChar()==false){
+                            throw new LexicalException(lineNumber, colNumber+1, "Caracter invalido: "+currentRead+nextChar);
+                        }
                         // Se espera una comilla simple ya que es un caracter que comienza con \
                         if (isCharEnding) {
                             idToken = IDToken.constCHAR;
@@ -494,6 +497,9 @@ public class LexicalAnalyzer {
                             
                         }
                     } else {
+                        if (checkNextChar()==false){
+                            throw new LexicalException(lineNumber, colNumber+1, "String invalido: "+currentRead+nextChar);
+                        }
                         // si es string vacio "" entonces muestra error
                         if (currentRead.equals("\"")){
                             if (nextChar==34){
@@ -628,4 +634,25 @@ public class LexicalAnalyzer {
         validateCERO = false;
         flagReplaced=false;
     }
+
+    /**
+     * Metodo que verifica si el siguiente char de un 
+     * string es valido
+     * 
+     * @since 15/03/2024
+     */
+    private boolean checkNextChar(){
+        if ((nextChar>31 && nextChar<126) || (nextChar.equals('ñ'))  
+        || (nextChar.equals('Ñ')) ||
+         (nextChar.equals('¿'))  || (nextChar==173) 
+         || (nextChar==9) ) {
+            return true;
+
+        }
+        else{
+            return false;
+        }
+
+    }
+
 }
