@@ -85,7 +85,7 @@ public class Static {
      * @return Booleando con la respuesta.
      */
     public static boolean isUppercase(char c) {
-        return 64 < c && c < 9;
+        return 64 < c && c < 91;
     }
 
     /**
