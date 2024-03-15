@@ -1,3 +1,6 @@
 src.lib
-src.lib.fileManager
+src.lib.exceptionHelper
+src.lib.lexicalHelper
 src.lib.tokenHelper
+src.main
+src.run

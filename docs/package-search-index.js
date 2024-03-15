@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"src.lib"},{"l":"src.lib.fileManager"},{"l":"src.lib.tokenHelper"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"src.lib"},{"l":"src.lib.exceptionHelper"},{"l":"src.lib.lexicalHelper"},{"l":"src.lib.tokenHelper"},{"l":"src.main"},{"l":"src.run"}];updateSearchResults();

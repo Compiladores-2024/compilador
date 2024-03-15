@@ -12,8 +12,8 @@ package src.lib.tokenHelper;
 public class Token {
     private IDToken name;
     private String lexema;
-    private Integer line;
-    private Integer column;
+    private int line;
+    private int column;
 
     /**
      * Constructor de la clase.
@@ -24,7 +24,7 @@ public class Token {
      * @param line Línea en la que se encuentra el token.
      * @param column Columna en la que se encuentra el token.
      */
-    public Token (IDToken name, String lexema, Integer line, Integer column) {
+    public Token (IDToken name, String lexema, int line, int column) {
         this.name = name;
         this.lexema = lexema;
         this.line = line;
@@ -39,6 +39,6 @@ public class Token {
      */
     @Override
     public String toString() {
-        return "| " + name + " | " + lexema + " | LINEA " + line.toString() + " (COLUMNA " + column.toString() + ") |";
+        return "| " + name + " | " + lexema + " | LINEA " + Integer.toString(line) + " (COLUMNA " + Integer.toString(column) + ") |";
     }
 }

@@ -1,6 +1,8 @@
 package src.lib;
 
 import java.util.ArrayList;
+
+import src.lib.exceptionHelper.CustomException;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -11,58 +13,100 @@ import src.lib.tokenHelper.Token;
  * @since 07/03/2024
  */
 public class Static {
-
     /**
-     * Método que se utiliza para escribir los resultados del analizador léxico.
+     * Método que se utiliza para escribir los resultados del analizador léxico
+     * ya sea por consola o en un fichero específico.
      * 
-     * @since 07/03/2024
-     * @param tokens Lista de Tokens que se escribirían en el archivo de salida.
+     * @since 09/03/2024
+     * @param tokens Lista de Tokens que se escribirán.
      * @param path Path hacia el archivo resultante.
      */
-    public static void writeTokenResults (ArrayList<Token> tokens, String path) {
+    public static void writeTokens (ArrayList<Token> tokens, String path) {
+        int count = tokens.size() - 1;
+        //Genera el texto que se debe guardar
+        String text = Const.SUCCESS_LEXICAL_HEADER + "\n";
+
+        //Escribir cada elemento en una línea separada
+        for (Token token : tokens) {
+            text += token.toString() + (count > 0 ? "\n" : "");
+            count--;
+        }
+        
+        //Escribe o muestra el resultado
+        if(path == null){
+            System.out.println(text);
+        }
+        else {
+            write(text, path);
+        }
+    }
+
+    /**
+     * Imprime o escribe un error.
+     * 
+     * @since 07/03/2024
+     * @param error Tipo de dato error con los detalles a mostrar.
+     * @param path Ubicación del archivo que guardará la respuesta.
+     */
+    public static void writeError(CustomException error, String path) {
+        //Escribe el resultado
+        if(path != null){
+            write(error.getMessage(), path);
+        }
+        //Muestra el resultado por consola
+        else {
+            System.out.println(error.getMessage());
+        }
+    }
+
+    /**
+     * Escribe un string en un archivo dado.
+     * 
+     * @since 12/03/2024
+     * @param text Texto completo a escribir.
+     * @param path Ubicación al archivo en el que se guardará el resultado.
+     */
+    private static void write (String text, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
-
-            //Agrega la cabecera
-            writer.write(Const.SUCCESS_LEXICAL_HEADER + "\n");
-
-            //Escribir cada elemento en una línea separada
-            for (Token token : tokens) {
-                writer.write(token.toString() + "\n");
-            }
-
-            //Cierra el escritor
+            writer.write(text);
             writer.close();
-        } catch (Exception e) {
-            System.out.println(Const.ERROR_CREATE_FILE);
+        }
+        catch (Exception e) {
+            System.out.println(Const.ERROR_CREATE_FILE_WRITER);
         }
     }
 
     /**
-     * Imprime una lista de tokens dada.
+     * Valida si un caracter es mayúscula.
      * 
-     * @since 07/03/2024
-     * @param tokens ArrayList con elementos de la clase Token
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
      */
-    public static  void showTokens (ArrayList<Token> tokens) {
-        System.out.println(Const.SUCCESS_LEXICAL_HEADER);
-
-        for (Token token : tokens) {
-            System.out.println(token.toString());
-        }
+    public static boolean isUppercase(char c) {
+        return 64 < c && c < 9;
     }
 
     /**
-     * Imprime un error.
+     * Valida si un caracter es minúscula.
      * 
-     * @since 07/03/2024
-     * @param line Línea en la que ocurrió el error.
-     * @param column Columna en la que ocurrió el error.
-     * @param description Descripción del error.
-     * @param type Tipo de error. Puede ser LEXICO, SEMANTICO, SINTACTICO, etc.
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
      */
-    public static void showErrors (Integer line, Integer column, String descripcion) {
-        System.out.println(Const.ERROR_LEXICAL_HEADER);
-        System.out.println("| LINEA " + line.toString() + " | COLUMNA " + column.toString() + " | " + descripcion + " |");
+    public static boolean isLowercase(char c) {
+        return 96 < c && c < 12;
+    }
+
+    /**
+     * Valida si un caracter es un número.
+     * 
+     * @since 09/03/2024
+     * @param c Caracter a validar.
+     * @return Booleando con la respuesta.
+     */
+    public static boolean isNumber(char c) {
+        return 47 < c && c < 58;
     }
 }

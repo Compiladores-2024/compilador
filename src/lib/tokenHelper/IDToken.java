@@ -9,10 +9,6 @@ package src.lib.tokenHelper;
  * @since 06/03/2024
  */
 public enum IDToken {
-    //Constructor de clase
-    /** Para el nombre del constructor de la clase */ CONSTRUCTOR,
-    //Comentario
-    /** /? */ COMMENT,
     //Operador de asignacion =
     /** = */ ASSIGN,
 
@@ -25,13 +21,13 @@ public enum IDToken {
     /** Tipo de dato STR */ typeSTR,
     /** Tipo de dato BOOL */ typeBOOL,
     /** Tipo de dato CHAR */ typeCHAR,
-    /** Para cualquier otro tipo de dato definido en una clase */ typeCLASS,
+    /** Tipo de dato ARRAY */ typeARRAY,
+    /** Tipo de dato VOID */ typeVOID,
     
     
     //Para valores constantes
     /** Para constantes de tipo INT */ constINT,
     /** Para constantes de tipo STR */ constSTR,
-    /** Para constantes de tipo BOOL */ constBOOL,
     /** Para constantes de tipo CHAR */ constCHAR,
 
 
@@ -52,7 +48,7 @@ public enum IDToken {
     /** &lt; */ oMIN,
     /** &le; */ oMIN_EQ,
     /** == */ oEQUAL,
-    /** > */ oMAX,
+    /** &gt; */ oMAX,
     /** &ge; */ oMAX_EQ,
     /** != */ oNOT_EQ,
 
@@ -73,16 +69,8 @@ public enum IDToken {
 
     //Identificadores
     /** Para identificadores de estructuras*/ idSTRUCT,
-    /** Para identificadores de variables*/ idVAR,
-    /** Para identificadores de métodos*/ idMETHOD,
-
-
-    //Texto plano
-    /** Espacio en blanco */ tBLANK_SPACE,
-    /** \n */ tNEW_LINE,
-    /** \r */ tRETURN,
-    /** \t */ tTAB,
-    /** \v */ tVERTICAL_TAB,
+    /** Para identificadores de variables o metodos*/ idOBJECT,
+    /** Para identificadores de metodo START */ idSTART,
     
 
     //Palabras clave o reservadas
@@ -100,8 +88,5 @@ public enum IDToken {
     /** Para palabra reservada PRI */ pPRI,
     /** Para palabra reservada PUB */ pPUB,
     /** Para palabra reservada SELF */ pSELF,
-    /** Para palabra reservada VOID */ pVOID,
-    /** Para palabra reservada START */ pSTART,
-    /** Para palabra reservada ARRAY */ pARRAY,
     /** Para palabra reservada RET */ pRET;
 }
