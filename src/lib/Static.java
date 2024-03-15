@@ -96,7 +96,7 @@ public class Static {
      * @return Booleando con la respuesta.
      */
     public static boolean isLowercase(char c) {
-        return 96 < c && c < 12;
+        return 96 < c && c < 123;
     }
 
     /**
