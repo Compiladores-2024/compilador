@@ -500,12 +500,6 @@ public class LexicalAnalyzer {
                         if (checkNextChar()==false){
                             throw new LexicalException(lineNumber, colNumber+1, "String invalido: "+currentRead+nextChar);
                         }
-                        // si es string vacio "" entonces muestra error
-                        if (currentRead.equals("\"")){
-                            if (nextChar==34){
-                                throw new LexicalException(lineNumber, colNumber+1, "String vacio invalido: "+currentRead+nextChar);
-                            }
-                        }
                         // Valida que no ingrese \0
                         if (validateCERO && nextChar == 48) {
                             throw new LexicalException(lineNumber, colNumber+1,
