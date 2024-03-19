@@ -414,8 +414,10 @@ public class LexicalAnalyzer {
                 if (nextChar == null) {
                     // Valida si no cierra string o char
                     throw new LexicalException(lineNumber, colNumber,
-                            "String invalido se esperaba \" para el" + (isWaitingForString ? "string: " : "caracter: ")
-                                    + currentRead);
+                    (isWaitingForString ? "String " : "Caracter ") +
+                    "invalido se esperaba "+(isWaitingForString ? "\"" : "\'")
+                    + " para el "+ (isWaitingForString ? "string: " : "caracter: ")
+                    + currentRead);
                 } else {
                     if (isWaitingForChar) {
                         if (!checkNextChar()) {

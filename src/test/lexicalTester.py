@@ -2,7 +2,7 @@ import os
 import subprocess
 
 # Define las rutas al archivo .jar, fuentes y resultados
-jar_file_path = "compilador-2024.jar"
+jar_file_path = "etapa1.jar"
 sources_path = "resources/lexical/tests"
 results_path = "resources/lexical/results"
 
