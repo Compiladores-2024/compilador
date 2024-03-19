@@ -507,6 +507,16 @@ public class LexicalAnalyzer {
                             idToken = IDToken.constINT;
                         }
                     }
+
+                    //Si se decidio por el token constINT y el primer elemento es un 0, elimina todos los 0 iniciales para el lexema
+                    if (idToken == IDToken.constINT && currentRead.charAt(0) == '0') {
+                        currentRead = currentRead.replaceFirst("0+", "");
+                        
+                        //Si ha eliminado todos los 0 iniciales y la cadena esta vacia, es el numero 0
+                        if(currentRead.equals("")){
+                            currentRead = "0";
+                        }
+                    }
                 } else {
                     throw new LexicalException(lineNumber, colNumber + 1, "Identificador invalido: " + currentRead);
                 }
