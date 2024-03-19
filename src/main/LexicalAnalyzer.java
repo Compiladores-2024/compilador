@@ -511,7 +511,7 @@ public class LexicalAnalyzer {
                     //Si se decidio por el token constINT y el primer elemento es un 0, elimina todos los 0 iniciales para el lexema
                     if (idToken == IDToken.constINT && currentRead.charAt(0) == '0') {
                         currentRead = currentRead.replaceFirst("0+", "");
-                        
+
                         //Si ha eliminado todos los 0 iniciales y la cadena esta vacia, es el numero 0
                         if(currentRead.equals("")){
                             currentRead = "0";
@@ -624,16 +624,14 @@ public class LexicalAnalyzer {
      * @since 15/03/2024
      */
     private boolean checkNextChar() {
-        if ((nextChar > 31 && nextChar < 126) || (nextChar.equals('ñ'))
-                || (nextChar.equals('Ñ')) ||
-                (nextChar.equals('¿')) || (nextChar == 173)
-                || (nextChar == 9)) {
-            return true;
-
-        } else {
-            return false;
-        }
-
+        return (
+            (nextChar > 31 && nextChar < 126) ||
+            nextChar.equals('ñ') ||
+            nextChar.equals('Ñ') ||
+            nextChar.equals('¿') ||
+            nextChar == 173 ||
+            nextChar == 9
+        );
     }
 
 }
