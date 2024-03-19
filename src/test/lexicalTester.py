@@ -7,7 +7,7 @@ sources_path = "resources/lexical/tests"
 results_path = "resources/lexical/results"
 
 # Avisa si desea mostrar los resultados por consola o no
-show = True
+show = False
 
 # Obtiene una lista de todos los archivos fuente
 sources_folder = [os.path.join(sources_path, filename) for filename in os.listdir(sources_path)]
