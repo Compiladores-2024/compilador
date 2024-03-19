@@ -91,7 +91,8 @@ public class LexicalAnalyzer {
                     colNumber = maxColumnNumber;
                 } else {
                     // saltea los espacios
-                    if (currentRead.charAt(0) == 32 || currentRead.charAt(0) == 9) {
+                    if (currentRead.charAt(0) == 32 || currentRead.charAt(0) == 10 || currentRead.charAt(0) == 13
+                            || currentRead.charAt(0) == 9 || currentRead.charAt(0) == 11) {
                         currentRead = "";
                     } else {
                         // valida si es un identificador valido
