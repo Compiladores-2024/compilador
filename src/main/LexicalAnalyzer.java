@@ -476,22 +476,33 @@ public class LexicalAnalyzer {
                             throw new LexicalException(lineNumber, colNumber + 1,
                                     "No se permite valor null (\\0) en una cadena.");
                         } else {
-                            // se reinicia validateCERO
-                            validateCERO = false;
-                            // Si el proximo caracter es "
-                            if (nextChar == 34) {
-                                idToken = IDToken.constSTR;
-                                colNumber++;
-                                currentRead += nextChar;
-                            } else {
-                                // Valida que la cadena no posea más de 1024 caracteres
-                                if (currentRead.length() > 1024) {
-                                    throw new LexicalException(lineNumber, colNumber,
-                                            "No se permiten cadenas con más de 1024 caracteres.");
+                            //Si estaba validando \0, y no lo es, determina que caracter es (especial o no) y elimina el \ si debe
+                            if(validateCERO){
+                                // Valida si el siguiente caracter NO forma \n, \r, \t, \v. Elimino el \
+                                if (nextChar != 110 && nextChar != 114 && nextChar != 116 && nextChar != 118 && nextChar != 48) {
+                                    // .$ representa el ultimo caracter del string (En este caso siempre va a ser \)
+                                    currentRead = currentRead.replaceFirst(".$", "");
                                 }
-
-                                // Avisa que valide \0, 92 es el caracter \
-                                validateCERO = nextChar == 92;
+                                
+                                //Se reinicia validateCERO
+                                validateCERO = false;
+                            }
+                            else {
+                                // Si el proximo caracter es "
+                                if (nextChar == 34) {
+                                    idToken = IDToken.constSTR;
+                                    colNumber++;
+                                    currentRead += nextChar;
+                                } else {
+                                    // Valida que la cadena no posea más de 1024 caracteres
+                                    if (currentRead.length() > 1024) {
+                                        throw new LexicalException(lineNumber, colNumber,
+                                                "No se permiten cadenas con más de 1024 caracteres.");
+                                    }
+    
+                                    // Avisa que valide \0 solo si no ha reemplazado anteriormente, 92 es el caracter \
+                                    validateCERO = nextChar == 92 && !flagReplaced;
+                                }
                             }
                         }
 
