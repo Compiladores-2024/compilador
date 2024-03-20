@@ -1,3 +1,14 @@
+/? CORRECTO: ANALISIS LEXICO
+/? | TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |
+/? | idOBJECT | aaaa1 | LINEA 12 (COLUMNA 1) |
+/? | sSEMICOLON | ; | LINEA 12 (COLUMNA 6) |
+/? | idOBJECT | a_1a | LINEA 13 (COLUMNA 2) |
+/? | sSEMICOLON | ; | LINEA 13 (COLUMNA 6) |
+/? | idOBJECT | pepe | LINEA 14 (COLUMNA 1) |
+/? | sSEMICOLON | ; | LINEA 14 (COLUMNA 5) |
+/? | sCOR_OPEN | [ | LINEA 15 (COLUMNA 1) |
+/? | idOBJECT | a1_ | LINEA 15 (COLUMNA 2) |
+/? | sCOR_CLOSE | ] | LINEA 15 (COLUMNA 5) |
 aaaa1;
  a_1a;
 pepe;

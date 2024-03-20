@@ -1,1 +1,4 @@
+/? ERROR: LEXICO
+/? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
+/? | LINEA 4 | COLUMNA 2 | No se permite valor null (\0) en un caracter. |
 '\0'

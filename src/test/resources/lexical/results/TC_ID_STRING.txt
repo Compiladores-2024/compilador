@@ -1,8 +1,8 @@
 CORRECTO: ANALISIS LEXICO
 | TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |
-| constSTR | "pepe" | LINEA 1 (COLUMNA 1) |
-| constSTR | "aa0aa" | LINEA 2 (COLUMNA 3) |
-| constSTR | "\n" | LINEA 3 (COLUMNA 1) |
-| constSTR | "\0" | LINEA 4 (COLUMNA 2) |
-| constSTR | """ | LINEA 5 (COLUMNA 2) |
-| constSTR | "\"" | LINEA 6 (COLUMNA 3) |
+| constSTR | "pepe" | LINEA 9 (COLUMNA 1) |
+| constSTR | "aa0aa" | LINEA 10 (COLUMNA 3) |
+| constSTR | "\n" | LINEA 11 (COLUMNA 1) |
+| constSTR | "\0" | LINEA 12 (COLUMNA 2) |
+| constSTR | """ | LINEA 13 (COLUMNA 2) |
+| constSTR | "\"" | LINEA 14 (COLUMNA 3) |
