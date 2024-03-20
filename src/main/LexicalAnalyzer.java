@@ -642,11 +642,22 @@ public class LexicalAnalyzer {
      */
     private boolean checkNextChar() {
         return (
-            (nextChar > 31 && nextChar < 126) ||
+            (31 < nextChar && nextChar < 126) ||
             nextChar.equals('ñ') ||
             nextChar.equals('Ñ') ||
             nextChar.equals('¿') ||
-            nextChar == 173 ||
+            nextChar.equals('¡') ||
+            nextChar.equals('Á') ||
+            nextChar.equals('É') ||
+            nextChar.equals('Í') ||
+            nextChar.equals('Ó') ||
+            nextChar.equals('Ú') ||
+            nextChar.equals('á') ||
+            nextChar.equals('é') ||
+            nextChar.equals('í') ||
+            nextChar.equals('ó') ||
+            nextChar.equals('ú') ||
+            //tab
             nextChar == 9
         );
     }
