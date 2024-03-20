@@ -419,11 +419,14 @@ public class LexicalAnalyzer {
                     + " para el "+ (isWaitingForString ? "string: " : "caracter: ")
                     + currentRead);
                 } else {
+                    //Valida el siguiente caracter
+                    if (!checkNextChar()) {
+                        throw new LexicalException(
+                            lineNumber, colNumber + 1,
+                            (isWaitingForChar ? "Caracter" : "String") + " invalido: " + currentRead + nextChar
+                        );
+                    }
                     if (isWaitingForChar) {
-                        if (!checkNextChar()) {
-                            throw new LexicalException(lineNumber, colNumber + 1,
-                                    "Caracter invalido: " + currentRead + nextChar);
-                        }
                         // Se espera una comilla simple ya que es un caracter que comienza con \
                         if (isCharEnding) {
                             idToken = IDToken.constCHAR;
@@ -458,7 +461,7 @@ public class LexicalAnalyzer {
                                 // Si lo que vamos leyendo tiene 2 caracteres (' y una letra), nextChar debe ser
                                 // '. Sino, es error
                                 isCharEnding = currentRead.length() >= 2;
-                                
+
                                 // Valida si el proximo caracter es una '
                                 if (nextChar == 39) {
                                     // Si debe cerrar la cadena, asigna el token. Sino, es error ya que se ha ingresado ''
@@ -474,10 +477,6 @@ public class LexicalAnalyzer {
                             }
                         }
                     } else {
-                        if (!checkNextChar()) {
-                            throw new LexicalException(lineNumber, colNumber + 1,
-                                    "String invalido: " + currentRead + nextChar);
-                        }
                         // Valida que no ingrese \0
                         if (validateCERO && nextChar == 48) {
                             throw new LexicalException(lineNumber, colNumber + 1,
