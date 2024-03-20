@@ -458,11 +458,18 @@ public class LexicalAnalyzer {
                                 // Si lo que vamos leyendo tiene 2 caracteres (' y una letra), nextChar debe ser
                                 // '. Sino, es error
                                 isCharEnding = currentRead.length() >= 2;
-                                // Si el proximo caracter debe ser una comilla simple y no lo es, muestra error
-                                if (isCharEnding && nextChar == 39) {
-                                    idToken = IDToken.constCHAR;
-                                    colNumber++;
-                                    currentRead += nextChar;
+                                
+                                // Valida si el proximo caracter es una '
+                                if (nextChar == 39) {
+                                    // Si debe cerrar la cadena, asigna el token. Sino, es error ya que se ha ingresado ''
+                                    if (isCharEnding) {
+                                        idToken = IDToken.constCHAR;
+                                        colNumber++;
+                                        currentRead += nextChar;
+                                    } else {
+                                        throw new LexicalException(lineNumber, colNumber + 1,
+                                                "Caracter invalido: " + currentRead + nextChar);
+                                    }
                                 }
                             }
                         }
