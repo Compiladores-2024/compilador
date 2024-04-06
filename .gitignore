@@ -27,3 +27,5 @@ src/test/test*
 src/test/resources/test*
 src/test/resources/lexical/extra_tests
 src/test/resources/lexical/extra_results
+*.js
+*.txt
