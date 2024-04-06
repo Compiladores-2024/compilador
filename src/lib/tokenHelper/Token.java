@@ -41,4 +41,15 @@ public class Token {
     public String toString() {
         return "| " + name + " | " + lexema + " | LINEA " + Integer.toString(line) + " (COLUMNA " + Integer.toString(column) + ") |";
     }
+
+    public IDToken getIDToken(){
+        return this.name;
+    }
+
+    public int getLine(){
+        return this.column;
+    }
+    public int getColumn(){
+        return this.line;
+    }
 }
