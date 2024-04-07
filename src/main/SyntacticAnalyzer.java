@@ -72,8 +72,8 @@ public class SyntacticAnalyzer {
      * @param idToken
      * @return Excepción tipo SyntacticException
      */
-    private SyntacticException throwError(String description){
-        return new SyntacticException(currentToken, description);
+    private SyntacticException throwError(String expected){
+        return new SyntacticException(currentToken, expected);
     }
 
     /**
@@ -104,7 +104,7 @@ public class SyntacticAnalyzer {
                 start();
             }
             else{
-                throw new SyntacticException(currentToken,"token 'start' o 'impl' o 'struct'" ,  currentToken.getIDToken().toString());
+                throw throwError("Token 'start' o 'impl' o 'struct'");
             }
         }
     }
@@ -118,8 +118,8 @@ public class SyntacticAnalyzer {
     private void start() {
         if (match(IDToken.idSTART)){
             //bloqueMetodo();
-        }else{ 
-            throw new SyntacticException(currentToken,"token 'start'" , currentToken.getIDToken().toString());
+        }else{
+            throw throwError("Token 'start'");
         }
     }
 
@@ -135,13 +135,11 @@ public class SyntacticAnalyzer {
                 structP();
             }
             else{
-                throw new SyntacticException(currentToken,"token idSTRUCT", 
-                currentToken.getIDToken().toString());
+                throw throwError("Token idSTRUCT");
             }
         }
         else{
-            throw new SyntacticException(currentToken,"token pSTRUCT", 
-            currentToken.getIDToken().toString());
+            throw throwError("Token pSTRUCT");
         }
     }
 
@@ -162,8 +160,7 @@ public class SyntacticAnalyzer {
 
         }
         if (!match(IDToken.sKEY_CLOSE)){
-            throw new SyntacticException(currentToken,"HERENCIA"
-            + " O ATRIBUTO" , currentToken.getIDToken().toString());
+            throw throwError("HERENCIA o ATRIBUTO");
         }
 
     }
@@ -263,8 +260,7 @@ public class SyntacticAnalyzer {
                 sentenciaP();
             }
             if (!match(IDToken.sKEY_CLOSE)){
-                throw new SyntacticException(currentToken,"DECLARACION VARIABLES LOCALES"
-                + " O SENTENCIA" , currentToken.getIDToken().toString());
+                throwError("DECLARACION VARIABLES LOCALES O SENTENCIA");
             }
         }
     }
@@ -727,7 +723,7 @@ public class SyntacticAnalyzer {
                 listaDefiniciones();
             }
             else{
-                throw new SyntacticException(currentToken,"token 'impl' o 'struct'" , currentToken.getIDToken().toString());
+                throw throwError("Token 'impl' o 'struct'");
             }
         }
     }
