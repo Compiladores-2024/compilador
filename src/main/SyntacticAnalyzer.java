@@ -369,12 +369,28 @@ public class SyntacticAnalyzer {
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Sentencia> ::= ; | <Asignación> ; | <Sentencia-Simple> ; | if ( <Expresión> ) <Sentencia> | if ( <Expresión> ) <Sentencia> else <Sentencia> | while ( <Expresión> ) <Sentencia> | <Bloque> | ret <Expresión’> ; | ret ;  
+     * <Sentencia> ::= ; 
+     * | <Asignación> ; 
+     * | <Sentencia-Simple> ; 
+     * | if ( <Expresión> ) <Sentencia> 
+     * | if ( <Expresión> ) <Sentencia> <MoreIF> 
+     * | while ( <Expresión> ) <Sentencia> 
+     * | <Bloque> 
+     * | ret <Expresión’> ; 
+     * | ret ;  
     */
     private void sentencia () {
         
     }
 
+    /*
+     * Método que ejecuta la regla de producción: <br/>
+     * 
+     * <MoreIF> ::= else <Sentencia>
+    */
+    private void moreIF () {
+        
+    }
 
     /*
      * Método que ejecuta la regla de producción: <br/>

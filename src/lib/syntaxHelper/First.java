@@ -90,7 +90,7 @@ public class First {
         add(IDToken.idSTRUCT);
         add(IDToken.typeARRAY);
     }};
-    public static final ArrayList<IDToken> firstTipoMétodo = new ArrayList<IDToken>(){{
+    public static final ArrayList<IDToken> firstTipoMetodo = new ArrayList<IDToken>(){{
         add(IDToken.typeSTR);
         add(IDToken.typeBOOL);
         add(IDToken.typeINT);
@@ -129,6 +129,9 @@ public class First {
         add(IDToken.pWHILE);
         add(IDToken.sKEY_OPEN);
         add(IDToken.pRET);
+    }};
+    public static final ArrayList<IDToken> firstMoreIF = new ArrayList<IDToken>(){{
+        add(IDToken.pELSE);
     }};
     public static final ArrayList<IDToken> firstBloque = new ArrayList<IDToken>(){{
         add(IDToken.sKEY_OPEN);
@@ -293,13 +296,13 @@ public class First {
     
 
     /**
-     * chequea si un idToken pasado como parametro pertenece a
+     * compara si un idToken pasado como parametro pertenece a
      * un ArrayList de primeros de un no terminal firsts
      * @param firsts ArrayList de IDToken
      * @param idToken IDToken a comprobar
      * @return boolean
      */
-    public static boolean check(ArrayList<IDToken> firsts, IDToken idToken){
+    public static boolean compare(ArrayList<IDToken> firsts, IDToken idToken){
         
         return firsts.contains(idToken);
     }
