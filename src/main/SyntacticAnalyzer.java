@@ -3,6 +3,7 @@ package src.main;
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
+import src.lib.syntaxHelper.First;
 
 /**
  * Analizador sintáctico, se encargará de consultar tokens al analizador léxico
@@ -99,11 +100,11 @@ public class SyntacticAnalyzer {
             start();
         }
         else{
-            if (check(IDToken.idSTART)){
+            if (First.check(First.firstStart, currentToken.getIDToken())){
                 start();
             }
             else{
-                throw throwError("");
+                throw new SyntacticException(currentToken,"token 'start' o 'impl' o 'struct'" ,  currentToken.getIDToken().toString());
             }
         }
     }
@@ -118,7 +119,7 @@ public class SyntacticAnalyzer {
         if (match(IDToken.idSTART)){
             //bloqueMetodo();
         }else{ 
-            throw new SyntacticException(currentToken,"se esperaba un token 'start'" + "se encontro: " + currentToken.getIDToken().toString());
+            throw new SyntacticException(currentToken,"token 'start'" , currentToken.getIDToken().toString());
         }
     }
 
@@ -128,8 +129,20 @@ public class SyntacticAnalyzer {
      * 
      * <Struct> ::= struct idStruct <Struct’>  
     */
-    private void struct () {
-
+    private void struct() throws SyntacticException{
+        if (match(IDToken.pSTRUCT)){
+            if (match(IDToken.idSTRUCT)){
+                structP();
+            }
+            else{
+                throw new SyntacticException(currentToken,"token idSTRUCT", 
+                currentToken.getIDToken().toString());
+            }
+        }
+        else{
+            throw new SyntacticException(currentToken,"token pSTRUCT", 
+            currentToken.getIDToken().toString());
+        }
     }
 
 
@@ -138,10 +151,21 @@ public class SyntacticAnalyzer {
      * 
      * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
     */
-    private void structP(){
-        if (match(IDToken.sKEY_OPEN)){
-            //atributoP();
+    private void structP() throws SyntacticException{
+        if (First.check(First.firstHerenciaP, currentToken.getIDToken())){
+            herenciaP();
         }
+        if (match(IDToken.sKEY_OPEN)){
+            if ((First.check(First.firstAtributoP, currentToken.getIDToken()))){
+                atributoP();
+            }
+
+        }
+        if (!match(IDToken.sKEY_CLOSE)){
+            throw new SyntacticException(currentToken,"HERENCIA"
+            + " O ATRIBUTO" , currentToken.getIDToken().toString());
+        }
+
     }
 
 
@@ -230,8 +254,19 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
-    private void bloqueMetodo () {
-        
+    private void bloqueMetodo() throws SyntacticException{
+        if (match(IDToken.sKEY_OPEN)){
+            if (First.check(First.firstDeclVarLocalesP, currentToken.getIDToken())){
+                declVarLocalesP();
+            }
+            if (First.check(First.firstSentenciaP, currentToken.getIDToken())){
+                sentenciaP();
+            }
+            if (!match(IDToken.sKEY_CLOSE)){
+                throw new SyntacticException(currentToken,"DECLARACION VARIABLES LOCALES"
+                + " O SENTENCIA" , currentToken.getIDToken().toString());
+            }
+        }
     }
 
 
@@ -680,16 +715,24 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Definiciones>::= <Struct><Lista-Definiciones> | <Struct> | <Impl><Lista-Definiciones> | <Impl>  
     */
-    private void listaDefiniciones() {
-        if (match(IDToken.pSTRUCT)){
-            if (match(IDToken.idSTRUCT)){
-                structP();
-            }
+    private void listaDefiniciones() throws SyntacticException {
+        
+        if (First.check(First.firstImpl, currentToken.getIDToken())){
+            impl();
+            listaDefiniciones();
         }
         else{
-            throw throwError("");
+            if (First.check(First.firstStruct, currentToken.getIDToken())){
+                struct();
+                listaDefiniciones();
+            }
+            else{
+                throw new SyntacticException(currentToken,"token 'impl' o 'struct'" , currentToken.getIDToken().toString());
+            }
         }
     }
+
+
 
     // private void listaDefiniciones() {
 
@@ -875,3 +918,4 @@ public class SyntacticAnalyzer {
         
     }
 }
+
