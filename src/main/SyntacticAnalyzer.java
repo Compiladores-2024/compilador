@@ -678,7 +678,26 @@ public class SyntacticAnalyzer {
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
     */
     private void asignacion () {
-        
+        if (compare(First.firstAccesoVarSimple)){
+            accesoVarSimple();
+            if (match(IDToken.ASSIGN)){
+                expresion();
+            }
+            else{
+                throwError("Token ASSIGN");
+            }
+        }
+        else{
+            if (compare(First.firstAccesoSelfSimple)){
+                accesoSelfSimple();
+                if (match(IDToken.ASSIGN)){
+                    expresion();
+                }
+                else{
+                    throwError("Token ASSIGN");
+                }
+            }
+        }
     }
 
 
@@ -698,7 +717,14 @@ public class SyntacticAnalyzer {
      * <AccesoSelf-Simple> ::= self <Encadenado-Simple’> | self  
     */
     private void accesoSelfSimple () {
-        
+        if (match(IDToken.pSELF)){
+            if (compare(First.firstEncadenadoSimpleP)){
+                encadenadoSimpleP();
+            }
+        }
+        else{
+            throwError("Token pSELF");
+        }
     }
 
 
@@ -708,7 +734,7 @@ public class SyntacticAnalyzer {
      * <Encadenado-Simple> ::= . id  
     */
     private void encadenadoSimple () {
-        
+   
     }
 
 
@@ -718,7 +744,12 @@ public class SyntacticAnalyzer {
      * <Sentencia-Simple> ::= ( <Expresión> )  
     */
     private void sentenciaSimple () {
-        
+        if (match(IDToken.sPAR_OPEN)){
+            expresion();
+            if (!match(IDToken.sPAR_CLOSE)){
+                throwError("Token sPAR_CLOSE");
+            }
+        }
     }
 
 
@@ -728,7 +759,7 @@ public class SyntacticAnalyzer {
      * <Expresión> ::= <ExpOr>  
     */
     private void expresion () {
-        
+        expOr();
     }
 
 
