@@ -173,7 +173,25 @@ public class SyntacticAnalyzer {
      * <Impl> ::= impl idStruct { <Miembro’> }  
     */
     private void impl () {
-        
+        if (match(IDToken.pIMPL)){
+            if (match(IDToken.idSTRUCT)){
+                if (match(IDToken.sKEY_OPEN)){
+                    miembroP();
+                    if (!match(IDToken.sKEY_CLOSE)){
+                        throw throwError("}");
+                    }
+                }
+                else{
+                    throw throwError("Token sKEY_OPEN");
+                }
+            }
+            else{
+                throw throwError("Token idSTRUCT");
+            }
+        }
+        else{
+            throw throwError("Token pIMPL");
+        }
     }
 
 
@@ -183,7 +201,12 @@ public class SyntacticAnalyzer {
      * <Herencia> ::= : <Tipo>  
     */
     private void herencia () {
-        
+        if (match(IDToken.sCOLON)){
+            tipo();
+        }
+        else{
+            throw throwError("Token sCOLON");
+        }
     }
 
 
@@ -193,7 +216,17 @@ public class SyntacticAnalyzer {
      * <Miembro> ::= <Método> | <Constructor>  
     */
     private void miembro () {
-        
+        if (compare(First.firstMetodo)){
+            metodo();
+        }
+        else{
+            if (compare(First.firstConstructor)){
+                constructor();
+            }
+            else{
+                throw throwError("MIEMBRO o CONSTRUCTOR");
+            }
+        }
     }
 
 
@@ -203,7 +236,13 @@ public class SyntacticAnalyzer {
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
     */
     private void constructor () {
-        
+        if (match(IDToken.sDOT)){
+            argumentosActuales();
+            bloqueMetodo();
+        }
+        else{
+            throw throwError("Token sDOT");
+        }
     }
 
 
@@ -213,7 +252,23 @@ public class SyntacticAnalyzer {
      * <Atributo> ::= <Visibilidad’> <Tipo> <Lista-Declaración-Variables> ;  | <Tipo> <Lista-Declaración-Variables> ;  
     */
     private void atributo () {
-        
+        if (compare(First.firstVisibilidadP)){
+            visibilidadP();
+            tipo();
+            listaDeclaracionVariables();
+            if (!match(IDToken.sSEMICOLON)){
+                throw throwError("Token sSEMICOLON");
+            }
+        }
+        else{
+            if (compare(First.firstTipo)){
+                tipo();
+                listaDeclaracionVariables();
+                if (!match(IDToken.sSEMICOLON)){
+                    throw throwError("Token sSEMICOLON");
+                }
+            }
+        }
     }
 
 
@@ -223,7 +278,43 @@ public class SyntacticAnalyzer {
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
     private void metodo () {
-        
+        if (match(IDToken.pFN)){
+            if (match(IDToken.idOBJECT)){
+                argumentosFormales();
+                if (match(IDToken.sARROW_METHOD)){
+                    tipoMetodo();
+                    bloqueMetodo();
+                }
+                else{
+                    throw throwError("Token sARROW_METHOD");
+                }
+            }
+            else{
+                throw throwError("Token idOBJECT");
+            }
+        }
+        else{
+            if (compare(First.firstFormaMetodoP)){
+                if (match(IDToken.pFN)){
+                    if (match(IDToken.idOBJECT)){
+                        argumentosFormales();
+                        if (match(IDToken.sARROW_METHOD)){
+                            tipoMetodo();
+                            bloqueMetodo();
+                        }
+                        else{
+                            throw throwError("Token sARROW_METHOD");
+                        }
+                    }
+                    else{
+                        throw throwError("Token idOBJECT");
+                    }
+                }
+            }
+            else{
+                throw throwError("METODO");
+            }
+        }
     }
 
 
@@ -233,7 +324,9 @@ public class SyntacticAnalyzer {
      * <Visibilidad> ::= pri  
     */
     private void visibilidad () {
-        
+        if (!match(IDToken.pPRI)){
+            throw throwError("Token pPRI");
+        }
     }
 
 
@@ -243,7 +336,9 @@ public class SyntacticAnalyzer {
      * <Forma-Método> ::= st  
     */
     private void formaMetodo () {
-        
+        if (!match(IDToken.pST)){
+            throw throwError("Token pST");
+        }
     }
 
 
@@ -273,7 +368,16 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        
+        if (compare(First.firstTipo)){
+            tipo();
+            listaDeclaracionVariables();
+            if (!match(IDToken.sSEMICOLON)){
+                throw throwError("Token sSEMICOLON");
+            }
+        }
+        else{
+            throw throwError("firstTipo");
+        }
     }
 
 
@@ -283,8 +387,16 @@ public class SyntacticAnalyzer {
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
     private void listaDeclaracionVariables () {
-        
+        if (match(IDToken.idOBJECT)){
+            if (match(IDToken.sCOM)){
+                listaDeclaracionVariables();
+            }
+        }
+        else{
+            throw throwError("idOBJECT");
+        }
     }
+
 
 
     /*
@@ -293,7 +405,17 @@ public class SyntacticAnalyzer {
      * <Argumentos-Formales>::= ( <Lista-Argumentos-Formales’> ) | ( )  
     */
     private void argumentosFormales () {
-        
+        if (match(IDToken.sPAR_OPEN)){
+            if (compare(First.firstListaArgumentosFormalesP)){
+                listaArgumentosFomalesP();
+            }
+            if (!match(IDToken.sPAR_CLOSE)){
+                throw throwError("Token sPAR_CLOSE");
+            }
+        }
+        else{
+            throw throwError("sPAR_OPEN");
+        }
     }
 
 
@@ -303,7 +425,12 @@ public class SyntacticAnalyzer {
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
     private void listaArgumentosFomales () {
-        
+        if (compare(First.firstArgumentoFormal)){
+            argumentoFormal();
+            if (match(IDToken.sCOM)){
+                listaArgumentosFomales();
+            }
+        }
     }
 
 
@@ -313,7 +440,15 @@ public class SyntacticAnalyzer {
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
     private void argumentoFormal () {
-        
+        if (compare(First.firstTipo)){
+            tipo();
+            if (!match(IDToken.idOBJECT)){
+                throw throwError("idOBJECT");
+            }
+        }
+        else{
+            throw throwError("firstTipo");
+        }
     }
 
 
@@ -323,7 +458,15 @@ public class SyntacticAnalyzer {
      * <Tipo-Método> ::= <Tipo> | void  
     */
     private void tipoMetodo () {
-        
+        if (compare(First.firstTipo)){
+            tipo();
+        }
+        else{
+
+            if (!match(IDToken.typeVOID)){
+                throw throwError("typeVOID");
+            }
+        }
     }
 
 
@@ -333,7 +476,23 @@ public class SyntacticAnalyzer {
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
     */
     private void tipo () {
-        
+        if (compare(First.firstTipoPrimitivo)){
+            tipoPrimitivo();
+        }
+        else{
+            if (compare(First.firstTipoReferencia)){
+                tipoReferencia();
+            }
+            else{
+                if (compare(First.firstTipoArreglo)){
+                    tipoArreglo();
+                }
+                else{
+                    throw throwError("firstTipo");
+                }
+
+            }
+        }
     }
 
 
@@ -343,7 +502,13 @@ public class SyntacticAnalyzer {
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
     private void tipoPrimitivo () {
-        
+        if (!match(IDToken.typeSTR)
+        || (!match(IDToken.typeBOOL))
+        || (!match(IDToken.typeINT))
+        || ((!match(IDToken.typeCHAR)))
+        ){
+            throw throwError("Token typeSTR o typeBOOL o typeINT o typeCHAR");
+        }
     }
 
 
@@ -353,7 +518,9 @@ public class SyntacticAnalyzer {
      * <Tipo-Referencia> ::= idStruct  
     */
     private void tipoReferencia () {
-        
+        if (!match(IDToken.idSTRUCT)){
+            throw throwError("Token idSTRUCT");
+        }
     }
 
 
@@ -363,7 +530,9 @@ public class SyntacticAnalyzer {
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
     */
     private void tipoArreglo () {
-        
+        if (match(IDToken.typeARRAY)){
+            tipoPrimitivo();
+        }
     }
 
 
