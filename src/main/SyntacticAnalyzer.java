@@ -745,22 +745,6 @@ public class SyntacticAnalyzer {
     }
 
 
-
-    // private void listaDefiniciones() {
-
-    //     if (check(IDToken.pIMPL)){
-    //         impl();
-    //     }
-    //     else{
-    //         if (check(IDToken.idSTRUCT)){
-    //             struct();
-    //         }
-    //     }
-    // }
-
-
-
-
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
