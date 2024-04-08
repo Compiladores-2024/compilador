@@ -1,5 +1,6 @@
 package src.main;
 
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 
 import src.lib.exceptionHelper.SyntacticException;
@@ -608,7 +609,35 @@ public class SyntacticAnalyzer {
      * <Primario> ::= <ExpresionParentizada> | <AccesoSelf> | <AccesoVar>  | <Llamada-Método>  | <Llamada-Método-Estático> | <Llamada-Constructor>  
     */
     private void primario () {
-        
+        boolean pass = false;
+        if (compare(First.firstExpresionParentizada)) {
+            expresionParentizada();
+            pass = true;
+        }
+        if (compare(First.firstAccesoSelf)) {
+            accesoSelf();
+            pass = true;
+        }
+        if (compare(First.firstAccesoVar)) {
+            accesoVar();
+            pass = true;
+        }
+        if (compare(First.firstLlamadaMetodo)) {
+            llamadaMetodo();
+            pass = true;
+        }
+        if (compare(First.firstLlamadaMetodoEstatico)) {
+            llamadaMetodoEstatico();
+            pass = true;
+        }
+        if (compare(First.firstLlamadaConstructor)) {
+            llamadaConstructor();
+            pass = true;
+        }
+
+        if (!pass) {
+            throw throwError("Token sPAR_OPEN, pSELF, idOBJECT, idSTRUCT o pNEW");
+        }
     }
 
 
@@ -618,7 +647,12 @@ public class SyntacticAnalyzer {
      * <ExpresionParentizada> ::= ( <Expresión> ) <Encadenado’> | ( <Expresión> )   
     */
     private void expresionParentizada () {
-        
+        match(IDToken.sPAR_OPEN);
+        expresion();
+        match(IDToken.sPAR_CLOSE);
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -628,7 +662,10 @@ public class SyntacticAnalyzer {
      * <AccesoSelf> ::= self <Encadenado’> | self  
     */
     private void accesoSelf () {
-        
+        match(IDToken.pSELF);
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -648,7 +685,7 @@ public class SyntacticAnalyzer {
      * <Llamada-Método> ::= id <Argumentos-Actuales> <Encadenado’> | id <Argumentos-Actuales>  
     */
     private void llamadaMetodo () {
-        
+
     }
 
 
@@ -658,7 +695,12 @@ public class SyntacticAnalyzer {
      * <Llamada-Método-Estático> ::= idStruct . <Llamada-Método> <Encadenado’>  |  idStruct . <Llamada-Método>  
     */
     private void llamadaMetodoEstatico () {
-        
+        match(IDToken.idSTRUCT);
+        match(IDToken.sDOT);
+        llamadaMetodo();
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -678,7 +720,11 @@ public class SyntacticAnalyzer {
      * <Argumentos-Actuales> ::= ( <Lista-Expresiones’> ) | ( )  
     */
     private void argumentosActuales () {
-        
+        match(IDToken.sPAR_OPEN);
+        if (compare(First.firstListaExpresionesP)) {
+            listaExpresionesP();
+        }
+        match(IDToken.sPAR_CLOSE);
     }
 
 
@@ -688,7 +734,7 @@ public class SyntacticAnalyzer {
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
     */
     private void listaExpresiones () {
-        
+
     }
 
 
@@ -698,7 +744,17 @@ public class SyntacticAnalyzer {
      * <Encadenado> ::= . <Llamada-Método-Encadenado> | . <Acceso-Variable-Encadenado>   
     */
     private void encadenado () {
-        
+        match(IDToken.sDOT);
+        if (compare(First.firstLlamadaMetodoEncadenado)) {
+            llamadaMetodoEncadenado();
+        }
+        else {
+            if (compare(First.firstAccesoVariableEncadenado)) {
+                accesoVariableEncadenado();
+            } else {
+                throw throwError("Token idOBJECT o idSTRUCT");
+            }
+        }
     }
 
 
@@ -728,19 +784,27 @@ public class SyntacticAnalyzer {
      * <Lista-Definiciones>::= <Struct><Lista-Definiciones> | <Struct> | <Impl><Lista-Definiciones> | <Impl>  
     */
     private void listaDefiniciones() throws SyntacticException {
+        boolean pass = false;
+
+        //Valida si empieza con struct
+        if (compare(First.firstStruct)){
+            struct();
+            pass = true;
+        }
         
+        //Valida si empieza con impl
         if (compare(First.firstImpl)){
             impl();
-            listaDefiniciones();
+            pass = true;
         }
-        else{
-            if (compare(First.firstStruct)){
-                struct();
+
+        if (pass) {
+            if (compare(First.firstListaDefiniciones)) {
                 listaDefiniciones();
             }
-            else{
-                throw throwError("Token 'impl' o 'struct'");
-            }
+        } 
+        else {
+            throw throwError("Token 'impl' o 'struct'");
         }
     }
 
@@ -751,7 +815,10 @@ public class SyntacticAnalyzer {
      * <Atributo’> ::= <Atributo><Atributo’> | <Atributo>  
     */
     private void atributoP () {
-        
+        atributo();
+        if (compare(First.firstAtributoP)) {
+            atributoP();
+        }
     }
 
 
@@ -761,7 +828,10 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales’> ::= <Decl-Var-Locales><Decl-Var-Locales’> | <Decl-Var-Locales>  
     */
     private void declVarLocalesP () {
-        
+        declVarLocales();
+        if (compare(First.firstDeclVarLocalesP)) {
+            declVarLocalesP();
+        }
     }
 
 
@@ -771,7 +841,10 @@ public class SyntacticAnalyzer {
      * <Sentencia’> ::= <Sentencia><Sentencia’> | <Sentencia>  
     */
     private void sentenciaP () {
-        
+        sentencia();
+        if (compare(First.firstSentenciaP)) {
+            sentenciaP();
+        }
     }
 
 
@@ -781,7 +854,10 @@ public class SyntacticAnalyzer {
      * <Encadenado-Simple’> ::= <Encadenado-Simple><Encadenado-Simple’> | <Encadenado-Simple>  
     */
     private void encadenadoSimpleP () {
-        
+        encadenadoSimple();
+        if (compare(First.firstEncadenadoSimpleP)) {
+            encadenadoSimpleP();
+        }
     }
 
 
@@ -791,7 +867,7 @@ public class SyntacticAnalyzer {
      * <Herencia’> ::= <Herencia>  
     */
     private void herenciaP () {
-        
+        herencia();
     }
 
 
@@ -801,7 +877,7 @@ public class SyntacticAnalyzer {
      * <Visibilidad’> ::= <Visibilidad>  
     */
     private void visibilidadP () {
-        
+        visibilidad();
     }
 
 
@@ -811,7 +887,7 @@ public class SyntacticAnalyzer {
      * <Forma-Método’> ::= <Forma-Método>  
     */
     private void formaMetodoP () {
-        
+        formaMetodo();
     }
 
 
@@ -821,7 +897,7 @@ public class SyntacticAnalyzer {
      * <Expresión’> ::= <Expresión>  
     */
     private void expresionP () {
-        
+        expresion();
     }
 
 
@@ -831,7 +907,7 @@ public class SyntacticAnalyzer {
      * <Encadenado’> ::= <Encadenado>  
     */
     private void encadenadoP () {
-        
+        encadenado();
     }
 
 
@@ -841,7 +917,7 @@ public class SyntacticAnalyzer {
      * <Lista-Expresiones’> ::= <Lista-Expresiones>  
     */
     private void listaExpresionesP () {
-        
+        listaExpresiones();
     }
 
 
@@ -851,7 +927,7 @@ public class SyntacticAnalyzer {
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
     private void listaArgumentosFomalesP () {
-        
+        listaArgumentosFomales();
     }
 
 
@@ -861,7 +937,10 @@ public class SyntacticAnalyzer {
      * <Miembro’> ::= <Miembro> | <Miembro><Miembro’>  
     */
     private void miembroP () {
-        
+        miembro();
+        if (compare(First.firstMiembroP)) {
+            miembroP();
+        }
     }
 
 
@@ -871,7 +950,11 @@ public class SyntacticAnalyzer {
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
     */
     private void expOrP () {
-        
+        match(IDToken.oOR);
+        expAnd();
+        if (compare(First.firstExpOrP)) {
+            expOrP();
+        }
     }
 
 
@@ -881,7 +964,11 @@ public class SyntacticAnalyzer {
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
     */
     private void expAndP () {
-        
+        match(IDToken.oAND);
+        expIgual();
+        if (compare(First.firstExpAndP)) {
+            expAndP();
+        }
     }
 
 
@@ -891,7 +978,11 @@ public class SyntacticAnalyzer {
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
     */
     private void expIgualP () {
-        
+        opIgual();
+        expCompuesta();
+        if (compare(First.firstExpIgualP)) {
+            expIgualP();
+        }
     }
 
 
@@ -901,7 +992,11 @@ public class SyntacticAnalyzer {
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
     */
     private void expAdP () {
-        
+        opAd();
+        expMul();
+        if (compare(First.firstExpAdP)) {
+            expAdP();
+        }
     }
 
 
@@ -911,7 +1006,11 @@ public class SyntacticAnalyzer {
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
     */
     private void expMulP () {
-        
+        opMul();
+        expUn();
+        if (compare(First.firstExpMulP)) {
+            expMulP();
+        }
     }
 }
 
