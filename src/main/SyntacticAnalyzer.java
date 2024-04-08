@@ -356,8 +356,11 @@ public class SyntacticAnalyzer {
                 sentenciaP();
             }
             if (!match(IDToken.sKEY_CLOSE)){
-                throwError("DECLARACION VARIABLES LOCALES O SENTENCIA");
+                throwError("Token sKEY_CLOSE");
             }
+        }
+        else{
+            throwError("Token sKEY_OPEN");
         }
     }
 
@@ -550,7 +553,89 @@ public class SyntacticAnalyzer {
      * | ret ;  
     */
     private void sentencia () {
-        
+        boolean flagOkey=false;
+        //  ;
+        if (match(IDToken.sSEMICOLON)){
+            flagOkey =true;
+        }
+        else{
+            // <Asignación> ;
+            if (compare(First.firstAsignacion)){
+                asignacion();
+                if (!match(IDToken.sSEMICOLON)){
+                    throw throwError("Token sSEMICOLON");
+                }
+                flagOkey =true;
+            }
+            else{
+                // <Sentencia-Simple> ;
+                if (compare(First.firstSentenciaSimple)){
+                    sentenciaSimple();
+                    if (!match(IDToken.sSEMICOLON)){
+                        throw throwError("Token sSEMICOLON");
+                    }
+                    flagOkey =true;
+                }
+                else{
+                    //if ( <Expresión> ) <Sentencia> <MoreIF> y if ( <Expresión> ) <Sentencia> 
+                    if (match(IDToken.pIF)){
+                        if (match(IDToken.sPAR_OPEN)){
+                            expresion();
+                            if (match(IDToken.sPAR_CLOSE)){
+                                sentencia();
+                                if (compare(First.firstMoreIF)){
+                                    moreIF();
+                                }
+                                
+                            } 
+                            else{
+                                throw throwError("Token sPAR_CLOSE");
+                            }
+                        }
+                        else{
+                            throw throwError("Token sPAR_OPEN");
+                        }
+                        flagOkey=true;
+                    }
+                    //while ( <Expresión> ) <Sentencia> 
+                    else{
+                        if (match(IDToken.pWHILE)){
+                            if (match(IDToken.sPAR_OPEN)){
+                                expresion();
+                                if (match(IDToken.sPAR_CLOSE)){
+                                    sentencia();
+                                }
+                            }
+                            flagOkey=true;
+                        }
+                        //<Bloque> 
+                        else{
+                            if (compare(First.firstBloque)){
+                                bloque();
+                                flagOkey=true;
+                            }
+                            // ret <Expresión’> ;  y ret ;
+                            else{
+                                if (match(IDToken.pRET)){
+                                    if (compare(First.firstExpresion)){
+                                        expresion();
+                                    }
+                                    if (!match(IDToken.sSEMICOLON)){
+                                        throw throwError("Token sSEMICOLON");
+                                    }
+                                    flagOkey=true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
+        if(flagOkey==false){
+            throw throwError("SENTENCIA");
+        }
     }
 
     /*
@@ -559,7 +644,12 @@ public class SyntacticAnalyzer {
      * <MoreIF> ::= else <Sentencia>
     */
     private void moreIF () {
-        
+        if(match(IDToken.pELSE)){
+            sentencia();
+        }
+        else{
+            throw throwError("Token pELSE");
+        }
     }
 
     /*
@@ -568,7 +658,17 @@ public class SyntacticAnalyzer {
      * <Bloque> ::= { <Sentencia’> } | { }  
     */
     private void bloque () {
-        
+        if (match(IDToken.sKEY_OPEN)){
+            if (compare(First.firstSentenciaP)){
+                sentenciaP();
+            }
+            if (!match(IDToken.sKEY_CLOSE)){
+                throwError("Token sKEY_CLOSE");
+            }
+        } 
+        else{
+            throwError("Token sKEY_OPEN");
+        }
     }
 
 
