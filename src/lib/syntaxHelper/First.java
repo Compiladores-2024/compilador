@@ -293,17 +293,4 @@ public class First {
     public static final ArrayList<IDToken> firstExpIgualP = firstOpIgual;
     public static final ArrayList<IDToken> firstExpAdP = firstOpAd;
     public static final ArrayList<IDToken> firstExpMulP = firstOpMul;
-    
-
-    /**
-     * compara si un idToken pasado como parametro pertenece a
-     * un ArrayList de primeros de un no terminal firsts
-     * @param firsts ArrayList de IDToken
-     * @param idToken IDToken a comprobar
-     * @return boolean
-     */
-    public static boolean compare(ArrayList<IDToken> firsts, IDToken idToken){
-        
-        return firsts.contains(idToken);
-    }
 }

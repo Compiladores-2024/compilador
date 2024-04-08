@@ -1,5 +1,7 @@
 package src.main;
 
+import java.util.ArrayList;
+
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -77,17 +79,15 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * chequea el idToken del token actual con un idToken pasado por parametro. 
-     * Sin consumir dicho token.
-     * El idToken pasado por parametro pertenece a primeros 
-     * de la funcion desde la que se llamo
-     * * @param idToken
+     * compara si un idToken pasado como parametro pertenece a
+     * un ArrayList de primeros de un no terminal firsts
+     * @param firsts ArrayList de IDToken
+     * @param idToken IDToken a comprobar
      * @return boolean
      */
-    private boolean check(IDToken idToken){
-        return (currentToken.getIDToken().equals(idToken));  
+    private boolean compare(ArrayList<IDToken> firsts){
+        return firsts.contains(currentToken.getIDToken());
     }
-
 
     /*
      * Método que ejecuta la regla de producción: <br/>
@@ -95,12 +95,12 @@ public class SyntacticAnalyzer {
      * <program> ::= <Lista-Definiciones><Start> | <Start>
     */
     private void program() {
-        if (check(IDToken.idSTRUCT) || check(IDToken.pIMPL)){
+        if (compare(First.firstListaDefiniciones)){
             listaDefiniciones();
             start();
         }
         else{
-            if (First.check(First.firstStart, currentToken.getIDToken())){
+            if (compare(First.firstStart)){
                 start();
             }
             else{
@@ -150,11 +150,11 @@ public class SyntacticAnalyzer {
      * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
     */
     private void structP() throws SyntacticException{
-        if (First.check(First.firstHerenciaP, currentToken.getIDToken())){
+        if (compare(First.firstHerenciaP)){
             herenciaP();
         }
         if (match(IDToken.sKEY_OPEN)){
-            if ((First.check(First.firstAtributoP, currentToken.getIDToken()))){
+            if (compare(First.firstAtributoP)){
                 atributoP();
             }
 
@@ -253,10 +253,10 @@ public class SyntacticAnalyzer {
     */
     private void bloqueMetodo() throws SyntacticException{
         if (match(IDToken.sKEY_OPEN)){
-            if (First.check(First.firstDeclVarLocalesP, currentToken.getIDToken())){
+            if (compare(First.firstDeclVarLocalesP)){
                 declVarLocalesP();
             }
-            if (First.check(First.firstSentenciaP, currentToken.getIDToken())){
+            if (compare(First.firstSentenciaP)){
                 sentenciaP();
             }
             if (!match(IDToken.sKEY_CLOSE)){
@@ -729,12 +729,12 @@ public class SyntacticAnalyzer {
     */
     private void listaDefiniciones() throws SyntacticException {
         
-        if (First.check(First.firstImpl, currentToken.getIDToken())){
+        if (compare(First.firstImpl)){
             impl();
             listaDefiniciones();
         }
         else{
-            if (First.check(First.firstStruct, currentToken.getIDToken())){
+            if (compare(First.firstStruct)){
                 struct();
                 listaDefiniciones();
             }
