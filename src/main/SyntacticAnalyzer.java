@@ -118,7 +118,7 @@ public class SyntacticAnalyzer {
     */
     private void start() {
         if (match(IDToken.idSTART)){
-            //bloqueMetodo();
+            bloqueMetodo();
         }else{
             throw throwError("Token 'start'");
         }
@@ -349,18 +349,29 @@ public class SyntacticAnalyzer {
     */
     private void bloqueMetodo() throws SyntacticException{
         if (match(IDToken.sKEY_OPEN)){
+            boolean flagOkey=false;
             if (compare(First.firstDeclVarLocalesP)){
                 declVarLocalesP();
+                flagOkey=true;
             }
             if (compare(First.firstSentenciaP)){
                 sentenciaP();
+                flagOkey=true;
             }
-            if (!match(IDToken.sKEY_CLOSE)){
-                throwError("Token sKEY_CLOSE");
+            if(flagOkey==false){
+                throw throwError("Token "+First.firstDeclVarLocalesP.toString() 
+                + " o "
+                +First.firstSentencia.toString());
+            }
+            else{
+
+                if (!match(IDToken.sKEY_CLOSE)){
+                    throw throwError("Token sKEY_CLOSE");
+                }
             }
         }
         else{
-            throwError("Token sKEY_OPEN");
+            throw throwError("Token sKEY_OPEN");
         }
     }
 
@@ -681,11 +692,11 @@ public class SyntacticAnalyzer {
                 sentenciaP();
             }
             if (!match(IDToken.sKEY_CLOSE)){
-                throwError("Token sKEY_CLOSE");
+                throw throwError("Token sKEY_CLOSE");
             }
         } 
         else{
-            throwError("Token sKEY_OPEN");
+            throw throwError("Token sKEY_OPEN");
         }
     }
 
@@ -702,7 +713,7 @@ public class SyntacticAnalyzer {
                 expresion();
             }
             else{
-                throwError("Token ASSIGN");
+                throw throwError("Token ASSIGN");
             }
         }
         else{
@@ -712,7 +723,7 @@ public class SyntacticAnalyzer {
                     expresion();
                 }
                 else{
-                    throwError("Token ASSIGN");
+                    throw throwError("Token ASSIGN");
                 }
             }
         }
@@ -741,7 +752,7 @@ public class SyntacticAnalyzer {
             }
         }
         else{
-            throwError("Token pSELF");
+            throw throwError("Token pSELF");
         }
     }
 
@@ -765,7 +776,7 @@ public class SyntacticAnalyzer {
         if (match(IDToken.sPAR_OPEN)){
             expresion();
             if (!match(IDToken.sPAR_CLOSE)){
-                throwError("Token sPAR_CLOSE");
+                throw throwError("Token sPAR_CLOSE");
             }
         }
     }
@@ -1146,9 +1157,14 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales’> ::= <Decl-Var-Locales><Decl-Var-Locales’> | <Decl-Var-Locales>  
     */
     private void declVarLocalesP () {
-        declVarLocales();
-        if (compare(First.firstDeclVarLocalesP)) {
-            declVarLocalesP();
+        if (compare(First.firstDeclVarLocales)){
+            declVarLocales();
+            if (compare(First.firstDeclVarLocalesP)) {
+                declVarLocalesP();
+            }
+        }
+        else{
+            throw throwError("Token "+First.firstDeclVarLocales.toString());
         }
     }
 
