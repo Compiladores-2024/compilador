@@ -505,11 +505,29 @@ public class SyntacticAnalyzer {
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
     private void tipoPrimitivo () {
-        if (!match(IDToken.typeSTR)
-        || (!match(IDToken.typeBOOL))
-        || (!match(IDToken.typeINT))
-        || ((!match(IDToken.typeCHAR)))
-        ){
+        if (compare(First.firstTipoPrimitivo)){
+   
+            switch (currentToken.getIDToken()) {
+                case typeINT:
+                    match(IDToken.typeINT);
+                    break;
+                case typeBOOL:
+                    match(IDToken.typeBOOL);
+                    break;
+                case typeSTR:
+                    match(IDToken.typeSTR);
+                    break;
+                case typeCHAR:
+                    match(IDToken.typeCHAR);
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        else{
+
             throw throwError("Token typeSTR o typeBOOL o typeINT o typeCHAR");
         }
     }
