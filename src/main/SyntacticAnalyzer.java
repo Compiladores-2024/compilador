@@ -775,6 +775,9 @@ public class SyntacticAnalyzer {
             if (compare(First.firstEncadenadoSimpleP)){
                 encadenadoSimpleP();
             }
+            else{
+                throw throwError("Token "+First.firstEncadenadoSimpleP.toString());
+            }
         }
         else{
             throw throwError("Token pSELF");
@@ -788,7 +791,28 @@ public class SyntacticAnalyzer {
      * <Encadenado-Simple> ::= . id  
     */
     private void encadenadoSimple () {
-   
+        if (match(IDToken.sDOT)){
+            // si id puede ser ID object o ID Struct
+            // comparo con firstAccesoVarSimple para facilidad de programacion
+            if (compare(First.firstAccesoVarSimple)){
+                switch (currentToken.getIDToken()) {
+                    case idOBJECT:
+                        match(IDToken.idOBJECT);
+                        break;
+                    case idSTRUCT:
+                        match(IDToken.idSTRUCT);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else{
+                throw throwError("Token "+First.firstAccesoVarSimple.toString());
+            }
+        }
+        else{
+            throw throwError("Token sDOT");
+        }
     }
 
 
@@ -803,6 +827,9 @@ public class SyntacticAnalyzer {
             if (!match(IDToken.sPAR_CLOSE)){
                 throw throwError("Token sPAR_CLOSE");
             }
+        }
+        else{
+            throw throwError("Token sPAR_OPEN");
         }
     }
 
