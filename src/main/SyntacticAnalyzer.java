@@ -358,17 +358,18 @@ public class SyntacticAnalyzer {
                 sentenciaP();
                 flagOkey=true;
             }
+            if (match(IDToken.sKEY_CLOSE)){
+                flagOkey=true;
+            }
             if(flagOkey==false){
+
                 throw throwError("Token "+First.firstDeclVarLocalesP.toString() 
                 + " o "
-                +First.firstSentenciaP.toString());
+                +First.firstSentenciaP.toString()
+                +" o "
+                +"sKEY_CLOSE");
             }
-            else{
-
-                if (!match(IDToken.sKEY_CLOSE)){
-                    throw throwError("Token sKEY_CLOSE");
-                }
-            }
+            
         }
         else{
             throw throwError("Token sKEY_OPEN");
