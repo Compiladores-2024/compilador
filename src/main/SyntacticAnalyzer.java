@@ -361,7 +361,7 @@ public class SyntacticAnalyzer {
             if(flagOkey==false){
                 throw throwError("Token "+First.firstDeclVarLocalesP.toString() 
                 + " o "
-                +First.firstSentencia.toString());
+                +First.firstSentenciaP.toString());
             }
             else{
 
@@ -736,7 +736,32 @@ public class SyntacticAnalyzer {
      * <AccesoVar-Simple> ::= id <Encadenado-Simple’> | id [ <Expresión> ] | id  
     */
     private void accesoVarSimple () {
-        
+        if (compare(First.firstAccesoVarSimple)){
+            switch (currentToken.getIDToken()) {
+                case idOBJECT:
+                    match(IDToken.idOBJECT);
+                    break;
+                case idSTRUCT:
+                    match(IDToken.idSTRUCT);
+                    break;
+                default:
+                    break;
+            }
+            if (compare(First.firstEncadenadoP)){
+                encadenadoSimpleP();
+            }
+            else{
+                if (match(IDToken.sCOR_OPEN)){
+                    expresion();
+                    if (!match(IDToken.sCOR_CLOSE)){
+                        throw throwError("Token sCOR_CLOSE");
+                    }
+                }
+            }
+        }
+        else{
+            throw throwError("Token "+First.firstAccesoVarSimple.toString());
+        }
     }
 
 
