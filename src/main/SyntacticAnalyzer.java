@@ -218,13 +218,10 @@ public class SyntacticAnalyzer {
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
     */
     private void constructor () {
-        if (match(IDToken.sDOT)){
-            argumentosActuales();
-            bloqueMetodo();
-        }
-        else{
-            throw throwError("Token sDOT");
-        }
+        match(IDToken.sDOT);
+        argumentosActuales();
+        bloqueMetodo();
+
     }
 
 
@@ -238,17 +235,14 @@ public class SyntacticAnalyzer {
             visibilidadP();
             tipo();
             listaDeclaracionVariables();
-            if (!match(IDToken.sSEMICOLON)){
-                throw throwError("Token sSEMICOLON");
-            }
+            match(IDToken.sSEMICOLON);
+            
         }
         else{
             if (compare(First.firstTipo)){
                 tipo();
                 listaDeclaracionVariables();
-                if (!match(IDToken.sSEMICOLON)){
-                    throw throwError("Token sSEMICOLON");
-                }
+                match(IDToken.sSEMICOLON);
             }
         }
     }
@@ -260,43 +254,24 @@ public class SyntacticAnalyzer {
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
     private void metodo () {
-        if (match(IDToken.pFN)){
-            if (match(IDToken.idOBJECT)){
-                argumentosFormales();
-                if (match(IDToken.sARROW_METHOD)){
-                    tipoMetodo();
-                    bloqueMetodo();
-                }
-                else{
-                    throw throwError("Token sARROW_METHOD");
-                }
-            }
-            else{
-                throw throwError("Token idOBJECT");
-            }
+        if (compare(First.firstFormaMetodoP)){
+            match(IDToken.pFN);
+            match(IDToken.idOBJECT);
+            argumentosFormales();
+            match(IDToken.sARROW_METHOD);
+            tipoMetodo();
+            bloqueMetodo();
         }
         else{
-            if (compare(First.firstFormaMetodoP)){
-                if (match(IDToken.pFN)){
-                    if (match(IDToken.idOBJECT)){
-                        argumentosFormales();
-                        if (match(IDToken.sARROW_METHOD)){
-                            tipoMetodo();
-                            bloqueMetodo();
-                        }
-                        else{
-                            throw throwError("Token sARROW_METHOD");
-                        }
-                    }
-                    else{
-                        throw throwError("Token idOBJECT");
-                    }
-                }
-            }
-            else{
-                throw throwError("METODO");
-            }
+            match(IDToken.pFN);
+            match(IDToken.idOBJECT);
+            argumentosFormales();
+            match(IDToken.sARROW_METHOD);
+            tipoMetodo();
+            bloqueMetodo();
+            
         }
+        
     }
 
 
@@ -306,9 +281,7 @@ public class SyntacticAnalyzer {
      * <Visibilidad> ::= pri  
     */
     private void visibilidad () {
-        if (!match(IDToken.pPRI)){
-            throw throwError("Token pPRI");
-        }
+        match(IDToken.pPRI);
     }
 
 
@@ -318,9 +291,7 @@ public class SyntacticAnalyzer {
      * <Forma-Método> ::= st  
     */
     private void formaMetodo () {
-        if (!match(IDToken.pST)){
-            throw throwError("Token pST");
-        }
+        match(IDToken.pST);
     }
 
 
@@ -330,31 +301,18 @@ public class SyntacticAnalyzer {
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
     private void bloqueMetodo() {
-        if (match(IDToken.sKEY_OPEN)){
-            boolean flagOkey=false;
-            if (compare(First.firstDeclVarLocalesP)){
-                declVarLocalesP();
-                flagOkey=true;
-            }
-            if (compare(First.firstSentenciaP)){
-                sentenciaP();
-                flagOkey=true;
-            }
-            if (match(IDToken.sKEY_CLOSE)){
-                flagOkey=true;
-            }
-            if(!flagOkey){
+        match(IDToken.sKEY_OPEN);
 
-                throw throwError("Token "+First.firstDeclVarLocalesP.toString() 
-                + " o "
-                +First.firstSentenciaP.toString()
-                +" o "
-                +"sKEY_CLOSE");
-            }
+        if (compare(First.firstDeclVarLocalesP)){
+                declVarLocalesP();
+  
         }
-        else{
-            throw throwError("Token sKEY_OPEN");
+        if (compare(First.firstSentenciaP)){
+            sentenciaP();
+  
         }
+        match(IDToken.sKEY_CLOSE);
+        
     }
 
 
@@ -364,16 +322,10 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        if (compare(First.firstTipo)){
-            tipo();
-            listaDeclaracionVariables();
-            if (!match(IDToken.sSEMICOLON)){
-                throw throwError("Token sSEMICOLON");
-            }
-        }
-        else{
-            throw throwError("firstTipo");
-        }
+        tipo();
+        listaDeclaracionVariables();
+        match(IDToken.sSEMICOLON);
+    
     }
 
 
@@ -383,13 +335,10 @@ public class SyntacticAnalyzer {
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
     private void listaDeclaracionVariables () {
-        if (match(IDToken.idOBJECT)){
-            if (match(IDToken.sCOM)){
-                listaDeclaracionVariables();
-            }
-        }
-        else{
-            throw throwError("idOBJECT");
+        match(IDToken.idOBJECT);
+        if (currentToken.getIDToken().equals(IDToken.sCOM)){
+            match(IDToken.sCOM);
+            listaDeclaracionVariables();
         }
     }
 
@@ -401,17 +350,11 @@ public class SyntacticAnalyzer {
      * <Argumentos-Formales>::= ( <Lista-Argumentos-Formales’> ) | ( )  
     */
     private void argumentosFormales () {
-        if (match(IDToken.sPAR_OPEN)){
-            if (compare(First.firstListaArgumentosFormalesP)){
-                listaArgumentosFomalesP();
-            }
-            if (!match(IDToken.sPAR_CLOSE)){
-                throw throwError("Token sPAR_CLOSE");
-            }
+        match(IDToken.sPAR_OPEN);
+        if (compare(First.firstListaArgumentosFormalesP)){
+            listaArgumentosFomalesP();
         }
-        else{
-            throw throwError("sPAR_OPEN");
-        }
+        match(IDToken.sPAR_CLOSE);
     }
 
 
@@ -421,12 +364,13 @@ public class SyntacticAnalyzer {
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
     private void listaArgumentosFomales () {
-        if (compare(First.firstArgumentoFormal)){
-            argumentoFormal();
-            if (match(IDToken.sCOM)){
-                listaArgumentosFomales();
-            }
+  
+        argumentoFormal();
+        if (currentToken.getIDToken().equals(IDToken.sCOM)){
+            match(IDToken.sCOM);
+            listaArgumentosFomales();
         }
+    
     }
 
 
@@ -436,15 +380,8 @@ public class SyntacticAnalyzer {
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
     private void argumentoFormal () {
-        if (compare(First.firstTipo)){
-            tipo();
-            if (!match(IDToken.idOBJECT)){
-                throw throwError("idOBJECT");
-            }
-        }
-        else{
-            throw throwError("firstTipo");
-        }
+        tipo();
+        match(IDToken.idOBJECT);
     }
 
 
@@ -458,10 +395,7 @@ public class SyntacticAnalyzer {
             tipo();
         }
         else{
-
-            if (!match(IDToken.typeVOID)){
-                throw throwError("typeVOID");
-            }
+            match(IDToken.typeVOID);
         }
     }
 
@@ -483,10 +417,6 @@ public class SyntacticAnalyzer {
                 if (compare(First.firstTipoArreglo)){
                     tipoArreglo();
                 }
-                else{
-                    throw throwError("firstTipo");
-                }
-
             }
         }
     }
@@ -498,30 +428,23 @@ public class SyntacticAnalyzer {
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
     private void tipoPrimitivo () {
-        if (compare(First.firstTipoPrimitivo)){
-   
-            switch (currentToken.getIDToken()) {
-                case typeINT:
-                    match(IDToken.typeINT);
-                    break;
-                case typeBOOL:
-                    match(IDToken.typeBOOL);
-                    break;
-                case typeSTR:
-                    match(IDToken.typeSTR);
-                    break;
-                case typeCHAR:
-                    match(IDToken.typeCHAR);
-                    break;
-                    
-                default:
-                    break;
-                    
-            }
-        }
-        else{
-
-            throw throwError("Token typeSTR o typeBOOL o typeINT o typeCHAR");
+        switch (currentToken.getIDToken()) {
+            case typeINT:
+                match(IDToken.typeINT);
+                break;
+            case typeBOOL:
+                match(IDToken.typeBOOL);
+                break;
+            case typeSTR:
+                match(IDToken.typeSTR);
+                break;
+            case typeCHAR:
+                match(IDToken.typeCHAR);
+                break;
+                
+            default:
+                throw throwError("Tipo tipoPrimitivo");
+                
         }
     }
 
@@ -563,86 +486,66 @@ public class SyntacticAnalyzer {
     private void sentencia () {
         boolean flagOkey=false;
         //  ;
-        if (match(IDToken.sSEMICOLON)){
-            flagOkey =true;
+        if (currentToken.getIDToken().equals(IDToken.sSEMICOLON)){
+
+            match(IDToken.sSEMICOLON);
         }
         else{
             // <Asignación> ;
             if (compare(First.firstAsignacion)){
                 asignacion();
-                if (!match(IDToken.sSEMICOLON)){
-                    throw throwError("Token sSEMICOLON");
-                }
-                flagOkey =true;
+                match(IDToken.sSEMICOLON);
+
             }
             else{
                 // <Sentencia-Simple> ;
                 if (compare(First.firstSentenciaSimple)){
                     sentenciaSimple();
-                    if (!match(IDToken.sSEMICOLON)){
-                        throw throwError("Token sSEMICOLON");
-                    }
-                    flagOkey =true;
+                    match(IDToken.sSEMICOLON);
                 }
                 else{
                     //if ( <Expresión> ) <Sentencia> <MoreIF> y if ( <Expresión> ) <Sentencia> 
-                    if (match(IDToken.pIF)){
-                        if (match(IDToken.sPAR_OPEN)){
-                            expresion();
-                            if (match(IDToken.sPAR_CLOSE)){
-                                sentencia();
-                                if (compare(First.firstMoreIF)){
-                                    moreIF();
-                                }
-                                
-                            } 
-                            else{
-                                throw throwError("Token sPAR_CLOSE");
-                            }
+                    if (currentToken.getIDToken().equals(IDToken.pIF)){
+
+                        match(IDToken.pIF);
+                        match(IDToken.sPAR_OPEN);
+                        expresion();
+                        match(IDToken.sPAR_CLOSE);
+                        sentencia();
+                        if (compare(First.firstMoreIF)){
+                            moreIF();
                         }
-                        else{
-                            throw throwError("Token sPAR_OPEN");
-                        }
-                        flagOkey=true;
                     }
                     //while ( <Expresión> ) <Sentencia> 
                     else{
-                        if (match(IDToken.pWHILE)){
-                            if (match(IDToken.sPAR_OPEN)){
-                                expresion();
-                                if (match(IDToken.sPAR_CLOSE)){
-                                    sentencia();
-                                }
-                            }
-                            flagOkey=true;
+                        if (currentToken.getIDToken().equals(IDToken.pWHILE)){
+
+                            match(IDToken.pWHILE);
+                            match(IDToken.sPAR_OPEN);
+                            expresion();
+                            match(IDToken.sPAR_CLOSE);
+                            sentencia();
                         }
                         //<Bloque> 
                         else{
                             if (compare(First.firstBloque)){
                                 bloque();
-                                flagOkey=true;
                             }
                             // ret <Expresión’> ;  y ret ;
                             else{
-                                if (match(IDToken.pRET)){
-                                    if (compare(First.firstExpresion)){
-                                        expresion();
+                                if (currentToken.getIDToken().equals(IDToken.pRET)){
+
+                                    match(IDToken.pRET);
+                                    if (compare(First.firstExpresionP)){
+                                        expresionP();
                                     }
-                                    if (!match(IDToken.sSEMICOLON)){
-                                        throw throwError("Token sSEMICOLON");
-                                    }
-                                    flagOkey=true;
+                                    match(IDToken.sSEMICOLON);
                                 }
                             }
                         }
                     }
-
                 }
             }
-
-        }
-        if(flagOkey==false){
-            throw throwError("SENTENCIA");
         }
     }
 
@@ -655,6 +558,7 @@ public class SyntacticAnalyzer {
         match(IDToken.pELSE);
         sentencia();
     }
+    
 
     /*
      * Método que ejecuta la regla de producción: <br/>
