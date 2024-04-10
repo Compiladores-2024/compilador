@@ -57,15 +57,13 @@ public class SyntacticAnalyzer {
      * @param idToken
      * @return Booleano que indica si los tokens matchean
      */
-    private boolean match(IDToken idToken){
-        boolean bMatching = currentToken.getIDToken().equals(idToken);
-
-        //Si matchean, solicita el siguiente token
-        if(bMatching){
+    private void match(IDToken idToken){
+        //Si matchean, solicita el siguiente token, sino es error
+        if(currentToken.getIDToken().equals(idToken)){
             this.currentToken = this.lexicalAnalyzer.nextToken();
+        } else {
+            throw throwError("Token: " + idToken.toString());
         }
-
-        return bMatching;
     }
 
     /**
@@ -117,11 +115,8 @@ public class SyntacticAnalyzer {
      * <Start> ::= start <Bloque-Método>  
     */
     private void start() {
-        if (match(IDToken.idSTART)){
-            bloqueMetodo();
-        }else{
-            throw throwError("Token 'start'");
-        }
+        match(IDToken.idSTART);
+        bloqueMetodo();
     }
 
 
@@ -131,17 +126,9 @@ public class SyntacticAnalyzer {
      * <Struct> ::= struct idStruct <Struct’>  
     */
     private void struct() throws SyntacticException{
-        if (match(IDToken.pSTRUCT)){
-            if (match(IDToken.idSTRUCT)){
-                structP();
-            }
-            else{
-                throw throwError("Token idSTRUCT");
-            }
-        }
-        else{
-            throw throwError("Token pSTRUCT");
-        }
+        match(IDToken.pSTRUCT);
+        match(IDToken.idSTRUCT);
+        structP();
     }
 
 
@@ -154,16 +141,14 @@ public class SyntacticAnalyzer {
         if (compare(First.firstHerenciaP)){
             herenciaP();
         }
-        if (match(IDToken.sKEY_OPEN)){
-            if (compare(First.firstAtributoP)){
-                atributoP();
-            }
+        
+        match(IDToken.sKEY_OPEN);
 
-        }
-        if (!match(IDToken.sKEY_CLOSE)){
-            throw throwError("HERENCIA o ATRIBUTO");
+        if (compare(First.firstAtributoP)){
+            atributoP();
         }
 
+        match(IDToken.sKEY_CLOSE);
     }
 
 
@@ -173,25 +158,11 @@ public class SyntacticAnalyzer {
      * <Impl> ::= impl idStruct { <Miembro’> }  
     */
     private void impl () {
-        if (match(IDToken.pIMPL)){
-            if (match(IDToken.idSTRUCT)){
-                if (match(IDToken.sKEY_OPEN)){
-                    miembroP();
-                    if (!match(IDToken.sKEY_CLOSE)){
-                        throw throwError("}");
-                    }
-                }
-                else{
-                    throw throwError("Token sKEY_OPEN");
-                }
-            }
-            else{
-                throw throwError("Token idSTRUCT");
-            }
-        }
-        else{
-            throw throwError("Token pIMPL");
-        }
+        match(IDToken.pIMPL);
+        match(IDToken.idSTRUCT);
+        match(IDToken.sKEY_OPEN);
+        miembroP();
+        match(IDToken.sKEY_CLOSE);
     }
 
 
@@ -201,12 +172,8 @@ public class SyntacticAnalyzer {
      * <Herencia> ::= : <Tipo>  
     */
     private void herencia () {
-        if (match(IDToken.sCOLON)){
-            tipo();
-        }
-        else{
-            throw throwError("Token sCOLON");
-        }
+        match(IDToken.sCOLON);
+        tipo();
     }
 
 
@@ -347,7 +314,7 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
-    private void bloqueMetodo() throws SyntacticException{
+    private void bloqueMetodo() {
         if (match(IDToken.sKEY_OPEN)){
             boolean flagOkey=false;
             if (compare(First.firstDeclVarLocalesP)){
@@ -361,7 +328,7 @@ public class SyntacticAnalyzer {
             if (match(IDToken.sKEY_CLOSE)){
                 flagOkey=true;
             }
-            if(flagOkey==false){
+            if(!flagOkey){
 
                 throw throwError("Token "+First.firstDeclVarLocalesP.toString() 
                 + " o "
@@ -369,7 +336,6 @@ public class SyntacticAnalyzer {
                 +" o "
                 +"sKEY_CLOSE");
             }
-            
         }
         else{
             throw throwError("Token sKEY_OPEN");
