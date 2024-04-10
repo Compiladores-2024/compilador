@@ -846,7 +846,22 @@ public class SyntacticAnalyzer {
      * <OpCompuesto> ::= < |> | <= |>=  
     */
     private void opCompuesto () {
-        
+        switch (currentToken.getIDToken()) {
+            case oMIN:
+                match(IDToken.oMIN);
+                break;
+            case oMAX:
+                match(IDToken.oMAX);
+                break;
+            case oMIN_EQ:
+                match(IDToken.oMIN_EQ);
+                break;
+            case oMAX_EQ:
+                match(IDToken.oMAX_EQ);
+                break;
+            default:
+                throw throwError(First.firstOpCompuesto.toString());
+        }
     }
 
 
@@ -856,7 +871,16 @@ public class SyntacticAnalyzer {
      * <OpAd> ::= + | -  
     */
     private void opAd () {
-        
+        switch (currentToken.getIDToken()) {
+            case oSUM:
+                match(IDToken.oSUM);
+                break;
+            case oSUB:
+                match(IDToken.oSUB);
+                break;
+            default:
+                throw throwError(First.firstOpAd.toString());
+        }
     }
 
 
@@ -866,6 +890,25 @@ public class SyntacticAnalyzer {
      * <OpUnario> ::= + | - | ! | ++ | --  
     */
     private void opUnario () {
+        switch (currentToken.getIDToken()) {
+            case oSUM:
+                match(IDToken.oSUM);
+                break;
+            case oSUB:
+                match(IDToken.oSUB);
+                break;
+            case oNOT:
+                match(IDToken.oNOT);
+                break;
+            case oSUM_SUM:
+                match(IDToken.oSUM_SUM);
+                break;
+            case oSUB_SUB:
+                match(IDToken.oSUB_SUB);
+                break;
+            default:
+                throw throwError(First.firstOpUnario.toString());
+        }
         
     }
 
@@ -876,7 +919,19 @@ public class SyntacticAnalyzer {
      * <OpMul> ::= * | / | %  
     */
     private void opMul () {
-        
+        switch (currentToken.getIDToken()) {
+            case oMULT:
+                match(IDToken.oMULT);
+                break;
+            case oDIV:
+                match(IDToken.oDIV);
+                break;
+            case oMOD:
+                match(IDToken.oMOD);
+                break;
+            default:
+                throw throwError(First.firstOpMul.toString());
+        }
     }
 
 
@@ -886,17 +941,46 @@ public class SyntacticAnalyzer {
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
     */
     private void operando () {
-        
+        if (compare(First.firstLiteral)) {
+            literal();
+        }
+        else {
+            primario();
+            if (compare(First.firstEncadenadoP)) {
+                encadenadoP();
+            }
+        }
     }
 
 
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Literal> ::= nil | true | false | intLiteral | StrLiteral | charLiteral   
+     * <Literal> ::= nil | true | false | intLiteral | StrLiteral | charLiteral
     */
     private void literal () {
-        
+        switch (currentToken.getIDToken()) {
+            case pNIL:
+                match(IDToken.pNIL);
+                break;
+            case pTRUE:
+                match(IDToken.pTRUE);
+                break;
+            case pFALSE:
+                match(IDToken.pFALSE);
+                break;
+            case constINT:
+                match(IDToken.constINT);
+                break;
+            case constSTR:
+                match(IDToken.constSTR);
+                break;
+            case constCHAR:
+                match(IDToken.constCHAR);
+                break;
+            default:
+                throw throwError(First.firstLiteral.toString());
+        }
     }
 
 
@@ -970,9 +1054,11 @@ public class SyntacticAnalyzer {
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <AccesoVar> ::= id <Encadenado’> | id  |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]  
+     * 
+     * La regla es igual a acceso var simple, asi que se reutiliza el código.
     */
     private void accesoVar () {
-        
+        accesoVarSimple();
     }
 
 
@@ -982,7 +1068,11 @@ public class SyntacticAnalyzer {
      * <Llamada-Método> ::= id <Argumentos-Actuales> <Encadenado’> | id <Argumentos-Actuales>  
     */
     private void llamadaMetodo () {
-
+        isID();
+        argumentosActuales();
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -1004,10 +1094,25 @@ public class SyntacticAnalyzer {
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Llamada-Constructor> ::= new idStruct <Argumentos-Actuales> <Encadenado’>  | new <Tipo-Primitivo> [ <Expresión> ] | new idStruct <Argumentos-Actuales>  
+     * <Llamada-Constructor> ::= new idStruct <Argumentos-Actuales> <Encadenado’>  
+     *              | new <Tipo-Primitivo> [ <Expresión> ]
+     *              | new idStruct <Argumentos-Actuales>  
     */
     private void llamadaConstructor () {
-        
+        match(IDToken.pNEW);
+        if (currentToken.getIDToken().equals(IDToken.idSTRUCT)) {
+            match(IDToken.idSTRUCT);
+            argumentosActuales();
+            if (compare(First.firstEncadenadoP)) {
+                encadenadoP();
+            }
+        }
+        else {
+            tipoPrimitivo();
+            match(IDToken.sCOR_OPEN);
+            expresion();
+            match(IDToken.sCOR_CLOSE);
+        }
     }
 
 
@@ -1031,7 +1136,11 @@ public class SyntacticAnalyzer {
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
     */
     private void listaExpresiones () {
-
+        expresion();
+        if (currentToken.getIDToken().equals(IDToken.sSEMICOLON)) {
+            match(IDToken.sSEMICOLON);
+            listaExpresiones();
+        }
     }
 
 
@@ -1046,11 +1155,7 @@ public class SyntacticAnalyzer {
             llamadaMetodoEncadenado();
         }
         else {
-            if (compare(First.firstAccesoVariableEncadenado)) {
-                accesoVariableEncadenado();
-            } else {
-                throw throwError("Token idOBJECT o idSTRUCT");
-            }
+            accesoVariableEncadenado();
         }
     }
 
@@ -1061,7 +1166,11 @@ public class SyntacticAnalyzer {
      * <Llamada-Método-Encadenado> ::= id <Argumentos-Actuales> <Encadenado’>  |  id <Argumentos-Actuales>  
     */
     private void llamadaMetodoEncadenado () {
-        
+        isID();
+        argumentosActuales();
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -1071,7 +1180,16 @@ public class SyntacticAnalyzer {
      * <Acceso-Variable-Encadenado> ::= id <Encadenado’>  | id   |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]   
     */
     private void accesoVariableEncadenado () {
-        
+        isID();
+        if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
+            match(IDToken.sCOR_OPEN);
+            expresion();
+            match(IDToken.sCOR_CLOSE);
+        }
+
+        if (compare(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
     }
 
 
@@ -1087,14 +1205,14 @@ public class SyntacticAnalyzer {
         if (compare(First.firstStruct)){
             struct();
             pass = true;
+        } else {
+            //Valida si empieza con impl
+            if (compare(First.firstImpl)){
+                impl();
+                pass = true;
+            }
         }
         
-        //Valida si empieza con impl
-        if (compare(First.firstImpl)){
-            impl();
-            pass = true;
-        }
-
         if (pass) {
             if (compare(First.firstListaDefiniciones)) {
                 listaDefiniciones();
@@ -1125,14 +1243,9 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales’> ::= <Decl-Var-Locales><Decl-Var-Locales’> | <Decl-Var-Locales>  
     */
     private void declVarLocalesP () {
-        if (compare(First.firstDeclVarLocales)){
-            declVarLocales();
-            if (compare(First.firstDeclVarLocalesP)) {
-                declVarLocalesP();
-            }
-        }
-        else{
-            throw throwError("Token "+First.firstDeclVarLocales.toString());
+        declVarLocales();
+        if (compare(First.firstDeclVarLocalesP)) {
+            declVarLocalesP();
         }
     }
 
