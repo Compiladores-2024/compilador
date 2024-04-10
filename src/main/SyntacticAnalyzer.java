@@ -978,10 +978,10 @@ public class SyntacticAnalyzer {
      * 
      * <AccesoVar> ::= id <Encadenado’> | id  |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]  
      * 
-     * La regla es igual a acceso var simple, asi que se reutiliza el código.
+     * La regla es igual a acceso accesoVariableEncadenado, asi que se reutiliza el código.
     */
     private void accesoVar () {
-        accesoVarSimple();
+        accesoVariableEncadenado();
     }
 
 
