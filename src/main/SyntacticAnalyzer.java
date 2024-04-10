@@ -656,7 +656,7 @@ public class SyntacticAnalyzer {
      * <ExpOr> ::= <ExpAnd> <ExpOr’> | <ExpAnd>  
     */
     private void expOr () {
-        expOr();
+        expAnd();
         if (checkFirst(First.firstExpOrP)) {
             expOrP();
         }
@@ -669,7 +669,7 @@ public class SyntacticAnalyzer {
      * <ExpAnd> ::= <ExpIgual><ExpAnd’> | <ExpIgual>  
     */
     private void expAnd () {
-        expAnd();
+        expIgual();
         if (checkFirst(First.firstExpAndP)) {
             expAndP();
         }
