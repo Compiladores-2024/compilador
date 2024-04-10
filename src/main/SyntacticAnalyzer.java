@@ -1,6 +1,5 @@
 package src.main;
 
-import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 
 import src.lib.exceptionHelper.SyntacticException;
@@ -255,23 +254,15 @@ public class SyntacticAnalyzer {
     */
     private void metodo () {
         if (compare(First.firstFormaMetodoP)){
-            match(IDToken.pFN);
-            match(IDToken.idOBJECT);
-            argumentosFormales();
-            match(IDToken.sARROW_METHOD);
-            tipoMetodo();
-            bloqueMetodo();
+            formaMetodoP();
         }
-        else{
-            match(IDToken.pFN);
-            match(IDToken.idOBJECT);
-            argumentosFormales();
-            match(IDToken.sARROW_METHOD);
-            tipoMetodo();
-            bloqueMetodo();
-            
-        }
-        
+
+        match(IDToken.pFN);
+        match(IDToken.idOBJECT);
+        argumentosFormales();
+        match(IDToken.sARROW_METHOD);
+        tipoMetodo();
+        bloqueMetodo();
     }
 
 
@@ -484,10 +475,8 @@ public class SyntacticAnalyzer {
      * | ret ;  
     */
     private void sentencia () {
-        boolean flagOkey=false;
         //  ;
         if (currentToken.getIDToken().equals(IDToken.sSEMICOLON)){
-
             match(IDToken.sSEMICOLON);
         }
         else{
@@ -495,7 +484,6 @@ public class SyntacticAnalyzer {
             if (compare(First.firstAsignacion)){
                 asignacion();
                 match(IDToken.sSEMICOLON);
-
             }
             else{
                 // <Sentencia-Simple> ;
@@ -506,7 +494,6 @@ public class SyntacticAnalyzer {
                 else{
                     //if ( <Expresión> ) <Sentencia> <MoreIF> y if ( <Expresión> ) <Sentencia> 
                     if (currentToken.getIDToken().equals(IDToken.pIF)){
-
                         match(IDToken.pIF);
                         match(IDToken.sPAR_OPEN);
                         expresion();
@@ -519,7 +506,6 @@ public class SyntacticAnalyzer {
                     //while ( <Expresión> ) <Sentencia> 
                     else{
                         if (currentToken.getIDToken().equals(IDToken.pWHILE)){
-
                             match(IDToken.pWHILE);
                             match(IDToken.sPAR_OPEN);
                             expresion();
@@ -534,7 +520,6 @@ public class SyntacticAnalyzer {
                             // ret <Expresión’> ;  y ret ;
                             else{
                                 if (currentToken.getIDToken().equals(IDToken.pRET)){
-
                                     match(IDToken.pRET);
                                     if (compare(First.firstExpresionP)){
                                         expresionP();
@@ -548,6 +533,7 @@ public class SyntacticAnalyzer {
             }
         }
     }
+
 
     /*
      * Método que ejecuta la regla de producción: <br/>
@@ -670,7 +656,10 @@ public class SyntacticAnalyzer {
      * <ExpOr> ::= <ExpAnd> <ExpOr’> | <ExpAnd>  
     */
     private void expOr () {
-        
+        expOr();
+        if (compare(First.firstExpOrP)) {
+            expOrP();
+        }
     }
 
 
@@ -680,7 +669,10 @@ public class SyntacticAnalyzer {
      * <ExpAnd> ::= <ExpIgual><ExpAnd’> | <ExpIgual>  
     */
     private void expAnd () {
-        
+        expAnd();
+        if (compare(First.firstExpAndP)) {
+            expAndP();
+        }
     }
 
 
@@ -690,7 +682,10 @@ public class SyntacticAnalyzer {
      * <ExpIgual> ::= <ExpCompuesta><ExpIgual’> | <ExpCompuesta>  
     */
     private void expIgual () {
-        
+        expCompuesta();
+        if (compare(First.firstExpIgualP)) {
+            expIgualP();
+        }
     }
 
 
@@ -700,7 +695,10 @@ public class SyntacticAnalyzer {
      * <ExpAd> ::= <ExpMul><ExpAd’> | <ExpMul>  
     */
     private void expAd () {
-        
+        expMul();
+        if (compare(First.firstExpAdP)) {
+            expAdP();
+        }
     }
 
 
@@ -710,7 +708,10 @@ public class SyntacticAnalyzer {
      * <ExpMul> ::= <ExpUn> <ExpMul’> | <ExpUn>  
     */
     private void expMul () {
-        
+        expUn();
+        if (compare(First.firstExpMulP)) {
+            expMulP();
+        }
     }
 
 
@@ -720,7 +721,11 @@ public class SyntacticAnalyzer {
      * <ExpCompuesta> ::= <ExpAd> <OpCompuesto> <ExpAd> | <ExpAd>  
     */
     private void expCompuesta () {
-        
+        expAd();
+        if (compare(First.firstOpCompuesto)) {
+            opCompuesto();
+            expAd();
+        }
     }
 
 
@@ -730,7 +735,12 @@ public class SyntacticAnalyzer {
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
     */
     private void expUn () {
-        
+        if (compare(First.firstOpUnario)) {
+            opUnario();
+            expUn();
+        } else {
+            operando();
+        }
     }
 
 
@@ -740,7 +750,16 @@ public class SyntacticAnalyzer {
      * <OpIgual> ::= == | !=  
     */
     private void opIgual () {
-        
+        switch (currentToken.getIDToken()) {
+            case oEQUAL:
+                match(IDToken.oEQUAL);
+                break;
+            case oNOT_EQ:
+                match(IDToken.oNOT_EQ);
+                break;
+            default:
+            throw throwError(First.firstOpIgual.toString());
+        }
     }
 
 
