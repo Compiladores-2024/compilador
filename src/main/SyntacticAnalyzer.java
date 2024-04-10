@@ -1,6 +1,6 @@
 package src.main;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.tokenHelper.IDToken;
@@ -82,7 +82,7 @@ public class SyntacticAnalyzer {
      * @param firsts ArrayList de IDToken
      * @return boolean
      */
-    private boolean compare(ArrayList<IDToken> firsts){
+    private boolean checkFirst(HashSet<IDToken> firsts){
         return firsts.contains(currentToken.getIDToken());
     }
 
@@ -108,12 +108,12 @@ public class SyntacticAnalyzer {
      * <program> ::= <Lista-Definiciones><Start> | <Start>
     */
     private void program() {
-        if (compare(First.firstListaDefiniciones)){
+        if (checkFirst(First.firstListaDefiniciones)){
             listaDefiniciones();
             start();
         }
         else{
-            if (compare(First.firstStart)){
+            if (checkFirst(First.firstStart)){
                 start();
             }
             else{
@@ -152,13 +152,13 @@ public class SyntacticAnalyzer {
      * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
     */
     private void structP() throws SyntacticException{
-        if (compare(First.firstHerenciaP)){
+        if (checkFirst(First.firstHerenciaP)){
             herenciaP();
         }
         
         match(IDToken.sKEY_OPEN);
 
-        if (compare(First.firstAtributoP)){
+        if (checkFirst(First.firstAtributoP)){
             atributoP();
         }
 
@@ -197,11 +197,11 @@ public class SyntacticAnalyzer {
      * <Miembro> ::= <Método> | <Constructor>  
     */
     private void miembro () {
-        if (compare(First.firstMetodo)){
+        if (checkFirst(First.firstMetodo)){
             metodo();
         }
         else{
-            if (compare(First.firstConstructor)){
+            if (checkFirst(First.firstConstructor)){
                 constructor();
             }
             else{
@@ -230,7 +230,7 @@ public class SyntacticAnalyzer {
      * <Atributo> ::= <Visibilidad’> <Tipo> <Lista-Declaración-Variables> ;  | <Tipo> <Lista-Declaración-Variables> ;  
     */
     private void atributo () {
-        if (compare(First.firstVisibilidadP)){
+        if (checkFirst(First.firstVisibilidadP)){
             visibilidadP();
             tipo();
             listaDeclaracionVariables();
@@ -238,7 +238,7 @@ public class SyntacticAnalyzer {
             
         }
         else{
-            if (compare(First.firstTipo)){
+            if (checkFirst(First.firstTipo)){
                 tipo();
                 listaDeclaracionVariables();
                 match(IDToken.sSEMICOLON);
@@ -253,7 +253,7 @@ public class SyntacticAnalyzer {
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
     private void metodo () {
-        if (compare(First.firstFormaMetodoP)){
+        if (checkFirst(First.firstFormaMetodoP)){
             formaMetodoP();
         }
 
@@ -294,11 +294,11 @@ public class SyntacticAnalyzer {
     private void bloqueMetodo() {
         match(IDToken.sKEY_OPEN);
 
-        if (compare(First.firstDeclVarLocalesP)){
+        if (checkFirst(First.firstDeclVarLocalesP)){
                 declVarLocalesP();
   
         }
-        if (compare(First.firstSentenciaP)){
+        if (checkFirst(First.firstSentenciaP)){
             sentenciaP();
   
         }
@@ -342,7 +342,7 @@ public class SyntacticAnalyzer {
     */
     private void argumentosFormales () {
         match(IDToken.sPAR_OPEN);
-        if (compare(First.firstListaArgumentosFormalesP)){
+        if (checkFirst(First.firstListaArgumentosFormalesP)){
             listaArgumentosFomalesP();
         }
         match(IDToken.sPAR_CLOSE);
@@ -382,7 +382,7 @@ public class SyntacticAnalyzer {
      * <Tipo-Método> ::= <Tipo> | void  
     */
     private void tipoMetodo () {
-        if (compare(First.firstTipo)){
+        if (checkFirst(First.firstTipo)){
             tipo();
         }
         else{
@@ -397,15 +397,15 @@ public class SyntacticAnalyzer {
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
     */
     private void tipo () {
-        if (compare(First.firstTipoPrimitivo)){
+        if (checkFirst(First.firstTipoPrimitivo)){
             tipoPrimitivo();
         }
         else{
-            if (compare(First.firstTipoReferencia)){
+            if (checkFirst(First.firstTipoReferencia)){
                 tipoReferencia();
             }
             else{
-                if (compare(First.firstTipoArreglo)){
+                if (checkFirst(First.firstTipoArreglo)){
                     tipoArreglo();
                 }
             }
@@ -481,13 +481,13 @@ public class SyntacticAnalyzer {
         }
         else{
             // <Asignación> ;
-            if (compare(First.firstAsignacion)){
+            if (checkFirst(First.firstAsignacion)){
                 asignacion();
                 match(IDToken.sSEMICOLON);
             }
             else{
                 // <Sentencia-Simple> ;
-                if (compare(First.firstSentenciaSimple)){
+                if (checkFirst(First.firstSentenciaSimple)){
                     sentenciaSimple();
                     match(IDToken.sSEMICOLON);
                 }
@@ -499,7 +499,7 @@ public class SyntacticAnalyzer {
                         expresion();
                         match(IDToken.sPAR_CLOSE);
                         sentencia();
-                        if (compare(First.firstMoreIF)){
+                        if (checkFirst(First.firstMoreIF)){
                             moreIF();
                         }
                     }
@@ -514,14 +514,14 @@ public class SyntacticAnalyzer {
                         }
                         //<Bloque> 
                         else{
-                            if (compare(First.firstBloque)){
+                            if (checkFirst(First.firstBloque)){
                                 bloque();
                             }
                             // ret <Expresión’> ;  y ret ;
                             else{
                                 if (currentToken.getIDToken().equals(IDToken.pRET)){
                                     match(IDToken.pRET);
-                                    if (compare(First.firstExpresionP)){
+                                    if (checkFirst(First.firstExpresionP)){
                                         expresionP();
                                     }
                                     match(IDToken.sSEMICOLON);
@@ -553,7 +553,7 @@ public class SyntacticAnalyzer {
     */
     private void bloque () {
         match(IDToken.sKEY_OPEN);
-        if (compare(First.firstSentenciaP)){
+        if (checkFirst(First.firstSentenciaP)){
             sentenciaP();
         }
         match(IDToken.sKEY_CLOSE);
@@ -567,11 +567,11 @@ public class SyntacticAnalyzer {
     */
     private void asignacion () {
         boolean pass = false;
-        if (compare(First.firstAccesoVarSimple)){
+        if (checkFirst(First.firstAccesoVarSimple)){
             accesoVarSimple();
             pass = true;
         }
-        if (compare(First.firstAccesoSelfSimple)){
+        if (checkFirst(First.firstAccesoSelfSimple)){
             accesoSelfSimple();
             pass = true;
         }
@@ -592,7 +592,7 @@ public class SyntacticAnalyzer {
     */
     private void accesoVarSimple () {
         isID();
-        if (compare(First.firstEncadenadoSimpleP)){
+        if (checkFirst(First.firstEncadenadoSimpleP)){
             encadenadoSimpleP();
         } else {
             if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
@@ -611,7 +611,7 @@ public class SyntacticAnalyzer {
     */
     private void accesoSelfSimple () {
         match(IDToken.pSELF);
-        if (compare(First.firstEncadenadoSimpleP)){
+        if (checkFirst(First.firstEncadenadoSimpleP)){
             encadenadoSimpleP();
         }
     }
@@ -657,7 +657,7 @@ public class SyntacticAnalyzer {
     */
     private void expOr () {
         expOr();
-        if (compare(First.firstExpOrP)) {
+        if (checkFirst(First.firstExpOrP)) {
             expOrP();
         }
     }
@@ -670,7 +670,7 @@ public class SyntacticAnalyzer {
     */
     private void expAnd () {
         expAnd();
-        if (compare(First.firstExpAndP)) {
+        if (checkFirst(First.firstExpAndP)) {
             expAndP();
         }
     }
@@ -683,7 +683,7 @@ public class SyntacticAnalyzer {
     */
     private void expIgual () {
         expCompuesta();
-        if (compare(First.firstExpIgualP)) {
+        if (checkFirst(First.firstExpIgualP)) {
             expIgualP();
         }
     }
@@ -696,7 +696,7 @@ public class SyntacticAnalyzer {
     */
     private void expAd () {
         expMul();
-        if (compare(First.firstExpAdP)) {
+        if (checkFirst(First.firstExpAdP)) {
             expAdP();
         }
     }
@@ -709,7 +709,7 @@ public class SyntacticAnalyzer {
     */
     private void expMul () {
         expUn();
-        if (compare(First.firstExpMulP)) {
+        if (checkFirst(First.firstExpMulP)) {
             expMulP();
         }
     }
@@ -722,7 +722,7 @@ public class SyntacticAnalyzer {
     */
     private void expCompuesta () {
         expAd();
-        if (compare(First.firstOpCompuesto)) {
+        if (checkFirst(First.firstOpCompuesto)) {
             opCompuesto();
             expAd();
         }
@@ -735,7 +735,7 @@ public class SyntacticAnalyzer {
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
     */
     private void expUn () {
-        if (compare(First.firstOpUnario)) {
+        if (checkFirst(First.firstOpUnario)) {
             opUnario();
             expUn();
         } else {
@@ -864,12 +864,12 @@ public class SyntacticAnalyzer {
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
     */
     private void operando () {
-        if (compare(First.firstLiteral)) {
+        if (checkFirst(First.firstLiteral)) {
             literal();
         }
         else {
             primario();
-            if (compare(First.firstEncadenadoP)) {
+            if (checkFirst(First.firstEncadenadoP)) {
                 encadenadoP();
             }
         }
@@ -914,27 +914,27 @@ public class SyntacticAnalyzer {
     */
     private void primario () {
         boolean pass = false;
-        if (compare(First.firstExpresionParentizada)) {
+        if (checkFirst(First.firstExpresionParentizada)) {
             expresionParentizada();
             pass = true;
         }
-        if (compare(First.firstAccesoSelf)) {
+        if (checkFirst(First.firstAccesoSelf)) {
             accesoSelf();
             pass = true;
         }
-        if (compare(First.firstAccesoVar)) {
+        if (checkFirst(First.firstAccesoVar)) {
             accesoVar();
             pass = true;
         }
-        if (compare(First.firstLlamadaMetodo)) {
+        if (checkFirst(First.firstLlamadaMetodo)) {
             llamadaMetodo();
             pass = true;
         }
-        if (compare(First.firstLlamadaMetodoEstatico)) {
+        if (checkFirst(First.firstLlamadaMetodoEstatico)) {
             llamadaMetodoEstatico();
             pass = true;
         }
-        if (compare(First.firstLlamadaConstructor)) {
+        if (checkFirst(First.firstLlamadaConstructor)) {
             llamadaConstructor();
             pass = true;
         }
@@ -954,7 +954,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sPAR_OPEN);
         expresion();
         match(IDToken.sPAR_CLOSE);
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -967,7 +967,7 @@ public class SyntacticAnalyzer {
     */
     private void accesoSelf () {
         match(IDToken.pSELF);
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -993,7 +993,7 @@ public class SyntacticAnalyzer {
     private void llamadaMetodo () {
         isID();
         argumentosActuales();
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -1008,7 +1008,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTRUCT);
         match(IDToken.sDOT);
         llamadaMetodo();
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -1026,7 +1026,7 @@ public class SyntacticAnalyzer {
         if (currentToken.getIDToken().equals(IDToken.idSTRUCT)) {
             match(IDToken.idSTRUCT);
             argumentosActuales();
-            if (compare(First.firstEncadenadoP)) {
+            if (checkFirst(First.firstEncadenadoP)) {
                 encadenadoP();
             }
         }
@@ -1046,7 +1046,7 @@ public class SyntacticAnalyzer {
     */
     private void argumentosActuales () {
         match(IDToken.sPAR_OPEN);
-        if (compare(First.firstListaExpresionesP)) {
+        if (checkFirst(First.firstListaExpresionesP)) {
             listaExpresionesP();
         }
         match(IDToken.sPAR_CLOSE);
@@ -1074,7 +1074,7 @@ public class SyntacticAnalyzer {
     */
     private void encadenado () {
         match(IDToken.sDOT);
-        if (compare(First.firstLlamadaMetodoEncadenado)) {
+        if (checkFirst(First.firstLlamadaMetodoEncadenado)) {
             llamadaMetodoEncadenado();
         }
         else {
@@ -1091,7 +1091,7 @@ public class SyntacticAnalyzer {
     private void llamadaMetodoEncadenado () {
         isID();
         argumentosActuales();
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -1110,7 +1110,7 @@ public class SyntacticAnalyzer {
             match(IDToken.sCOR_CLOSE);
         }
 
-        if (compare(First.firstEncadenadoP)) {
+        if (checkFirst(First.firstEncadenadoP)) {
             encadenadoP();
         }
     }
@@ -1125,19 +1125,19 @@ public class SyntacticAnalyzer {
         boolean pass = false;
 
         //Valida si empieza con struct
-        if (compare(First.firstStruct)){
+        if (checkFirst(First.firstStruct)){
             struct();
             pass = true;
         } else {
             //Valida si empieza con impl
-            if (compare(First.firstImpl)){
+            if (checkFirst(First.firstImpl)){
                 impl();
                 pass = true;
             }
         }
         
         if (pass) {
-            if (compare(First.firstListaDefiniciones)) {
+            if (checkFirst(First.firstListaDefiniciones)) {
                 listaDefiniciones();
             }
         } 
@@ -1154,7 +1154,7 @@ public class SyntacticAnalyzer {
     */
     private void atributoP () {
         atributo();
-        if (compare(First.firstAtributoP)) {
+        if (checkFirst(First.firstAtributoP)) {
             atributoP();
         }
     }
@@ -1167,7 +1167,7 @@ public class SyntacticAnalyzer {
     */
     private void declVarLocalesP () {
         declVarLocales();
-        if (compare(First.firstDeclVarLocalesP)) {
+        if (checkFirst(First.firstDeclVarLocalesP)) {
             declVarLocalesP();
         }
     }
@@ -1180,7 +1180,7 @@ public class SyntacticAnalyzer {
     */
     private void sentenciaP () {
         sentencia();
-        if (compare(First.firstSentenciaP)) {
+        if (checkFirst(First.firstSentenciaP)) {
             sentenciaP();
         }
     }
@@ -1193,7 +1193,7 @@ public class SyntacticAnalyzer {
     */
     private void encadenadoSimpleP () {
         encadenadoSimple();
-        if (compare(First.firstEncadenadoSimpleP)) {
+        if (checkFirst(First.firstEncadenadoSimpleP)) {
             encadenadoSimpleP();
         }
     }
@@ -1276,7 +1276,7 @@ public class SyntacticAnalyzer {
     */
     private void miembroP () {
         miembro();
-        if (compare(First.firstMiembroP)) {
+        if (checkFirst(First.firstMiembroP)) {
             miembroP();
         }
     }
@@ -1290,7 +1290,7 @@ public class SyntacticAnalyzer {
     private void expOrP () {
         match(IDToken.oOR);
         expAnd();
-        if (compare(First.firstExpOrP)) {
+        if (checkFirst(First.firstExpOrP)) {
             expOrP();
         }
     }
@@ -1304,7 +1304,7 @@ public class SyntacticAnalyzer {
     private void expAndP () {
         match(IDToken.oAND);
         expIgual();
-        if (compare(First.firstExpAndP)) {
+        if (checkFirst(First.firstExpAndP)) {
             expAndP();
         }
     }
@@ -1318,7 +1318,7 @@ public class SyntacticAnalyzer {
     private void expIgualP () {
         opIgual();
         expCompuesta();
-        if (compare(First.firstExpIgualP)) {
+        if (checkFirst(First.firstExpIgualP)) {
             expIgualP();
         }
     }
@@ -1332,7 +1332,7 @@ public class SyntacticAnalyzer {
     private void expAdP () {
         opAd();
         expMul();
-        if (compare(First.firstExpAdP)) {
+        if (checkFirst(First.firstExpAdP)) {
             expAdP();
         }
     }
@@ -1346,7 +1346,7 @@ public class SyntacticAnalyzer {
     private void expMulP () {
         opMul();
         expUn();
-        if (compare(First.firstExpMulP)) {
+        if (checkFirst(First.firstExpMulP)) {
             expMulP();
         }
     }
