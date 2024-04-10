@@ -122,6 +122,9 @@ public class LexicalAnalyzer {
                 lineNumber++;
             }
         }
+        if (token == null) {
+            token = new Token(IDToken.EOF, "", lineNumber, colNumber);
+        }
         return token;
     }
 

@@ -9,6 +9,8 @@ package src.lib.tokenHelper;
  * @since 06/03/2024
  */
 public enum IDToken {
+    /** EOF */ EOF,
+
     //Operador de asignacion =
     /** = */ ASSIGN,
 

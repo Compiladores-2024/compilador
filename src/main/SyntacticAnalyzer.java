@@ -81,11 +81,26 @@ public class SyntacticAnalyzer {
      * compara si un idToken pasado como parametro pertenece a
      * un ArrayList de primeros de un no terminal firsts
      * @param firsts ArrayList de IDToken
-     * @param idToken IDToken a comprobar
      * @return boolean
      */
     private boolean compare(ArrayList<IDToken> firsts){
         return firsts.contains(currentToken.getIDToken());
+    }
+
+    /**
+     * Compara si el token actual es un idObject o idStruct
+     */
+    private void isID () {
+        switch (currentToken.getIDToken()) {
+            case idOBJECT:
+                match(IDToken.idOBJECT);
+                break;
+            case idSTRUCT:
+                match(IDToken.idSTRUCT);
+                break;
+            default:
+                throw throwError("Token: idOBJECT o idSTRUCT");
+        }
     }
 
     /*
@@ -517,9 +532,7 @@ public class SyntacticAnalyzer {
      * <Tipo-Referencia> ::= idStruct  
     */
     private void tipoReferencia () {
-        if (!match(IDToken.idSTRUCT)){
-            throw throwError("Token idSTRUCT");
-        }
+        match(IDToken.idSTRUCT);
     }
 
 
@@ -529,9 +542,8 @@ public class SyntacticAnalyzer {
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
     */
     private void tipoArreglo () {
-        if (match(IDToken.typeARRAY)){
-            tipoPrimitivo();
-        }
+        match(IDToken.typeARRAY);
+        tipoPrimitivo();
     }
 
 
@@ -640,12 +652,8 @@ public class SyntacticAnalyzer {
      * <MoreIF> ::= else <Sentencia>
     */
     private void moreIF () {
-        if(match(IDToken.pELSE)){
-            sentencia();
-        }
-        else{
-            throw throwError("Token pELSE");
-        }
+        match(IDToken.pELSE);
+        sentencia();
     }
 
     /*
@@ -654,17 +662,11 @@ public class SyntacticAnalyzer {
      * <Bloque> ::= { <Sentencia’> } | { }  
     */
     private void bloque () {
-        if (match(IDToken.sKEY_OPEN)){
-            if (compare(First.firstSentenciaP)){
-                sentenciaP();
-            }
-            if (!match(IDToken.sKEY_CLOSE)){
-                throw throwError("Token sKEY_CLOSE");
-            }
-        } 
-        else{
-            throw throwError("Token sKEY_OPEN");
+        match(IDToken.sKEY_OPEN);
+        if (compare(First.firstSentenciaP)){
+            sentenciaP();
         }
+        match(IDToken.sKEY_CLOSE);
     }
 
 
@@ -674,25 +676,21 @@ public class SyntacticAnalyzer {
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
     */
     private void asignacion () {
+        boolean pass = false;
         if (compare(First.firstAccesoVarSimple)){
             accesoVarSimple();
-            if (match(IDToken.ASSIGN)){
-                expresion();
-            }
-            else{
-                throw throwError("Token ASSIGN");
-            }
+            pass = true;
         }
-        else{
-            if (compare(First.firstAccesoSelfSimple)){
-                accesoSelfSimple();
-                if (match(IDToken.ASSIGN)){
-                    expresion();
-                }
-                else{
-                    throw throwError("Token ASSIGN");
-                }
-            }
+        if (compare(First.firstAccesoSelfSimple)){
+            accesoSelfSimple();
+            pass = true;
+        }
+
+        if (pass) {
+            match(IDToken.ASSIGN);
+            expresion();
+        } else {
+            throw throwError("Acceso self o var simple");
         }
     }
 
@@ -703,31 +701,15 @@ public class SyntacticAnalyzer {
      * <AccesoVar-Simple> ::= id <Encadenado-Simple’> | id [ <Expresión> ] | id  
     */
     private void accesoVarSimple () {
-        if (compare(First.firstAccesoVarSimple)){
-            switch (currentToken.getIDToken()) {
-                case idOBJECT:
-                    match(IDToken.idOBJECT);
-                    break;
-                case idSTRUCT:
-                    match(IDToken.idSTRUCT);
-                    break;
-                default:
-                    break;
+        isID();
+        if (compare(First.firstEncadenadoSimpleP)){
+            encadenadoSimpleP();
+        } else {
+            if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
+                match(IDToken.sCOR_OPEN);
+                expresion();
+                match(IDToken.sCOR_CLOSE);
             }
-            if (compare(First.firstEncadenadoP)){
-                encadenadoSimpleP();
-            }
-            else{
-                if (match(IDToken.sCOR_OPEN)){
-                    expresion();
-                    if (!match(IDToken.sCOR_CLOSE)){
-                        throw throwError("Token sCOR_CLOSE");
-                    }
-                }
-            }
-        }
-        else{
-            throw throwError("Token "+First.firstAccesoVarSimple.toString());
         }
     }
 
@@ -738,16 +720,9 @@ public class SyntacticAnalyzer {
      * <AccesoSelf-Simple> ::= self <Encadenado-Simple’> | self  
     */
     private void accesoSelfSimple () {
-        if (match(IDToken.pSELF)){
-            if (compare(First.firstEncadenadoSimpleP)){
-                encadenadoSimpleP();
-            }
-            else{
-                throw throwError("Token "+First.firstEncadenadoSimpleP.toString());
-            }
-        }
-        else{
-            throw throwError("Token pSELF");
+        match(IDToken.pSELF);
+        if (compare(First.firstEncadenadoSimpleP)){
+            encadenadoSimpleP();
         }
     }
 
@@ -758,28 +733,8 @@ public class SyntacticAnalyzer {
      * <Encadenado-Simple> ::= . id  
     */
     private void encadenadoSimple () {
-        if (match(IDToken.sDOT)){
-            // si id puede ser ID object o ID Struct
-            // comparo con firstAccesoVarSimple para facilidad de programacion
-            if (compare(First.firstAccesoVarSimple)){
-                switch (currentToken.getIDToken()) {
-                    case idOBJECT:
-                        match(IDToken.idOBJECT);
-                        break;
-                    case idSTRUCT:
-                        match(IDToken.idSTRUCT);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else{
-                throw throwError("Token "+First.firstAccesoVarSimple.toString());
-            }
-        }
-        else{
-            throw throwError("Token sDOT");
-        }
+        match(IDToken.sDOT);
+        isID();
     }
 
 
@@ -789,15 +744,9 @@ public class SyntacticAnalyzer {
      * <Sentencia-Simple> ::= ( <Expresión> )  
     */
     private void sentenciaSimple () {
-        if (match(IDToken.sPAR_OPEN)){
-            expresion();
-            if (!match(IDToken.sPAR_CLOSE)){
-                throw throwError("Token sPAR_CLOSE");
-            }
-        }
-        else{
-            throw throwError("Token sPAR_OPEN");
-        }
+        match(IDToken.sPAR_OPEN);
+        expresion();
+        match(IDToken.sPAR_CLOSE);
     }
 
 
@@ -1366,4 +1315,3 @@ public class SyntacticAnalyzer {
         }
     }
 }
-
