@@ -23,9 +23,8 @@
 hs_err_pid*
 replay_pid*
 
-src/test/test*
-src/test/resources/test*
-src/test/resources/lexical/extra_tests
-src/test/resources/lexical/extra_results
+*extra_tests
+*extra_results
+global-test
 *.js
 *.txt
