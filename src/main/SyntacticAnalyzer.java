@@ -910,40 +910,72 @@ public class SyntacticAnalyzer {
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Primario> ::= <ExpresionParentizada> | <AccesoSelf> | <AccesoVar>  | <Llamada-Método>  | <Llamada-Método-Estático> | <Llamada-Constructor>  
+     * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
     */
     private void primario () {
-        boolean pass = false;
-        if (checkFirst(First.firstExpresionParentizada)) {
-            expresionParentizada();
-            pass = true;
-        }
-        if (checkFirst(First.firstAccesoSelf)) {
-            accesoSelf();
-            pass = true;
-        }
-        if (checkFirst(First.firstAccesoVar)) {
-            accesoVar();
-            pass = true;
-        }
-        if (checkFirst(First.firstLlamadaMetodo)) {
-            llamadaMetodo();
-            pass = true;
-        }
-        if (checkFirst(First.firstLlamadaMetodoEstatico)) {
-            llamadaMetodoEstatico();
-            pass = true;
-        }
-        if (checkFirst(First.firstLlamadaConstructor)) {
-            llamadaConstructor();
-            pass = true;
-        }
-
-        if (!pass) {
-            throw throwError("Token sPAR_OPEN, pSELF, idOBJECT, idSTRUCT o pNEW");
+        primarioP();
+        if (checkFirst(First.firstEncadenadoP)) {
+            encadenadoP();
         }
     }
 
+    /*
+     * Método que ejecuta la regla de producción: <br/>
+     * 
+     * <Primario’> ::=  ( <Expresión> ) 
+     *              | self 
+     *              | id 
+     *              | id  [ <Expresión> ]
+     *              | id <Argumentos-Actuales>
+     *              | idStruct . id <Argumentos-Actuales>
+     *              | new idStruct <Argumentos-Actuales>
+     *              | new <Tipo-Primitivo> [ <Expresión> ]
+     */
+    private void primarioP () {
+        boolean checkExpresion = false;
+        switch (currentToken.getIDToken()) {
+            case sPAR_OPEN:
+                match(IDToken.sPAR_OPEN);
+                expresion();
+                match(IDToken.sPAR_CLOSE);
+                break;
+            case pSELF:
+                match(IDToken.pSELF);
+                break;
+            case idSTRUCT:
+                match(IDToken.idSTRUCT);
+                match(IDToken.sDOT);
+                isID();
+                argumentosActuales();
+                break;
+            case pNEW:
+                match(IDToken.pNEW);
+                if (checkFirst(First.firstTipoPrimitivo)) {
+                    tipoPrimitivo();
+                    checkExpresion = true;
+                } else {
+                    match(IDToken.idSTRUCT);
+                    argumentosActuales();
+                }
+                break;
+            default:
+                isID();
+                if (checkFirst(First.firstArgumentosActuales)) {
+                    argumentosActuales();
+                }
+                else {
+                    if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
+                        checkExpresion = true;
+                    }
+                }
+                break;
+        }
+        if (checkExpresion) {
+            match(IDToken.sCOR_OPEN);
+            expresion();
+            match(IDToken.sCOR_CLOSE);
+        }
+    }
 
     /*
      * Método que ejecuta la regla de producción: <br/>
