@@ -137,6 +137,9 @@ public class SyntacticAnalyzer {
     private void start() {
         match(IDToken.idSTART);
         bloqueMetodo();
+        if (!currentToken.getIDToken().equals(IDToken.EOF)){
+            throw throwError("Token EOF");
+        }
     }
 
 
