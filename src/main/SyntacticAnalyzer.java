@@ -963,8 +963,13 @@ public class SyntacticAnalyzer {
                     tipoPrimitivo();
                     checkExpresion = true;
                 } else {
-                    match(IDToken.idSTRUCT);
-                    argumentosActuales();
+                    if (currentToken.getIDToken().equals(IDToken.idSTRUCT)){
+                        match(IDToken.idSTRUCT);
+                        argumentosActuales();
+                    }
+                    else{
+                        throw throwError("idSTRUCT o "+First.firstTipoPrimitivo.toString());
+                    }
                 }
                 break;
             default:
