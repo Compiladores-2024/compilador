@@ -227,7 +227,7 @@ public class SyntacticAnalyzer {
     */
     private void constructor () {
         match(IDToken.sDOT);
-        argumentosActuales();
+        argumentosFormales();
         bloqueMetodo();
 
     }
@@ -352,7 +352,7 @@ public class SyntacticAnalyzer {
     private void argumentosFormales () {
         match(IDToken.sPAR_OPEN);
         if (checkFirst(First.firstListaArgumentosFormalesP)){
-            listaArgumentosFomalesP();
+            listaArgumentosFormalesP();
         }
         match(IDToken.sPAR_CLOSE);
     }
@@ -363,12 +363,12 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
-    private void listaArgumentosFomales () {
+    private void listaArgumentosFormales () {
   
         argumentoFormal();
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaArgumentosFomales();
+            listaArgumentosFormales();
         }
     
     }
@@ -443,7 +443,7 @@ public class SyntacticAnalyzer {
                 break;
                 
             default:
-                throw throwError("Tipo tipoPrimitivo");
+                throw throwError("Token "+First.firstTipoPrimitivo.toString());
                 
         }
     }
@@ -1101,8 +1101,8 @@ public class SyntacticAnalyzer {
     */
     private void listaExpresiones () {
         expresion();
-        if (currentToken.getIDToken().equals(IDToken.sSEMICOLON)) {
-            match(IDToken.sSEMICOLON);
+        if (currentToken.getIDToken().equals(IDToken.sCOM)) {
+            match(IDToken.sCOM);
             listaExpresiones();
         }
     }
@@ -1305,8 +1305,8 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
-    private void listaArgumentosFomalesP () {
-        listaArgumentosFomales();
+    private void listaArgumentosFormalesP () {
+        listaArgumentosFormales();
     }
 
 
