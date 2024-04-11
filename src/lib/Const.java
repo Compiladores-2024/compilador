@@ -23,6 +23,13 @@ public class Const {
     /** String con header de resultado léxico */
     public static final String SUCCESS_LEXICAL_HEADER = "CORRECTO: ANALISIS LEXICO\n| TOKEN | LEXEMA | NUMERO DE LINEA (NUMERO DE COLUMNA) |";
     
+    //Strings de resultados sintacticos
+    /** String con header de error sintáctico */
+    public static final String ERROR_SYNTACTIC_HEADER = "ERROR: SINTACTICO\n" + ERROR_HEADER;
+    
+    /** String con header de resultado sintáctico */
+    public static final String SUCCESS_SYNTACTIC_HEADER = "CORRECTO: ANALISIS SINTACTICO";
+    
     //Strings de errores en el compilador
     /** Error a mostrar cuando no se proporciona código fuente */
     public static final String ERROR_READ_SOURCE = "ERROR: No se ha proporcionado un codigo fuente.";
