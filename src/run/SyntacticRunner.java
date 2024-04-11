@@ -2,6 +2,7 @@ package src.run;
 
 import src.lib.Const;
 import src.lib.Static;
+import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SyntacticException;
 import src.main.SyntacticAnalyzer;
 
@@ -16,6 +17,9 @@ public class SyntacticRunner {
             }
             //Captura el error sintactico y lo muestra por pantalla 
             catch (SyntacticException e) {
+                Static.writeError(e, null);
+            }
+            catch (LexicalException e) {
                 Static.writeError(e, null);
             }
             //Captura cualquier otro tipo de error y lo muestra por consola
