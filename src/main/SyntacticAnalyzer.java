@@ -1111,48 +1111,34 @@ public class SyntacticAnalyzer {
     /*
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Encadenado> ::= . <Llamada-Método-Encadenado> | . <Acceso-Variable-Encadenado>   
+     * <Encadenado> ::= <EncadenadoExtra> | <EncadenadoExtra> <Encadenado’>  
     */
     private void encadenado () {
+        encadenadoExtra();
+        if (checkFirst(First.firstEncadenadoP)) {
+            encadenadoP();
+        }
+    }
+    /*
+     * Método que ejecuta la regla de producción: <br/>
+     * 
+     * <EncadenadoExtra> ::= . id <Argumentos-Actuales>
+			                | . id  
+			                | . id [ <Expresión> ] 
+    */
+    private void encadenadoExtra () {
         match(IDToken.sDOT);
-        if (checkFirst(First.firstLlamadaMetodoEncadenado)) {
-            llamadaMetodoEncadenado();
-        }
-        else {
-            accesoVariableEncadenado();
-        }
-    }
-
-
-    /*
-     * Método que ejecuta la regla de producción: <br/>
-     * 
-     * <Llamada-Método-Encadenado> ::= id <Argumentos-Actuales> <Encadenado’>  |  id <Argumentos-Actuales>  
-    */
-    private void llamadaMetodoEncadenado () {
         isID();
-        argumentosActuales();
-        if (checkFirst(First.firstEncadenadoP)) {
-            encadenadoP();
+        if (checkFirst(First.firstArgumentosActuales)) {
+            
+            argumentosActuales();
         }
-    }
-
-
-    /*
-     * Método que ejecuta la regla de producción: <br/>
-     * 
-     * <Acceso-Variable-Encadenado> ::= id <Encadenado’>  | id   |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]   
-    */
-    private void accesoVariableEncadenado () {
-        isID();
-        if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
-            match(IDToken.sCOR_OPEN);
-            expresion();
-            match(IDToken.sCOR_CLOSE);
-        }
-
-        if (checkFirst(First.firstEncadenadoP)) {
-            encadenadoP();
+        else{
+            if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
+                match(IDToken.sCOR_OPEN);
+                expresion();
+                match(IDToken.sCOR_CLOSE);
+            }
         }
     }
 
