@@ -123,6 +123,8 @@ public class First {
         add(IDToken.sSEMICOLON);
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
         add(IDToken.pSELF);
         add(IDToken.sPAR_OPEN);
         add(IDToken.pIF);
@@ -139,11 +141,15 @@ public class First {
     public static final HashSet<IDToken>  firstAsignacion = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
         add(IDToken.pSELF);
     }};
     public static final HashSet<IDToken>  firstAccesoVarSimple = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
     }};
     public static final HashSet<IDToken> firstAccesoSelfSimple = new HashSet<IDToken>(){{
         add(IDToken.pSELF);
@@ -170,6 +176,8 @@ public class First {
         add(IDToken.pSELF);
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
         add(IDToken.pNEW);
     }};
     public static final HashSet<IDToken> firstExpOr = firstExpresion;
@@ -216,6 +224,8 @@ public class First {
         add(IDToken.pSELF);
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
         add(IDToken.pNEW);
     }};
     public static final HashSet<IDToken> firstLiteral = new HashSet<IDToken>(){{
@@ -231,6 +241,8 @@ public class First {
         add(IDToken.pSELF);
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
         add(IDToken.pNEW);
     }};
     public static final HashSet<IDToken> firstExpresionParentizada = new HashSet<IDToken>(){{
@@ -242,10 +254,14 @@ public class First {
     public static final HashSet<IDToken> firstAccesoVar = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
     }};
     public static final HashSet<IDToken> firstLlamadaMetodo = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
     }};
     public static final HashSet<IDToken> firstLlamadaMetodoEstatico = new HashSet<IDToken>(){{
         add(IDToken.idSTRUCT);
@@ -263,10 +279,14 @@ public class First {
     public static final HashSet<IDToken> firstLlamadaMetodoEncadenado = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
     }};
     public static final HashSet<IDToken> firstAccesoVariableEncadenado = new HashSet<IDToken>(){{
         add(IDToken.idOBJECT);
         add(IDToken.idSTRUCT);
+        add(IDToken.spIO);
+        add(IDToken.spOBJECT);
     }};
     public static final HashSet<IDToken> firstListaDefiniciones = new HashSet<IDToken>(){{
         add(IDToken.pIMPL);
