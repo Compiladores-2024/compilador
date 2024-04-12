@@ -50,7 +50,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * Funcion de macheo.
+     * Función de macheo.
      * 
      * Matchea un idToken pasado por parámetro y lo compara con el que se está
      * analizando en ese momento.
@@ -68,7 +68,7 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * Funcion auxiliar que retorna una excepción con la descripción
+     * Función auxiliar que retorna una excepción con la descripción
      * correspondiente.
      * 
      * @param idToken
@@ -95,7 +95,8 @@ public class SyntacticAnalyzer {
     }
 
     /**
-     * Compara si el token actual es un idObject o idStruct
+     * Compara si el token actual es un 
+     * idObject o idStruct o spIO o spOBJECT
      */
     private void isID () {
         switch (currentToken.getIDToken()) {

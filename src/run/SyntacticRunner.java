@@ -6,6 +6,13 @@ import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SyntacticException;
 import src.main.SyntacticAnalyzer;
 
+/**
+ * Clase SyntacticRunner encargada de ejecutar el analizador sintáctico
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 08/04/2024
+ */
 public class SyntacticRunner {
     public static void main(String[] args) {
         // args = new String[] {"src/test/resources/syntactic/extra_tests/constructorWithReturn.ru"};
