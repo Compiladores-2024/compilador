@@ -13,6 +13,6 @@ public class SyntacticException extends CustomException {
      * @param found string que representa el token encontrado
      */
     public SyntacticException(Token token, String expected){
-        super(Const.ERROR_SYNTACTIC_HEADER, token.getLine(), token.getColumn(), "SE ESPERABA: " + expected + ". SE ENCONTRO: " + token.getIDToken().toString());
+        super(Const.ERROR_SYNTACTIC_HEADER, token.getLine(), token.getColumn(), "SE ESPERABA: " + expected + " Y SE ENCONTRO: " + token.getIDToken().toString());
     }
 }

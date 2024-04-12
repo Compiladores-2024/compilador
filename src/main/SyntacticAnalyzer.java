@@ -1,7 +1,10 @@
 package src.main;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
+import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -34,9 +37,8 @@ public class SyntacticAnalyzer {
      * Método que comenzará la ejecución del análisis sintáctico.
      * 
      * @since 06/04/2024
-     * @throws SyntacticException
      */
-    public void run () throws SyntacticException {
+    public void run () throws LexicalException, SyntacticException{
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
@@ -61,7 +63,7 @@ public class SyntacticAnalyzer {
         if(currentToken.getIDToken().equals(idToken)){
             this.currentToken = this.lexicalAnalyzer.nextToken();
         } else {
-            throw throwError("Token: " + idToken.toString());
+            throw throwError(createHashSet(idToken));
         }
     }
 
@@ -72,8 +74,14 @@ public class SyntacticAnalyzer {
      * @param idToken
      * @return Excepción tipo SyntacticException
      */
-    private SyntacticException throwError(String expected){
-        return new SyntacticException(currentToken, expected);
+    // private SyntacticException throwError(String expected){
+    //     return new SyntacticException(currentToken, expected);
+    // }
+    private SyntacticException throwError(HashSet<IDToken> expected){
+        return new SyntacticException(currentToken, expected.stream().map(Object::toString).collect(Collectors.joining(", ")));
+    }
+    private HashSet<IDToken> createHashSet(IDToken... elements) {
+        return new HashSet<IDToken>(Arrays.asList(elements));
     }
 
     /**
@@ -104,9 +112,10 @@ public class SyntacticAnalyzer {
                 match(IDToken.spOBJECT);
                 break;
             default:
-                throw throwError("Token: idOBJECT, idSTRUCT, Object o IO");
+                throw throwError(createHashSet(IDToken.idOBJECT, IDToken.idSTRUCT, IDToken.spIO, IDToken.spOBJECT));
         }
     }
+
 
     /*
      * Método que ejecuta la regla de producción: <br/>
@@ -123,7 +132,11 @@ public class SyntacticAnalyzer {
                 start();
             }
             else{
-                throw throwError("Token 'start' o 'impl' o 'struct'");
+                throw throwError(
+                    new HashSet<IDToken>(First.firstListaDefiniciones){{
+                        addAll(First.firstStart);
+                    }}
+                );
             }
         }
     }
@@ -138,7 +151,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
-            throw throwError("Token EOF");
+            throw throwError(createHashSet(IDToken.EOF));
         }
     }
 
@@ -148,7 +161,7 @@ public class SyntacticAnalyzer {
      * 
      * <Struct> ::= struct idStruct <Struct’>  
     */
-    private void struct() throws SyntacticException{
+    private void struct() {
         match(IDToken.pSTRUCT);
         match(IDToken.idSTRUCT);
         structP();
@@ -160,7 +173,7 @@ public class SyntacticAnalyzer {
      * 
      * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
     */
-    private void structP() throws SyntacticException{
+    private void structP() {
         if (checkFirst(First.firstHerenciaP)){
             herenciaP();
         }
@@ -214,7 +227,11 @@ public class SyntacticAnalyzer {
                 constructor();
             }
             else{
-                throw throwError("MIEMBRO o CONSTRUCTOR");
+                throw throwError(
+                    new HashSet<IDToken>(First.firstMetodo){{
+                        addAll(First.firstConstructor);
+                    }}
+                );
             }
         }
     }
@@ -443,7 +460,7 @@ public class SyntacticAnalyzer {
                 break;
                 
             default:
-                throw throwError("Token "+First.firstTipoPrimitivo.toString());
+                throw throwError(First.firstTipoPrimitivo);
                 
         }
     }
@@ -589,7 +606,11 @@ public class SyntacticAnalyzer {
             match(IDToken.ASSIGN);
             expresion();
         } else {
-            throw throwError("Acceso self o var simple");
+            throw throwError(
+                new HashSet<IDToken>(First.firstAccesoVarSimple){{
+                    addAll(First.firstAccesoSelfSimple);
+                }}
+            );
         }
     }
 
@@ -767,7 +788,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.oNOT_EQ);
                 break;
             default:
-            throw throwError(First.firstOpIgual.toString());
+            throw throwError(First.firstOpIgual);
         }
     }
 
@@ -792,7 +813,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.oMAX_EQ);
                 break;
             default:
-                throw throwError(First.firstOpCompuesto.toString());
+                throw throwError(First.firstOpCompuesto);
         }
     }
 
@@ -811,7 +832,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.oSUB);
                 break;
             default:
-                throw throwError(First.firstOpAd.toString());
+                throw throwError(First.firstOpAd);
         }
     }
 
@@ -839,7 +860,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.oSUB_SUB);
                 break;
             default:
-                throw throwError(First.firstOpUnario.toString());
+                throw throwError(First.firstOpUnario);
         }
         
     }
@@ -862,7 +883,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.oMOD);
                 break;
             default:
-                throw throwError(First.firstOpMul.toString());
+                throw throwError(First.firstOpMul);
         }
     }
 
@@ -911,7 +932,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.constCHAR);
                 break;
             default:
-                throw throwError(First.firstLiteral.toString());
+                throw throwError(First.firstLiteral);
         }
     }
 
@@ -968,7 +989,11 @@ public class SyntacticAnalyzer {
                         argumentosActuales();
                     }
                     else{
-                        throw throwError("idSTRUCT o "+First.firstTipoPrimitivo.toString());
+                        throw throwError(
+                            new HashSet<IDToken>(First.firstTipoPrimitivo){{
+                                add(IDToken.idSTRUCT);
+                            }}
+                        );
                     }
                 }
                 break;
@@ -1153,7 +1178,7 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Definiciones>::= <Struct><Lista-Definiciones> | <Struct> | <Impl><Lista-Definiciones> | <Impl>  
     */
-    private void listaDefiniciones() throws SyntacticException {
+    private void listaDefiniciones() {
         boolean pass = false;
 
         //Valida si empieza con struct
@@ -1174,7 +1199,11 @@ public class SyntacticAnalyzer {
             }
         } 
         else {
-            throw throwError("Token 'impl' o 'struct'");
+            throw throwError(
+                new HashSet<IDToken>(First.firstStruct){{
+                    addAll(First.firstImpl);
+                }}
+            );
         }
     }
 

@@ -8,6 +8,7 @@ import src.main.SyntacticAnalyzer;
 
 public class SyntacticRunner {
     public static void main(String[] args) {
+        // args = new String[] {"src/test/resources/syntactic/extra_tests/constructorWithReturn.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
