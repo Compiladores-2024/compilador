@@ -74,12 +74,16 @@ public class SyntacticAnalyzer {
      * @param idToken
      * @return Excepción tipo SyntacticException
      */
-    // private SyntacticException throwError(String expected){
-    //     return new SyntacticException(currentToken, expected);
-    // }
     private SyntacticException throwError(HashSet<IDToken> expected){
         return new SyntacticException(currentToken, expected.stream().map(Object::toString).collect(Collectors.joining(", ")));
     }
+
+    /**
+     * Función auxiliar que crea un HashSet
+     * 
+     * @param idToken
+     * @return HasshSet con IDTokens pasados por parámetro
+     */
     private HashSet<IDToken> createHashSet(IDToken... elements) {
         return new HashSet<IDToken>(Arrays.asList(elements));
     }
@@ -247,7 +251,6 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         argumentosFormales();
         bloqueMetodo();
-
     }
 
 
