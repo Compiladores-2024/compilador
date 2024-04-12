@@ -4,6 +4,14 @@ import java.util.HashSet;
 
 import src.lib.tokenHelper.IDToken;
 
+/**
+ * Clase First que contiene un HashSet<IDToken> 
+ * por cada no terminal de la gramatica. 
+ * Donde cada HashSet almacena los PRIMEROS de los mismos. 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 08/04/2024
+ */
 public class First {
     public static final HashSet<IDToken> firstProgram = new HashSet<IDToken>(){{
         add(IDToken.idSTART);
