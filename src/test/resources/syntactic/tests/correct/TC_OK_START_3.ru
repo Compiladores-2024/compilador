@@ -36,6 +36,7 @@ start{
                 a[1]=1;
                 a="a";
                 a='a';
+                a=self.a + b.c(1);
 
                 /?con expresiones y literal
                 a=1||1;

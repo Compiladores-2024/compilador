@@ -1,0 +1,6 @@
+/? ERROR: SINTACTICO
+/? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
+/? | LINEA 5 | COLUMNA 15 | SE ESPERABA: ; Y SE ENCONTRO: ) |
+start{
+    a=A.m((a)));
+}
