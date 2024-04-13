@@ -438,6 +438,9 @@ public class SyntacticAnalyzer {
                 if (checkFirst(First.firstTipoArreglo)){
                     tipoArreglo();
                 }
+                else{
+                    throw throwError(First.firstTipo);
+                }
             }
         }
     }
