@@ -55,7 +55,7 @@ public class SyntacticAnalyzer {
      * Matchea un idToken pasado por parámetro y lo compara con el que se está
      * analizando en ese momento.
      * 
-     * @param idToken
+     * @param idToken IDToken
      * @return Booleano que indica si los tokens matchean
      */
     private void match(IDToken idToken){
@@ -71,7 +71,7 @@ public class SyntacticAnalyzer {
      * Función auxiliar que retorna una excepción con la descripción
      * correspondiente.
      * 
-     * @param idToken
+     * @param expected HashSet<IDToken>
      * @return Excepción tipo SyntacticException
      */
     private SyntacticException throwError(HashSet<IDToken> expected){
@@ -81,17 +81,17 @@ public class SyntacticAnalyzer {
     /**
      * Función auxiliar que crea un HashSet
      * 
-     * @param idToken
-     * @return HasshSet con IDTokens pasados por parámetro
+     * @param elements IDToken
+     * @return HashSet con IDTokens pasados por parámetro
      */
     private HashSet<IDToken> createHashSet(IDToken... elements) {
         return new HashSet<IDToken>(Arrays.asList(elements));
     }
 
     /**
-     * compara si un idToken pasado como parametro pertenece a
-     * un ArrayList de primeros de un no terminal firsts
-     * @param firsts ArrayList de IDToken
+     * Compara si un idToken pasado como parámetro pertenece a
+     * un HashSet de primeros de un no terminal firsts
+     * @param firsts HashSet de IDToken
      * @return boolean
      */
     private boolean checkFirst(HashSet<IDToken> firsts){
