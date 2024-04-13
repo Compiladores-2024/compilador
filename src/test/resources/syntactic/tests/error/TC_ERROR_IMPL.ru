@@ -1,0 +1,9 @@
+/? ERROR: SINTACTICO
+/? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
+/? | LINEA 6 | COLUMNA 1 | SE ESPERABA: ., fn, st Y SE ENCONTRO: } |
+impl A{
+
+}
+start{
+
+}
