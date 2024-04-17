@@ -560,6 +560,9 @@ public class SyntacticAnalyzer {
                                         expresionP();
                                     }
                                     match(IDToken.sSEMICOLON);
+                                } 
+                                else {
+                                    throw throwError(First.firstSentencia);
                                 }
                             }
                         }

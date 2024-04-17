@@ -42,6 +42,10 @@ public class Token {
         return "| " + name + " | " + lexema + " | LINEA " + Integer.toString(line) + " (COLUMNA " + Integer.toString(column) + ") |";
     }
 
+    
+    /** 
+     * @return IDToken
+     */
     public IDToken getIDToken(){
         return this.name;
     }

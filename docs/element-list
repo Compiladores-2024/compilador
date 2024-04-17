@@ -1,6 +1,7 @@
 src.lib
 src.lib.exceptionHelper
 src.lib.lexicalHelper
+src.lib.syntaxHelper
 src.lib.tokenHelper
 src.main
 src.run

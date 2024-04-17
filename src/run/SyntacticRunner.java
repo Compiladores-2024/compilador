@@ -14,8 +14,12 @@ import src.main.SyntacticAnalyzer;
  * @since 08/04/2024
  */
 public class SyntacticRunner {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
-        // args = new String[] {"src/test/resources/syntactic/extra_tests/constructorWithReturn.ru"};
+        //args = new String[] {"src/test/resources/syntactic/extra_tests/test_030.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
