@@ -37,6 +37,8 @@ public class SyntacticAnalyzer {
      * Método que comenzará la ejecución del análisis sintáctico.
      * 
      * @since 06/04/2024
+     * @throws LexicalException
+     * @throws SyntacticException
      */
     public void run () throws LexicalException, SyntacticException{
         //Obtiene el token inicial
