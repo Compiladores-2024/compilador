@@ -3,15 +3,10 @@ import subprocess
 
 # Define las rutas al archivo .jar, fuentes y resultados
 jar_file_path = "etapa2.jar"
-sources_path = "resources/syntactic/extra_tests"
-results_path = "resources/syntactic/extra_results"
+sources_path = "resources/syntactic/error"
 
 # Obtiene una lista de todos los archivos fuente
 sources_folder = [os.path.join(sources_path, filename) for filename in os.listdir(sources_path)]
-
-# Crea la carpeta de resultados si no existe
-if not os.path.exists(results_path):
-    os.makedirs(results_path)
 
 print ("Comenzando testing...")
 i = 1
@@ -20,12 +15,6 @@ i = 1
 for file_path in sources_folder:
     print ("\nTest", i, "/", len(sources_folder), "completado.")
     i += 1
-
-    # Obtiene el nombre base del archivo (sin extensión)
-    base_filename = os.path.splitext(os.path.basename(file_path))[0]
-    
-    # Crea la ruta del archivo de salida .txt en la resultado
-    output_file_path = os.path.join(results_path, f"{base_filename}.txt")
     
     # Ejecuta el archivo .jar
     subprocess.run(["java", "-jar", "--enable-preview", jar_file_path, file_path])
