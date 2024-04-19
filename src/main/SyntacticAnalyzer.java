@@ -132,20 +132,8 @@ public class SyntacticAnalyzer {
     private void program() {
         if (checkFirst(First.firstListaDefiniciones)){
             listaDefiniciones();
-            start();
         }
-        else{
-            if (checkFirst(First.firstStart)){
-                start();
-            }
-            else{
-                throw throwError(
-                    new HashSet<IDToken>(First.firstListaDefiniciones){{
-                        addAll(First.firstStart);
-                    }}
-                );
-            }
-        }
+        start();
     }
 
 
@@ -263,19 +251,12 @@ public class SyntacticAnalyzer {
     */
     private void atributo () {
         if (checkFirst(First.firstVisibilidadP)){
-            visibilidadP();
-            tipo();
-            listaDeclaracionVariables();
-            match(IDToken.sSEMICOLON);
-            
+            visibilidadP();   
         }
-        else{
-            if (checkFirst(First.firstTipo)){
-                tipo();
-                listaDeclaracionVariables();
-                match(IDToken.sSEMICOLON);
-            }
-        }
+
+        tipo();
+        listaDeclaracionVariables();
+        match(IDToken.sSEMICOLON);
     }
 
 
@@ -327,15 +308,13 @@ public class SyntacticAnalyzer {
         match(IDToken.sKEY_OPEN);
 
         if (checkFirst(First.firstDeclVarLocalesP)){
-                declVarLocalesP();
-  
+            declVarLocalesP();
         }
+
         if (checkFirst(First.firstSentenciaP)){
             sentenciaP();
-  
         }
-        match(IDToken.sKEY_CLOSE);
-        
+        match(IDToken.sKEY_CLOSE);        
     }
 
 
@@ -348,7 +327,6 @@ public class SyntacticAnalyzer {
         tipo();
         listaDeclaracionVariables();
         match(IDToken.sSEMICOLON);
-    
     }
 
 
