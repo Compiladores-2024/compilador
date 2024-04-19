@@ -1,5 +1,6 @@
 package src.main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 import src.lib.syntaxHelper.First;
@@ -253,7 +255,10 @@ public class SyntacticAnalyzer {
     */
     private void constructor () {
         match(IDToken.sDOT);
-        argumentosFormales();
+        
+        //Agrega el metodo constructor
+        symbolTable.addMethod(argumentosFormales(), false, null);
+
         bloqueMetodo();
     }
 
@@ -364,12 +369,16 @@ public class SyntacticAnalyzer {
      * 
      * <Argumentos-Formales>::= ( <Lista-Argumentos-Formales’> ) | ( )  
     */
-    private void argumentosFormales () {
+    private ArrayList<Param> argumentosFormales () {
+        ArrayList<Param> result = new ArrayList<Param>();
+
         match(IDToken.sPAR_OPEN);
         if (checkFirst(First.firstListaArgumentosFormalesP)){
-            listaArgumentosFormalesP();
+            result = listaArgumentosFormalesP();
         }
         match(IDToken.sPAR_CLOSE);
+
+        return result;
     }
 
 
@@ -378,14 +387,23 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
-    private void listaArgumentosFormales () {
-  
-        argumentoFormal();
+    private ArrayList<Param> listaArgumentosFormales () {
+        ArrayList<Param> result = new ArrayList<Param>();
+        
+        //Agrega el parametro actual
+        result.add(argumentoFormal());
+
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaArgumentosFormales();
+
+            //Agrega los parametros que se han calculado recursivamente
+            for (Param param : listaArgumentosFormales()) {
+                result.add(param);
+            }
         }
-    
+
+        //Lista de parametros ordenados
+        return result;
     }
 
 
@@ -394,9 +412,10 @@ public class SyntacticAnalyzer {
      * 
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
-    private void argumentoFormal () {
-        tipo();
+    private Param argumentoFormal () {
+        Param param = new Param(currentToken, tipo());
         match(IDToken.idOBJECT);
+        return param;
     }
 
 
@@ -1340,8 +1359,8 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
-    private void listaArgumentosFormalesP () {
-        listaArgumentosFormales();
+    private ArrayList<Param> listaArgumentosFormalesP () {
+        return listaArgumentosFormales();
     }
 
 

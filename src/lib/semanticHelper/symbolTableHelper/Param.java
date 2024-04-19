@@ -18,7 +18,7 @@ public class Param extends Metadata{
      * 
      * @since 19/04/2024
      */
-    public Param () {
+    public Param (Token token, IDToken type) {
         super(new Token(null, "", 0, 0), 0);
     }
     
