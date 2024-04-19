@@ -1,8 +1,11 @@
 package src.lib.semanticHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import src.lib.semanticHelper.symbolTableHelper.*;
+import src.lib.tokenHelper.IDToken;
+import src.lib.tokenHelper.Token;
 
 /**
  * Esta clase se encarga de contener la estructura del código fuente.
@@ -14,15 +17,33 @@ import src.lib.semanticHelper.symbolTableHelper.*;
 public class SymbolTable {
     Struct currentStruct;
     Method currentMethod;
-    Variable currentVar;
+    Token currentToken;
     HashMap<String, Struct> structs;
+
+    /**
+     * Constructor de la clase
+     * 
+     * @param token Token inicial del código fuente.
+     */
+    public SymbolTable (Token token) {
+        updateToken(token);
+    }
+
+    /**
+     * Actualiza el token actual que se utilza en la tabla de símbolos.
+     * 
+     * @param token Nuevo token.
+     */
+    public void updateToken(Token token){
+        this.currentToken = token;
+    }
 
     /**
      * Método que agrega una estructura a la tabla de símbolos.
      * 
      * @since 19/04/2024
      */
-    public void addStruct() {
+    public void addStruct(IDToken parent, boolean isFromStruct) {
 
     }
 
@@ -31,7 +52,7 @@ public class SymbolTable {
      * 
      * @since 19/04/2024
      */
-    public void addVar() {
+    public void addVar(IDToken type, boolean isPrivate) {
 
     }
 
@@ -40,16 +61,7 @@ public class SymbolTable {
      * 
      * @since 19/04/2024
      */
-    public void addMethod() {
-
-    }
-
-    /**
-     * Método que agrega un parámetro a la tabla de símbolos.
-     * 
-     * @since 19/04/2024
-     */
-    public void addParam() {
+    public void addMethod(ArrayList<Param> params, boolean isStatic, IDToken returnType) {
 
     }
 
