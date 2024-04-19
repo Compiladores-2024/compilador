@@ -23,6 +23,10 @@ public enum IDToken {
     /** Tipo de dato STR */ typeSTR("Str"),
     /** Tipo de dato BOOL */ typeBOOL("Bool"),
     /** Tipo de dato CHAR */ typeCHAR("Char"),
+    /** Tipo de dato Array INT */ typeArrayINT("Array Int"),
+    /** Tipo de dato Array STR */ typeArraySTR("Array Str"),
+    /** Tipo de dato Array BOOL */ typeArrayBOOL("Array Bool"),
+    /** Tipo de dato Array CHAR */ typeArrayCHAR("Array Char"),
     /** Tipo de dato ARRAY */ typeARRAY("Array"),
     /** Tipo de dato VOID */ typeVOID("void"),
     
