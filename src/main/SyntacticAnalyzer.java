@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SyntacticException;
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 import src.lib.syntaxHelper.First;
@@ -21,6 +22,7 @@ import src.lib.syntaxHelper.First;
  */
 public class SyntacticAnalyzer { 
     LexicalAnalyzer lexicalAnalyzer;
+    SymbolTable symbolTable;
     Token currentToken;
 
     /**
@@ -44,6 +46,9 @@ public class SyntacticAnalyzer {
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
+        //Genera la tabla de símbolos y asigna el token actual
+        symbolTable = new SymbolTable(currentToken);
+
         //Comienza el análisis
         this.program();
 
@@ -64,6 +69,7 @@ public class SyntacticAnalyzer {
         //Si matchean, solicita el siguiente token, sino es error
         if(currentToken.getIDToken().equals(idToken)){
             this.currentToken = this.lexicalAnalyzer.nextToken();
+            symbolTable.updateToken(currentToken);
         } else {
             throw throwError(createHashSet(idToken));
         }
