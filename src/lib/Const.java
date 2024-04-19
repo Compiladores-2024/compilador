@@ -30,6 +30,12 @@ public class Const {
     /** String con header de resultado sintáctico */
     public static final String SUCCESS_SYNTACTIC_HEADER = "CORRECTO: ANALISIS SINTACTICO";
     
+    //Strings de resultados semanticos
+    /** String con header de error semantico */
+    public static final String ERROR_SEMANTIC_DEC_HEADER = "ERROR: SEMANTICO - DECLARACIONES\n" + ERROR_HEADER;
+    /** String con header de resultado semantico */
+    public static final String SUCCESS_SEMANTIC_DEC_HEADER = "CORRECTO: SEMANTICO - DECLARACIONES";
+    
     //Strings de errores en el compilador
     /** Error a mostrar cuando no se proporciona código fuente */
     public static final String ERROR_READ_SOURCE = "ERROR: No se ha proporcionado un codigo fuente.";

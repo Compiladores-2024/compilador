@@ -50,10 +50,24 @@ public class Token {
         return this.name;
     }
 
+    /** 
+     * @return Line
+     */
     public int getLine(){
         return this.line;
     }
+
+    /** 
+     * @return Column
+     */
     public int getColumn(){
         return this.column;
+    }
+
+    /** 
+     * @return Lexema
+     */
+    public String getLexema() {
+        return lexema;
     }
 }
