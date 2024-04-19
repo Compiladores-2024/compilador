@@ -14,6 +14,7 @@ import src.lib.semanticHelper.symbolTableHelper.*;
 public class SymbolTable {
     Struct currentStruct;
     Method currentMethod;
+    Variable currentVar;
     HashMap<String, Struct> structs;
 
     /**
