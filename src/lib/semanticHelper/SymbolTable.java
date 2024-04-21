@@ -127,6 +127,14 @@ public class SymbolTable {
         structs.put("Bool", Bool);
     }
 
+    
+    /** 
+     * Método que genera un array de parámetros
+     * 
+     * @param paramToken IDToken con el tipo de parámetro
+     * @param lexema Lexema para generar el token
+     * @return ArrayList<Param>
+     */
     private ArrayList<Param> generateArrayParam(IDToken paramToken, String lexema){
         ArrayList<Param> paramList= new ArrayList<Param>();
         paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0), 0));

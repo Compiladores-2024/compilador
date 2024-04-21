@@ -175,11 +175,13 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
-    */
+     * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }
+     * 
+     * @param token
+     */
     private void structP(Token token) {
         IDToken parent = IDToken.spOBJECT;
 

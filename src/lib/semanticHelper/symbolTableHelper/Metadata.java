@@ -74,6 +74,14 @@ public abstract class Metadata {
         return result;
     }
 
+    
+    /** 
+     * Método que genera el JSON de una entidad dada.
+     * 
+     * @param entity Entidad a convertir en JSON
+     * @param tabs Cantidad de tabs que se deben aplicar
+     * @return String
+     */
     public String toJSONEntity (HashMap<String, ?> entity, String tabs) {
         int count = entity.size();
         String JSON = count > 0 ? "\n" : "";
