@@ -3,11 +3,9 @@ struct Mundo {
     Str b;
 }
 impl Mundo{
-    .(){ a = 42;}
-    fn get_a()-> Int { ret a; }
-    st fn imprimo_algo()-> void {
-        IO.out_str("hola mundo");
-    }
+    .(){}
+    fn get_a() -> Int { ret a; }
+    st fn imprimo_algo() -> void {}
 }
 
 struct Prueba{
@@ -15,12 +13,14 @@ struct Prueba{
 }
 
 impl Prueba{
-    .(){
-        c = new Mundo();
-        y = c.b; // Acceso correcto al atributo de la clase
-        z = c.a; // Acceso incorrecto al atributo de la clase
-        c.imprimo_algo();
-    }
+    .(){}
+}
+
+struct PruebaH : Prueba {
+}
+
+impl PruebaH {
+    .(){}
 }
 
 start{

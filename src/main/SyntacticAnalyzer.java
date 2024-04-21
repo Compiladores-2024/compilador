@@ -49,7 +49,7 @@ public class SyntacticAnalyzer {
         currentToken = lexicalAnalyzer.nextToken();
 
         //Genera la tabla de símbolos y asigna el token actual
-        symbolTable = new SymbolTable(currentToken);
+        symbolTable = new SymbolTable();
 
         //Comienza el análisis
         this.program();
@@ -70,7 +70,6 @@ public class SyntacticAnalyzer {
     private void match(IDToken idToken){
         //Si matchean, solicita el siguiente token, sino es error
         if(currentToken.getIDToken().equals(idToken)){
-            symbolTable.updateToken(currentToken);
             this.currentToken = this.lexicalAnalyzer.nextToken();
         } else {
             throw throwError(createHashSet(idToken));
@@ -165,9 +164,11 @@ public class SyntacticAnalyzer {
      * <Struct> ::= struct idStruct <Struct’>  
     */
     private void struct() {
+        Token token;
         match(IDToken.pSTRUCT);
+        token = currentToken;
         match(IDToken.idSTRUCT);
-        structP();
+        structP(token);
     }
 
 
@@ -176,14 +177,15 @@ public class SyntacticAnalyzer {
      * 
      * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
     */
-    private void structP() {
+    private void structP(Token token) {
         IDToken parent = IDToken.spOBJECT;
+
         if (checkFirst(First.firstHerenciaP)){
             parent = herenciaP();
         }
         
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(parent, true);
+        symbolTable.addStruct(token, parent, true);
 
         match(IDToken.sKEY_OPEN);
 
@@ -201,11 +203,13 @@ public class SyntacticAnalyzer {
      * <Impl> ::= impl idStruct { <Miembro’> }  
     */
     private void impl () {
+        Token token = currentToken;
         match(IDToken.pIMPL);
+        token = currentToken;
         match(IDToken.idSTRUCT);
 
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(IDToken.spOBJECT, false);
+        symbolTable.addStruct(token, IDToken.spOBJECT, false);
 
         match(IDToken.sKEY_OPEN);
         miembroP();
@@ -254,10 +258,11 @@ public class SyntacticAnalyzer {
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
     */
     private void constructor () {
+        Token token = currentToken;
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(argumentosFormales(), false, null);
+        symbolTable.addMethod(argumentosFormales(), false, IDToken.typeVOID, token);
 
         bloqueMetodo();
     }
@@ -290,6 +295,7 @@ public class SyntacticAnalyzer {
     private void metodo () {
         boolean isStatic = false;
         ArrayList<Param> params;
+        Token token;
 
         if (checkFirst(First.firstFormaMetodoP)){
             formaMetodoP();
@@ -297,12 +303,13 @@ public class SyntacticAnalyzer {
         }
 
         match(IDToken.pFN);
+        token = currentToken;
         match(IDToken.idOBJECT);
         params = argumentosFormales();
         match(IDToken.sARROW_METHOD);
 
         //Agrega el método a la tabla de símbolos
-        symbolTable.addMethod(params, isStatic, tipoMetodo());
+        symbolTable.addMethod(params, isStatic, tipoMetodo(), token);
 
         bloqueMetodo();
     }
@@ -365,9 +372,10 @@ public class SyntacticAnalyzer {
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
     private void listaDeclaracionVariables (IDToken type, boolean isPrivate) {
+        Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(type, isPrivate);
+        symbolTable.addVar(token, type, isPrivate);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);

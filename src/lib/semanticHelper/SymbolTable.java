@@ -17,25 +17,12 @@ import src.lib.tokenHelper.Token;
 public class SymbolTable {
     Struct currentStruct;
     Method currentMethod;
-    Token currentToken;
     HashMap<String, Struct> structs;
 
     /**
      * Constructor de la clase
-     * 
-     * @param token Token inicial del código fuente.
      */
-    public SymbolTable (Token token) {
-        updateToken(token);
-    }
-
-    /**
-     * Actualiza el token actual que se utilza en la tabla de símbolos.
-     * 
-     * @param token Nuevo token.
-     */
-    public void updateToken(Token token){
-        this.currentToken = token;
+    public SymbolTable () {
     }
 
     /**
@@ -43,8 +30,8 @@ public class SymbolTable {
      * 
      * @since 19/04/2024
      */
-    public void addStruct(IDToken parent, boolean isFromStruct) {
-
+    public void addStruct(Token token, IDToken parent, boolean isFromStruct) {
+        System.out.println("Agrega estructura: " + token.getLexema() + " con herencia " + parent.toString() + " se lee desde " + (isFromStruct ? "struct" : "impl"));
     }
 
     /**
@@ -52,8 +39,8 @@ public class SymbolTable {
      * 
      * @since 19/04/2024
      */
-    public void addVar(IDToken type, boolean isPrivate) {
-
+    public void addVar(Token token, IDToken type, boolean isPrivate) {
+        System.out.println("Se agrega Var: " + token.getLexema() + " con tipo " + type.toString() + (isPrivate ? " y SI" : " y NO") + " es privada");
     }
 
     /**
@@ -61,8 +48,8 @@ public class SymbolTable {
      * 
      * @since 19/04/2024
      */
-    public void addMethod(ArrayList<Param> params, boolean isStatic, IDToken returnType) {
-
+    public void addMethod(ArrayList<Param> params, boolean isStatic, IDToken returnType, Token token) {
+        System.out.println("Se agrega Method: " + token.getLexema() + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
     }
 
     /**

@@ -19,7 +19,7 @@ public class SyntacticRunner {
      * @param args
      */
     public static void main(String[] args) {
-        //args = new String[] {"src/test/resources/syntactic/extra_tests/test_030.ru"};
+        args = new String[] {"src/test/resources/syntactic/00.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
