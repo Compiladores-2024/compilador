@@ -234,7 +234,7 @@ public class SymbolTable {
         // }
         // System.out.println("Se agrega Method: " + token.getLexema() + (params.size() > 0 ? " con los parámetros " + sParams : " sin parámetros ") + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
 
-        currentStruct.addMethod(new Method(token, params, returnType, isStatic));
+        currentStruct.addMethod(token, params, isStatic, returnType);
     }
 
     /**
