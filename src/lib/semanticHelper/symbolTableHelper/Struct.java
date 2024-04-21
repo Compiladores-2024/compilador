@@ -1,8 +1,10 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -56,7 +58,17 @@ public class Struct extends Metadata {
      * @param method Datos específicos del método.
      */
 
-    public void addMethod(Method method) {
+    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+        Method method = new Method(token, params, returnType, isStatic, currentMethodIndex);
+        String signature = method.getSignature(), name = method.getName();
+
+        //Si el metodo existe, valida que posea la misma signature
+        if (methods.get(name) != null) {
+            if (true) {
+                
+            }
+        }
+
         System.out.println(method.getSignature());
     }
 

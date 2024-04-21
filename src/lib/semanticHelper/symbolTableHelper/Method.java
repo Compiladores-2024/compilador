@@ -23,8 +23,8 @@ public class Method extends Metadata{
      * 
      * @since 19/04/2024
      */
-    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic) {
-        super(metadata, 0);
+    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
+        super(metadata, position);
 
         params = new HashMap<String, Param>();
         for (Param param : parameters) {
