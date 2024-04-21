@@ -55,6 +55,8 @@ public class SyntacticAnalyzer {
         //Comienza el análisis
         this.program();
 
+        System.out.println(symbolTable.toJSON());
+
         //Si el análisis no retorna error, ha sido correcto
         System.out.println("CORRECTO: ANALISIS SINTACTICO");
     }
@@ -282,7 +284,7 @@ public class SyntacticAnalyzer {
             isPrivate = true;
         }
 
-        listaDeclaracionVariables(tipo(), isPrivate);
+        listaDeclaracionVariables(tipo(), isPrivate, true);
 
         match(IDToken.sSEMICOLON);
     }
@@ -361,8 +363,7 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        tipo();
-        listaDeclaracionVariables();
+        listaDeclaracionVariables(tipo(),false, false);
         match(IDToken.sSEMICOLON);
     }
 
@@ -372,23 +373,15 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
-    private void listaDeclaracionVariables (IDToken type, boolean isPrivate) {
+    private void listaDeclaracionVariables (IDToken type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(token, type, isPrivate);
+        symbolTable.addVar(token, type, isPrivate, isAtribute);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaDeclaracionVariables(type, isPrivate);
-        }
-    }
-    //Se genera polimorfismo para que se utilice en declVarLocales ya que esta no genera variables en la estructura
-    private void listaDeclaracionVariables () {
-        match(IDToken.idOBJECT);
-        if (currentToken.getIDToken().equals(IDToken.sCOM)){
-            match(IDToken.sCOM);
-            listaDeclaracionVariables();
+            listaDeclaracionVariables(type, isPrivate, isAtribute);
         }
     }
 
@@ -417,17 +410,17 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
-    private ArrayList<Param> listaArgumentosFormales () {
+    private ArrayList<Param> listaArgumentosFormales (int index) {
         ArrayList<Param> result = new ArrayList<Param>();
         
         //Agrega el parametro actual
-        result.add(argumentoFormal());
+        result.add(argumentoFormal(index));
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
 
             //Agrega los parametros que se han obtenido recursivamente
-            result.addAll(listaArgumentosFormales());
+            result.addAll(listaArgumentosFormales(index + 1));
         }
 
         //Lista de parametros ordenados
@@ -440,8 +433,8 @@ public class SyntacticAnalyzer {
      * 
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
-    private Param argumentoFormal () {
-        Param param = new Param(tipo(), currentToken);
+    private Param argumentoFormal (int index) {
+        Param param = new Param(tipo(), currentToken, index);
         match(IDToken.idOBJECT);
         return param;
     }
@@ -539,13 +532,13 @@ public class SyntacticAnalyzer {
         match(IDToken.typeARRAY);
         //Accion para avisar que es array
         switch (tipoPrimitivo()) {
-            case IDToken.typeINT:
+            case typeINT:
                 return IDToken.typeArrayINT;
-            case IDToken.typeSTR:
+            case typeSTR:
                 return IDToken.typeArraySTR;
-            case IDToken.typeBOOL:
+            case typeBOOL:
                 return IDToken.typeArrayBOOL;
-            case IDToken.typeCHAR:
+            case typeCHAR:
                 return IDToken.typeArrayCHAR;
             default:
                 throw throwError(First.firstTipoPrimitivo);
@@ -1395,7 +1388,7 @@ public class SyntacticAnalyzer {
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
     private ArrayList<Param> listaArgumentosFormalesP () {
-        return listaArgumentosFormales();
+        return listaArgumentosFormales(0);
     }
 
 

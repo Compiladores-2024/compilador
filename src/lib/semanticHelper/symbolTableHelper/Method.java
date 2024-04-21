@@ -14,18 +14,25 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Method extends Metadata{
-    boolean isStatic;
-    int currentParamIndex;
-    IDToken returnType;
-    HashMap<String, Param> params;
+    private boolean isStatic;
+    private IDToken returnType;
+    private HashMap<String, Param> params;
 
     /**
      * Constructor de la clase.
      * 
      * @since 19/04/2024
      */
-    public Method () {
-        super(new Token(null, "", 0, 0), 0);
+    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic) {
+        super(metadata, 0);
+
+        params = new HashMap<String, Param>();
+        for (Param param : parameters) {
+            addParam(param);
+        }
+
+        this.isStatic = isStatic;
+        this.returnType = returnType;
     }
 
     public Method(ArrayList<Param> params, boolean isStatic, IDToken returnType){
@@ -41,11 +48,31 @@ public class Method extends Metadata{
      * Método que agrega un parámetro al método correspondiente.
      * 
      * @since 19/04/2024
-     * @param name Nombre del parámetro.
      * @param param Datos específicos del parámetro.
      */
-    public void addParam(String name, Param param) {
+    private void addParam(Param param) {
+        params.put(param.getName(), param);
+    }
 
+    /**
+     * @return String con la signature del método.
+     */
+    public String getSignature (){
+        String[] parameters = new String[params.size()];
+        String sParams = "";
+
+        //Ordena los parametros segun la posicion en la que fueron encontrados
+        for (Param param : params.values()) {
+            parameters[param.getPosition()] = param.toString() + " ";
+        }
+
+        //Genera el string de parametros
+        for (String string : parameters) {
+            sParams += string;
+        }
+
+        //Retorna la signature
+        return (this.isStatic ? "st" : "") + getName() + " " + sParams + "-> " + returnType.toString();
     }
     
     /**
@@ -55,7 +82,7 @@ public class Method extends Metadata{
      * @return Estructura de datos en formato JSON
      */
     @Override
-    public String toJSON() {
-        return null;
+    public String toJSON(String tabs) {
+        return tabs + "{}";
     }
 }
