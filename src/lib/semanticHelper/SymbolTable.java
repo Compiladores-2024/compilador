@@ -144,8 +144,8 @@ public class SymbolTable {
      * @param type Tipo de dato
      * @param isPrivate Booleano que avisa si la variable es privada o no
      */
-    public void addVar(Token token, IDToken type, boolean isPrivate) {
-        System.out.println("Se agrega Var: " + token.getLexema() + " con tipo " + type.toString() + (isPrivate ? " y SI" : " y NO") + " es privada");
+    public void addVar(Token token, IDToken type, boolean isPrivate, boolean isAtribute) {
+        System.out.println("Se agrega: "+(isAtribute ? "atributo" : "variable") + token.getLexema() + " con tipo " + type.toString() + (isPrivate ? " y SI" : " y NO") + " es privada");
     }
     
     /**

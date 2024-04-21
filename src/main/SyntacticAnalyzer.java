@@ -282,7 +282,7 @@ public class SyntacticAnalyzer {
             isPrivate = true;
         }
 
-        listaDeclaracionVariables(tipo(), isPrivate);
+        listaDeclaracionVariables(tipo(), isPrivate, true);
 
         match(IDToken.sSEMICOLON);
     }
@@ -361,8 +361,7 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-
-        listaDeclaracionVariables(tipo(),false);
+        listaDeclaracionVariables(tipo(),false, false);
         match(IDToken.sSEMICOLON);
     }
 
@@ -372,15 +371,15 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
-    private void listaDeclaracionVariables (IDToken type, boolean isPrivate) {
+    private void listaDeclaracionVariables (IDToken type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(token, type, isPrivate);
+        symbolTable.addVar(token, type, isPrivate, isAtribute);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaDeclaracionVariables(type, isPrivate);
+            listaDeclaracionVariables(type, isPrivate, isAtribute);
         }
     }
 
