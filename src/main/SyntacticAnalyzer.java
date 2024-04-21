@@ -396,10 +396,8 @@ public class SyntacticAnalyzer {
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
 
-            //Agrega los parametros que se han calculado recursivamente
-            for (Param param : listaArgumentosFormales()) {
-                result.add(param);
-            }
+            //Agrega los parametros que se han obtenido recursivamente
+            result.addAll(listaArgumentosFormales());
         }
 
         //Lista de parametros ordenados
