@@ -17,6 +17,7 @@ public class Method extends Metadata{
     private boolean isStatic;
     private IDToken returnType;
     private HashMap<String, Param> params;
+    private String[] orderParams;
 
     /**
      * Constructor de la clase.
@@ -25,6 +26,8 @@ public class Method extends Metadata{
      */
     public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
         super(metadata, position);
+
+        orderParams = new String[parameters.size()];
 
         params = new HashMap<String, Param>();
         for (Param param : parameters) {
@@ -52,23 +55,18 @@ public class Method extends Metadata{
      */
     private void addParam(Param param) {
         params.put(param.getName(), param);
+        orderParams[param.getPosition()] = param.getName();
     }
 
     /**
      * @return String con la signature del método.
      */
     public String getSignature (){
-        String[] parameters = new String[params.size()];
         String sParams = "";
 
-        //Ordena los parametros segun la posicion en la que fueron encontrados
-        for (Param param : params.values()) {
-            parameters[param.getPosition()] = param.toString() + " ";
-        }
-
         //Genera el string de parametros
-        for (String string : parameters) {
-            sParams += string;
+        for (String paramName : orderParams) {
+            sParams += params.get(paramName).toString() + " ";
         }
 
         //Retorna la signature
@@ -83,6 +81,21 @@ public class Method extends Metadata{
      */
     @Override
     public String toJSON(String tabs) {
-        return tabs + "{}";
+        int count = params.size();
+        String paramsJSON = count > 0 ? "\n" : "";
+
+        //Genera el json de params
+        for (String paramName : orderParams) {
+            paramsJSON += params.get(paramName).toJSON(tabs + "        ") + (count > 1 ? "," : "") + "\n";
+            count--;
+        }
+
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + getName() + "\",\n" +
+            tabs + "    \"static\": \"" + isStatic + "\",\n" +
+            tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
+            tabs + "    \"posicion\": " + getPosition() + ",\n" +
+            tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "]\n" +
+        tabs + "}";
     }
 }

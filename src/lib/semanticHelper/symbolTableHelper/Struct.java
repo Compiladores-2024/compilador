@@ -25,6 +25,8 @@ public class Struct extends Metadata {
      * Constructor de la clase.
      * 
      * @since 19/04/2024
+     * @param metadata
+     * @param parent
      */
     public Struct (Token metadata, Struct parent) {
         super(metadata, 0);
@@ -47,29 +49,43 @@ public class Struct extends Metadata {
      * Método que agrega un método al struct correspondiente. <br/>
      * 
      * <br/>Realiza las siguientes validaciones:<br/>
-     * - Si ya existe un método con el mismo nombre.<br/>
-     * - Si el método existente posee la misma firma.<br/>
+     * - Si ya existe un método con el mismo nombre y firma.<br/>
      * 
      * <br/>Realiza las siguientes acciones:<br/>
      * - Aumenta el contador de posición para los métodos de la estructura correspondiente.<br/>
-     * - Genera el número de posición para los parámetros.<br/>
+     * - Sobreescribe o genera el método.<br/>
      * 
      * @since 19/04/2024
      * @param method Datos específicos del método.
      */
 
-    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
-        Method method = new Method(token, params, returnType, isStatic, currentMethodIndex);
-        String signature = method.getSignature(), name = method.getName();
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+        String name = token.getLexema();
+        Method method = methods.get(name),
+            newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));
 
-        //Si el metodo existe, valida que posea la misma signature
-        if (methods.get(name) != null) {
-            if (true) {
-                
+        //Si el método no existe, lo genera
+        if (method == null) {
+            //Inserta el nuevo metodo en la tabla 
+            methods.put(name, newMethod);
+            
+            //Aumenta el indice y asigna el metodo
+            currentMethodIndex++;
+            method = newMethod;
+        }
+        //Si existe, valida que posea la misma signature y lo reemplaza
+        else {
+            if (method.getSignature() == newMethod.getSignature()) {
+                methods.put(name, newMethod);
+            } 
+            else {
+                throw new SemanticException(token, "Se intenta definir un método con distinta signature. Método '" + name + "' de la estructura '" + getName() + "'.");
             }
         }
 
         System.out.println(method.getSignature());
+        //Retorna el método generado
+        return method;
     }
 
     /**
@@ -144,8 +160,8 @@ public class Struct extends Metadata {
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
-            tabs + "    \"methodIndex\": " + String.valueOf(currentMethodIndex) + ",\n" +
-            tabs + "    \"varIndex\": " + String.valueOf(currentVarIndex) + ",\n" +
+            tabs + "    \"methodIndex\": " + currentMethodIndex + ",\n" +
+            tabs + "    \"varIndex\": " + currentVarIndex + ",\n" +
             tabs + "    \"variables\": [" + varJSON +  (varJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"métodos\": [" + methodJSON + (methodJSON == "" ? "" : (tabs + "    ")) + "]\n" +
         tabs + "}";

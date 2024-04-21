@@ -17,13 +17,14 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class SymbolTable {
-    Struct currentStruct;
-    Method currentMethod;
-    HashMap<String, Struct> structs;
+    private final HashSet<String> staticStruct;
+    private Struct currentStruct;
+    private Method currentMethod;
+    private HashMap<String, Struct> structs;
 
     // Estructura que se utiliza para almacenar clases que deben reasignar herencias.
     // En consolidación: Si posee elementos, debe retornar error.
-    HashMap<String, ArrayList<String>> redefinitions;
+    private HashMap<String, ArrayList<String>> redefinitions;
 
     /**
      * Constructor de la clase.<br/>
@@ -31,6 +32,15 @@ public class SymbolTable {
      * Realiza la precarga de clases Object e IO
      */
     public SymbolTable () {
+        staticStruct = new HashSet<String>(){{
+            add("Object");
+            add("IO");
+            add("Array");
+            add("Int");
+            add("Str");
+            add("Char");
+            add("Bool");
+        }};
         structs = new HashMap<String, Struct>();
         redefinitions = new HashMap<>();
         init();
@@ -52,25 +62,25 @@ public class SymbolTable {
     private void addIO(){
         Struct IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0), this.structs.get("Object"));
 
-        IO.addMethod( "out_str", new Method(generateArrayParam(IDToken.typeSTR,"s"), true, IDToken.typeVOID));
-        IO.addMethod( "out_int", new Method(generateArrayParam(IDToken.typeINT,"i"), true, IDToken.typeVOID));
-        IO.addMethod( "out_bool", new Method(generateArrayParam( IDToken.typeArrayBOOL,"b"), true, IDToken.typeVOID));
-        IO.addMethod( "out_char", new Method(generateArrayParam( IDToken.typeCHAR, "c"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_int", new Method(generateArrayParam(  IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_str", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_bool", new Method(generateArrayParam(IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_char", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "in_str", new Method(null, true, IDToken.typeSTR));
-        IO.addMethod( "in_int", new Method(null, true, IDToken.typeINT));
-        IO.addMethod( "in_bool", new Method(null, true, IDToken.typeBOOL));
-        IO.addMethod( "in_char", new Method(null, true, IDToken.typeCHAR));
+        // IO.addMethod( "out_str", new Method(generateArrayParam(IDToken.typeSTR,"s"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_int", new Method(generateArrayParam(IDToken.typeINT,"i"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_bool", new Method(generateArrayParam( IDToken.typeArrayBOOL,"b"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_char", new Method(generateArrayParam( IDToken.typeCHAR, "c"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_array_int", new Method(generateArrayParam(  IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_array_str", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_array_bool", new Method(generateArrayParam(IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
+        // IO.addMethod( "out_array_char", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
+        // IO.addMethod( "in_str", new Method(null, true, IDToken.typeSTR));
+        // IO.addMethod( "in_int", new Method(null, true, IDToken.typeINT));
+        // IO.addMethod( "in_bool", new Method(null, true, IDToken.typeBOOL));
+        // IO.addMethod( "in_char", new Method(null, true, IDToken.typeCHAR));
 
         structs.put("IO", IO);
     }
 
     private void addArray(){
         Struct Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), this.structs.get("Object"));
-        Array.addMethod("length", new Method(null, false,IDToken.typeINT));
+        // Array.addMethod("length", new Method(null, false,IDToken.typeINT));
         structs.put("Array", Array);
     }
 
@@ -81,8 +91,8 @@ public class SymbolTable {
 
     private void addStr(){
         Struct Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), this.structs.get("Object"));
-        Str.addMethod("length", new Method(null, false, IDToken.typeINT));
-        Str.addMethod("concat", new Method(generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR));
+        // Str.addMethod("length", new Method(null, false, IDToken.typeINT));
+        // Str.addMethod("concat", new Method(generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR));
         structs.put("Str", Str);
     }
 
@@ -98,7 +108,7 @@ public class SymbolTable {
 
     private ArrayList<Param> generateArrayParam(IDToken paramToken, String lexema){
         ArrayList<Param> paramList= new ArrayList<Param>();
-        paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0)));
+        // paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0)));
         return paramList; 
 
     }
@@ -234,7 +244,7 @@ public class SymbolTable {
         // }
         // System.out.println("Se agrega Method: " + token.getLexema() + (params.size() > 0 ? " con los parámetros " + sParams : " sin parámetros ") + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
 
-        currentStruct.addMethod(token, params, isStatic, returnType);
+        currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
     }
 
     /**
@@ -245,10 +255,10 @@ public class SymbolTable {
      */
     public String toJSON() {
         String structJSON = "";
-        int count = structs.values().size();
+        int count = structs.values().size() - staticStruct.size();
 
         for (Struct struct : structs.values()) {
-            if (struct.getName() != "Object") {
+            if (!staticStruct.contains(struct.getName())) {
                 structJSON += struct.toJSON("        ") + (count > 1 ? "," : "") + "\n";
             }
             count--;

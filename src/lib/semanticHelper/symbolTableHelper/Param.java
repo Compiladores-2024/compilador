@@ -43,6 +43,10 @@ public class Param extends Metadata{
      */
     @Override
     public String toJSON(String tabs) {
-        return null;
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + getName() + "\",\n" +
+            tabs + "    \"tipo\": \"" + type.toString() + "\",\n" +
+            tabs + "    \"posicion\": " + getPosition() + "\n" +
+        tabs + "}";
     }
 }
