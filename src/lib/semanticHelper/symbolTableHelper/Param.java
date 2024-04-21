@@ -11,15 +11,15 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Param extends Metadata{
-    IDToken type;
+    private IDToken type;
 
     /**
      * Constructor de la clase.
      * 
      * @since 19/04/2024
      */
-    public Param (IDToken type, Token token) {
-        super(token, 0);
+    public Param (IDToken type, Token token, int position) {
+        super(token, position);
         this.type = type;
     }
 
@@ -28,6 +28,11 @@ public class Param extends Metadata{
      */
     public IDToken getType() {
         return type;
+    }
+
+
+    public String toString() {
+        return type.toString() + " " + getName();
     }
     
     /**

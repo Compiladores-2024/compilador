@@ -11,8 +11,8 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public abstract class Metadata {
-    Token metadata;
-    int position;
+    private Token metadata;
+    private int position;
 
     /**
      * Constructor de la clase.

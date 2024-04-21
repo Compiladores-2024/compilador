@@ -13,19 +13,19 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Struct extends Metadata {
-    Struct parent;
-    Method constructor;
-    int currentMethodIndex, currentVarIndex, countStructDefinition, countImplDefinition;
-    HashMap<String, Variable> variables;
-    HashMap<String, Method> methods;
+    private Struct parent;
+    private Method constructor;
+    private int currentMethodIndex, currentVarIndex, countStructDefinition, countImplDefinition;
+    private HashMap<String, Variable> variables;
+    private HashMap<String, Method> methods;
 
     /**
      * Constructor de la clase.
      * 
      * @since 19/04/2024
      */
-    public Struct (Token token, Struct parent) {
-        super(token, 0);
+    public Struct (Token metadata, Struct parent) {
+        super(metadata, 0);
         this.parent = parent;
 
         //Inicializa hash
@@ -42,14 +42,21 @@ public class Struct extends Metadata {
     }
 
     /**
-     * Método que agrega un método al struct correspondiente.
+     * Método que agrega un método al struct correspondiente. <br/>
+     * 
+     * <br/>Realiza las siguientes validaciones:<br/>
+     * - Si ya existe un método con el mismo nombre.<br/>
+     * - Si el método existente posee la misma firma.<br/>
+     * 
+     * <br/>Realiza las siguientes acciones:<br/>
+     * - Aumenta el contador de posición para los métodos de la estructura correspondiente.<br/>
+     * - Genera el número de posición para los parámetros.<br/>
      * 
      * @since 19/04/2024
-     * @param name Nombre del método.
      * @param method Datos específicos del método.
      */
-    public void addMethod(String name, Method method) {
-
+    public void addMethod(Method method) {
+        System.out.println(method.getSignature());
     }
 
     /**
@@ -92,7 +99,7 @@ public class Struct extends Metadata {
             }
         }
         else {
-            throw new SemanticException(metadata, "La estructura '" + getName() + "' se ha " + (isFromStruct ? "definido" : "implementado") + " más de una vez.");
+            throw new SemanticException(getMetadata(), "La estructura '" + getName() + "' se ha " + (isFromStruct ? "definido" : "implementado") + " más de una vez.");
         }
     }
     

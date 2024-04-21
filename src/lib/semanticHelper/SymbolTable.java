@@ -62,8 +62,6 @@ public class SymbolTable {
      * @param isFromStruct Booleano que avisa si se está generando desde un struct o un implement
      */
     public void addStruct(Token token, IDToken parent, boolean isFromStruct) {
-        System.out.println("Agrega estructura: " + token.getLexema() + " con herencia " + parent.toString() + " se lee desde " + (isFromStruct ? "struct" : "impl"));
-
         String sStruct = token.getLexema(), sParent = parent.toString();
         Struct parentStruct = structs.get(sParent);
         
@@ -159,15 +157,7 @@ public class SymbolTable {
     }
     
     /**
-     * Método que agrega un método a la tabla de símbolos. <br/>
-     * 
-     * <br/>Realiza las siguientes validaciones:<br/>
-     * - Si ya existe un método con el mismo nombre.<br/>
-     * - Si el método existente posee la misma firma.<br/>
-     * 
-     * <br/>Realiza las siguientes acciones:<br/>
-     * - Aumenta el contador de posición para los métodos de la estructura correspondiente.<br/>
-     * - Genera el número de posición para los parámetros.<br/>
+     * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.
      * 
      * 
      * @since 19/04/2024
@@ -177,13 +167,13 @@ public class SymbolTable {
      * @param returnType Tipo de retorno del método
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
-        String sParams = "";
+        // String sParams = "";
+        // for (Param param : params) {
+        //     sParams += param.getType() + " " + param.getName() + "(" + String.valueOf(param.getPosition()) + "), ";
+        // }
+        // System.out.println("Se agrega Method: " + token.getLexema() + (params.size() > 0 ? " con los parámetros " + sParams : " sin parámetros ") + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
 
-        for (Param param : params) {
-            sParams += param.getType() + " " + param.getName() + ", ";
-        }
-
-        System.out.println("Se agrega Method: " + token.getLexema() + (params.size() > 0 ? " con los parámetros " + sParams : " sin parámetros ") + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
+        currentStruct.addMethod(new Method(token, params, returnType, isStatic));
     }
 
     /**

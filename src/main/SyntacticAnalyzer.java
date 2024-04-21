@@ -419,17 +419,17 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
     */
-    private ArrayList<Param> listaArgumentosFormales () {
+    private ArrayList<Param> listaArgumentosFormales (int index) {
         ArrayList<Param> result = new ArrayList<Param>();
         
         //Agrega el parametro actual
-        result.add(argumentoFormal());
+        result.add(argumentoFormal(index));
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
 
             //Agrega los parametros que se han obtenido recursivamente
-            result.addAll(listaArgumentosFormales());
+            result.addAll(listaArgumentosFormales(index + 1));
         }
 
         //Lista de parametros ordenados
@@ -442,8 +442,8 @@ public class SyntacticAnalyzer {
      * 
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
-    private Param argumentoFormal () {
-        Param param = new Param(tipo(), currentToken);
+    private Param argumentoFormal (int index) {
+        Param param = new Param(tipo(), currentToken, index);
         match(IDToken.idOBJECT);
         return param;
     }
@@ -1397,7 +1397,7 @@ public class SyntacticAnalyzer {
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
     private ArrayList<Param> listaArgumentosFormalesP () {
-        return listaArgumentosFormales();
+        return listaArgumentosFormales(0);
     }
 
 
