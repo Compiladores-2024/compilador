@@ -66,7 +66,7 @@ public class Static {
      * @param text Texto completo a escribir.
      * @param path Ubicación al archivo en el que se guardará el resultado.
      */
-    private static void write (String text, String path) {
+    public static void write (String text, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
             writer.write(text);

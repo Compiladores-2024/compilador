@@ -20,13 +20,22 @@ public class SyntacticRunner {
      * @param args
      */
     public static void main(String[] args) {
-        args = new String[] {"src/test/resources/syntactic/00.ru"};
+        // args = new String[] {"src/test/resources/syntactic/00.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
 
                 //Comienza la ejecución
                 syntacticAnalyzer.run();
+                
+                //genenera json file
+                
+                String ruta = args[0].split(".ru")[0];
+                String jsonPathOut = ruta+".st.json"; 
+                Static.write(syntacticAnalyzer.getSymbolTable().toJSON(), jsonPathOut);
+
+                // imprimir mensaje de exito semantico declaraciones
+                System.out.println("CORRECTO: SEMANTICO - DECLARACIONES");
             }
             //Captura el error sintactico y lo muestra por pantalla 
             catch (SyntacticException e) {

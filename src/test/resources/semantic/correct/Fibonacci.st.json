@@ -1,0 +1,87 @@
+{
+    "structs": [
+        {
+            "nombre": "Fibonacci",
+            "heredaDe": "Object",
+            "methodIndex": 3,
+            "varIndex": 3,
+            "atributos": [
+                {
+                    "nombre": "suma",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "i",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "j",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 2
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "sucesion_fib",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "n",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ]
+                    "variables": [],
+                },
+                {
+                    "nombre": "imprimo_numero",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "num",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ]
+                    "variables": [],
+                },
+                {
+                    "nombre": "imprimo_sucesion",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ]
+                    "variables": [
+                        {
+                            "nombre": "fib",
+                            "tipo": "Fibonacci",
+                            "public": "true",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "n",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 1
+                        }
+                    ],
+                }
+            ]
+        }
+    ]
+}
