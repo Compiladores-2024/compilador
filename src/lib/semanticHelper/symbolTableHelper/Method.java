@@ -3,6 +3,7 @@ package src.lib.semanticHelper.symbolTableHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
@@ -16,7 +17,9 @@ import src.lib.tokenHelper.Token;
 public class Method extends Metadata{
     private boolean isStatic;
     private IDToken returnType;
+    private int currentVarIndex;
     private HashMap<String, Param> params;
+    private HashMap<String, Variable> variables;
     private String[] orderParams;
 
     /**
@@ -27,26 +30,29 @@ public class Method extends Metadata{
     public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
         super(metadata, position);
 
-        orderParams = new String[parameters.size()];
-
+        variables = new HashMap<String, Variable>();
         params = new HashMap<String, Param>();
         for (Param param : parameters) {
-            addParam(param);
+            params.put(param.getName(), param);
         }
 
         this.isStatic = isStatic;
         this.returnType = returnType;
+        this.currentVarIndex = 0;
     }
 
-    /**
-     * Método que agrega un parámetro al método correspondiente.
-     * 
-     * @since 19/04/2024
-     * @param param Datos específicos del parámetro.
-     */
-    private void addParam(Param param) {
-        params.put(param.getName(), param);
-        orderParams[param.getPosition()] = param.getName();
+    public void addVar (Token token, IDToken type, boolean isPrivate) {
+        String name = token.getLexema();
+
+        //Si la variable no existe, la genera
+        if (variables.get(name) == null) {
+            variables.put(name, new Variable(token, type, isPrivate, currentVarIndex));
+            currentVarIndex++;
+        }
+        //Se intenta definir otra variable
+        else {
+            throw new SemanticException(token, "La variable '" + name + "' se ha declarado más de una vez en el método '" + getName() + "'.");
+        }
     }
 
     /**
@@ -72,14 +78,7 @@ public class Method extends Metadata{
      */
     @Override
     public String toJSON(String tabs) {
-        int count = params.size();
-        String paramsJSON = count > 0 ? "\n" : "";
-
-        //Genera el json de params
-        for (String paramName : orderParams) {
-            paramsJSON += params.get(paramName).toJSON(tabs + "        ") + (count > 1 ? "," : "") + "\n";
-            count--;
-        }
+        String variableJSON = toJSONEntity(variables, tabs), paramsJSON = toJSONEntity(params, tabs);
 
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
@@ -87,6 +86,7 @@ public class Method extends Metadata{
             tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
             tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "]\n" +
+            tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +
         tabs + "}";
     }
 }

@@ -1,7 +1,6 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
@@ -60,13 +59,6 @@ public class Struct extends Metadata {
     }
 
     /**
-     * @return HashMap de métodos
-     */
-    public Collection<Method> getMethods() {
-        return methods.values();
-    }
-
-    /**
      * Método que agrega un método al struct correspondiente. <br/>
      * 
      * <br/>Realiza las siguientes validaciones:<br/>
@@ -74,7 +66,7 @@ public class Struct extends Metadata {
      * 
      * <br/>Realiza las siguientes acciones:<br/>
      * - Aumenta el contador de posición para los métodos de la estructura correspondiente.<br/>
-     * - Sobreescribe o genera el método.<br/>
+     * - Genera el método o constructor.<br/>
      * 
      * @since 19/04/2024
      * @param token Metadata del método
@@ -119,14 +111,33 @@ public class Struct extends Metadata {
     }
 
     /**
-     * Método que agrega una variable al struct correspondiente.
+     * Método que agrega una variable al struct correspondiente.<br/>
+     * 
+     * <br/>Realiza las siguientes validaciones:<br/>
+     * - Si ya existe un atributo con el mismo nombre.<br/>
+     * 
+     * 
+     * <br/>Realiza las siguientes acciones:<br/>
+     * - Aumenta el contador de posición para los atributos de la estructura correspondiente.<br/>
+     * 
      * 
      * @since 19/04/2024
-     * @param name Nombre de la variable.
-     * @param variable Datos específicos de la variable.
+     * @param token Metadata de la variable
+     * @param type Tipo de la variable
+     * @param isPrivate Booleano que especifica si es privada o no
      */
-    public void addVar(String name, Variable variable) {
+    public void addVar(Token token, IDToken type, boolean isPrivate) {
+        String name = token.getLexema();
 
+        //Si la variable no existe, la genera
+        if (variables.get(name) == null) {
+            variables.put(name, new Variable(token, type, isPrivate, currentVarIndex));
+            currentVarIndex++;
+        }
+        //Se intenta definir otra variable
+        else {
+            throw new SemanticException(token, "El atributo '" + name + "' se ha declarado más de una vez en la estructura '" + getName() + "'.");
+        }
     }
 
 
@@ -148,20 +159,6 @@ public class Struct extends Metadata {
         }
     }
     
-    
-    private String[] getOrderMethods () {
-        return order(true);
-    }
-    private String[] getOrderVar () {
-        return order(false);
-    }
-    private String [] order (boolean isMethod) {
-        String[] result = new String[(isMethod ? methods.size() : variables.size())];
-        for (Metadata object : (isMethod ? methods.values() : variables.values())) {
-            result[object.getPosition()] = object.getName();
-        }
-        return result;
-    }
 
     /**
      * Reescritura del método, convierte los datos en JSON.
@@ -171,22 +168,7 @@ public class Struct extends Metadata {
      */
     @Override
     public String toJSON(String tabs) {
-        int varCount = variables.size(), methodCount = methods.size();
-        String varJSON = varCount > 0 ? "\n" : "", methodJSON = methodCount > 0 ? "\n" : "";
-
-        //Genera el json de var
-        for (String varName : getOrderVar()) {
-            varJSON += variables.get(varName).toJSON(tabs + "        ") + (varCount > 1 ? "," : "") + "\n";
-            varCount--;
-        }
-
-        //Genera el json de metodos
-        for (String methodName : getOrderMethods()) {
-            methodJSON += methods.get(methodName).toJSON(tabs + "        ") + (methodCount > 1 ? "," : "") + "\n";
-            methodCount--;
-        }
-
-        //Genrea json de method
+        String variableJSON = toJSONEntity(variables, tabs), methodJSON = toJSONEntity(methods, tabs);
 
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
@@ -194,7 +176,7 @@ public class Struct extends Metadata {
             // tabs + "    \"constructor\": " + constructor.getSignature() + ",\n" +
             tabs + "    \"methodIndex\": " + currentMethodIndex + ",\n" +
             tabs + "    \"varIndex\": " + currentVarIndex + ",\n" +
-            tabs + "    \"variables\": [" + varJSON +  (varJSON == "" ? "" : (tabs + "    ")) + "],\n" +
+            tabs + "    \"atributos\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"métodos\": [" + methodJSON + (methodJSON == "" ? "" : (tabs + "    ")) + "]\n" +
         tabs + "}";
     }

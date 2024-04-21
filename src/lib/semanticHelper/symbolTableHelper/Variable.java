@@ -19,8 +19,10 @@ public class Variable extends Metadata{
      * 
      * @since 19/04/2024
      */
-    public Variable () {
-        super(new Token(null, "", 0, 0), 0);
+    public Variable (Token token, IDToken type, boolean isPrivate, int position) {
+        super(token, position);
+        this.type = type;
+        this.isPrivate = isPrivate;
     }
     
     /**
@@ -31,6 +33,11 @@ public class Variable extends Metadata{
      */
     @Override
     public String toJSON(String tabs) {
-        return tabs + "{}";
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + getName() + "\",\n" +
+            tabs + "    \"tipo\": \"" + type.toString() + "\",\n" +
+            tabs + "    \"public\": \"" + !isPrivate + "\",\n" +
+            tabs + "    \"posicion\": " + getPosition() + "\n" +
+        tabs + "}";
     }
 }
