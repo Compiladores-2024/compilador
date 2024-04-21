@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import src.lib.tokenHelper.IDToken;
@@ -25,6 +26,15 @@ public class Method extends Metadata{
      */
     public Method () {
         super(new Token(null, "", 0, 0), 0);
+    }
+
+    public Method(ArrayList<Param> params, boolean isStatic, IDToken returnType){
+        super(new Token(null, "", 0, 0), 0);
+        for (Param param : params) {
+            this.params.put(param.getMetadata().getLexema(), param);
+        }
+        this.isStatic=isStatic;
+        this.returnType=returnType;
     }
 
     /**

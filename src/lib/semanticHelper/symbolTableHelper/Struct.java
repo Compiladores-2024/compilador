@@ -36,7 +36,7 @@ public class Struct extends Metadata {
      * @param method Datos específicos del método.
      */
     public void addMethod(String name, Method method) {
-
+        this.methods.put(name, method);
     }
 
     /**
