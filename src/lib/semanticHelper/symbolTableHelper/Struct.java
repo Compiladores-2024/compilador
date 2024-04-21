@@ -2,6 +2,7 @@ package src.lib.semanticHelper.symbolTableHelper;
 
 import java.util.HashMap;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -14,7 +15,7 @@ import src.lib.tokenHelper.Token;
 public class Struct extends Metadata {
     Struct parent;
     Method constructor;
-    int currentMethodIndex, currentVarIndex;
+    int currentMethodIndex, currentVarIndex, countStructDefinition, countImplDefinition;
     HashMap<String, Variable> variables;
     HashMap<String, Method> methods;
 
@@ -26,6 +27,18 @@ public class Struct extends Metadata {
     public Struct (Token token, Struct parent) {
         super(token, 0);
         this.parent = parent;
+
+        //Inicializa hash
+        variables = new HashMap<String, Variable>();
+        methods = new HashMap<String, Method>();
+
+        //Contadores de indices
+        currentMethodIndex = 0;
+        currentVarIndex = 0;
+
+        //Contador para validar cuantas veces se define la estructura en el código fuente (struct e impl)
+        countStructDefinition = 0;
+        countImplDefinition = 0;
     }
 
     /**
@@ -63,6 +76,25 @@ public class Struct extends Metadata {
     public Struct getParent() {
         return parent;
     }
+
+
+    /**
+     * Aumenta el contador de veces que se define o implementa la estructura.
+     */
+    public void updateCount(boolean isFromStruct) {
+        int count = isFromStruct ? this.countStructDefinition : this.countImplDefinition;
+        if (count == 0) {
+            if (isFromStruct) {
+                this.countStructDefinition = 1;
+            }
+            else {
+                this.countImplDefinition = 1;
+            }
+        }
+        else {
+            throw new SemanticException(metadata, "La estructura '" + getName() + "' se ha " + (isFromStruct ? "definido" : "implementado") + " más de una vez.");
+        }
+    }
     
     /**
      * Reescritura del método, convierte los datos en JSON.
@@ -71,7 +103,31 @@ public class Struct extends Metadata {
      * @return Estructura de datos en formato JSON
      */
     @Override
-    public String toJSON() {
-        return null;
+    public String toJSON(String tabs) {
+        int varCount = variables.size(), methodCount = methods.size();
+        String varJSON = varCount > 0 ? "\n" : "", methodJSON = methodCount > 0 ? "\n" : "";
+
+        //Genera el json de var
+        for (Variable var : variables.values()) {
+            varJSON += var.toJSON(tabs + "        ") + (varCount > 1 ? "," : "") + "\n";
+            varCount--;
+        }
+
+        //Genera el json de metodos
+        for (Method method : methods.values()) {
+            methodJSON += method.toJSON(tabs + "        ") + (methodCount > 1 ? "," : "") + "\n";
+            methodCount--;
+        }
+
+        //Genrea json de method
+
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + getName() + "\",\n" +
+            tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
+            tabs + "    \"methodIndex\": " + String.valueOf(currentMethodIndex) + ",\n" +
+            tabs + "    \"varIndex\": " + String.valueOf(currentVarIndex) + ",\n" +
+            tabs + "    \"variables\": [" + varJSON +  (varJSON == "" ? "" : (tabs + "    ")) + "],\n" +
+            tabs + "    \"métodos\": [" + methodJSON + (methodJSON == "" ? "" : (tabs + "    ")) + "]\n" +
+        tabs + "}";
     }
 }

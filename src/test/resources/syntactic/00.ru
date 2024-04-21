@@ -5,7 +5,7 @@ struct Prueba : Mundo {
 struct Mundo : PruebaH {
 }
 
-struct PruebaH : Prueba {
+struct PruebaH {
 }
 
 start{

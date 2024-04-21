@@ -37,7 +37,7 @@ public class Param extends Metadata{
      * @return Estructura de datos en formato JSON
      */
     @Override
-    public String toJSON() {
+    public String toJSON(String tabs) {
         return null;
     }
 }

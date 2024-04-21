@@ -45,7 +45,7 @@ public class Method extends Metadata{
      * @return Estructura de datos en formato JSON
      */
     @Override
-    public String toJSON() {
-        return null;
+    public String toJSON(String tabs) {
+        return tabs + "{}";
     }
 }

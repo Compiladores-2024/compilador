@@ -56,5 +56,5 @@ public abstract class Metadata {
      * 
      * @since 19/04/2024
      */
-    public abstract String toJSON ();
+    public abstract String toJSON (String tabs);
 }

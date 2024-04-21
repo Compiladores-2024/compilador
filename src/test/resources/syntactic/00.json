@@ -1,0 +1,28 @@
+{
+    "structs": [
+        {
+            "nombre": "Prueba",
+            "heredaDe": "Mundo",
+            "methodIndex": 0,
+            "varIndex": 0,
+            "variables": [],
+            "métodos": []
+        },
+        {
+            "nombre": "Mundo",
+            "heredaDe": "PruebaH",
+            "methodIndex": 0,
+            "varIndex": 0,
+            "variables": [],
+            "métodos": []
+        },
+        {
+            "nombre": "PruebaH",
+            "heredaDe": "Object",
+            "methodIndex": 0,
+            "varIndex": 0,
+            "variables": [],
+            "métodos": []
+        }
+    ]
+}
