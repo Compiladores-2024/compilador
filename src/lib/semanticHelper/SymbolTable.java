@@ -259,12 +259,6 @@ public class SymbolTable {
      * @param returnType Tipo de retorno del método
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
-        // String sParams = "";
-        // for (Param param : params) {
-        //     sParams += param.getType() + " " + param.getName() + "(" + String.valueOf(param.getPosition()) + "), ";
-        // }
-        // System.out.println("Se agrega Method: " + token.getLexema() + (params.size() > 0 ? " con los parámetros " + sParams : " sin parámetros ") + (isStatic ? " SI" : " NO") +" es estatico y retorna tipo " + returnType.toString());
-
         currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
     }
 

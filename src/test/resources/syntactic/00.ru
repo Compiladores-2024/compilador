@@ -1,17 +1,14 @@
-
-struct Prueba {
+struct Master {}
+impl Master {
+    .() {}
+    fn m1 () -> void {}
 }
+
+struct Prueba : Master {}
 impl Prueba {
-    .(
-        Int param1,
-        Str param2,
-        Char param3,
-        Bool param4,
-        Array Int param5,
-        Array Str param6,
-        Array Char param7,
-        Array Bool param8
-    ){}
+    .(){}
+    fn m1 () -> void {}
+    st fn m1 () -> Array Int {}
 }
 
 start{

@@ -45,6 +45,13 @@ public abstract class Metadata {
     }
 
     /**
+     * @param position Nueva posición dentro de la entidad
+     */
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    /**
      * @return Token con la metadata del struct
      */
     public Token getMetadata() {

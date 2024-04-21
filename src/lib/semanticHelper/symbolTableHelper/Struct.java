@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
@@ -46,6 +47,26 @@ public class Struct extends Metadata {
     }
 
     /**
+     * @return Struct con los datos de la superclase.
+     */
+    public Struct getParent() {
+        return parent;
+    }
+    /**
+     * @param parent Clase padre de la cual hereda la estructura.
+     */
+    public void setParent (Struct parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return HashMap de métodos
+     */
+    public Collection<Method> getMethods() {
+        return methods.values();
+    }
+
+    /**
      * Método que agrega un método al struct correspondiente. <br/>
      * 
      * <br/>Realiza las siguientes validaciones:<br/>
@@ -56,30 +77,40 @@ public class Struct extends Metadata {
      * - Sobreescribe o genera el método.<br/>
      * 
      * @since 19/04/2024
-     * @param method Datos específicos del método.
+     * @param token Metadata del método
+     * @param params Parámetros formales
+     * @param isStatic Booleano que notifica si es estático o no
+     * @param returnType Tipo de retorno
+     * @return
      */
-
     public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
         String name = token.getLexema();
         Method method = methods.get(name),
             newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));
         
-        //Si el método no existe, lo genera
-        if (method == null) {
-            //Inserta el nuevo metodo en la tabla 
-            methods.put(name, newMethod);
-            
-            //Aumenta el indice y asigna el metodo
-            currentMethodIndex++;
-            method = newMethod;
-        }
-        //Si existe, valida que posea la misma signature y lo reemplaza
-        else {
-            if (method.getSignature() == newMethod.getSignature()) {
-                methods.put(name, newMethod);
-            } 
+        //Valida si se está generando un constructor y que no se haya generado otro
+        if (IDToken.sDOT.equals(token.getIDToken())) {
+            if (constructor == null) {
+                constructor = newMethod;
+                method = newMethod;
+            }
             else {
-                throw new SemanticException(token, "Se intenta definir un método con distinta signature. Método '" + name + "' de la estructura '" + getName() + "'.");
+                throw new SemanticException(token, "No se permite definir más de un constructor. Estructura '" + getName() + "'.");
+            }
+        }
+        else {
+            //Si el método no existe, lo genera
+            if (method == null) {
+                //Inserta el nuevo metodo en la tabla 
+                methods.put(name, newMethod);
+                
+                //Aumenta el indice y asigna el metodo
+                currentMethodIndex++;
+                method = newMethod;
+            }
+            //Si existe, retorna error
+            else {
+                throw new SemanticException(token, "El método '" + name + "' se ha declarado más de una vez en la estructura '" + getName() + "'.");
             }
         }
 
@@ -98,19 +129,6 @@ public class Struct extends Metadata {
 
     }
 
-    /**
-     * @param parent Clase padre de la cual hereda la estructura.
-     */
-    public void setParent (Struct parent) {
-        this.parent = parent;
-    }
-
-    /**
-     * @return Struct con los datos de la superclase.
-     */
-    public Struct getParent() {
-        return parent;
-    }
 
     /**
      * Aumenta el contador de veces que se define o implementa la estructura.
@@ -173,6 +191,7 @@ public class Struct extends Metadata {
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
+            // tabs + "    \"constructor\": " + constructor.getSignature() + ",\n" +
             tabs + "    \"methodIndex\": " + currentMethodIndex + ",\n" +
             tabs + "    \"varIndex\": " + currentVarIndex + ",\n" +
             tabs + "    \"variables\": [" + varJSON +  (varJSON == "" ? "" : (tabs + "    ")) + "],\n" +
