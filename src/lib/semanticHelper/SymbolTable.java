@@ -80,13 +80,13 @@ public class SymbolTable {
         IO.addMethod( new Token(null,"out_array_char", 0,0), 
             generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"in_str", 0,0),
-            null, true, IDToken.typeSTR);
+            new ArrayList<Param>(), true, IDToken.typeSTR);
         IO.addMethod( new Token(null,"in_int", 0,0),
-            null, true, IDToken.typeINT);
+            new ArrayList<Param>(), true, IDToken.typeINT);
         IO.addMethod( new Token(null,"in_bool", 0,0),
-            null, true, IDToken.typeBOOL);
+            new ArrayList<Param>(), true, IDToken.typeBOOL);
         IO.addMethod( new Token(null,"in_char", 0,0),   
-            null, true, IDToken.typeCHAR);
+            new ArrayList<Param>(), true, IDToken.typeCHAR);
 
         structs.put("IO", IO);
     }
@@ -95,7 +95,7 @@ public class SymbolTable {
         Struct Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), 
             this.structs.get("Object"));
         Array.addMethod(new Token(null, "length", 0, 0),
-            null, false,IDToken.typeINT);
+        new ArrayList<Param>(), false,IDToken.typeINT);
         structs.put("Array", Array);
     }
 
@@ -109,7 +109,7 @@ public class SymbolTable {
         Struct Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), 
             this.structs.get("Object"));
         Str.addMethod(new Token(null, "length", 0, 0),
-            null, false, IDToken.typeINT);
+        new ArrayList<Param>(), false, IDToken.typeINT);
         Str.addMethod(new Token(null, "concat", 0, 0), 
             generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR);
         structs.put("Str", Str);

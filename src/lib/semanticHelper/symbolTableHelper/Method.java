@@ -38,15 +38,6 @@ public class Method extends Metadata{
         this.returnType = returnType;
     }
 
-    public Method(ArrayList<Param> params, boolean isStatic, IDToken returnType){
-        super(new Token(null, "", 0, 0), 0);
-        for (Param param : params) {
-            this.params.put(param.getMetadata().getLexema(), param);
-        }
-        this.isStatic=isStatic;
-        this.returnType=returnType;
-    }
-
     /**
      * Método que agrega un parámetro al método correspondiente.
      * 

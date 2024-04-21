@@ -63,7 +63,7 @@ public class Struct extends Metadata {
         String name = token.getLexema();
         Method method = methods.get(name),
             newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));
-
+        
         //Si el método no existe, lo genera
         if (method == null) {
             //Inserta el nuevo metodo en la tabla 
@@ -83,7 +83,6 @@ public class Struct extends Metadata {
             }
         }
 
-        System.out.println(method.getSignature());
         //Retorna el método generado
         return method;
     }
@@ -113,7 +112,6 @@ public class Struct extends Metadata {
         return parent;
     }
 
-
     /**
      * Aumenta el contador de veces que se define o implementa la estructura.
      */
@@ -132,6 +130,21 @@ public class Struct extends Metadata {
         }
     }
     
+    
+    private String[] getOrderMethods () {
+        return order(true);
+    }
+    private String[] getOrderVar () {
+        return order(false);
+    }
+    private String [] order (boolean isMethod) {
+        String[] result = new String[(isMethod ? methods.size() : variables.size())];
+        for (Metadata object : (isMethod ? methods.values() : variables.values())) {
+            result[object.getPosition()] = object.getName();
+        }
+        return result;
+    }
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
@@ -144,14 +157,14 @@ public class Struct extends Metadata {
         String varJSON = varCount > 0 ? "\n" : "", methodJSON = methodCount > 0 ? "\n" : "";
 
         //Genera el json de var
-        for (Variable var : variables.values()) {
-            varJSON += var.toJSON(tabs + "        ") + (varCount > 1 ? "," : "") + "\n";
+        for (String varName : getOrderVar()) {
+            varJSON += variables.get(varName).toJSON(tabs + "        ") + (varCount > 1 ? "," : "") + "\n";
             varCount--;
         }
 
         //Genera el json de metodos
-        for (Method method : methods.values()) {
-            methodJSON += method.toJSON(tabs + "        ") + (methodCount > 1 ? "," : "") + "\n";
+        for (String methodName : getOrderMethods()) {
+            methodJSON += methods.get(methodName).toJSON(tabs + "        ") + (methodCount > 1 ? "," : "") + "\n";
             methodCount--;
         }
 
