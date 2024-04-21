@@ -23,8 +23,9 @@ public class Struct extends Metadata {
      * 
      * @since 19/04/2024
      */
-    public Struct () {
-        super(new Token(null, "", 0, 0), 0);
+    public Struct (Token token, Struct parent) {
+        super(token, 0);
+        this.parent = parent;
     }
 
     /**
@@ -47,6 +48,20 @@ public class Struct extends Metadata {
      */
     public void addVar(String name, Variable variable) {
 
+    }
+
+    /**
+     * @param parent Clase padre de la cual hereda la estructura.
+     */
+    public void setParent (Struct parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * @return Struct con los datos de la superclase.
+     */
+    public Struct getParent() {
+        return parent;
     }
     
     /**

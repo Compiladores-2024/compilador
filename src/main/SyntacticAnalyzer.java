@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import src.lib.exceptionHelper.LexicalException;
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.symbolTableHelper.Param;
@@ -44,7 +45,7 @@ public class SyntacticAnalyzer {
      * @throws LexicalException
      * @throws SyntacticException
      */
-    public void run () throws LexicalException, SyntacticException{
+    public void run () throws LexicalException, SyntacticException, SemanticException{
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 

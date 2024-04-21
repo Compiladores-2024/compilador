@@ -45,6 +45,13 @@ public abstract class Metadata {
     }
 
     /**
+     * @return Token con la metadata del struct
+     */
+    public Token getMetadata() {
+        return metadata;
+    }
+
+    /**
      * Método a definir en cada subclase.
      * 
      * @since 19/04/2024
