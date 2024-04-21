@@ -284,7 +284,7 @@ public class SyntacticAnalyzer {
             isPrivate = true;
         }
 
-        listaDeclaracionVariables(tipo(), isPrivate);
+        listaDeclaracionVariables(tipo(), isPrivate, true);
 
         match(IDToken.sSEMICOLON);
     }
@@ -363,8 +363,7 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        tipo();
-        listaDeclaracionVariables();
+        listaDeclaracionVariables(tipo(),false, false);
         match(IDToken.sSEMICOLON);
     }
 
@@ -374,23 +373,15 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
-    private void listaDeclaracionVariables (IDToken type, boolean isPrivate) {
+    private void listaDeclaracionVariables (IDToken type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(token, type, isPrivate);
+        symbolTable.addVar(token, type, isPrivate, isAtribute);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaDeclaracionVariables(type, isPrivate);
-        }
-    }
-    //Se genera polimorfismo para que se utilice en declVarLocales ya que esta no genera variables en la estructura
-    private void listaDeclaracionVariables () {
-        match(IDToken.idOBJECT);
-        if (currentToken.getIDToken().equals(IDToken.sCOM)){
-            match(IDToken.sCOM);
-            listaDeclaracionVariables();
+            listaDeclaracionVariables(type, isPrivate, isAtribute);
         }
     }
 
@@ -541,13 +532,13 @@ public class SyntacticAnalyzer {
         match(IDToken.typeARRAY);
         //Accion para avisar que es array
         switch (tipoPrimitivo()) {
-            case IDToken.typeINT:
+            case typeINT:
                 return IDToken.typeArrayINT;
-            case IDToken.typeSTR:
+            case typeSTR:
                 return IDToken.typeArraySTR;
-            case IDToken.typeBOOL:
+            case typeBOOL:
                 return IDToken.typeArrayBOOL;
-            case IDToken.typeCHAR:
+            case typeCHAR:
                 return IDToken.typeArrayCHAR;
             default:
                 throw throwError(First.firstTipoPrimitivo);
