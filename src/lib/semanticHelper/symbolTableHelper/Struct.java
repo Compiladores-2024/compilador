@@ -55,6 +55,7 @@ public class Struct extends Metadata {
      * @since 19/04/2024
      * @param method Datos específicos del método.
      */
+
     public void addMethod(Method method) {
         System.out.println(method.getSignature());
     }
