@@ -50,55 +50,76 @@ public class SymbolTable {
     }
 
     private void addIO(){
-        Struct IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0), this.structs.get("Object"));
+        Struct IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0), 
+            this.structs.get("Object"));
 
-        IO.addMethod( "out_str", new Method(generateArrayParam(IDToken.typeSTR,"s"), true, IDToken.typeVOID));
-        IO.addMethod( "out_int", new Method(generateArrayParam(IDToken.typeINT,"i"), true, IDToken.typeVOID));
-        IO.addMethod( "out_bool", new Method(generateArrayParam( IDToken.typeArrayBOOL,"b"), true, IDToken.typeVOID));
-        IO.addMethod( "out_char", new Method(generateArrayParam( IDToken.typeCHAR, "c"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_int", new Method(generateArrayParam(  IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_str", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_bool", new Method(generateArrayParam(IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "out_array_char", new Method(generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID));
-        IO.addMethod( "in_str", new Method(null, true, IDToken.typeSTR));
-        IO.addMethod( "in_int", new Method(null, true, IDToken.typeINT));
-        IO.addMethod( "in_bool", new Method(null, true, IDToken.typeBOOL));
-        IO.addMethod( "in_char", new Method(null, true, IDToken.typeCHAR));
+        IO.addMethod( new Token(null, "out_str", 0, 0), 
+            generateArrayParam(IDToken.typeSTR,"s"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_int", 0,0), 
+            generateArrayParam(IDToken.typeINT,"i"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_bool", 0,0),
+            generateArrayParam( IDToken.typeArrayBOOL,"b"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_char", 0,0), 
+            generateArrayParam( IDToken.typeCHAR, "c"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_array_int", 0,0), 
+            generateArrayParam(  IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_array_str", 0,0), 
+            generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_array_bool", 0,0), 
+            generateArrayParam(IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"out_array_char", 0,0), 
+            generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+        IO.addMethod( new Token(null,"in_str", 0,0),
+            null, true, IDToken.typeSTR);
+        IO.addMethod( new Token(null,"in_int", 0,0),
+            null, true, IDToken.typeINT);
+        IO.addMethod( new Token(null,"in_bool", 0,0),
+            null, true, IDToken.typeBOOL);
+        IO.addMethod( new Token(null,"in_char", 0,0),   
+            null, true, IDToken.typeCHAR);
 
         structs.put("IO", IO);
     }
 
     private void addArray(){
-        Struct Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), this.structs.get("Object"));
-        Array.addMethod("length", new Method(null, false,IDToken.typeINT));
+        Struct Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), 
+            this.structs.get("Object"));
+        Array.addMethod(new Token(null, "length", 0, 0),
+            null, false,IDToken.typeINT);
         structs.put("Array", Array);
     }
 
     private void addInt(){
-        Struct Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), this.structs.get("Object"));
+        Struct Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), 
+            this.structs.get("Object"));
         structs.put("Int", Int);
     }
 
     private void addStr(){
-        Struct Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), this.structs.get("Object"));
-        Str.addMethod("length", new Method(null, false, IDToken.typeINT));
-        Str.addMethod("concat", new Method(generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR));
+        Struct Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), 
+            this.structs.get("Object"));
+        Str.addMethod(new Token(null, "length", 0, 0),
+            null, false, IDToken.typeINT);
+        Str.addMethod(new Token(null, "concat", 0, 0), 
+            generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR);
         structs.put("Str", Str);
     }
 
     private void addChar(){
-        Struct Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), this.structs.get("Object"));
+        Struct Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), 
+            this.structs.get("Object"));
         structs.put("Char", Char);
     }
     
     private void addBool(){
-        Struct Bool = new Struct(new Token(IDToken.typeBOOL, "Bool", 0, 0), this.structs.get("Object"));
+        Struct Bool = new Struct(new Token(IDToken.typeBOOL, "Bool", 0, 0), 
+            this.structs.get("Object"));
         structs.put("Bool", Bool);
     }
 
     private ArrayList<Param> generateArrayParam(IDToken paramToken, String lexema){
         ArrayList<Param> paramList= new ArrayList<Param>();
-        paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0)));
+        paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0), 0));
         return paramList; 
 
     }
