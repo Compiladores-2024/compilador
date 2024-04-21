@@ -520,8 +520,12 @@ public class SyntacticAnalyzer {
      * <Tipo-Referencia> ::= idStruct  
     */
     private IDToken tipoReferencia () {
+        IDToken idStruct = IDToken.idSTRUCT;
+        //Guarda el nombre del struct
+        idStruct.setDescripcion(currentToken.getLexema());
+
         match(IDToken.idSTRUCT);
-        return IDToken.idSTRUCT;
+        return idStruct;
     }
 
 

@@ -96,10 +96,19 @@ public enum IDToken {
     /** Para palabra reservada SELF */ pSELF("self"),
     /** Para palabra reservada RET */ pRET("ret");
 
-    private final String descripcion;
+    private String descripcion;
     IDToken(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    /**
+     * 
+     * @param descripcion Nueva descripción del objeto
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
     @Override
     public String toString() {
         return descripcion;
