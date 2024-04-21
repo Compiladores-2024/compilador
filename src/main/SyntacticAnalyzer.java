@@ -269,12 +269,15 @@ public class SyntacticAnalyzer {
      * <Atributo> ::= <Visibilidad’> <Tipo> <Lista-Declaración-Variables> ;  | <Tipo> <Lista-Declaración-Variables> ;  
     */
     private void atributo () {
+        boolean isPrivate = false;
+
         if (checkFirst(First.firstVisibilidadP)){
-            visibilidadP();   
+            visibilidadP();
+            isPrivate = true;
         }
 
-        tipo();
-        listaDeclaracionVariables();
+        listaDeclaracionVariables(tipo(), isPrivate);
+
         match(IDToken.sSEMICOLON);
     }
 
@@ -285,15 +288,22 @@ public class SyntacticAnalyzer {
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
     private void metodo () {
+        boolean isStatic = false;
+        ArrayList<Param> params;
+
         if (checkFirst(First.firstFormaMetodoP)){
             formaMetodoP();
+            isStatic = true;
         }
 
         match(IDToken.pFN);
         match(IDToken.idOBJECT);
-        argumentosFormales();
+        params = argumentosFormales();
         match(IDToken.sARROW_METHOD);
-        tipoMetodo();
+
+        //Agrega el método a la tabla de símbolos
+        symbolTable.addMethod(params, isStatic, tipoMetodo());
+
         bloqueMetodo();
     }
 
@@ -354,6 +364,17 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
+    private void listaDeclaracionVariables (IDToken type, boolean isPrivate) {
+        match(IDToken.idOBJECT);
+
+        symbolTable.addVar(type, isPrivate);
+
+        if (currentToken.getIDToken().equals(IDToken.sCOM)){
+            match(IDToken.sCOM);
+            listaDeclaracionVariables(type, isPrivate);
+        }
+    }
+    //Se genera polimorfismo para que se utilice en declVarLocales ya que esta no genera variables en la estructura
     private void listaDeclaracionVariables () {
         match(IDToken.idOBJECT);
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
@@ -422,13 +443,16 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Método> ::= <Tipo> | void  
     */
-    private void tipoMetodo () {
+    private IDToken tipoMetodo () {
+        IDToken result = IDToken.typeVOID;
+
         if (checkFirst(First.firstTipo)){
-            tipo();
+            result = tipo();
         }
         else{
             match(IDToken.typeVOID);
         }
+        return result;
     }
 
 
