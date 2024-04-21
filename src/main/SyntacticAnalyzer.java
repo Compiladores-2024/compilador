@@ -262,7 +262,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(argumentosFormales(), false, IDToken.typeVOID, token);
+        symbolTable.addMethod(token, argumentosFormales(), false, IDToken.typeVOID);
 
         bloqueMetodo();
     }
@@ -309,7 +309,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sARROW_METHOD);
 
         //Agrega el método a la tabla de símbolos
-        symbolTable.addMethod(params, isStatic, tipoMetodo(), token);
+        symbolTable.addMethod(token, params, isStatic, tipoMetodo());
 
         bloqueMetodo();
     }
