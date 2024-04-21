@@ -440,7 +440,7 @@ public class SyntacticAnalyzer {
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
     private Param argumentoFormal () {
-        Param param = new Param(currentToken, tipo());
+        Param param = new Param(tipo(), currentToken);
         match(IDToken.idOBJECT);
         return param;
     }

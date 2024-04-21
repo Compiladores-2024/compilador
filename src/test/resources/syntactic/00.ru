@@ -4,8 +4,8 @@ struct Mundo {
 }
 impl Mundo{
     .(){}
-    fn get_a() -> Int { ret a; }
-    st fn imprimo_algo() -> void {}
+    fn get_a(Bool param1) -> Int { ret a; }
+    st fn imprimo_algo(Int param1) -> void {}
 }
 
 struct Prueba{
@@ -13,14 +13,14 @@ struct Prueba{
 }
 
 impl Prueba{
-    .(){}
+    .(Str param1, Char param2){}
 }
 
 struct PruebaH : Prueba {
 }
 
 impl PruebaH {
-    .(){}
+    .(Array Str param2){}
 }
 
 start{

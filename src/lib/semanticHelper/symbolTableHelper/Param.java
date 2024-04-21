@@ -18,8 +18,16 @@ public class Param extends Metadata{
      * 
      * @since 19/04/2024
      */
-    public Param (Token token, IDToken type) {
-        super(new Token(null, "", 0, 0), 0);
+    public Param (IDToken type, Token token) {
+        super(token, 0);
+        this.type = type;
+    }
+
+    /**
+     * @return IDToken que identifica el tipo del parámetro
+     */
+    public IDToken getType() {
+        return type;
     }
     
     /**
