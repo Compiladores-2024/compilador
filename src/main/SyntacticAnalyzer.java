@@ -361,8 +361,8 @@ public class SyntacticAnalyzer {
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        tipo();
-        listaDeclaracionVariables();
+
+        listaDeclaracionVariables(tipo(),false);
         match(IDToken.sSEMICOLON);
     }
 
@@ -381,14 +381,6 @@ public class SyntacticAnalyzer {
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
             listaDeclaracionVariables(type, isPrivate);
-        }
-    }
-    //Se genera polimorfismo para que se utilice en declVarLocales ya que esta no genera variables en la estructura
-    private void listaDeclaracionVariables () {
-        match(IDToken.idOBJECT);
-        if (currentToken.getIDToken().equals(IDToken.sCOM)){
-            match(IDToken.sCOM);
-            listaDeclaracionVariables();
         }
     }
 
@@ -539,13 +531,13 @@ public class SyntacticAnalyzer {
         match(IDToken.typeARRAY);
         //Accion para avisar que es array
         switch (tipoPrimitivo()) {
-            case IDToken.typeINT:
+            case typeINT:
                 return IDToken.typeArrayINT;
-            case IDToken.typeSTR:
+            case typeSTR:
                 return IDToken.typeArraySTR;
-            case IDToken.typeBOOL:
+            case typeBOOL:
                 return IDToken.typeArrayBOOL;
-            case IDToken.typeCHAR:
+            case typeCHAR:
                 return IDToken.typeArrayCHAR;
             default:
                 throw throwError(First.firstTipoPrimitivo);
