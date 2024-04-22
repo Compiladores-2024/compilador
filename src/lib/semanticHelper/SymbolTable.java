@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.swing.RowFilter.Entry;
+
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.symbolTableHelper.*;
 import src.lib.tokenHelper.IDToken;
@@ -211,6 +213,42 @@ public class SymbolTable {
         structs.put(sStruct, currentStruct);
     }
 
+    public void addMethodInherited(Struct a){
+        Struct currentStruct = a;
+       
+        for (HashMap.Entry<String, Struct> entry : structs.entrySet()) {
+            // se omiten los structs predefinidos
+            if (!staticStruct.contains(entry.getKey())){
+                // si existe algun struct que hereda de currentStruct
+                if (entry.getValue().getParent().equals(currentStruct)){
+    
+                    HashMap<String, Method> auxMethods = entry.getValue().getMethods();
+                    updateIndexMethods(auxMethods,currentStruct.getCurrentMethodIndex());
+                    
+                    // falta checksignature
+
+                    HashMap<String,Method> parentsMethods = currentStruct.getMethods();
+                    for (HashMap.Entry<String, Method> parentMethod : parentsMethods.entrySet()) {
+                        auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
+                        entry.getValue().updateCurrentMethodIndex();
+                    }
+
+                    addMethodInherited(entry.getValue());
+
+                }
+            }
+        }
+    }
+
+
+    private void updateIndexMethods(HashMap<String, Method> methods1, int countMethods){
+        for (HashMap.Entry<String, Method> entryMethod : methods1.entrySet()) {
+            entryMethod.getValue().setPosition(countMethods);
+            ++countMethods;
+        }
+    }
+
+
     /**
      * Método que valida herencia cíclica.
      * 
@@ -296,5 +334,9 @@ public class SymbolTable {
                 structJSON +
             "    ]\n"+
         "}";
+    }
+
+    public HashMap<String, Struct> getStructs(){
+        return this.structs;
     }
 }
