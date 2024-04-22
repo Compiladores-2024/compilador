@@ -1,0 +1,48 @@
+{
+    "structs": [
+        {
+            "nombre": "A",
+            "heredaDe": "Object",
+            "methodIndex": 2,
+            "varIndex": 2,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "false",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "b",
+                    "tipo": "Str",
+                    "public": "true",
+                    "posicion": 1
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "a",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": []
+                    "variables": [],
+                },
+                {
+                    "nombre": "b",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "c",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ]
+                    "variables": [],
+                }
+            ]
+        }
+    ]
+}
