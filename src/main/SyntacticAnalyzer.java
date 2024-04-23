@@ -55,10 +55,8 @@ public class SyntacticAnalyzer {
         //Comienza el análisis
         this.program();
 
-        // System.out.println(symbolTable.toJSON());
-
-        //Si el análisis no retorna error, ha sido correcto
-        // System.out.println("CORRECTO: ANALISIS SINTACTICO");
+        //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos
+        symbolTable.consolidate();
     }
 
     public SymbolTable getSymbolTable(){
