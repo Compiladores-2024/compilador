@@ -164,6 +164,11 @@ public class SymbolTable {
     public void addStruct(Token token, IDToken parent, boolean isFromStruct) {
         String sStruct = token.getLexema(), sParent = parent.toString();
         Struct parentStruct = structs.get(sParent);
+
+        //Valida que no se herede de los tipos primitivos
+        if (staticStruct.contains(sParent) && sParent != "Object") {
+            throw new SemanticException(token, "No se puede heredar de un tipo de dato predefinido. Tipo: " + sParent);
+        }
         
         //Si no se ha definido la superclase, la agrega a un stack de redefinición y asigna object
         if (parentStruct == null) {
