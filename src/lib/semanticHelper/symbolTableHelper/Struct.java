@@ -48,9 +48,16 @@ public class Struct extends Metadata {
     public void updateCurrentMethodIndex(){
         this.currentMethodIndex=this.methods.size();
     }
+    public void updateCurrentVarIndex(){
+        this.currentVarIndex=this.variables.size();
+    }
 
     public HashMap<String, Variable> getVariable(){
         return this.variables;
+    }
+
+    public int getCurrentVarIndex(){
+        return this.currentVarIndex;
     }
 
     public int getCurrentMethodIndex(){

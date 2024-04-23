@@ -43,6 +43,13 @@ impl D{
         Str s;
         Bool b;
     }
+    st fn m4()->void{
+        Bool booleano;
+        Str hola;
+    }
+    fn m5()->void{
+        Int iter;
+    }
 }
 
 start{

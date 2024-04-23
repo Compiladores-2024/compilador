@@ -118,7 +118,7 @@
         {
             "nombre": "D",
             "heredaDe": "C",
-            "methodIndex": 3,
+            "methodIndex": 5,
             "varIndex": 0,
             "atributos": [],
             "métodos": [
@@ -187,6 +187,42 @@
                         }
                     ]
                     "variables": []
+                },
+                {
+                    "nombre": "m4",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 3,
+                    "parámetros": []
+                    "variables": [
+                        {
+                            "nombre": "booleano",
+                            "tipo": "Bool",
+                            "public": "true",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "hola",
+                            "tipo": "Str",
+                            "public": "true",
+                            "posicion": 1
+                        }
+                    ]
+                },
+                {
+                    "nombre": "m5",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 4,
+                    "parámetros": []
+                    "variables": [
+                        {
+                            "nombre": "iter",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 0
+                        }
+                    ]
                 }
             ]
         }

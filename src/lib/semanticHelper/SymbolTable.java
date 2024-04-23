@@ -297,18 +297,18 @@ public class SymbolTable {
             throw new SemanticException(metadata, "La superclase '" + sMessage + "' no se encuentra definida.");
         }
 
-        // añadir metodos heredados desde Object
-        addMethodInherited(structs.get("Object"));
+        // añadir variables y metodos  heredados desde Object
+        addMethod_and_variables_inherited(structs.get("Object"));
     }
 
         /**
-     * Método que añade metodos heredados. El objetivo es partir desde Object (parentStruct) e ir añadiendo
+     * Método que añade metodos y variables heredadas. El objetivo es partir desde Object (parentStruct) e ir añadiendo
      * metodos a las clases entry que utilicen a parentStruct.
      * 
      * @param parent HashMap<String, Method>
      * @since 22/04/2024
      */
-    private void addMethodInherited(Struct parentStruct){
+    private void addMethod_and_variables_inherited(Struct parentStruct){
 
         // se itera por cada struct
         for (HashMap.Entry<String, Struct> entry : structs.entrySet()) {
@@ -319,6 +319,28 @@ public class SymbolTable {
                 // si existe algun struct que hereda de parentStruct
                 if (entry.getValue().getParent().equals(parentStruct)){
                     if (!parentStruct.equals(structs.get("Object"))){
+
+                        // se toma el HashMap de Variables del struct que hereda de parentStruct
+                        HashMap<String, Variable> auxVariables = entry.getValue().getVariable();
+
+                        // se actualizan los position del HashMap de Variable
+                        updateIndexVariable(auxVariables,parentStruct.getCurrentVarIndex());
+                        
+                        // se añade cada variable del parent al struct hijo
+                        for (HashMap.Entry<String, Variable> parentVariable : parentStruct.getVariable().entrySet()) {
+
+                            // si no existe la variable en el hijo entonces se agrega
+                            if (auxVariables.get(parentVariable.getKey())==null){
+                                
+                                auxVariables.put(parentVariable.getKey(), parentVariable.getValue());
+                            }
+                            // si ya existe la variable en el hijo es un error
+                            else{
+                                throw new SemanticException(auxVariables.get(parentVariable.getKey()).getMetadata(),"Atributo ya declarado en un ancestro");
+
+                            }
+                        }
+
                         // se toma el HashMap de Methods del struct que hereda de parentStruct
                         HashMap<String, Method> auxMethods = entry.getValue().getMethods();
                         
@@ -334,13 +356,16 @@ public class SymbolTable {
                         for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
                             auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
                         }
+                        // entry.getValue().updateCurrentMethodIndex();
+                        entry.getValue().updateCurrentVarIndex();
+                        
                     }
-
+                    
                     // recursion con cada hijo
-                    addMethodInherited(entry.getValue());
-    
-                    // se actualizan los indices de metodos
+                    addMethod_and_variables_inherited(entry.getValue());
+                    // se actualizan los indices de metodos y variables
                     entry.getValue().updateCurrentMethodIndex();
+                    entry.getValue().updateCurrentVarIndex();
                 }
             }
         }
@@ -380,6 +405,24 @@ public class SymbolTable {
         }
         return parentCopy;
     }
+
+    /**
+     * Método que actualiza las position de las Variable de un 
+     * HashMap<String,Variable> pasado como parametro.
+     * 
+     * @param hashVar HashMap<String, Variable>
+     * @param count Cantidad de variables de un HashMap padre. 
+     * @since 23/04/2024
+     */
+    private void updateIndexVariable(HashMap<String, Variable> hashVar, int count){
+        for (HashMap.Entry<String, Variable> entryVar : hashVar.entrySet()) {
+            // se toma la position anterior
+            int positionPrev = ((Metadata)entryVar.getValue()).getPosition();
+            // se actualiza la posicion anterior sumandole count (cantidad de entradas del padre)
+            ((Metadata)entryVar.getValue()).setPosition(positionPrev + count);
+        }
+    }
+
 
     /**
      * Método que actualiza las position de los metodos de un 
