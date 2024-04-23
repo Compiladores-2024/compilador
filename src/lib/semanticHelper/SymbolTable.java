@@ -238,29 +238,29 @@ public class SymbolTable {
 
                 // si existe algun struct que hereda de parentStruct
                 if (entry.getValue().getParent().equals(parentStruct)){
-
-                    // se toma el HashMap de Methods del struct que hereda de parentStruct
-                    HashMap<String, Method> auxMethods = entry.getValue().getMethods();
-                    
-                    // se actualizan los position del HashMap
-                    updateIndexMethods(auxMethods,parentStruct.getCurrentMethodIndex());
-                    
-                    // se genera un HashMap parentCopy que contiene metodos del parent  
-                    // que no fueron sobreescritos. Si un metodo fue sobreescrito correctamente
-                    // se omite
-                    HashMap<String, Method> parentCopy= checksignature(auxMethods, parentStruct.getMethods());
-
-                    // se añade cada metodo del parentCopy al struct hijo
-                    for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
-                        auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
+                    if (!parentStruct.equals(structs.get("Object"))){
+                        // se toma el HashMap de Methods del struct que hereda de parentStruct
+                        HashMap<String, Method> auxMethods = entry.getValue().getMethods();
+                        
+                        // se actualizan los position del HashMap
+                        updateIndexMethods(auxMethods,parentStruct.getCurrentMethodIndex());
+                        
+                        // se genera un HashMap parentCopy que contiene metodos del parent  
+                        // que no fueron sobreescritos. Si un metodo fue sobreescrito correctamente
+                        // se omite
+                        HashMap<String, Method> parentCopy= checksignature(auxMethods, parentStruct.getMethods());
+    
+                        // se añade cada metodo del parentCopy al struct hijo
+                        for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
+                            auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
+                        }
                     }
 
                     // recursion con cada hijo
                     addMethodInherited(entry.getValue());
-
+    
                     // se actualizan los indices de metodos
                     entry.getValue().updateCurrentMethodIndex();
-
                 }
             }
         }
