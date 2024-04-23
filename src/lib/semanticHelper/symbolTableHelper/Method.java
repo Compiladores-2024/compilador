@@ -32,7 +32,14 @@ public class Method extends Metadata{
         variables = new HashMap<String, Variable>();
         params = new HashMap<String, Param>();
         for (Param param : parameters) {
-            params.put(param.getName(), param);
+            // si no contiene un parametro con param.getName como key entonces se agrega
+            if(params.get(param.getName())==null){
+                params.put(param.getName(), param);
+            }
+            // sino es error, hay identificadores iguales en la definicion de argumentos formales del metodo
+            else{
+                throw new SemanticException(metadata, "Metodo "+metadata.getLexema() + " contiene argumentos formales con iguales identificadores");
+            }
         }
 
         this.isStatic = isStatic;
