@@ -166,6 +166,11 @@ public class SymbolTable {
     public void addStruct(Token token, IDToken parent, boolean isFromStruct) {
         String sStruct = token.getLexema(), sParent = parent.toString();
         Struct parentStruct = structs.get(sParent);
+
+        //Valida que no se herede de los tipos primitivos
+        if (staticStruct.contains(sParent) && sParent != "Object") {
+            throw new SemanticException(token, "No se puede heredar de un tipo de dato predefinido. Tipo: " + sParent);
+        }
         
         //Si no se ha definido la superclase, la agrega a un stack de redefinición y asigna object
         if (parentStruct == null) {
@@ -273,7 +278,7 @@ public class SymbolTable {
      * @return HashMap<String, Method> 
      * @since 22/04/2024
      */
-    private HashMap<String, Method> checksignature(HashMap<String, Method> actual, HashMap<String, Method> parent) throws SemanticException{
+    private HashMap<String, Method> checksignature(HashMap<String, Method> actual, HashMap<String, Method> parent) {
         HashMap<String, Method> parentCopy = new HashMap<String, Method>();
         
         for (HashMap.Entry<String, Method> parentMethod : parent.entrySet()) {
@@ -340,14 +345,7 @@ public class SymbolTable {
     }
 
     /**
-     * Método que agrega una variable a la tabla de símbolos.<br/>
-     * 
-     * <br/>Realiza las siguientes validaciones:<br/>
-     * - Si ya existe un atributo con el mismo nombre.<br/>
-     * 
-     * 
-     * <br/>Realiza las siguientes acciones:<br/>
-     * - Aumenta el contador de posición para los atributos de la estructura correspondiente.<br/>
+     * Método que agrega una variable a la tabla de símbolos. Este deriva la lógica en el método de la estructura o método correspondiente.
      * 
      * @since 19/04/2024
      * @param token Metadata con el token correspondiente al idVar
@@ -365,7 +363,6 @@ public class SymbolTable {
     /**
      * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.
      * 
-     * 
      * @since 19/04/2024
      * @param token Metadata con el token correspondiente al idMethod
      * @param params ArrayList con los parámetros del método
@@ -374,6 +371,34 @@ public class SymbolTable {
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
         currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
+    }
+
+    /**
+     * Método que consolida la tabla de símbolos.<br/>
+     * 
+     * <br/>Realiza las siguientes validaciones:<br/>
+     * - Que se hayan definido todas las clases de la cual se hereda.<br/>
+     * 
+     * <br/>Realiza las siguientes acciones:<br/>
+     * 
+     * 
+     * @since 22/04/2024
+     */
+    public void consolidate () {
+        Token metadata;
+        String sMessage = "";
+
+        //Valida si se han definido todas las clases
+        if (redefinitions.size() > 0) {
+            //Obtiene el nombre de la superclase
+            sMessage = redefinitions.keySet().iterator().next();
+
+            //Obtiene la metadata del struct que utiliza la superclase.
+            metadata = structs.get(redefinitions.get(sMessage).get(0)).getMetadata();
+
+            throw new SemanticException(metadata, "La superclase '" + sMessage + "' no se encuentra definida.");
+        }
+
     }
 
     /**
