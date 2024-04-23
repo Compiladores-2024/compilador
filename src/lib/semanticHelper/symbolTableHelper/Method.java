@@ -86,7 +86,7 @@ public class Method extends Metadata{
             tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
             tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "]\n" +
-            tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +
+            tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "]\n" +
         tabs + "}";
     }
 }
