@@ -66,7 +66,7 @@ public abstract class Metadata {
      * @return
      */
     @SuppressWarnings("unchecked")
-    private String [] order (HashMap<String, ?> entity) {
+    public String [] order (HashMap<String, ?> entity) {
         String[] result = new String[entity.size()];
         for (Metadata object : (Collection<Metadata>)entity.values()) {
             result[object.getPosition()] = object.getName();

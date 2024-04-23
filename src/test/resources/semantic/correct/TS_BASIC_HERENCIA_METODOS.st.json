@@ -85,7 +85,14 @@
                             "posicion": 1
                         }
                     ]
-                    "variables": [],
+                    "variables": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 0
+                        }
+                    ],
                 },
                 {
                     "nombre": "m3",

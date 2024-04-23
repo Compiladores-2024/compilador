@@ -62,6 +62,7 @@ public class Method extends Metadata{
         String sParams = "";
 
         //Genera el string de parametros
+        orderParams=order(this.params);
         for (String paramName : orderParams) {
             sParams += params.get(paramName).toString() + " ";
         }
