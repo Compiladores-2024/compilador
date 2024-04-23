@@ -1,3 +1,4 @@
+/? CORRECTO: SEMANTICO - DECLARACIONES
 struct A{
 
 
@@ -31,6 +32,17 @@ impl C{
 
 struct C:B{
 
+}
+
+struct D:C{
+
+}
+
+impl D{
+    st fn m1()->Int{
+        Str s;
+        Bool b;
+    }
 }
 
 start{

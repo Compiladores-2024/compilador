@@ -225,26 +225,35 @@ public class SymbolTable {
      */
     public void addMethodInherited(Struct parentStruct){
 
-       
+        // se itera por cada struct
         for (HashMap.Entry<String, Struct> entry : structs.entrySet()) {
+
             // se omiten los structs predefinidos
             if (!staticStruct.contains(entry.getKey())){
+
                 // si existe algun struct que hereda de parentStruct
                 if (entry.getValue().getParent().equals(parentStruct)){
-    
+
+                    // se toma el HashMap de Methods del struct que hereda de parentStruct
                     HashMap<String, Method> auxMethods = entry.getValue().getMethods();
+                    
+                    // se actualizan los position del HashMap
                     updateIndexMethods(auxMethods,parentStruct.getCurrentMethodIndex());
                     
-                    
+                    // se genera un HashMap parentCopy que contiene metodos del parent  
+                    // que no fueron sobreescritos. Si un metodo fue sobreescrito correctamente
+                    // se omite
                     HashMap<String, Method> parentCopy= checksignature(auxMethods, parentStruct.getMethods());
 
+                    // se añade cada metodo del parentCopy al struct hijo
                     for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
                         auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
-                        
                     }
 
+                    // recursion con cada hijo
                     addMethodInherited(entry.getValue());
 
+                    // se actualizan los indices de metodos
                     entry.getValue().updateCurrentMethodIndex();
 
                 }
@@ -273,7 +282,7 @@ public class SymbolTable {
                 // si la signature NO es igual
                 if (!(actual.get(parentMethod.getKey()).getSignature().equals(parentMethod.getValue().getSignature()))){
                     
-                    throw new SemanticException(parentMethod.getValue().getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
+                    throw new SemanticException(actual.get(parentMethod.getKey()).getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
                 }
                 //si coinciden las signature se actualizan las position
                 else{
