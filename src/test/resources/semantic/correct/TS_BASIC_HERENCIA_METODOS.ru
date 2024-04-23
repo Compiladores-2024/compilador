@@ -1,3 +1,4 @@
+/? CORRECTO: SEMANTICO - DECLARACIONES
 struct A{
 
 
@@ -22,10 +23,26 @@ impl C{
         (IO.out_int(num));
         (IO.out_str("="));
     }
+    fn m2(Int a,Str b)->void{
+        Int a;
+        (IO.out_int(1));
+        a=1;
+    }
 }
 
 struct C:B{
 
+}
+
+struct D:C{
+
+}
+
+impl D{
+    st fn m1()->Int{
+        Str s;
+        Bool b;
+    }
 }
 
 start{

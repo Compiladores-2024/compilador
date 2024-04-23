@@ -13,22 +13,30 @@
                     "retorno": "Int",
                     "posicion": 0,
                     "parámetros": []
-                    "variables": [],
+                    "variables": []
                 }
             ]
-        }
+        },
         {
             "nombre": "B",
             "heredaDe": "A",
-            "methodIndex": 1,
+            "methodIndex": 2,
             "varIndex": 0,
             "atributos": [],
             "métodos": [
                 {
+                    "nombre": "m1",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": []
+                    "variables": []
+                },
+                {
                     "nombre": "m2",
                     "static": "false",
                     "retorno": "void",
-                    "posicion": 0,
+                    "posicion": 1,
                     "parámetros": [
                         {
                             "nombre": "a",
@@ -41,22 +49,56 @@
                             "posicion": 1
                         }
                     ]
-                    "variables": [],
+                    "variables": []
                 }
             ]
         }
         {
             "nombre": "C",
             "heredaDe": "B",
-            "methodIndex": 1,
+            "methodIndex": 3,
             "varIndex": 0,
             "atributos": [],
             "métodos": [
                 {
+                    "nombre": "m1",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": []
+                    "variables": []
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Str",
+                            "posicion": 1
+                        }
+                    ]
+                    "variables": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 0
+                        }
+                    ]
+                },
+                {
                     "nombre": "m3",
                     "static": "false",
                     "retorno": "Str",
-                    "posicion": 0,
+                    "posicion": 2,
                     "parámetros": [
                         {
                             "nombre": "a",
@@ -69,7 +111,82 @@
                             "posicion": 1
                         }
                     ]
-                    "variables": [],
+                    "variables": []
+                }
+            ]
+        }
+        {
+            "nombre": "D",
+            "heredaDe": "C",
+            "methodIndex": 3,
+            "varIndex": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "m1",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": []
+                    "variables": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Str",
+                            "public": "true",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Bool",
+                            "public": "true",
+                            "posicion": 1
+                        }
+                    ]
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Str",
+                            "posicion": 1
+                        }
+                    ]
+                    "variables": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 0
+                        }
+                    ]
+                },
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "c",
+                            "tipo": "Char",
+                            "posicion": 1
+                        }
+                    ]
+                    "variables": []
                 }
             ]
         }

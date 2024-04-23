@@ -297,7 +297,105 @@ public class SymbolTable {
             throw new SemanticException(metadata, "La superclase '" + sMessage + "' no se encuentra definida.");
         }
 
+        // añadir metodos heredados desde Object
+        addMethodInherited(structs.get("Object"));
     }
+
+        /**
+     * Método que añade metodos heredados. El objetivo es partir desde Object (parentStruct) e ir añadiendo
+     * metodos a las clases entry que utilicen a parentStruct.
+     * 
+     * @param parent HashMap<String, Method>
+     * @since 22/04/2024
+     */
+    private void addMethodInherited(Struct parentStruct){
+
+        // se itera por cada struct
+        for (HashMap.Entry<String, Struct> entry : structs.entrySet()) {
+
+            // se omiten los structs predefinidos
+            if (!staticStruct.contains(entry.getKey())){
+
+                // si existe algun struct que hereda de parentStruct
+                if (entry.getValue().getParent().equals(parentStruct)){
+                    if (!parentStruct.equals(structs.get("Object"))){
+                        // se toma el HashMap de Methods del struct que hereda de parentStruct
+                        HashMap<String, Method> auxMethods = entry.getValue().getMethods();
+                        
+                        // se actualizan los position del HashMap
+                        updateIndexMethods(auxMethods,parentStruct.getCurrentMethodIndex());
+                        
+                        // se genera un HashMap parentCopy que contiene metodos del parent  
+                        // que no fueron sobreescritos. Si un metodo fue sobreescrito correctamente
+                        // se omite
+                        HashMap<String, Method> parentCopy= checksignature(auxMethods, parentStruct.getMethods());
+    
+                        // se añade cada metodo del parentCopy al struct hijo
+                        for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
+                            auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
+                        }
+                    }
+
+                    // recursion con cada hijo
+                    addMethodInherited(entry.getValue());
+    
+                    // se actualizan los indices de metodos
+                    entry.getValue().updateCurrentMethodIndex();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Método que retorna un HashMap<String, Method> con metodos de un parent. 
+     * Donde se omiten los metodos sobreescritos correctamente.
+     * En caso de que un metodo de actual contenga un metodo mal redefinido con respecto a los de parent,
+     * entonces se genera una excepcion semantica.
+     * 
+     * @param actual HashMap<String, Method>
+     * @param parent HashMap<String, Method>
+     * @return HashMap<String, Method> 
+     * @since 22/04/2024
+     */
+    private HashMap<String, Method> checksignature(HashMap<String, Method> actual, HashMap<String, Method> parent) {
+        HashMap<String, Method> parentCopy = new HashMap<String, Method>();
+        
+        for (HashMap.Entry<String, Method> parentMethod : parent.entrySet()) {
+            // si los metodos de actual contienen algun metodo de parent
+            if (actual.containsKey(parentMethod.getKey())) {
+                // si la signature NO es igual
+                if (!(actual.get(parentMethod.getKey()).getSignature().equals(parentMethod.getValue().getSignature()))){
+                    
+                    throw new SemanticException(actual.get(parentMethod.getKey()).getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
+                }
+                //si coinciden las signature se actualizan las position
+                else{
+                    actual.get(parentMethod.getValue().getName()).setPosition(parentMethod.getValue().getPosition());
+                }
+            }
+            else{
+                parentCopy.put(parentMethod.getKey(), parentMethod.getValue());
+            }   
+        }
+        return parentCopy;
+    }
+
+    /**
+     * Método que actualiza las position de los metodos de un 
+     * HashMap<String,Method> pasado como parametro.
+     * 
+     * @param methods HashMap<String, Method>
+     * @param countMethods Cantidad de metodos de un HashMap padre. 
+     * @since 22/04/2024
+     */
+    private void updateIndexMethods(HashMap<String, Method> methods, int countMethods){
+        for (HashMap.Entry<String, Method> entryMethod : methods.entrySet()) {
+            entryMethod.getValue().setPosition(countMethods);
+            ++countMethods;
+        }
+    }
+
 
     /**
      * Convierte los datos en JSON.

@@ -38,7 +38,7 @@
                             "posicion": 0
                         }
                     ]
-                    "variables": [],
+                    "variables": []
                 },
                 {
                     "nombre": "imprimo_numero",
@@ -52,7 +52,7 @@
                             "posicion": 0
                         }
                     ]
-                    "variables": [],
+                    "variables": []
                 },
                 {
                     "nombre": "imprimo_sucesion",
@@ -79,7 +79,7 @@
                             "public": "true",
                             "posicion": 1
                         }
-                    ],
+                    ]
                 }
             ]
         }

@@ -45,6 +45,21 @@ public class Struct extends Metadata {
         countImplDefinition = 0;
     }
 
+    public void updateCurrentMethodIndex(){
+        this.currentMethodIndex=this.methods.size();
+    }
+
+    public HashMap<String, Variable> getVariable(){
+        return this.variables;
+    }
+
+    public int getCurrentMethodIndex(){
+        return this.currentMethodIndex;
+    }
+
+    public HashMap<String, Method> getMethods() {
+        return methods;
+    }
     /**
      * @return Struct con los datos de la superclase.
      */
@@ -169,7 +184,7 @@ public class Struct extends Metadata {
     @Override
     public String toJSON(String tabs) {
         String variableJSON = toJSONEntity(variables, tabs), methodJSON = toJSONEntity(methods, tabs);
-
+        
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
