@@ -1,0 +1,145 @@
+{
+    "structs": [
+        {
+            "nombre": "A",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "methodIndex": 0,
+            "varIndex": 3,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "b",
+                    "tipo": "Bool",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "c",
+                    "tipo": "Char",
+                    "public": "true",
+                    "posicion": 2
+                }
+            ],
+            "métodos": []
+        },
+        {
+            "nombre": "B",
+            "heredaDe": "A",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "methodIndex": 0,
+            "varIndex": 5,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "b",
+                    "tipo": "Bool",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "c",
+                    "tipo": "Char",
+                    "public": "true",
+                    "posicion": 2
+                },
+                {
+                    "nombre": "s",
+                    "tipo": "Str",
+                    "public": "true",
+                    "posicion": 3
+                },
+                {
+                    "nombre": "arr",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 4
+                }
+            ],
+            "métodos": []
+        },
+        {
+            "nombre": "C",
+            "heredaDe": "B",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "methodIndex": 0,
+            "varIndex": 6,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "b",
+                    "tipo": "Bool",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "c",
+                    "tipo": "Char",
+                    "public": "true",
+                    "posicion": 2
+                },
+                {
+                    "nombre": "s",
+                    "tipo": "Str",
+                    "public": "true",
+                    "posicion": 3
+                },
+                {
+                    "nombre": "arr",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 4
+                },
+                {
+                    "nombre": "listaInt",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 5
+                }
+            ],
+            "métodos": []
+        }
+    ]
+}

@@ -3,6 +3,16 @@
         {
             "nombre": "Fibonacci",
             "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 3,
             "varIndex": 3,
             "atributos": [
@@ -37,7 +47,7 @@
                             "tipo": "Int",
                             "posicion": 0
                         }
-                    ]
+                    ],
                     "variables": []
                 },
                 {
@@ -51,7 +61,7 @@
                             "tipo": "Int",
                             "posicion": 0
                         }
-                    ]
+                    ],
                     "variables": []
                 },
                 {
@@ -65,7 +75,7 @@
                             "tipo": "Int",
                             "posicion": 0
                         }
-                    ]
+                    ],
                     "variables": [
                         {
                             "nombre": "fib",

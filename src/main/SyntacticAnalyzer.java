@@ -54,8 +54,6 @@ public class SyntacticAnalyzer {
 
         //Comienza el análisis
         this.program();
-        // añadir metodos heredados desde Object
-        symbolTable.addMethodInherited(symbolTable.getStructs().get("Object"));
 
         //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos
         symbolTable.consolidate();

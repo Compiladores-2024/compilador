@@ -3,6 +3,16 @@
         {
             "nombre": "A",
             "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 1,
             "varIndex": 0,
             "atributos": [],
@@ -12,7 +22,7 @@
                     "static": "true",
                     "retorno": "Int",
                     "posicion": 0,
-                    "parámetros": []
+                    "parámetros": [],
                     "variables": []
                 }
             ]
@@ -20,6 +30,16 @@
         {
             "nombre": "B",
             "heredaDe": "A",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 2,
             "varIndex": 0,
             "atributos": [],
@@ -29,7 +49,7 @@
                     "static": "true",
                     "retorno": "Int",
                     "posicion": 0,
-                    "parámetros": []
+                    "parámetros": [],
                     "variables": []
                 },
                 {
@@ -48,14 +68,24 @@
                             "tipo": "Str",
                             "posicion": 1
                         }
-                    ]
+                    ],
                     "variables": []
                 }
             ]
-        }
+        },
         {
             "nombre": "C",
             "heredaDe": "B",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 3,
             "varIndex": 0,
             "atributos": [],
@@ -65,7 +95,7 @@
                     "static": "true",
                     "retorno": "Int",
                     "posicion": 0,
-                    "parámetros": []
+                    "parámetros": [],
                     "variables": []
                 },
                 {
@@ -84,7 +114,7 @@
                             "tipo": "Str",
                             "posicion": 1
                         }
-                    ]
+                    ],
                     "variables": [
                         {
                             "nombre": "a",
@@ -110,15 +140,25 @@
                             "tipo": "Char",
                             "posicion": 1
                         }
-                    ]
+                    ],
                     "variables": []
                 }
             ]
-        }
+        },
         {
             "nombre": "D",
             "heredaDe": "C",
-            "methodIndex": 3,
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "methodIndex": 5,
             "varIndex": 0,
             "atributos": [],
             "métodos": [
@@ -127,7 +167,7 @@
                     "static": "true",
                     "retorno": "Int",
                     "posicion": 0,
-                    "parámetros": []
+                    "parámetros": [],
                     "variables": [
                         {
                             "nombre": "s",
@@ -159,7 +199,7 @@
                             "tipo": "Str",
                             "posicion": 1
                         }
-                    ]
+                    ],
                     "variables": [
                         {
                             "nombre": "a",
@@ -185,8 +225,44 @@
                             "tipo": "Char",
                             "posicion": 1
                         }
-                    ]
+                    ],
                     "variables": []
+                },
+                {
+                    "nombre": "m4",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 3,
+                    "parámetros": [],
+                    "variables": [
+                        {
+                            "nombre": "booleano",
+                            "tipo": "Bool",
+                            "public": "true",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "hola",
+                            "tipo": "Str",
+                            "public": "true",
+                            "posicion": 1
+                        }
+                    ]
+                },
+                {
+                    "nombre": "m5",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 4,
+                    "parámetros": [],
+                    "variables": [
+                        {
+                            "nombre": "iter",
+                            "tipo": "Int",
+                            "public": "true",
+                            "posicion": 0
+                        }
+                    ]
                 }
             ]
         }

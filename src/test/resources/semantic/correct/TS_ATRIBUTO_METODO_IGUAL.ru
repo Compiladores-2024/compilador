@@ -7,6 +7,9 @@ struct A{
 }
 
 impl A{
+    .(){
+        
+    }
     fn a()->void{
 
     }
