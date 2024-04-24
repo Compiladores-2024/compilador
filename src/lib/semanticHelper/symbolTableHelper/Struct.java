@@ -67,6 +67,9 @@ public class Struct extends Metadata {
     public HashMap<String, Method> getMethods() {
         return methods;
     }
+    public Method getConstructor(){
+        return this.constructor;
+    }
     /**
      * @return Struct con los datos de la superclase.
      */
@@ -192,10 +195,6 @@ public class Struct extends Metadata {
     public String toJSON(String tabs) {
         String variableJSON = toJSONEntity(variables, tabs), methodJSON = toJSONEntity(methods, tabs);
 
-        // chequear que tenga constructor declarado
-        if(this.constructor==null){         
-            throw new SemanticException(this.getMetadata(), "Struct "+ this.getName() + " no tiene constructor implementado");
-        }
         String constructorJSON = constructor.toJSON(tabs + "        ");
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +

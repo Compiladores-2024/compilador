@@ -315,6 +315,9 @@ public class SymbolTable {
 
             // se omiten los structs predefinidos
             if (!staticStruct.contains(entry.getKey())){
+                if(entry.getValue().getConstructor()==null){
+                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " no tiene constructor implementado");
+                }
 
                 // si existe algun struct que hereda de parentStruct
                 if (entry.getValue().getParent().equals(parentStruct)){
