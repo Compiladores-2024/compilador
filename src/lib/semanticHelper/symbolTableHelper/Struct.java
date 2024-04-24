@@ -67,8 +67,8 @@ public class Struct extends Metadata {
     public HashMap<String, Method> getMethods() {
         return methods;
     }
-    public Method getConstructor(){
-        return this.constructor;
+    public boolean hasConstructor(){
+        return this.constructor == null;
     }
     /**
      * @return Struct con los datos de la superclase.

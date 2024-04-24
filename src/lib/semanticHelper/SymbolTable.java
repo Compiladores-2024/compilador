@@ -328,7 +328,7 @@ public class SymbolTable {
 
             // se omiten los structs predefinidos
             if (!staticStruct.contains(entry.getKey())){
-                if(entry.getValue().getConstructor()==null){
+                if(!entry.getValue().hasConstructor()){
                     throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " no tiene constructor implementado");
                 }
 
