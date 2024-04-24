@@ -1,0 +1,19 @@
+{
+    "structs": [
+    ],
+    "start": {
+        "nombre": "start",
+        "static": "false",
+        "retorno": "void",
+        "posicion": 0,
+        "parámetros": [],
+        "variables": [
+            {
+                "nombre": "a",
+                "tipo": "Int",
+                "public": "true",
+                "posicion": 0
+            }
+        ]
+    }
+}

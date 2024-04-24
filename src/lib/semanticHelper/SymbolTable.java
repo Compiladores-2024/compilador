@@ -20,6 +20,7 @@ public class SymbolTable {
     private final HashSet<String> staticStruct;
     private Struct currentStruct;
     private Method currentMethod;
+    private Method start;
     private HashMap<String, Struct> structs;
 
     // Estructura que se utiliza para almacenar clases que deben reasignar herencias.
@@ -268,7 +269,19 @@ public class SymbolTable {
      * @param returnType Tipo de retorno del método
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
-        currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
+        if (token.getIDToken().equals(IDToken.idSTART)) {
+            //Valida si se está generando un constructor y que no se haya generado otro
+            if (start == null) {
+                start = new Method(token, params, returnType, isStatic, 0);
+                currentMethod = start;
+            }
+            else {
+                throw new SemanticException(token, "No se permite definir más de un método start.");
+            }
+        } else {
+            currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
+        }
+
     }
 
     /**
@@ -452,7 +465,7 @@ public class SymbolTable {
      * @return Estructura de datos en formato JSON
      */
     public String toJSON() {
-        String structJSON = "";
+        String structJSON = "", startJSON = start.toJSON("    ");
         int count = structs.values().size() - staticStruct.size();
 
         for (Struct struct : structs.values()) {
@@ -465,7 +478,8 @@ public class SymbolTable {
         return "{\n" +
             "    \"structs\": [\n" +
                 structJSON +
-            "    ]\n"+
-        "}";
+            "    ],\n"+
+            "    \"start\": " + startJSON.substring(4, startJSON.length()) +
+        "\n}";
     }
 }

@@ -155,7 +155,12 @@ public class SyntacticAnalyzer {
      * <Start> ::= start <Bloque-Método>  
     */
     private void start() {
+        Token token = currentToken;
         match(IDToken.idSTART);
+        
+        //Agrega el metodo start
+        symbolTable.addMethod(token, new ArrayList<Param>(), false, IDToken.typeVOID);
+
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
             throw throwError(createHashSet(IDToken.EOF));
