@@ -91,7 +91,7 @@ public class Method extends Metadata{
             tabs + "    \"static\": \"" + isStatic + "\",\n" +
             tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
-            tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "]\n" +
+            tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "]\n" +
         tabs + "}";
     }

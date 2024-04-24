@@ -336,7 +336,9 @@ public class SymbolTable {
                             }
                             // si ya existe la variable en el hijo es un error
                             else{
-                                throw new SemanticException(auxVariables.get(parentVariable.getKey()).getMetadata(),"Atributo ya declarado en un ancestro");
+                                throw new SemanticException(auxVariables.get(parentVariable.getKey()).getMetadata(),"Atributo '"+
+                                auxVariables.get(parentVariable.getKey()).getMetadata().getLexema() +
+                                "' ya declarado en un ancestro");
 
                             }
                         }
@@ -452,7 +454,7 @@ public class SymbolTable {
 
         for (Struct struct : structs.values()) {
             if (!staticStruct.contains(struct.getName())) {
-                structJSON += struct.toJSON("        ") + (count > 1 ? "," : "") + "\n";
+                structJSON += struct.toJSON("        ") + ((count>=0) ? "," : "") + "\n";
             }
             count--;
         }

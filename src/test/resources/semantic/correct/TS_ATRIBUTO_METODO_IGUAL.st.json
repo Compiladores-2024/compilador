@@ -3,6 +3,16 @@
         {
             "nombre": "A",
             "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 2,
             "varIndex": 2,
             "atributos": [
@@ -25,8 +35,8 @@
                     "static": "false",
                     "retorno": "void",
                     "posicion": 0,
-                    "parámetros": []
-                    "variables": [],
+                    "parámetros": [],
+                    "variables": []
                 },
                 {
                     "nombre": "b",
@@ -39,8 +49,8 @@
                             "tipo": "Str",
                             "posicion": 0
                         }
-                    ]
-                    "variables": [],
+                    ],
+                    "variables": []
                 }
             ]
         }

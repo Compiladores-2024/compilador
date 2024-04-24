@@ -191,11 +191,16 @@ public class Struct extends Metadata {
     @Override
     public String toJSON(String tabs) {
         String variableJSON = toJSONEntity(variables, tabs), methodJSON = toJSONEntity(methods, tabs);
-        
+
+        // chequear que tenga constructor declarado
+        if(this.constructor==null){         
+            throw new SemanticException(this.getMetadata(), "Struct "+ this.getName() + " no tiene constructor implementado");
+        }
+        String constructorJSON = constructor.toJSON(tabs + "        ");
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
-            // tabs + "    \"constructor\": " + constructor.getSignature() + ",\n" +
+            tabs + "    \"constructor\": [" + "\n"+ constructorJSON + (constructorJSON == "" ? "" : (tabs + "    ")) + "\n" + (tabs + "    ") +  "],\n" +
             tabs + "    \"methodIndex\": " + currentMethodIndex + ",\n" +
             tabs + "    \"varIndex\": " + currentVarIndex + ",\n" +
             tabs + "    \"atributos\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +

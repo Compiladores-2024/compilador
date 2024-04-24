@@ -3,6 +3,16 @@
         {
             "nombre": "A",
             "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 0,
             "varIndex": 3,
             "atributos": [
@@ -26,10 +36,20 @@
                 }
             ],
             "métodos": []
-        }
+        },
         {
             "nombre": "B",
             "heredaDe": "A",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 0,
             "varIndex": 5,
             "atributos": [
@@ -65,10 +85,20 @@
                 }
             ],
             "métodos": []
-        }
+        },
         {
             "nombre": "C",
             "heredaDe": "B",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "methodIndex": 0,
             "varIndex": 6,
             "atributos": [
