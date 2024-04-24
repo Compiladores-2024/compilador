@@ -68,7 +68,14 @@ public class Struct extends Metadata {
         return methods;
     }
     public boolean hasConstructor(){
-        return this.constructor == null;
+        return this.constructor != null;
+    }
+
+    public boolean hasStruct() {
+        return countStructDefinition == 1;
+    }
+    public boolean hasImpl() {
+        return countImplDefinition == 1;
     }
     /**
      * @return Struct con los datos de la superclase.

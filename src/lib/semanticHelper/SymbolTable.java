@@ -328,6 +328,18 @@ public class SymbolTable {
 
             // se omiten los structs predefinidos
             if (!staticStruct.contains(entry.getKey())){
+                
+                //Valida que posea al menos un struct
+                if(!entry.getValue().hasStruct()){
+                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " debe definirse. Falta struct.");
+                }
+                
+                //Valida que posea al menos un impl
+                if(!entry.getValue().hasImpl()){
+                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " debe implementarse. Falta impl.");
+                }
+                
+                //Valida que posea un constructor
                 if(!entry.getValue().hasConstructor()){
                     throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " no tiene constructor implementado");
                 }
