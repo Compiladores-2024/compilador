@@ -1,6 +1,6 @@
 /? ERROR: SEMANTICO - DECLARACIONES
 /? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
-/? | LINEA 7 | COLUMNA 11 | La estructura 'B' no se encuentra definida. |
+/? | LINEA 10 | COLUMNA 15 | La estructura 'T' no se encuentra definida. |
 struct A{
 
 }
@@ -19,7 +19,7 @@ impl B{
     .(){
         
     }
-    fn m2(C b)->void{
+    fn m2(A a)->void{
 
     }
 }

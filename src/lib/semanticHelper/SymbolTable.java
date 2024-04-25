@@ -323,6 +323,8 @@ public class SymbolTable {
 
             throw new SemanticException(metadata, "La estructura '" + sMessage + "' no se encuentra definida.");
         }
+        // añadir variables y metodos  heredados desde Object
+        addMethod_and_variables_inherited(structs.get("Object"));
         //Valida si se han definido todas las clases checkDefinitionStructs
         if (checkDefinitionStructs.size() > 0) {
             //Obtiene el nombre de la superclase
@@ -332,8 +334,6 @@ public class SymbolTable {
             metadata = (checkDefinitionStructs.get(sMessage));
             throw new SemanticException(metadata, "La estructura '" + metadata.getLexema() + "' no se encuentra definida.");
         }
-        // añadir variables y metodos  heredados desde Object
-        addMethod_and_variables_inherited(structs.get("Object"));
         
     }
     
