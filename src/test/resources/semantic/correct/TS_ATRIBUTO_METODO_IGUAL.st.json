@@ -54,5 +54,13 @@
                 }
             ]
         }
-    ]
+    ],
+    "start": {
+        "nombre": "start",
+        "static": "false",
+        "retorno": "void",
+        "posicion": 0,
+        "parámetros": [],
+        "variables": []
+    }
 }

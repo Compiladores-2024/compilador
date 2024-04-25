@@ -321,7 +321,7 @@ public class SymbolTable {
             //Obtiene la metadata del struct que utiliza la superclase.
             metadata = structs.get(redefinitions.get(sMessage).get(0)).getMetadata();
 
-            throw new SemanticException(metadata, "La superclase '" + sMessage + "' no se encuentra definida.");
+            throw new SemanticException(metadata, "La estructura '" + sMessage + "' no se encuentra definida.");
         }
         //Valida si se han definido todas las clases checkDefinitionStructs
         if (checkDefinitionStructs.size() > 0) {
@@ -330,8 +330,7 @@ public class SymbolTable {
             
             //Obtiene la metadata del struct que utiliza la superclase.
             metadata = (checkDefinitionStructs.get(sMessage));
-            System.out.println(metadata.getIDToken());
-            throw new SemanticException(metadata, "La estructura NOOO '" + metadata.getLexema() + "' no se encuentra definida.");
+            throw new SemanticException(metadata, "La estructura '" + metadata.getLexema() + "' no se encuentra definida.");
         }
         // añadir variables y metodos  heredados desde Object
         addMethod_and_variables_inherited(structs.get("Object"));
@@ -449,8 +448,6 @@ public class SymbolTable {
             if (actual.containsKey(parentMethod.getKey())) {
                 // si la signature NO es igual
                 if (!(actual.get(parentMethod.getKey()).getSignature().equals(parentMethod.getValue().getSignature()))){
-                    System.out.println("sig 1: "+actual.get(parentMethod.getKey()).getSignature());
-                    System.out.println("sig 2: "+parentMethod.getValue().getSignature());
                     
                     throw new SemanticException(actual.get(parentMethod.getKey()).getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
                 }
