@@ -47,7 +47,7 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
-    public void addVar (Token token, IDToken type, boolean isPrivate) {
+    public void addVar (Token token, Token type, boolean isPrivate) {
         String name = token.getLexema();
 
         //Si la variable no existe, la genera

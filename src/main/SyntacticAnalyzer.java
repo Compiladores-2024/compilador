@@ -190,10 +190,13 @@ public class SyntacticAnalyzer {
      * @param token
      */
     private void structP(Token token) {
+        Token aux;
         IDToken parent = IDToken.spOBJECT;
 
         if (checkFirst(First.firstHerenciaP)){
-            parent = herenciaP();
+            aux = herenciaP();
+            parent=aux.getIDToken();
+            parent.setDescripcion(aux.getLexema());
         }
         
         //Genera la estructura en la tabla de simbolos
@@ -234,7 +237,7 @@ public class SyntacticAnalyzer {
      * 
      * <Herencia> ::= : <Tipo>  
     */
-    private IDToken herencia () {
+    private Token herencia () {
         match(IDToken.sCOLON);
         return tipo();
     }
@@ -382,7 +385,7 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
-    private void listaDeclaracionVariables (IDToken type, boolean isPrivate, boolean isAtribute) {
+    private void listaDeclaracionVariables (Token type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
@@ -458,7 +461,7 @@ public class SyntacticAnalyzer {
         IDToken result = IDToken.typeVOID;
 
         if (checkFirst(First.firstTipo)){
-            result = tipo();
+            result = tipo().getIDToken();
         }
         else{
             match(IDToken.typeVOID);
@@ -472,7 +475,7 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
     */
-    private IDToken tipo () {
+    private Token tipo () {
         if (checkFirst(First.firstTipoPrimitivo)){
             return tipoPrimitivo();
         }
@@ -497,20 +500,25 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
-    private IDToken tipoPrimitivo () {
+    private Token tipoPrimitivo () {
+        Token token;
         switch (currentToken.getIDToken()) {
             case typeINT:
+                token=currentToken;
                 match(IDToken.typeINT);
-                return IDToken.typeINT;
+                return token;
             case typeBOOL:
+                token=currentToken; 
                 match(IDToken.typeBOOL);
-                return IDToken.typeBOOL;
+                return token;
             case typeSTR:
+                token=currentToken;
                 match(IDToken.typeSTR);
-                return IDToken.typeSTR;
+                return token;
             case typeCHAR:
+                token=currentToken;
                 match(IDToken.typeCHAR);
-                return IDToken.typeCHAR;
+                return token;
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
@@ -522,13 +530,11 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Referencia> ::= idStruct  
     */
-    private IDToken tipoReferencia () {
-        IDToken idStruct = IDToken.idSTRUCT;
-        //Guarda el nombre del struct
-        idStruct.setDescripcion(currentToken.getLexema());
-
+    private Token tipoReferencia () {
+        Token token;
+        token=currentToken;
         match(IDToken.idSTRUCT);
-        return idStruct;
+        return token;
     }
 
 
@@ -537,18 +543,21 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
     */
-    private IDToken tipoArreglo () {
+    private Token tipoArreglo () {
+        int posLine=currentToken.getLine();
+        int posCol=currentToken.getColumn();
         match(IDToken.typeARRAY);
         //Accion para avisar que es array
-        switch (tipoPrimitivo()) {
+        Token token = tipoPrimitivo();
+        switch (token.getIDToken()) {
             case typeINT:
-                return IDToken.typeArrayINT;
+                return new Token(IDToken.typeArrayINT, IDToken.typeArrayINT.toString(), posLine, posCol);
             case typeSTR:
-                return IDToken.typeArraySTR;
+                return new Token(IDToken.typeArraySTR, IDToken.typeArraySTR.toString(), posLine, posCol);
             case typeBOOL:
-                return IDToken.typeArrayBOOL;
+                return new Token(IDToken.typeArrayBOOL, IDToken.typeArrayBOOL.toString(), posLine, posCol);
             case typeCHAR:
-                return IDToken.typeArrayCHAR;
+                return new Token(IDToken.typeArrayCHAR, IDToken.typeArrayCHAR.toString(), posLine, posCol);
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
@@ -1336,7 +1345,7 @@ public class SyntacticAnalyzer {
      * 
      * <Herencia’> ::= <Herencia>  
     */
-    private IDToken herenciaP () {
+    private Token herenciaP () {
         return herencia();
     }
 

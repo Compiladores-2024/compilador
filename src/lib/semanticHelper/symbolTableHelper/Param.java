@@ -11,28 +11,28 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Param extends Metadata{
-    private IDToken type;
+    private Token typeToken;
 
     /**
      * Constructor de la clase.
      * 
      * @since 19/04/2024
      */
-    public Param (IDToken type, Token token, int position) {
+    public Param (Token type, Token token, int position) {
         super(token, position);
-        this.type = type;
+        this.typeToken = type;
     }
 
     /**
      * @return IDToken que identifica el tipo del parámetro
      */
-    public IDToken getType() {
-        return type;
+    public Token getType() {
+        return typeToken;
     }
 
 
     public String toString() {
-        return type.toString() + " " + getName();
+        return typeToken.getLexema().toString() + " " + getName();
     }
     
     /**
@@ -45,7 +45,7 @@ public class Param extends Metadata{
     public String toJSON(String tabs) {
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
-            tabs + "    \"tipo\": \"" + type.toString() + "\",\n" +
+            tabs + "    \"tipo\": \"" + typeToken.getLexema() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + "\n" +
         tabs + "}";
     }

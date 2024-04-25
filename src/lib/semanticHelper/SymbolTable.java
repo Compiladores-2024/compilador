@@ -27,6 +27,9 @@ public class SymbolTable {
     // En consolidación: Si posee elementos, debe retornar error.
     private HashMap<String, ArrayList<String>> redefinitions;
 
+    // Estructura que se utiliza para almacenar structs que se debe chequear su declaracion.
+    private HashMap<String,Token> checkDefinitionStructs;
+
     /**
      * Constructor de la clase.<br/>
      * 
@@ -44,6 +47,7 @@ public class SymbolTable {
         }};
         structs = new HashMap<String, Struct>();
         redefinitions = new HashMap<>();
+        checkDefinitionStructs = new HashMap<String, Token>();
         init();
     }
 
@@ -65,21 +69,21 @@ public class SymbolTable {
             this.structs.get("Object"));
 
         IO.addMethod( new Token(null, "out_str", 0, 0), 
-            generateArrayParam(IDToken.typeSTR,"s"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeSTR,"s", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_int", 0,0), 
-            generateArrayParam(IDToken.typeINT,"i"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeINT,"i", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_bool", 0,0),
-            generateArrayParam( IDToken.typeArrayBOOL,"b"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeArrayBOOL,"b", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_char", 0,0), 
-            generateArrayParam( IDToken.typeCHAR, "c"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeCHAR, "c", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_array_int", 0,0), 
-            generateArrayParam(  IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_array_str", 0,0), 
-            generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_array_bool", 0,0), 
-            generateArrayParam(IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"out_array_char", 0,0), 
-            generateArrayParam( IDToken.typeARRAY, "a"), true, IDToken.typeVOID);
+            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
         IO.addMethod( new Token(null,"in_str", 0,0),
             new ArrayList<Param>(), true, IDToken.typeSTR);
         IO.addMethod( new Token(null,"in_int", 0,0),
@@ -112,7 +116,7 @@ public class SymbolTable {
         Str.addMethod(new Token(null, "length", 0, 0),
         new ArrayList<Param>(), false, IDToken.typeINT);
         Str.addMethod(new Token(null, "concat", 0, 0), 
-            generateArrayParam(IDToken.typeSTR,"s"), false, IDToken.typeSTR);
+            generateArrayParam(new Token(IDToken.typeSTR, "s", 0, 0)), false, IDToken.typeSTR);
         structs.put("Str", Str);
     }
 
@@ -136,9 +140,9 @@ public class SymbolTable {
      * @param lexema Lexema para generar el token
      * @return ArrayList<Param>
      */
-    private ArrayList<Param> generateArrayParam(IDToken paramToken, String lexema){
+    private ArrayList<Param> generateArrayParam(Token paramToken){
         ArrayList<Param> paramList= new ArrayList<Param>();
-        paramList.add(new Param(paramToken, new Token(IDToken.idOBJECT, lexema , 0, 0), 0));
+        paramList.add(new Param(paramToken, new Token(paramToken.getIDToken(), paramToken.getLexema() , 0, 0), 0));
         return paramList; 
 
     }
@@ -251,7 +255,7 @@ public class SymbolTable {
      * @param type Tipo de dato
      * @param isPrivate Booleano que avisa si la variable es privada o no
      */
-    public void addVar(Token token, IDToken type, boolean isPrivate, boolean isAtribute) {
+    public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
         if(isAtribute){
             currentStruct.addVar(token, type, isPrivate);
         } else {
@@ -279,6 +283,16 @@ public class SymbolTable {
                 throw new SemanticException(token, "No se permite definir más de un método start.");
             }
         } else {
+            for (Param param : params) {
+                // si un tipo de datos del param no pertenece a staticStruct ni se ha definido previamente entonces 
+                // se añade a checkDefinitionStructs
+                if (!this.staticStruct.contains(param.getType().getLexema()) && !this.structs.containsKey(param.getType().getLexema())){
+                    if(checkDefinitionStructs.get(param.getType().getLexema())==null){
+
+                        checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
+                    }
+                }
+            }
             currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
         }
 
@@ -309,11 +323,21 @@ public class SymbolTable {
 
             throw new SemanticException(metadata, "La superclase '" + sMessage + "' no se encuentra definida.");
         }
-
+        //Valida si se han definido todas las clases checkDefinitionStructs
+        if (checkDefinitionStructs.size() > 0) {
+            //Obtiene el nombre de la superclase
+            sMessage = checkDefinitionStructs.keySet().iterator().next();
+            
+            //Obtiene la metadata del struct que utiliza la superclase.
+            metadata = (checkDefinitionStructs.get(sMessage));
+            System.out.println(metadata.getIDToken());
+            throw new SemanticException(metadata, "La estructura NOOO '" + metadata.getLexema() + "' no se encuentra definida.");
+        }
         // añadir variables y metodos  heredados desde Object
         addMethod_and_variables_inherited(structs.get("Object"));
+        
     }
-
+    
         /**
      * Método que añade metodos y variables heredadas. El objetivo es partir desde Object (parentStruct) e ir añadiendo
      * metodos a las clases entry que utilicen a parentStruct.
@@ -342,6 +366,10 @@ public class SymbolTable {
                 //Valida que posea un constructor
                 if(!entry.getValue().hasConstructor()){
                     throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " no tiene constructor implementado");
+                }
+
+                if (checkDefinitionStructs.containsKey(entry.getKey())){
+                    checkDefinitionStructs.remove(entry.getKey());
                 }
 
                 // si existe algun struct que hereda de parentStruct
@@ -421,6 +449,8 @@ public class SymbolTable {
             if (actual.containsKey(parentMethod.getKey())) {
                 // si la signature NO es igual
                 if (!(actual.get(parentMethod.getKey()).getSignature().equals(parentMethod.getValue().getSignature()))){
+                    System.out.println("sig 1: "+actual.get(parentMethod.getKey()).getSignature());
+                    System.out.println("sig 2: "+parentMethod.getValue().getSignature());
                     
                     throw new SemanticException(actual.get(parentMethod.getKey()).getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
                 }
