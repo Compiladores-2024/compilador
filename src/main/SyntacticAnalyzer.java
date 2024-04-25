@@ -159,7 +159,8 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         
         //Agrega el metodo start
-        symbolTable.addMethod(token, new ArrayList<Param>(), false, IDToken.typeVOID);
+        symbolTable.addMethod(token, new ArrayList<Param>(), false, 
+            new Token(IDToken.typeVOID, "void", 0, 0));
 
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
@@ -277,7 +278,8 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(token, argumentosFormales(), false, IDToken.typeVOID);
+        symbolTable.addMethod(token, argumentosFormales(), false, 
+            new Token(IDToken.typeVOID, "void", 0, 0));
 
         bloqueMetodo();
     }
@@ -457,13 +459,14 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Método> ::= <Tipo> | void  
     */
-    private IDToken tipoMetodo () {
-        IDToken result = IDToken.typeVOID;
+    private Token tipoMetodo () {
+        Token result ;
 
         if (checkFirst(First.firstTipo)){
-            result = tipo().getIDToken();
+            result = tipo();
         }
         else{
+            result = new Token(IDToken.typeVOID, "void", 0, 0);
             match(IDToken.typeVOID);
         }
         return result;

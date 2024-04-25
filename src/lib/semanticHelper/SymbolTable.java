@@ -272,11 +272,11 @@ public class SymbolTable {
      * @param isStatic Booleano que avisa si es estático o no
      * @param returnType Tipo de retorno del método
      */
-    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
         if (token.getIDToken().equals(IDToken.idSTART)) {
             //Valida si se está generando un constructor y que no se haya generado otro
             if (start == null) {
-                start = new Method(token, params, returnType, isStatic, 0);
+                start = new Method(token, params, returnTypeToken.getIDToken(), isStatic, 0);
                 currentMethod = start;
             }
             else {
@@ -293,7 +293,16 @@ public class SymbolTable {
                     }
                 }
             }
-            currentMethod = currentStruct.addMethod(token, params, isStatic, returnType);
+            // se chequea tambien por el tipo de retorno del metodo returnType
+            if (returnTypeToken.getIDToken()==IDToken.idSTRUCT){
+                if (!this.staticStruct.contains(returnTypeToken.getLexema()) && !this.structs.containsKey(returnTypeToken.getLexema())){
+                    if(checkDefinitionStructs.get(returnTypeToken.getLexema())==null){
+    
+                        checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
+                    }
+                }
+            }
+            currentMethod = currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
         }
 
     }
