@@ -274,7 +274,7 @@ public class SymbolTable {
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
         if (token.getIDToken().equals(IDToken.idSTART)) {
-            //Valida si se está generando un constructor y que no se haya generado otro
+            //Valida si se está generando el método start y que no se haya generado otro
             if (start == null) {
                 start = new Method(token, params, returnTypeToken.getIDToken(), isStatic, 0);
                 currentMethod = start;
