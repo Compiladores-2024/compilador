@@ -1,6 +1,5 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
