@@ -279,6 +279,12 @@ public class SymbolTable {
      * @param isPrivate Booleano que avisa si la variable es privada o no
      */
     public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
+        //Valida si se ha definido la estructura de tipo
+        if (structs.get(type.getLexema()) == null) {
+            checkDefinitionStructs.put(type.getLexema(), type);
+        }
+        
+        //Agrego metodo o atributo
         if(isAtribute){
             currentStruct.addVar(token, type.getIDToken(), isPrivate);
         } else {
