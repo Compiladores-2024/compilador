@@ -20,7 +20,7 @@ public class SyntacticRunner {
      * @param args
      */
     public static void main(String[] args) {
-        // args = new String[] {"src/test/resources/semantic/error/TS_ERROR_DOBLE_ATRIBUTO.ru"};
+        args = new String[] {"src/test/resources/semantic/error/TS_ERROR_DOBLE_ATRIBUTO.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
