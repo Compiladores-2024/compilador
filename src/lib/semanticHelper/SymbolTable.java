@@ -280,7 +280,7 @@ public class SymbolTable {
      */
     public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
         //Valida si se ha definido la estructura de tipo
-        if (structs.get(type.getLexema()) == null) {
+        if (!type.getLexema().contains("Array") && structs.get(type.getLexema()) == null) {
             checkDefinitionStructs.put(type.getLexema(), type);
         }
         
