@@ -31,7 +31,7 @@ public class Param extends Metadata{
 
 
     public String toString() {
-        return type.toString() + " " + getName();
+        return type.getLexema() + " " + getName();
     }
     
     /**
