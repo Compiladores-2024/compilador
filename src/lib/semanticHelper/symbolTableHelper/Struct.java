@@ -220,7 +220,7 @@ public class Struct extends Metadata {
      * @param type Tipo de la variable
      * @param isPrivate Booleano que especifica si es privada o no
      */
-    public void addVar(Token token, IDToken type, boolean isPrivate) {
+    public void addVar(Token token, Token type, boolean isPrivate) {
         String name = token.getLexema();
 
         //Si la variable no existe, la genera

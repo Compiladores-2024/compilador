@@ -286,9 +286,9 @@ public class SymbolTable {
         
         //Agrego metodo o atributo
         if(isAtribute){
-            currentStruct.addVar(token, type.getIDToken(), isPrivate);
+            currentStruct.addVar(token, type, isPrivate);
         } else {
-            currentMethod.addVar(token, type.getIDToken(), isPrivate);;
+            currentMethod.addVar(token, type, isPrivate);;
         }
     }
     
