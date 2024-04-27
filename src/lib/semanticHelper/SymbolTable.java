@@ -404,13 +404,13 @@ public class SymbolTable {
      */
     public String toJSON() {
         String structJSON = "", startJSON = start.toJSON("    ");
-        int count = structs.values().size() - staticStruct.size();
+        int count = structs.size() - staticStruct.size();
 
         for (Struct struct : structs.values()) {
             if (!staticStruct.contains(struct.getName())) {
-                structJSON += struct.toJSON("        ") + ((count>=0) ? "," : "") + "\n";
+                structJSON += struct.toJSON("        ") + ( count > 1 ? "," : "") + "\n";
+                count--;
             }
-            count--;
         }
 
         return "{\n" +
