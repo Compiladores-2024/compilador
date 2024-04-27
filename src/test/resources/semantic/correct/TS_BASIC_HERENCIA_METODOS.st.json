@@ -13,34 +13,7 @@
                     "variables": []
                 }            
             ],
-            "methodIndex": 1,
-            "varIndex": 0,
-            "atributos": [],
-            "métodos": [
-                {
-                    "nombre": "m1",
-                    "static": "true",
-                    "retorno": "Int",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                }
-            ]
-        },
-        {
-            "nombre": "B",
-            "heredaDe": "A",
-            "constructor": [
-                {
-                    "nombre": ".",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                }            
-            ],
-            "methodIndex": 2,
+            "methodIndex": 3,
             "varIndex": 0,
             "atributos": [],
             "métodos": [
@@ -66,6 +39,90 @@
                         {
                             "nombre": "b",
                             "tipo": "Str",
+                            "posicion": 1
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "c",
+                            "tipo": "Char",
+                            "posicion": 1
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "B",
+            "heredaDe": "A",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "methodIndex": 3,
+            "varIndex": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "m1",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Str",
+                            "posicion": 1
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "c",
+                            "tipo": "Char",
                             "posicion": 1
                         }
                     ],
@@ -266,5 +323,13 @@
                 }
             ]
         }
-    ]
+    ],
+    "start": {
+        "nombre": "start",
+        "static": "false",
+        "retorno": "void",
+        "posicion": 0,
+        "parámetros": [],
+        "variables": []
+    }
 }

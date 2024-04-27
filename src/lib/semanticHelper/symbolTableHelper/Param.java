@@ -1,6 +1,5 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -11,28 +10,28 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Param extends Metadata{
-    private IDToken type;
+    private Token type;
 
     /**
      * Constructor de la clase.
      * 
      * @since 19/04/2024
      */
-    public Param (IDToken type, Token token, int position) {
+    public Param (Token token, Token type, int position) {
         super(token, position);
         this.type = type;
     }
 
     /**
-     * @return IDToken que identifica el tipo del parámetro
+     * @return Lexema que identifica el tipo de dato del parámetro
      */
-    public IDToken getType() {
+    public Token getType() {
         return type;
     }
 
 
     public String toString() {
-        return type.toString() + " " + getName();
+        return type.getLexema() + " " + getName();
     }
     
     /**
@@ -45,7 +44,7 @@ public class Param extends Metadata{
     public String toJSON(String tabs) {
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
-            tabs + "    \"tipo\": \"" + type.toString() + "\",\n" +
+            tabs + "    \"tipo\": \"" + type.getLexema() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + "\n" +
         tabs + "}";
     }

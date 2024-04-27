@@ -159,7 +159,12 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         
         //Agrega el metodo start
-        symbolTable.addMethod(token, new ArrayList<Param>(), false, IDToken.typeVOID);
+        symbolTable.addMethod(
+            token, 
+            new ArrayList<Param>(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
 
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
@@ -190,10 +195,13 @@ public class SyntacticAnalyzer {
      * @param token
      */
     private void structP(Token token) {
+        Token aux;
         IDToken parent = IDToken.spOBJECT;
 
         if (checkFirst(First.firstHerenciaP)){
-            parent = herenciaP();
+            aux = herenciaP();
+            parent=aux.getIDToken();
+            parent.setDescripcion(aux.getLexema());
         }
         
         //Genera la estructura en la tabla de simbolos
@@ -234,7 +242,7 @@ public class SyntacticAnalyzer {
      * 
      * <Herencia> ::= : <Tipo>  
     */
-    private IDToken herencia () {
+    private Token herencia () {
         match(IDToken.sCOLON);
         return tipo();
     }
@@ -274,7 +282,11 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(token, argumentosFormales(), false, IDToken.typeVOID);
+        symbolTable.addMethod(
+            token, argumentosFormales(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
 
         bloqueMetodo();
     }
@@ -382,7 +394,7 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
     */
-    private void listaDeclaracionVariables (IDToken type, boolean isPrivate, boolean isAtribute) {
+    private void listaDeclaracionVariables (Token type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
@@ -443,7 +455,8 @@ public class SyntacticAnalyzer {
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
     private Param argumentoFormal (int index) {
-        Param param = new Param(tipo(), currentToken, index);
+        Token type = tipo();
+        Param param = new Param(currentToken, type, index);
         match(IDToken.idOBJECT);
         return param;
     }
@@ -454,13 +467,19 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Método> ::= <Tipo> | void  
     */
-    private IDToken tipoMetodo () {
-        IDToken result = IDToken.typeVOID;
+    private Token tipoMetodo () {
+        Token result;
 
         if (checkFirst(First.firstTipo)){
             result = tipo();
         }
         else{
+            result = new Token(
+                IDToken.typeVOID,
+                "void",
+                currentToken.getLine(),
+                currentToken.getColumn()
+            );
             match(IDToken.typeVOID);
         }
         return result;
@@ -472,7 +491,7 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
     */
-    private IDToken tipo () {
+    private Token tipo () {
         if (checkFirst(First.firstTipoPrimitivo)){
             return tipoPrimitivo();
         }
@@ -497,23 +516,25 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
-    private IDToken tipoPrimitivo () {
+    private Token tipoPrimitivo () {
+        Token token = currentToken;
         switch (currentToken.getIDToken()) {
             case typeINT:
                 match(IDToken.typeINT);
-                return IDToken.typeINT;
+                break;
             case typeBOOL:
                 match(IDToken.typeBOOL);
-                return IDToken.typeBOOL;
+                break;
             case typeSTR:
                 match(IDToken.typeSTR);
-                return IDToken.typeSTR;
+                break;
             case typeCHAR:
                 match(IDToken.typeCHAR);
-                return IDToken.typeCHAR;
+                break;
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
+        return token;
     }
 
 
@@ -522,13 +543,10 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Referencia> ::= idStruct  
     */
-    private IDToken tipoReferencia () {
-        IDToken idStruct = IDToken.idSTRUCT;
-        //Guarda el nombre del struct
-        idStruct.setDescripcion(currentToken.getLexema());
-
+    private Token tipoReferencia () {
+        Token token = currentToken;
         match(IDToken.idSTRUCT);
-        return idStruct;
+        return token;
     }
 
 
@@ -537,21 +555,29 @@ public class SyntacticAnalyzer {
      * 
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
     */
-    private IDToken tipoArreglo () {
+    private Token tipoArreglo () {
+        Token token = currentToken;
         match(IDToken.typeARRAY);
+
         //Accion para avisar que es array
-        switch (tipoPrimitivo()) {
+        switch (tipoPrimitivo().getIDToken()) {
             case typeINT:
-                return IDToken.typeArrayINT;
+                token.setName(IDToken.typeArrayINT);
+                break;
             case typeSTR:
-                return IDToken.typeArraySTR;
+                token.setName(IDToken.typeArraySTR);
+                break;
             case typeBOOL:
-                return IDToken.typeArrayBOOL;
+                token.setName(IDToken.typeArrayBOOL);
+                break;
             case typeCHAR:
-                return IDToken.typeArrayCHAR;
+                token.setName(IDToken.typeArrayCHAR);
+                break;
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
+
+        return token;
     }
 
 
@@ -1336,7 +1362,7 @@ public class SyntacticAnalyzer {
      * 
      * <Herencia’> ::= <Herencia>  
     */
-    private IDToken herenciaP () {
+    private Token herenciaP () {
         return herencia();
     }
 

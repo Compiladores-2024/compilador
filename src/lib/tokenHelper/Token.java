@@ -42,7 +42,15 @@ public class Token {
         return "| " + name + " | " + lexema + " | LINEA " + Integer.toString(line) + " (COLUMNA " + Integer.toString(column) + ") |";
     }
 
-    
+    public void setName(IDToken name) {
+        this.name = name;
+        this.lexema = name.toString();
+    }
+    public void setCustomName(IDToken name, String lexema) {
+        this.name = name;
+        this.lexema = lexema;
+    }
+
     /** 
      * @return IDToken
      */
