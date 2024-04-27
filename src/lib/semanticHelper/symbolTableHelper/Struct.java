@@ -22,6 +22,7 @@ public class Struct extends Metadata {
     private HashMap<String, Variable> variables;
     private HashMap<String, Method> methods;
     private HashMap<String, Struct> childrens;
+    private Boolean consolidated;
 
     /**
      * Constructor de la clase.
@@ -46,6 +47,9 @@ public class Struct extends Metadata {
         //Contador para validar cuantas veces se define la estructura en el código fuente (struct e impl)
         countStructDefinition = 0;
         countImplDefinition = 0;
+
+        consolidated=false;
+
     }
 
     /**
@@ -78,11 +82,18 @@ public class Struct extends Metadata {
                 throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
             }
         }
-
         // Consolida y añade variables y metodos heredados a los hijos
         for (Struct children : childrens.values()) {
-            children.addMethodsInherited(methods);
-            children.addVariablesInherited(variables);
+            // si hereda de Object 
+            // no es necesario añadir metodos y atributos heredados
+            if (!children.getParent().equals("Object")){
+                // se comprueba si ya ha sido consolidado
+                if (children.consolidated.equals(false)){
+                    children.addMethodsInherited(methods);
+                    children.addVariablesInherited(variables);
+                }
+            }
+            children.consolidated=true;
             children.consolidate();
         }
     }
@@ -148,10 +159,10 @@ public class Struct extends Metadata {
 
         //Actualiza la posicion de los atributos restantes
         for (String varName : variablesToCheck) {
-            variables.get(varName).setPosition(newVarIndex);
-            newVarIndex++;
+            int prevPosition= variables.get(varName).getPosition();
+            variables.get(varName).setPosition(prevPosition+newVarIndex);
         }
-        currentVarIndex = newVarIndex;
+        currentVarIndex = this.variables.size();
     }
 
     /**
