@@ -212,8 +212,12 @@ public class SymbolTable {
 
         //Valida si debe asignarse como superclase de otras estructuras y lo hace
         if (redefinitions.get(sStruct) != null) {
-            for (String childrens : redefinitions.get(sStruct)) {
-                structs.get(childrens).setParent(currentStruct);
+            for (String children : redefinitions.get(sStruct)) {
+                //Se asigna como padre
+                structs.get(children).setParent(currentStruct);
+
+                //Lo agrega como hijo
+                currentStruct.addChildren(structs.get(children));
             }
 
             //Avisa que ya se ha asignado a las structs incompletas
@@ -267,7 +271,12 @@ public class SymbolTable {
     }
 
     private void addParentRelationships (String parent, Struct children) {
-        structs.get(parent).addChildren(children);
+        if (structs.get(parent) != null) {
+            structs.get(parent).addChildren(children);
+        }
+        else {
+            checkDefinitionStructs.put(parent, children.getMetadata());
+        }
     }
 
     /**
