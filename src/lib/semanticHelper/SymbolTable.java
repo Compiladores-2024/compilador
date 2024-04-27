@@ -217,7 +217,7 @@ public class SymbolTable {
                 structs.get(children).setParent(currentStruct);
 
                 //Lo agrega como hijo
-                currentStruct.addChildren(structs.get(children));
+                currentStruct.addChildren(structs.get(children), isFromStruct);
             }
 
             //Avisa que ya se ha asignado a las structs incompletas
@@ -239,9 +239,7 @@ public class SymbolTable {
         structs.put(sStruct, currentStruct);
 
         //Agrega la relacion con el padre solo si se llama desde un struct
-        if (isFromStruct) {
-            addParentRelationships(sParent, currentStruct);
-        }
+        addParentRelationships(sParent, currentStruct, isFromStruct);
     }
 
     /**
@@ -270,9 +268,9 @@ public class SymbolTable {
         }
     }
 
-    private void addParentRelationships (String parent, Struct children) {
+    private void addParentRelationships (String parent, Struct children, boolean isFromStruct) {
         if (structs.get(parent) != null) {
-            structs.get(parent).addChildren(children);
+            structs.get(parent).addChildren(children, isFromStruct);
         }
         else {
             checkDefinitionStructs.put(parent, children.getMetadata());

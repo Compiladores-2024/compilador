@@ -65,17 +65,17 @@ public class Struct extends Metadata {
         if (!getName().equals("Object")) {
             //Valida que posea al menos un struct
             if(countStructDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct "+ getName() + " debe definirse. Falta struct.");
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
             }
             
             //Valida que posea al menos un impl
             if(countImplDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct "+ getName() + " debe implementarse. Falta impl.");
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
             }
             
             //Valida que posea un constructor
             if(constructor == null){
-                throw new SemanticException(getMetadata(), "Struct "+ getName() + " no tiene constructor implementado");
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
             }
         }
 
@@ -236,8 +236,17 @@ public class Struct extends Metadata {
         }
     }
 
-    public void addChildren (Struct children) {
-        childrens.put(children.getName(), children);
+    public void addChildren (Struct children, boolean isFromStruct) {
+        //Agrega el children si no existe
+        if (childrens.get(children.getName()) == null) {
+            childrens.put(children.getName(), children);
+        }
+        else {
+            //Si existe, solo actualiza si proviene de struct (Para no reemplazarlo por Object)
+            if (isFromStruct) {
+                childrens.put(children.getName(), children);
+            }
+        }
     }
 
     /**
