@@ -11,6 +11,12 @@ impl A{
     st fn m1()->Int{
 
     }
+    fn m2(Int a, Str b)->void{
+
+    }
+    fn m3           (Bool a, Char c)->Str{
+
+    }
 }
 
 impl B{
@@ -51,13 +57,13 @@ impl D{
     .(){
         
     }
-    st fn m1()->Int{
-        Str s;
-        Bool b;
-    }
     st fn m4()->void{
         Bool booleano;
         Str hola;
+    }
+    st fn m1()->Int{
+        Str s;
+        Bool b;
     }
     fn m5()->void{
         Int iter;

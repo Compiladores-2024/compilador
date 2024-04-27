@@ -159,8 +159,12 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         
         //Agrega el metodo start
-        symbolTable.addMethod(token, new ArrayList<Param>(), false, 
-            new Token(IDToken.typeVOID, "void", 0, 0));
+        symbolTable.addMethod(
+            token, 
+            new ArrayList<Param>(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
 
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
@@ -278,8 +282,11 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(token, argumentosFormales(), false, 
-            new Token(IDToken.typeVOID, "void", 0, 0));
+        symbolTable.addMethod(
+            token, argumentosFormales(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
 
         bloqueMetodo();
     }
@@ -448,7 +455,8 @@ public class SyntacticAnalyzer {
      * <Argumento-Formal> ::= <Tipo> idMetAt  
     */
     private Param argumentoFormal (int index) {
-        Param param = new Param(tipo(), currentToken, index);
+        Token type = tipo();
+        Param param = new Param(currentToken, type, index);
         match(IDToken.idOBJECT);
         return param;
     }
@@ -460,13 +468,18 @@ public class SyntacticAnalyzer {
      * <Tipo-Método> ::= <Tipo> | void  
     */
     private Token tipoMetodo () {
-        Token result ;
+        Token result;
 
         if (checkFirst(First.firstTipo)){
             result = tipo();
         }
         else{
-            result = new Token(IDToken.typeVOID, "void", 0, 0);
+            result = new Token(
+                IDToken.typeVOID,
+                "void",
+                currentToken.getLine(),
+                currentToken.getColumn()
+            );
             match(IDToken.typeVOID);
         }
         return result;
@@ -504,27 +517,24 @@ public class SyntacticAnalyzer {
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
     */
     private Token tipoPrimitivo () {
-        Token token;
+        Token token = currentToken;
         switch (currentToken.getIDToken()) {
             case typeINT:
-                token=currentToken;
                 match(IDToken.typeINT);
-                return token;
+                break;
             case typeBOOL:
-                token=currentToken; 
                 match(IDToken.typeBOOL);
-                return token;
+                break;
             case typeSTR:
-                token=currentToken;
                 match(IDToken.typeSTR);
-                return token;
+                break;
             case typeCHAR:
-                token=currentToken;
                 match(IDToken.typeCHAR);
-                return token;
+                break;
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
+        return token;
     }
 
 
@@ -534,8 +544,7 @@ public class SyntacticAnalyzer {
      * <Tipo-Referencia> ::= idStruct  
     */
     private Token tipoReferencia () {
-        Token token;
-        token=currentToken;
+        Token token = currentToken;
         match(IDToken.idSTRUCT);
         return token;
     }
@@ -547,23 +556,28 @@ public class SyntacticAnalyzer {
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
     */
     private Token tipoArreglo () {
-        int posLine=currentToken.getLine();
-        int posCol=currentToken.getColumn();
+        Token token = currentToken;
         match(IDToken.typeARRAY);
+
         //Accion para avisar que es array
-        Token token = tipoPrimitivo();
-        switch (token.getIDToken()) {
+        switch (tipoPrimitivo().getIDToken()) {
             case typeINT:
-                return new Token(IDToken.typeArrayINT, IDToken.typeArrayINT.toString(), posLine, posCol);
+                token.setName(IDToken.typeArrayINT);
+                break;
             case typeSTR:
-                return new Token(IDToken.typeArraySTR, IDToken.typeArraySTR.toString(), posLine, posCol);
+                token.setName(IDToken.typeArraySTR);
+                break;
             case typeBOOL:
-                return new Token(IDToken.typeArrayBOOL, IDToken.typeArrayBOOL.toString(), posLine, posCol);
+                token.setName(IDToken.typeArrayBOOL);
+                break;
             case typeCHAR:
-                return new Token(IDToken.typeArrayCHAR, IDToken.typeArrayCHAR.toString(), posLine, posCol);
+                token.setName(IDToken.typeArrayCHAR);
+                break;
             default:
                 throw throwError(First.firstTipoPrimitivo);
         }
+
+        return token;
     }
 
 

@@ -2,6 +2,7 @@ package src.lib.semanticHelper.symbolTableHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
@@ -20,6 +21,8 @@ public class Struct extends Metadata {
     private int currentMethodIndex, currentVarIndex, countStructDefinition, countImplDefinition;
     private HashMap<String, Variable> variables;
     private HashMap<String, Method> methods;
+    private HashMap<String, Struct> childrens;
+    private Boolean consolidated;
 
     /**
      * Constructor de la clase.
@@ -35,6 +38,7 @@ public class Struct extends Metadata {
         //Inicializa hash
         variables = new HashMap<String, Variable>();
         methods = new HashMap<String, Method>();
+        childrens = new HashMap<String, Struct>();
 
         //Contadores de indices
         currentMethodIndex = 0;
@@ -43,51 +47,121 @@ public class Struct extends Metadata {
         //Contador para validar cuantas veces se define la estructura en el código fuente (struct e impl)
         countStructDefinition = 0;
         countImplDefinition = 0;
+
+        consolidated=false;
+
     }
 
-    public void updateCurrentMethodIndex(){
-        this.currentMethodIndex=this.methods.size();
-    }
-    public void updateCurrentVarIndex(){
-        this.currentVarIndex=this.variables.size();
-    }
-
-    public HashMap<String, Variable> getVariable(){
-        return this.variables;
-    }
-
-    public int getCurrentVarIndex(){
-        return this.currentVarIndex;
-    }
-
-    public int getCurrentMethodIndex(){
-        return this.currentMethodIndex;
-    }
-
-    public HashMap<String, Method> getMethods() {
-        return methods;
-    }
-    public boolean hasConstructor(){
-        return this.constructor != null;
-    }
-
-    public boolean hasStruct() {
-        return countStructDefinition == 1;
-    }
-    public boolean hasImpl() {
-        return countImplDefinition == 1;
-    }
     /**
      * @return Struct con los datos de la superclase.
      */
-    public Struct getParent() {
-        return parent;
+    public String getParent() {
+        return parent.getName();
     }
     /**
      * @param parent Clase padre de la cual hereda la estructura.
      */
     public void setParent (Struct parent) {
         this.parent = parent;
+    }
+
+    public void consolidate () {
+        if (!getName().equals("Object")) {
+            //Valida que posea al menos un struct
+            if(countStructDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
+            }
+            
+            //Valida que posea al menos un impl
+            if(countImplDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
+            }
+            
+            //Valida que posea un constructor
+            if(constructor == null){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
+            }
+        }
+        // Consolida y añade variables y metodos heredados a los hijos
+        for (Struct children : childrens.values()) {
+            // si hereda de Object 
+            // no es necesario añadir metodos y atributos heredados
+            if (!children.getParent().equals("Object")){
+                // se comprueba si ya ha sido consolidado
+                if (children.consolidated.equals(false)){
+                    children.addMethodsInherited(methods);
+                    children.addVariablesInherited(variables);
+                }
+            }
+            children.consolidated=true;
+            children.consolidate();
+        }
+    }
+
+    public void addMethodsInherited(HashMap<String, Method> parentMethods) {
+        Method method, parentMethod;
+        HashSet<String> methodsToCheck = new HashSet<String>(methods.keySet());
+        int newMethodIndex = parentMethods.size();
+        
+        // Recorre los metodos del padre, los inserta, actualiza los índices
+        // de los que se redefinen y actualiza la lista de metodos a actualizar
+        for (String methodName : parentMethods.keySet()) {
+            method = methods.get(methodName);
+            parentMethod = parentMethods.get(methodName);
+
+            //Si el metodo no existe, lo agrega
+            if (method == null) {
+                methods.put(methodName, parentMethod);
+            }
+            //Si existe y posee la misma signature, actualiza la posicion
+            else {
+                if (method.getSignature().equals(parentMethod.getSignature())) {
+                    method.setPosition(parentMethod.getPosition());
+                }
+                else {
+                    throw new SemanticException(
+                        method.getMetadata(),
+                        "Método '" + methodName + "' ya declarado en un ancestro."
+                    );
+                }
+            }
+            //Avisa que ya ha validado el metodo (Solo lo elimina si existe)
+            methodsToCheck.remove(methodName);
+        }
+
+        //Actualiza la posición de los metodos restantes
+        for (String methodName : methodsToCheck) {
+            methods.get(methodName).setPosition(newMethodIndex);
+            newMethodIndex++;
+        }
+        currentMethodIndex = newMethodIndex;
+    }
+
+    public void addVariablesInherited(HashMap<String, Variable> parentVariables) {
+        HashSet<String> variablesToCheck = new HashSet<String>(variables.keySet());
+        int newVarIndex = parentVariables.size();
+        
+        // Recorre los atributos del padre, los inserta y actualiza los índices
+        // de los demas
+        for (String varName : parentVariables.keySet()) {
+            //Si el atributo no existe, lo agrega
+            if (variables.get(varName) == null) {
+                variables.put(varName, parentVariables.get(varName));
+            }
+            //Si existe, se redefine y es error
+            else {
+                throw new SemanticException(
+                    variables.get(varName).getMetadata(),
+                    "Atributo '" + varName + "' ya declarado en un ancestro."
+                );
+            }
+        }
+
+        //Actualiza la posicion de los atributos restantes
+        for (String varName : variablesToCheck) {
+            variables.get(varName).setPosition(variables.get(varName).getPosition() + newVarIndex);
+        }
+        currentVarIndex = this.variables.size();
     }
 
     /**
@@ -172,6 +246,18 @@ public class Struct extends Metadata {
         }
     }
 
+    public void addChildren (Struct children, boolean isFromStruct) {
+        //Agrega el children si no existe
+        if (childrens.get(children.getName()) == null) {
+            childrens.put(children.getName(), children);
+        }
+        else {
+            //Si existe, solo actualiza si proviene de struct (Para no reemplazarlo por Object)
+            if (isFromStruct) {
+                childrens.put(children.getName(), children);
+            }
+        }
+    }
 
     /**
      * Aumenta el contador de veces que se define o implementa la estructura.

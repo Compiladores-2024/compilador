@@ -52,99 +52,108 @@ public class SymbolTable {
     }
 
     private void init() {
-        Struct objectStruct = new Struct(new Token(IDToken.spOBJECT, "Object", 0, 0), null);
-        //Inserta la clase Object
+        //Definicion de estructuras
+        Struct objectStruct = new Struct(new Token(IDToken.spOBJECT, "Object", 0, 0), null),
+            IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0),objectStruct),
+            Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), objectStruct),
+            Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), objectStruct),
+            Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), objectStruct),
+            Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), objectStruct),
+            Bool = new Struct(new Token(IDToken.typeBOOL, "Bool", 0, 0), objectStruct);
+
+        //Parametros compartidos
+        ArrayList<Param> strParams = generateArrayParam(IDToken.typeSTR, "s"),
+            arrayParams = generateArrayParam( IDToken.typeARRAY, "a"),
+            nullParams = new ArrayList<Param>();
+
+        //Hash con definicion de metodos
+        HashMap<String, HashMap<String, ArrayList<Param>>> definitions = new HashMap<String, HashMap<String, ArrayList<Param>>>(){{
+            put("IO", new HashMap<String, ArrayList<Param>>(){{
+                put("out_str", strParams);
+                put("out_int", generateArrayParam(IDToken.typeINT, "i"));
+                put("out_bool", generateArrayParam(IDToken.typeBOOL, "b"));
+                put("out_char", generateArrayParam(IDToken.typeCHAR, "c"));
+                put("out_array_int", arrayParams);
+                put("out_array_str", arrayParams);
+                put("out_array_bool", arrayParams);
+                put("out_array_char", arrayParams);
+                put("in_str", nullParams);
+                put("in_int", nullParams);
+                put("in_bool", nullParams);
+                put("in_char", nullParams);
+            }});
+            put("Array", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Str", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+                put("concat", strParams);
+            }});
+        }};
+
+        //Retornos de metodos si tuviesen
+        HashMap<String, HashMap<String, IDToken>> returns = new HashMap<String, HashMap<String, IDToken>>(){{
+            put("IO", new HashMap<String, IDToken>() {{
+                put("in_str", IDToken.typeSTR);
+                put("in_int", IDToken.typeINT);
+                put("in_bool", IDToken.typeBOOL);
+                put("in_char", IDToken.typeCHAR);
+            }});
+            put("Array", new HashMap<String, IDToken>() {{
+                put("length", IDToken.typeINT);
+            }});
+            put("Str", new HashMap<String, IDToken>() {{
+                put("length", IDToken.typeINT);
+                put("concat", IDToken.typeSTR);
+            }});
+        }};
+
+        //Inserta las estructuras
         structs.put("Object", objectStruct);
-
-        addIO();
-        addArray();
-        addInt();
-        addStr();
-        addBool();
-        addChar();
-    }
-
-    private void addIO(){
-        Struct IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0), 
-            this.structs.get("Object"));
-
-        IO.addMethod( new Token(null, "out_str", 0, 0), 
-            generateArrayParam( new Token(IDToken.typeSTR,"s", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_int", 0,0), 
-            generateArrayParam( new Token(IDToken.typeINT,"i", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_bool", 0,0),
-            generateArrayParam( new Token(IDToken.typeArrayBOOL,"b", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_char", 0,0), 
-            generateArrayParam( new Token(IDToken.typeCHAR, "c", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_array_int", 0,0), 
-            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_array_str", 0,0), 
-            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_array_bool", 0,0), 
-            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"out_array_char", 0,0), 
-            generateArrayParam( new Token(IDToken.typeARRAY, "a", 0, 0)), true, IDToken.typeVOID);
-        IO.addMethod( new Token(null,"in_str", 0,0),
-            new ArrayList<Param>(), true, IDToken.typeSTR);
-        IO.addMethod( new Token(null,"in_int", 0,0),
-            new ArrayList<Param>(), true, IDToken.typeINT);
-        IO.addMethod( new Token(null,"in_bool", 0,0),
-            new ArrayList<Param>(), true, IDToken.typeBOOL);
-        IO.addMethod( new Token(null,"in_char", 0,0),   
-            new ArrayList<Param>(), true, IDToken.typeCHAR);
-
         structs.put("IO", IO);
-    }
-
-    private void addArray(){
-        Struct Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), 
-            this.structs.get("Object"));
-        Array.addMethod(new Token(null, "length", 0, 0),
-        new ArrayList<Param>(), false,IDToken.typeINT);
-        structs.put("Array", Array);
-    }
-
-    private void addInt(){
-        Struct Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), 
-            this.structs.get("Object"));
-        structs.put("Int", Int);
-    }
-
-    private void addStr(){
-        Struct Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), 
-            this.structs.get("Object"));
-        Str.addMethod(new Token(null, "length", 0, 0),
-        new ArrayList<Param>(), false, IDToken.typeINT);
-        Str.addMethod(new Token(null, "concat", 0, 0), 
-            generateArrayParam(new Token(IDToken.typeSTR, "s", 0, 0)), false, IDToken.typeSTR);
-        structs.put("Str", Str);
-    }
-
-    private void addChar(){
-        Struct Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), 
-            this.structs.get("Object"));
         structs.put("Char", Char);
-    }
-    
-    private void addBool(){
-        Struct Bool = new Struct(new Token(IDToken.typeBOOL, "Bool", 0, 0), 
-            this.structs.get("Object"));
+        structs.put("Str", Str);
+        structs.put("Array", Array);
+        structs.put("Int", Int);
         structs.put("Bool", Bool);
+
+        //Inserta los métodos en las estructuras
+        definitions.forEach((String sStructKey, HashMap<String, ArrayList<Param>> mapParams) -> {
+            //Recorre los metodos
+            mapParams.forEach((String sMethodKey, ArrayList<Param> params) -> {
+                //Agrega el metodo a la estructura correspondiente
+                addVoid(
+                    structs.get(sStructKey), 
+                    new Token(IDToken.idOBJECT, sMethodKey, 0, 0),
+                    params,
+                    returns.get(sStructKey) != null ? returns.get(sStructKey).get(sMethodKey) : null
+                );
+
+            });
+        });
     }
 
-    
+    private void addVoid (Struct struct, Token token, ArrayList<Param> params, IDToken returnType) {
+        struct.addMethod(token, params, true, returnType == null ? IDToken.typeVOID : returnType);
+    }
+
     /** 
      * Método que genera un array de parámetros
      * 
-     * @param paramToken IDToken con el tipo de parámetro
+     * @param type IDToken con el tipo de parámetro
      * @param lexema Lexema para generar el token
      * @return ArrayList<Param>
      */
-    private ArrayList<Param> generateArrayParam(Token paramToken){
-        ArrayList<Param> paramList= new ArrayList<Param>();
-        paramList.add(new Param(paramToken, new Token(paramToken.getIDToken(), paramToken.getLexema() , 0, 0), 0));
-        return paramList; 
-
+    private ArrayList<Param> generateArrayParam(IDToken type, String lexema){
+        return new ArrayList<Param>(){{
+            add(
+                new Param(
+                    new Token(type, lexema, 0, 0),
+                    new Token(type, type.toString(), 0, 0), 
+                    0
+                )
+            );
+        }};
     }
 
     /**
@@ -171,7 +180,7 @@ public class SymbolTable {
         Struct parentStruct = structs.get(sParent);
 
         //Valida que no se herede de los tipos primitivos
-        if (staticStruct.contains(sParent) && sParent != "Object") {
+        if (!sParent.equals("Object") && staticStruct.contains(sParent)) {
             throw new SemanticException(token, "No se puede heredar de un tipo de dato predefinido. Tipo: " + sParent);
         }
         
@@ -203,12 +212,21 @@ public class SymbolTable {
 
         //Valida si debe asignarse como superclase de otras estructuras y lo hace
         if (redefinitions.get(sStruct) != null) {
-            for (String childrens : redefinitions.get(sStruct)) {
-                structs.get(childrens).setParent(currentStruct);
+            for (String children : redefinitions.get(sStruct)) {
+                //Se asigna como padre
+                structs.get(children).setParent(currentStruct);
+
+                //Lo agrega como hijo
+                currentStruct.addChildren(structs.get(children), isFromStruct);
             }
 
             //Avisa que ya se ha asignado a las structs incompletas
             redefinitions.remove(sStruct);
+        }
+
+        //Valida si debe notificar que se ha definido en parametro o retorno
+        if (checkDefinitionStructs.get(sStruct) != null) {
+            checkDefinitionStructs.remove(sStruct);
         }
 
         //Valida herencia cíclica
@@ -219,6 +237,9 @@ public class SymbolTable {
 
         //Agrega la estructura al hash
         structs.put(sStruct, currentStruct);
+
+        //Agrega la relacion con el padre solo si se llama desde un struct
+        addParentRelationships(sParent, currentStruct, isFromStruct);
     }
 
     /**
@@ -230,20 +251,29 @@ public class SymbolTable {
      */
     private void checkParents (Struct struct, Token token) {
         HashSet<String> stack = new HashSet<String>();
-        Struct parent = struct.getParent();
+        String parent = struct.getParent();
 
         //Inicializa el stack
         stack.add(struct.getName());
 
         //Valida hasta que se herede de object o no se haya definido el parent
-        while (parent.getName() != "Object") {
+        while (parent != "Object") {
             //Si el padre de la estructura actual ya existe en el stack, es porque existe herencia cíclica.
-            if (stack.contains(parent.getName())) {
+            if (stack.contains(parent)) {
                 throw new SemanticException(token, "La estructura posee herencia cíclica. Estructura que genera el ciclo: " + struct.getName());
             }
-            stack.add(parent.getName());
-            struct = parent;
+            stack.add(parent);
+            struct = structs.get(parent);
             parent = struct.getParent();
+        }
+    }
+
+    private void addParentRelationships (String parent, Struct children, boolean isFromStruct) {
+        if (structs.get(parent) != null) {
+            structs.get(parent).addChildren(children, isFromStruct);
+        }
+        else {
+            checkDefinitionStructs.put(parent, children.getMetadata());
         }
     }
 
@@ -256,6 +286,12 @@ public class SymbolTable {
      * @param isPrivate Booleano que avisa si la variable es privada o no
      */
     public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
+        //Valida si se ha definido la estructura de tipo
+        if (!type.getLexema().contains("Array") && structs.get(type.getLexema()) == null) {
+            checkDefinitionStructs.put(type.getLexema(), type);
+        }
+        
+        //Agrego metodo o atributo
         if(isAtribute){
             currentStruct.addVar(token, type, isPrivate);
         } else {
@@ -283,25 +319,20 @@ public class SymbolTable {
                 throw new SemanticException(token, "No se permite definir más de un método start.");
             }
         } else {
-            for (Param param : params) {
-                // si un tipo de datos del param no pertenece a staticStruct ni se ha definido previamente entonces 
-                // se añade a checkDefinitionStructs
-                if (!this.staticStruct.contains(param.getType().getLexema()) && !this.structs.containsKey(param.getType().getLexema())){
-                    if(checkDefinitionStructs.get(param.getType().getLexema())==null){
+            // Valida si el tipo de retorno está definido
+            if (!IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
+                checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
+            }
 
-                        checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
-                    }
+            // si el tipo de dato del param no se ha definido previamente entonces 
+            // se añade a checkDefinitionStructs para validarlo en la consolidación
+            for (Param param : params) {
+                if (!this.structs.containsKey(param.getType().getLexema())){
+                    checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
                 }
             }
-            // se chequea tambien por el tipo de retorno del metodo returnType
-            if (returnTypeToken.getIDToken()==IDToken.idSTRUCT){
-                if (!this.staticStruct.contains(returnTypeToken.getLexema()) && !this.structs.containsKey(returnTypeToken.getLexema())){
-                    if(checkDefinitionStructs.get(returnTypeToken.getLexema())==null){
-    
-                        checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
-                    }
-                }
-            }
+
+            //Agrega el método al hash
             currentMethod = currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
         }
 
@@ -323,7 +354,7 @@ public class SymbolTable {
         String sMessage = "";
 
         //Valida si se han definido todas las clases
-        if (redefinitions.size() > 0) {
+        if (!redefinitions.isEmpty()) {
             //Obtiene el nombre de la superclase
             sMessage = redefinitions.keySet().iterator().next();
 
@@ -332,179 +363,21 @@ public class SymbolTable {
 
             throw new SemanticException(metadata, "La estructura '" + sMessage + "' no se encuentra definida.");
         }
-        // añadir variables y metodos  heredados desde Object
-        addMethod_and_variables_inherited(structs.get("Object"));
-        //Valida si se han definido todas las clases checkDefinitionStructs
-        if (checkDefinitionStructs.size() > 0) {
-            //Obtiene el nombre de la superclase
+
+        //Valida si se han definido todos los tipos de datos
+        if (!checkDefinitionStructs.isEmpty()) {
+            //Obtiene el nombre del tipo
             sMessage = checkDefinitionStructs.keySet().iterator().next();
             
             //Obtiene la metadata del struct que utiliza la superclase.
-            metadata = (checkDefinitionStructs.get(sMessage));
-            throw new SemanticException(metadata, "La estructura '" + metadata.getLexema() + "' no se encuentra definida.");
+            metadata = checkDefinitionStructs.get(sMessage);
+
+            throw new SemanticException(metadata, "La estructura '" + sMessage + "' no se encuentra definida.");
         }
         
+        // Consolida las estructuras a partir de Object
+        structs.get("Object").consolidate();
     }
-    
-        /**
-     * Método que añade metodos y variables heredadas. El objetivo es partir desde Object (parentStruct) e ir añadiendo
-     * metodos a las clases entry que utilicen a parentStruct.
-     * 
-     * @param parent HashMap<String, Method>
-     * @since 22/04/2024
-     */
-    private void addMethod_and_variables_inherited(Struct parentStruct){
-
-        // se itera por cada struct
-        for (HashMap.Entry<String, Struct> entry : structs.entrySet()) {
-
-            // se omiten los structs predefinidos
-            if (!staticStruct.contains(entry.getKey())){
-                
-                //Valida que posea al menos un struct
-                if(!entry.getValue().hasStruct()){
-                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " debe definirse. Falta struct.");
-                }
-                
-                //Valida que posea al menos un impl
-                if(!entry.getValue().hasImpl()){
-                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " debe implementarse. Falta impl.");
-                }
-                
-                //Valida que posea un constructor
-                if(!entry.getValue().hasConstructor()){
-                    throw new SemanticException(entry.getValue().getMetadata(), "Struct "+ entry.getValue().getName() + " no tiene constructor implementado");
-                }
-
-                if (checkDefinitionStructs.containsKey(entry.getKey())){
-                    checkDefinitionStructs.remove(entry.getKey());
-                }
-
-                // si existe algun struct que hereda de parentStruct
-                if (entry.getValue().getParent().equals(parentStruct)){
-                    if (!parentStruct.equals(structs.get("Object"))){
-
-                        // se toma el HashMap de Variables del struct que hereda de parentStruct
-                        HashMap<String, Variable> auxVariables = entry.getValue().getVariable();
-
-                        // se actualizan los position del HashMap de Variable
-                        updateIndexVariable(auxVariables,parentStruct.getCurrentVarIndex());
-                        
-                        // se añade cada variable del parent al struct hijo
-                        for (HashMap.Entry<String, Variable> parentVariable : parentStruct.getVariable().entrySet()) {
-
-                            // si no existe la variable en el hijo entonces se agrega
-                            if (auxVariables.get(parentVariable.getKey())==null){
-                                
-                                auxVariables.put(parentVariable.getKey(), parentVariable.getValue());
-                            }
-                            // si ya existe la variable en el hijo es un error
-                            else{
-                                throw new SemanticException(auxVariables.get(parentVariable.getKey()).getMetadata(),"Atributo '"+
-                                auxVariables.get(parentVariable.getKey()).getMetadata().getLexema() +
-                                "' ya declarado en un ancestro");
-
-                            }
-                        }
-
-                        // se toma el HashMap de Methods del struct que hereda de parentStruct
-                        HashMap<String, Method> auxMethods = entry.getValue().getMethods();
-                        
-                        // se actualizan los position del HashMap
-                        updateIndexMethods(auxMethods,parentStruct.getCurrentMethodIndex());
-                        
-                        // se genera un HashMap parentCopy que contiene metodos del parent  
-                        // que no fueron sobreescritos. Si un metodo fue sobreescrito correctamente
-                        // se omite
-                        HashMap<String, Method> parentCopy= checksignature(auxMethods, parentStruct.getMethods());
-    
-                        // se añade cada metodo del parentCopy al struct hijo
-                        for (HashMap.Entry<String, Method> parentMethod : parentCopy.entrySet()) {
-                            auxMethods.put(parentMethod.getKey(), parentMethod.getValue());
-                        }
-                        // entry.getValue().updateCurrentMethodIndex();
-                        entry.getValue().updateCurrentVarIndex();
-                        
-                    }
-                    
-                    // recursion con cada hijo
-                    addMethod_and_variables_inherited(entry.getValue());
-                    // se actualizan los indices de metodos y variables
-                    entry.getValue().updateCurrentMethodIndex();
-                    entry.getValue().updateCurrentVarIndex();
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Método que retorna un HashMap<String, Method> con metodos de un parent. 
-     * Donde se omiten los metodos sobreescritos correctamente.
-     * En caso de que un metodo de actual contenga un metodo mal redefinido con respecto a los de parent,
-     * entonces se genera una excepcion semantica.
-     * 
-     * @param actual HashMap<String, Method>
-     * @param parent HashMap<String, Method>
-     * @return HashMap<String, Method> 
-     * @since 22/04/2024
-     */
-    private HashMap<String, Method> checksignature(HashMap<String, Method> actual, HashMap<String, Method> parent) {
-        HashMap<String, Method> parentCopy = new HashMap<String, Method>();
-        
-        for (HashMap.Entry<String, Method> parentMethod : parent.entrySet()) {
-            // si los metodos de actual contienen algun metodo de parent
-            if (actual.containsKey(parentMethod.getKey())) {
-                // si la signature NO es igual
-                if (!(actual.get(parentMethod.getKey()).getSignature().equals(parentMethod.getValue().getSignature()))){
-                    
-                    throw new SemanticException(actual.get(parentMethod.getKey()).getMetadata(),"METODO MAL REDEFINIDO. NO COINCIDEN LAS SIGNATURE");
-                }
-                //si coinciden las signature se actualizan las position
-                else{
-                    actual.get(parentMethod.getValue().getName()).setPosition(parentMethod.getValue().getPosition());
-                }
-            }
-            else{
-                parentCopy.put(parentMethod.getKey(), parentMethod.getValue());
-            }   
-        }
-        return parentCopy;
-    }
-
-    /**
-     * Método que actualiza las position de las Variable de un 
-     * HashMap<String,Variable> pasado como parametro.
-     * 
-     * @param hashVar HashMap<String, Variable>
-     * @param count Cantidad de variables de un HashMap padre. 
-     * @since 23/04/2024
-     */
-    private void updateIndexVariable(HashMap<String, Variable> hashVar, int count){
-        for (HashMap.Entry<String, Variable> entryVar : hashVar.entrySet()) {
-            // se toma la position anterior
-            int positionPrev = ((Metadata)entryVar.getValue()).getPosition();
-            // se actualiza la posicion anterior sumandole count (cantidad de entradas del padre)
-            ((Metadata)entryVar.getValue()).setPosition(positionPrev + count);
-        }
-    }
-
-
-    /**
-     * Método que actualiza las position de los metodos de un 
-     * HashMap<String,Method> pasado como parametro.
-     * 
-     * @param methods HashMap<String, Method>
-     * @param countMethods Cantidad de metodos de un HashMap padre. 
-     * @since 22/04/2024
-     */
-    private void updateIndexMethods(HashMap<String, Method> methods, int countMethods){
-        for (HashMap.Entry<String, Method> entryMethod : methods.entrySet()) {
-            entryMethod.getValue().setPosition(countMethods);
-            ++countMethods;
-        }
-    }
-
 
     /**
      * Convierte los datos en JSON.
