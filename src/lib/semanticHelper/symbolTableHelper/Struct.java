@@ -123,11 +123,12 @@ public class Struct extends Metadata {
             methods.get(methodName).setPosition(newMethodIndex);
             newMethodIndex++;
         }
+        currentMethodIndex = newMethodIndex;
     }
 
     public void addVariablesInherited(HashMap<String, Variable> parentVariables) {
         HashSet<String> variablesToCheck = new HashSet<String>(variables.keySet());
-        int newMethodIndex = parentVariables.size();
+        int newVarIndex = parentVariables.size();
         
         // Recorre los atributos del padre, los inserta y actualiza los índices
         // de los demas
@@ -147,9 +148,10 @@ public class Struct extends Metadata {
 
         //Actualiza la posicion de los atributos restantes
         for (String varName : variablesToCheck) {
-            variables.get(varName).setPosition(newMethodIndex);
-            newMethodIndex++;
+            variables.get(varName).setPosition(newVarIndex);
+            newVarIndex++;
         }
+        currentVarIndex = newVarIndex;
     }
 
     /**
