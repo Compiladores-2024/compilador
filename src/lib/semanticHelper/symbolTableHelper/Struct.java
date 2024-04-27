@@ -312,8 +312,8 @@ public class Struct extends Metadata {
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
             tabs + "    \"constructor\": [" + "\n"+ constructorJSON + (constructorJSON == "" ? "" : (tabs + "    ")) + "\n" + (tabs + "    ") +  "],\n" +
-            tabs + "    \"methodIndex\": " + currentMethodIndex + ",\n" +
-            tabs + "    \"varIndex\": " + currentVarIndex + ",\n" +
+            tabs + "    \"cantidadMetodos\": " + currentMethodIndex + ",\n" +
+            tabs + "    \"cantidadAtributos\": " + currentVarIndex + ",\n" +
             tabs + "    \"atributos\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"métodos\": [" + methodJSON + (methodJSON == "" ? "" : (tabs + "    ")) + "]\n" +
         tabs + "}";
