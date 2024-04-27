@@ -277,6 +277,14 @@ public class SymbolTable {
         }
     }
 
+    
+    /** 
+     * Agrega una relación padre-hijo sobre el struct especificado
+     * 
+     * @param parent Nombre de la superclase
+     * @param children Estructura con los datos del hijo
+     * @param isFromStruct Booleano que indica si se inserta desde un struct o impl.
+     */
     private void addParentRelationships (String parent, Struct children, boolean isFromStruct) {
         if (structs.get(parent) != null) {
             structs.get(parent).addChildren(children, isFromStruct);

@@ -143,6 +143,12 @@ public class Struct extends Metadata {
         currentMethodIndex = newMethodIndex;
     }
 
+    
+    /**
+     * Agrega los atributos que hereda, este método lo llama la superclase del struct.
+     * 
+     * @param parentVariables Atributos del padre que debe agregar.
+     */
     public void addVariablesInherited(HashMap<String, Variable> parentVariables) {
         HashSet<String> variablesToCheck = new HashSet<String>(variables.keySet());
         int newVarIndex = parentVariables.size();
@@ -252,6 +258,13 @@ public class Struct extends Metadata {
         }
     }
 
+    
+    /** 
+     * Método que agrega un hijo a la relación padre-hijo dentro de la estructura.
+     * 
+     * @param children Struct con los datos del hijo a insertar
+     * @param isFromStruct Booleano que indica si se está insertando desde un struct o impl.
+     */
     public void addChildren (Struct children, boolean isFromStruct) {
         //Agrega el children si no existe
         if (childrens.get(children.getName()) == null) {

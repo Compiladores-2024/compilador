@@ -233,10 +233,11 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Herencia> ::= : <Tipo>  
+     * @return Token
     */
     private Token herencia () {
         match(IDToken.sCOLON);
@@ -385,10 +386,13 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
+     * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>
      * 
-     * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
+     * @param type Tipo de dato
+     * @param isPrivate Booleano para indicar si la variable es privada o no
+     * @param isAtribute Booleano que indica si es un atributo o variable local.
     */
     private void listaDeclaracionVariables (Token type, boolean isPrivate, boolean isAtribute) {
         Token token = currentToken;
@@ -404,10 +408,12 @@ public class SyntacticAnalyzer {
 
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumentos-Formales>::= ( <Lista-Argumentos-Formales’> ) | ( )  
+     * 
+     * @return ArrayList<Param> Returna una lista de parámetros.
     */
     private ArrayList<Param> argumentosFormales () {
         ArrayList<Param> result = new ArrayList<Param>();
@@ -1108,100 +1114,6 @@ public class SyntacticAnalyzer {
             match(IDToken.sCOR_CLOSE);
         }
     }
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <ExpresionParentizada> ::= ( <Expresión> ) <Encadenado’> | ( <Expresión> )   
-    // */
-    // private void expresionParentizada () {
-    //     match(IDToken.sPAR_OPEN);
-    //     expresion();
-    //     match(IDToken.sPAR_CLOSE);
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <AccesoSelf> ::= self <Encadenado’> | self  
-    // */
-    // private void accesoSelf () {
-    //     match(IDToken.pSELF);
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <AccesoVar> ::= id <Encadenado’> | id  |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]  
-    //  * 
-    //  * La regla es igual a acceso accesoVariableEncadenado, asi que se reutiliza el código.
-    // */
-    // private void accesoVar () {
-    //     accesoVariableEncadenado();
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Método> ::= id <Argumentos-Actuales> <Encadenado’> | id <Argumentos-Actuales>  
-    // */
-    // private void llamadaMetodo () {
-    //     isID();
-    //     argumentosActuales();
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Método-Estático> ::= idStruct . <Llamada-Método> <Encadenado’>  |  idStruct . <Llamada-Método>  
-    // */
-    // private void llamadaMetodoEstatico () {
-    //     match(IDToken.idSTRUCT);
-    //     match(IDToken.sDOT);
-    //     llamadaMetodo();
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Constructor> ::= new idStruct <Argumentos-Actuales> <Encadenado’>  
-    //  *              | new <Tipo-Primitivo> [ <Expresión> ]
-    //  *              | new idStruct <Argumentos-Actuales>  
-    // */
-    // private void llamadaConstructor () {
-    //     match(IDToken.pNEW);
-    //     if (currentToken.getIDToken().equals(IDToken.idSTRUCT)) {
-    //         match(IDToken.idSTRUCT);
-    //         argumentosActuales();
-    //         if (checkFirst(First.firstEncadenadoP)) {
-    //             encadenadoP();
-    //         }
-    //     }
-    //     else {
-    //         tipoPrimitivo();
-    //         match(IDToken.sCOR_OPEN);
-    //         expresion();
-    //         match(IDToken.sCOR_CLOSE);
-    //     }
-    // }
-
 
     /*
      * Método que ejecuta la regla de producción: <br/>

@@ -51,11 +51,6 @@ public class Token {
         this.lexema = name.toString();
     }
 
-    public void setCustomName(IDToken name, String lexema) {
-        this.name = name;
-        this.lexema = lexema;
-    }
-
     /** 
      * @return IDToken
      */
