@@ -159,8 +159,7 @@ public class Struct extends Metadata {
 
         //Actualiza la posicion de los atributos restantes
         for (String varName : variablesToCheck) {
-            int prevPosition= variables.get(varName).getPosition();
-            variables.get(varName).setPosition(prevPosition+newVarIndex);
+            variables.get(varName).setPosition(variables.get(varName).getPosition() + newVarIndex);
         }
         currentVarIndex = this.variables.size();
     }
