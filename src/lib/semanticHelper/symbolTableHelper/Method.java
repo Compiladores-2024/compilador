@@ -47,12 +47,19 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
-    public void addVar (Token token, Token type, boolean isPrivate) {
+    
+    /** 
+     * Método que agrega una variable local al método.
+     * 
+     * @param token Metadata de la variable
+     * @param type Metadata del tipo de dato de la variable
+     */
+    public void addVar (Token token, Token type) {
         String name = token.getLexema();
 
         //Si la variable no existe, la genera
         if (variables.get(name) == null) {
-            variables.put(name, new Variable(token, type, isPrivate, currentVarIndex));
+            variables.put(name, new Variable(token, type, true, currentVarIndex));
             currentVarIndex++;
         }
         //Se intenta definir otra variable

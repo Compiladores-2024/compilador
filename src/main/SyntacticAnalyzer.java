@@ -59,10 +59,6 @@ public class SyntacticAnalyzer {
         symbolTable.consolidate();
     }
 
-    public SymbolTable getSymbolTable(){
-        return this.symbolTable;
-    }
-
     /**
      * Función de macheo.
      * 
@@ -1507,5 +1503,12 @@ public class SyntacticAnalyzer {
         if (checkFirst(First.firstExpMulP)) {
             expMulP();
         }
+    }
+
+    /** 
+     * @return String con tabla de símbolos en formato json
+     */
+    public String toJSON(){
+        return this.symbolTable.toJSON();
     }
 }

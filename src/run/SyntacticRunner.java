@@ -32,7 +32,7 @@ public class SyntacticRunner {
                 
                 String ruta = args[0].split(".ru")[0];
                 String jsonPathOut = ruta+".st.json"; 
-                Static.write(syntacticAnalyzer.getSymbolTable().toJSON(), jsonPathOut);
+                Static.write(syntacticAnalyzer.toJSON(), jsonPathOut);
 
                 // imprimir mensaje de exito semantico declaraciones
                 System.out.println("CORRECTO: SEMANTICO - DECLARACIONES");

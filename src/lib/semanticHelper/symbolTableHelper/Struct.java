@@ -98,6 +98,12 @@ public class Struct extends Metadata {
         }
     }
 
+    
+    /** 
+     * Agrega los métodos que hereda, este método lo llama la superclase del struct.
+     * 
+     * @param parentMethods Métodos del padre que debe agregar.
+     */
     public void addMethodsInherited(HashMap<String, Method> parentMethods) {
         Method method, parentMethod;
         HashSet<String> methodsToCheck = new HashSet<String>(methods.keySet());

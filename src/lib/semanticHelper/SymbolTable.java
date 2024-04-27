@@ -133,6 +133,15 @@ public class SymbolTable {
         });
     }
 
+    
+    /** 
+     * Método interno que se utiliza para agregar métodos estáticos predefinidos.
+     * 
+     * @param struct Estructura a la cual agregar el método.
+     * @param token Metadata del método a agregar.
+     * @param params Lista de parámetros.
+     * @param returnType Tipo de dato a retornar.
+     */
     private void addVoid (Struct struct, Token token, ArrayList<Param> params, IDToken returnType) {
         struct.addMethod(token, params, true, returnType == null ? IDToken.typeVOID : returnType);
     }
@@ -295,7 +304,7 @@ public class SymbolTable {
         if(isAtribute){
             currentStruct.addVar(token, type, isPrivate);
         } else {
-            currentMethod.addVar(token, type, isPrivate);;
+            currentMethod.addVar(token, type);;
         }
     }
     
