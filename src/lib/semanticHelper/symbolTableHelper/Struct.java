@@ -314,11 +314,14 @@ public class Struct extends Metadata {
     public String toJSON(String tabs) {
         String variableJSON = toJSONEntity(variables, tabs), methodJSON = toJSONEntity(methods, tabs);
 
-        String constructorJSON = constructor.toJSON(tabs + "        ");
+        String constructorJSON="";
+        if (constructor!=null){
+            constructorJSON = constructor.toJSON(tabs + "        ");
+        }
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"heredaDe\": \"" + (parent != null ? parent.getName() : "No posee") + "\",\n" +
-            tabs + "    \"constructor\": [" + "\n"+ constructorJSON + (constructorJSON == "" ? "" : (tabs + "    ")) + "\n" + (tabs + "    ") +  "],\n" +
+            tabs + "    \"constructor\": [" + (constructorJSON=="" ? "" : "\n" )+ constructorJSON + (constructorJSON == "" ? "" : (tabs + "    " + "\n" + (tabs + "    ") ))  +  "],\n" +
             tabs + "    \"cantidadMetodos\": " + currentMethodIndex + ",\n" +
             tabs + "    \"cantidadAtributos\": " + currentVarIndex + ",\n" +
             tabs + "    \"atributos\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "],\n" +
