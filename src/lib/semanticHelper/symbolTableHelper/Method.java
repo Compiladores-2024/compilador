@@ -25,6 +25,11 @@ public class Method extends Metadata{
      * Constructor de la clase.
      * 
      * @since 19/04/2024
+     * @param metadata Metadata del método
+     * @param parameters Parámetros formales
+     * @param returnType Tipo de retorno
+     * @param isStatic Booleano para identificar si es estático o no
+     * @param position Posición dentro de la tabla de símbolos
      */
     public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
         super(metadata, position);
@@ -69,6 +74,7 @@ public class Method extends Metadata{
     }
 
     /**
+     * Retorna la firma de un método.
      * @return String con la signature del método.
      */
     public String getSignature (){

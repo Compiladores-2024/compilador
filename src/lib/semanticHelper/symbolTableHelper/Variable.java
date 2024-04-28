@@ -17,6 +17,10 @@ public class Variable extends Metadata{
      * Constructor de la clase.
      * 
      * @since 19/04/2024
+     * @param token Metadata de la variable
+     * @param type Tipo de dato
+     * @param isPrivate Booleano que avisa si es privada o no
+     * @param position Posición dentro de la tabla de símbolos
      */
     public Variable (Token token, Token type, boolean isPrivate, int position) {
         super(token, position);

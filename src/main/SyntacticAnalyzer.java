@@ -42,8 +42,9 @@ public class SyntacticAnalyzer {
      * Método que comenzará la ejecución del análisis sintáctico.
      * 
      * @since 06/04/2024
-     * @throws LexicalException
-     * @throws SyntacticException
+     * @throws LexicalException Error léxico
+     * @throws SyntacticException Error sintáctico
+     * @throws SemanticException Error semántico
      */
     public void run () throws LexicalException, SyntacticException, SemanticException{
         //Obtiene el token inicial
@@ -1427,6 +1428,7 @@ public class SyntacticAnalyzer {
     }
 
     /** 
+     * Obtiene un string en formato json de la tabla de símbolos
      * @return String con tabla de símbolos en formato json
      */
     public String toJSON(){

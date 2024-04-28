@@ -13,6 +13,7 @@ import src.lib.tokenHelper.IDToken;
  * @since 08/04/2024
  */
 public class First {
+    private First () {}
     /**
      * Primeros de Program 
      */

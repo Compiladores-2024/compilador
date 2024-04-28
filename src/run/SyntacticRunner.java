@@ -15,9 +15,11 @@ import src.main.SyntacticAnalyzer;
  * @since 08/04/2024
  */
 public class SyntacticRunner {
+    private SyntacticRunner () {}
     
     /** 
-     * @param args
+     * Main
+     * @param args args
      */
     public static void main(String[] args) {
         //args = new String[] {"src/test/resources/semantic/error/TS_ERROR_DOBLE_ATRIBUTO.ru"};

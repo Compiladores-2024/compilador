@@ -44,6 +44,7 @@ public class Token {
 
     
     /** 
+     * Setea el nombre del token
      * @param name Retorna el nombre del Token
      */
     public void setName(IDToken name) {
@@ -52,6 +53,7 @@ public class Token {
     }
 
     /** 
+     * Retorna el nombre del token
      * @return IDToken
      */
     public IDToken getIDToken(){
@@ -59,6 +61,7 @@ public class Token {
     }
 
     /** 
+     * Obtiene la línea donde se encuentra el token
      * @return Line
      */
     public int getLine(){
@@ -66,6 +69,7 @@ public class Token {
     }
 
     /** 
+     * Obtiene la columna donde se encuentra el token
      * @return Column
      */
     public int getColumn(){
@@ -73,6 +77,7 @@ public class Token {
     }
 
     /** 
+     * Obtiene el lexema del token
      * @return Lexema
      */
     public String getLexema() {

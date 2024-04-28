@@ -16,6 +16,9 @@ public class Param extends Metadata{
      * Constructor de la clase.
      * 
      * @since 19/04/2024
+     * @param token Metadata del parámetro
+     * @param type Tipo de dato
+     * @param position Posición dentro de la tabla de símbolos
      */
     public Param (Token token, Token type, int position) {
         super(token, position);
@@ -23,6 +26,7 @@ public class Param extends Metadata{
     }
 
     /**
+     * Retorna el tipo de dato
      * @return Lexema que identifica el tipo de dato del parámetro
      */
     public Token getType() {

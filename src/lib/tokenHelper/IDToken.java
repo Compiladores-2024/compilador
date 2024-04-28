@@ -102,7 +102,7 @@ public enum IDToken {
     }
 
     /**
-     * 
+     * Setea la descripción del enum
      * @param descripcion Nueva descripción del objeto
      */
     public void setDescripcion(String descripcion) {

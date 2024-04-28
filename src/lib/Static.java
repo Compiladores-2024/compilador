@@ -13,6 +13,7 @@ import src.lib.tokenHelper.Token;
  * @since 07/03/2024
  */
 public class Static {
+    private Static () {}
     /**
      * Método que se utiliza para escribir los resultados del analizador léxico
      * ya sea por consola o en un fichero específico.

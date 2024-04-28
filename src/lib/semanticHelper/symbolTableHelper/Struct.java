@@ -28,8 +28,8 @@ public class Struct extends Metadata {
      * Constructor de la clase.
      * 
      * @since 19/04/2024
-     * @param metadata
-     * @param parent
+     * @param metadata Metadata de la estructura
+     * @param parent Estructura de la cual hereda
      */
     public Struct (Token metadata, Struct parent) {
         super(metadata, 0);
@@ -53,18 +53,23 @@ public class Struct extends Metadata {
     }
 
     /**
+     * Obtiene la superclase
      * @return Struct con los datos de la superclase.
      */
     public String getParent() {
         return parent.getName();
     }
     /**
+     * Setea la superclase
      * @param parent Clase padre de la cual hereda la estructura.
      */
     public void setParent (Struct parent) {
         this.parent = parent;
     }
 
+    /**
+     * Método que consolida la estructura
+     */
     public void consolidate () {
         if (!getName().equals("Object")) {
             //Valida que posea al menos un struct
@@ -191,7 +196,7 @@ public class Struct extends Metadata {
      * @param params Parámetros formales
      * @param isStatic Booleano que notifica si es estático o no
      * @param returnType Tipo de retorno
-     * @return
+     * @return Método insertado en la estructura
      */
     public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
         String name = token.getLexema();
@@ -280,6 +285,8 @@ public class Struct extends Metadata {
 
     /**
      * Aumenta el contador de veces que se define o implementa la estructura.
+     * 
+     * @param isFromStruct booleano que indica si se está generando desde un struct o implement
      */
     public void updateCount(boolean isFromStruct) {
         int count = isFromStruct ? this.countStructDefinition : this.countImplDefinition;

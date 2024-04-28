@@ -301,6 +301,7 @@ public class SymbolTable {
      * @param token Metadata con el token correspondiente al idVar
      * @param type Tipo de dato
      * @param isPrivate Booleano que avisa si la variable es privada o no
+     * @param isAtribute Booleano que avisa si es un atributo o variable local
      */
     public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
         //Valida si se ha definido la estructura de tipo
@@ -323,7 +324,7 @@ public class SymbolTable {
      * @param token Metadata con el token correspondiente al idMethod
      * @param params ArrayList con los parámetros del método
      * @param isStatic Booleano que avisa si es estático o no
-     * @param returnType Tipo de retorno del método
+     * @param returnTypeToken Tipo de retorno del método
      */
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
         if (token.getIDToken().equals(IDToken.idSTART)) {

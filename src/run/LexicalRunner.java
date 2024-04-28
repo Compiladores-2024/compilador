@@ -17,6 +17,7 @@ import src.lib.exceptionHelper.LexicalException;
  */
 
 public class LexicalRunner {
+    private LexicalRunner () {}
     /**
      * Método main para ejecutar y testear el analizador léxico
      * 

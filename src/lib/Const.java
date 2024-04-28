@@ -13,6 +13,8 @@ import src.lib.tokenHelper.IDToken;
  * @since 08/03/2024
  */
 public class Const {
+    private Const (){}
+    
     //Header de errores
     /** Header de errores */
     private static final String ERROR_HEADER = "| NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |";

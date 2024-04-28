@@ -33,6 +33,7 @@ public abstract class Metadata {
      * Obtiene el lexema del token asignado.
      * 
      * @since 19/04/2024
+     * @return Nombre del objeto
      */
     public String getName () {
         return metadata.getLexema();
@@ -42,12 +43,14 @@ public abstract class Metadata {
      * Obtiene la posición del objeto correspondiente.
      * 
      * @since 19/04/2024
+     * @return posición
      */
     public int getPosition () {
         return position;
     }
 
     /**
+     * Setea la posición del objeto
      * @param position Nueva posición dentro de la entidad
      */
     public void setPosition(int position) {
@@ -55,6 +58,7 @@ public abstract class Metadata {
     }
 
     /**
+     * Obtiene la metadata del objeto
      * @return Token con la metadata del struct
      */
     public Token getMetadata() {
@@ -62,8 +66,9 @@ public abstract class Metadata {
     }
 
     /**
-     * @param entity
-     * @return
+     * Ordena una estructura dada
+     * @param entity Estructura a ordenar
+     * @return Arreglo con elementos ordenados
      */
     @SuppressWarnings("unchecked")
     public String [] order (HashMap<String, ?> entity) {
@@ -80,7 +85,7 @@ public abstract class Metadata {
      * 
      * @param entity Entidad a convertir en JSON
      * @param tabs Cantidad de tabs que se deben aplicar
-     * @return String
+     * @return Estructura en formato json
      */
     public String toJSONEntity (HashMap<String, ?> entity, String tabs) {
         int count = entity.size();
@@ -100,6 +105,7 @@ public abstract class Metadata {
      * 
      * @since 19/04/2024
      * @param tabs Cantidad de tabs que posee el objeto en formato JSON
+     * @return String con estructura en formato JSON
      */
     public abstract String toJSON (String tabs);
 }
