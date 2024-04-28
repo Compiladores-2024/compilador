@@ -132,7 +132,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <program> ::= <Lista-Definiciones><Start> | <Start>
@@ -145,7 +145,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Start> ::= start <Bloque-Método>  
@@ -169,7 +169,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Struct> ::= struct idStruct <Struct’>  
@@ -213,7 +213,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Impl> ::= impl idStruct { <Miembro’> }  
@@ -245,7 +245,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Miembro> ::= <Método> | <Constructor>  
@@ -269,7 +269,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
@@ -289,7 +289,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Atributo> ::= <Visibilidad’> <Tipo> <Lista-Declaración-Variables> ;  | <Tipo> <Lista-Declaración-Variables> ;  
@@ -308,7 +308,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
@@ -336,7 +336,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Visibilidad> ::= pri  
@@ -346,7 +346,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Forma-Método> ::= st  
@@ -356,7 +356,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
@@ -375,7 +375,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
@@ -428,10 +428,12 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
+     * @param index
+     * @return ArrayList<Param>
     */
     private ArrayList<Param> listaArgumentosFormales (int index) {
         ArrayList<Param> result = new ArrayList<Param>();
@@ -451,10 +453,12 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumento-Formal> ::= <Tipo> idMetAt  
+     * @param index
+     * @return Param
     */
     private Param argumentoFormal (int index) {
         Token type = tipo();
@@ -464,10 +468,11 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Método> ::= <Tipo> | void  
+     * @return Token
     */
     private Token tipoMetodo () {
         Token result;
@@ -488,10 +493,11 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
+     * @return Token
     */
     private Token tipo () {
         if (checkFirst(First.firstTipoPrimitivo)){
@@ -513,10 +519,11 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
+     * @return Token
     */
     private Token tipoPrimitivo () {
         Token token = currentToken;
@@ -540,10 +547,11 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Referencia> ::= idStruct  
+     * @return Token
     */
     private Token tipoReferencia () {
         Token token = currentToken;
@@ -552,11 +560,12 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
-    */
+     * @return Token
+     */
     private Token tipoArreglo () {
         Token token = currentToken;
         match(IDToken.typeARRAY);
@@ -583,7 +592,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia> ::= ; 
@@ -660,7 +669,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <MoreIF> ::= else <Sentencia>
@@ -671,7 +680,7 @@ public class SyntacticAnalyzer {
     }
     
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Bloque> ::= { <Sentencia’> } | { }  
@@ -685,7 +694,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
@@ -714,7 +723,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <AccesoVar-Simple> ::= id <Encadenado-Simple’> | id [ <Expresión> ] | id  
@@ -733,7 +742,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <AccesoSelf-Simple> ::= self <Encadenado-Simple’> | self  
@@ -746,7 +755,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado-Simple> ::= . id  
@@ -757,7 +766,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia-Simple> ::= ( <Expresión> )  
@@ -769,7 +778,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Expresión> ::= <ExpOr>  
@@ -779,7 +788,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpOr> ::= <ExpAnd> <ExpOr’> | <ExpAnd>  
@@ -792,7 +801,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAnd> ::= <ExpIgual><ExpAnd’> | <ExpIgual>  
@@ -805,7 +814,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpIgual> ::= <ExpCompuesta><ExpIgual’> | <ExpCompuesta>  
@@ -818,7 +827,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAd> ::= <ExpMul><ExpAd’> | <ExpMul>  
@@ -831,7 +840,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpMul> ::= <ExpUn> <ExpMul’> | <ExpUn>  
@@ -844,7 +853,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpCompuesta> ::= <ExpAd> <OpCompuesto> <ExpAd> | <ExpAd>  
@@ -858,7 +867,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
@@ -873,7 +882,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpIgual> ::= == | !=  
@@ -892,7 +901,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpCompuesto> ::= < |> | <= |>=  
@@ -917,7 +926,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpAd> ::= + | -  
@@ -936,7 +945,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpUnario> ::= + | - | ! | ++ | --  
@@ -965,7 +974,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpMul> ::= * | / | %  
@@ -987,7 +996,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
@@ -1005,7 +1014,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Literal> ::= nil | true | false | intLiteral | StrLiteral | charLiteral
@@ -1036,7 +1045,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
@@ -1048,7 +1057,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Primario’> ::=  ( <Expresión> ) 
@@ -1115,7 +1124,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumentos-Actuales> ::= ( <Lista-Expresiones’> ) | ( )  
@@ -1129,7 +1138,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
@@ -1143,7 +1152,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado> ::= <EncadenadoExtra> | <EncadenadoExtra> <Encadenado’>  
@@ -1154,7 +1163,7 @@ public class SyntacticAnalyzer {
             encadenadoP();
         }
     }
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <EncadenadoExtra> ::= . id <Argumentos-Actuales>
@@ -1178,7 +1187,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Definiciones>::= <Struct><Lista-Definiciones> | <Struct> | <Impl><Lista-Definiciones> | <Impl>  
@@ -1213,7 +1222,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Atributo’> ::= <Atributo><Atributo’> | <Atributo>  
@@ -1226,7 +1235,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Decl-Var-Locales’> ::= <Decl-Var-Locales><Decl-Var-Locales’> | <Decl-Var-Locales>  
@@ -1239,7 +1248,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia’> ::= <Sentencia><Sentencia’> | <Sentencia>  
@@ -1252,7 +1261,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado-Simple’> ::= <Encadenado-Simple><Encadenado-Simple’> | <Encadenado-Simple>  
@@ -1265,7 +1274,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Herencia’> ::= <Herencia>  
@@ -1275,7 +1284,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Visibilidad’> ::= <Visibilidad>  
@@ -1285,7 +1294,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Forma-Método’> ::= <Forma-Método>  
@@ -1295,7 +1304,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Expresión’> ::= <Expresión>  
@@ -1305,7 +1314,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado’> ::= <Encadenado>  
@@ -1315,7 +1324,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Expresiones’> ::= <Lista-Expresiones>  
@@ -1325,7 +1334,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
@@ -1335,7 +1344,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Miembro’> ::= <Miembro> | <Miembro><Miembro’>  
@@ -1348,7 +1357,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
@@ -1362,7 +1371,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
@@ -1376,7 +1385,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
@@ -1390,7 +1399,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
@@ -1404,7 +1413,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
