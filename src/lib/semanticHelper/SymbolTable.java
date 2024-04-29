@@ -121,11 +121,12 @@ public class SymbolTable {
         definitions.forEach((String sStructKey, HashMap<String, ArrayList<Param>> mapParams) -> {
             //Recorre los metodos
             mapParams.forEach((String sMethodKey, ArrayList<Param> params) -> {
+                Boolean isStatic= (sStructKey.equals("IO") ? true : false);
                 //Agrega el metodo a la estructura correspondiente
                 addVoid(
                     structs.get(sStructKey), 
                     new Token(IDToken.idOBJECT, sMethodKey, 0, 0),
-                    params,
+                    params, isStatic,
                     returns.get(sStructKey) != null ? returns.get(sStructKey).get(sMethodKey) : null
                 );
 
@@ -142,8 +143,8 @@ public class SymbolTable {
      * @param params Lista de parámetros.
      * @param returnType Tipo de dato a retornar.
      */
-    private void addVoid (Struct struct, Token token, ArrayList<Param> params, IDToken returnType) {
-        struct.addMethod(token, params, true, returnType == null ? IDToken.typeVOID : returnType);
+    private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, IDToken returnType) {
+        struct.addMethod(token, params, isStatic, returnType == null ? IDToken.typeVOID : returnType);
     }
 
     /** 

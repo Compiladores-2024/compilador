@@ -33,7 +33,7 @@ public class SyntacticRunner {
                 //genenera json file
                 
                 String ruta = args[0].split(".ru")[0];
-                String jsonPathOut = ruta+".st.json"; 
+                String jsonPathOut = ruta+".ts.json"; 
                 Static.write(syntacticAnalyzer.toJSON(), jsonPathOut);
 
                 // imprimir mensaje de exito semantico declaraciones
