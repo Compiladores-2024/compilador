@@ -33,8 +33,7 @@ public class Struct extends Metadata {
      */
     public Struct (Token metadata, Struct parent) {
         super(metadata, 0);
-        this.parent = parent;
-
+        
         //Inicializa hash
         variables = new HashMap<String, Variable>();
         methods = new HashMap<String, Method>();
@@ -43,15 +42,20 @@ public class Struct extends Metadata {
         //Contadores de indices
         currentMethodIndex = 0;
         currentVarIndex = 0;
-
+        
         //Contador para validar cuantas veces se define la estructura en el código fuente (struct e impl)
         countStructDefinition = 0;
         countImplDefinition = 0;
-
+        
         consolidated=false;
-
+        
+        this.parent = parent;
+        //Le avisa al padre que lo tiene como hijo
+        if (getName() != "Object") {
+            parent.addChildren(this, true);
+        }
     }
-
+    
     /**
      * Obtiene la superclase
      * @return Struct con los datos de la superclase.
@@ -64,13 +68,20 @@ public class Struct extends Metadata {
      * @param parent Clase padre de la cual hereda la estructura.
      */
     public void setParent (Struct parent) {
+        //Se elimina como hijo del parent actual
+        this.parent.deleteChildren(getName());
+
+        //Se agrega como hijo del nuevo parent
+        parent.addChildren(this, true);
+
+        //Asigna al nuevo padre
         this.parent = parent;
     }
 
     /**
      * Método que consolida la estructura
      */
-    public void consolidate () {
+    public void consolidate (HashSet<String> staticStructs) {
         if (!getName().equals("Object")) {
             //Valida que posea al menos un struct
             if(countStructDefinition == 0){
@@ -89,17 +100,15 @@ public class Struct extends Metadata {
         }
         // Consolida y añade variables y metodos heredados a los hijos
         for (Struct children : childrens.values()) {
-            // si hereda de Object 
-            // no es necesario añadir metodos y atributos heredados
-            if (!children.getParent().equals("Object")){
+            if (!staticStructs.contains(children.getName())) {
                 // se comprueba si ya ha sido consolidado
                 if (children.consolidated.equals(false)){
                     children.addMethodsInherited(methods);
                     children.addVariablesInherited(variables);
                 }
+                children.consolidated=true;
+                children.consolidate(staticStructs);
             }
-            children.consolidated=true;
-            children.consolidate();
         }
     }
 
@@ -281,6 +290,14 @@ public class Struct extends Metadata {
                 childrens.put(children.getName(), children);
             }
         }
+    }
+
+    /**
+     * Elimina el hijo
+     * @param name Nombre del hijo a eliminar
+     */
+    public void deleteChildren(String name) {
+        childrens.remove(name);
     }
 
     /**

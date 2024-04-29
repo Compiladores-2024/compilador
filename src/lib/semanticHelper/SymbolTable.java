@@ -184,8 +184,8 @@ public class SymbolTable {
      * @param parent IDToken que representa la clase de la cual hereda el struct (Por defecto Object)
      * @param isFromStruct Booleano que avisa si se está generando desde un struct o un implement
      */
-    public void addStruct(Token token, IDToken parent, boolean isFromStruct) {
-        String sStruct = token.getLexema(), sParent = parent.toString();
+    public void addStruct(Token token, Token parent, boolean isFromStruct) {
+        String sStruct = token.getLexema(), sParent = parent != null ? parent.getLexema() : "Object";
         Struct parentStruct = structs.get(sParent);
 
         //Valida que no se herede de los tipos primitivos
@@ -224,9 +224,9 @@ public class SymbolTable {
             for (String children : redefinitions.get(sStruct)) {
                 //Se asigna como padre
                 structs.get(children).setParent(currentStruct);
-
+                
                 //Lo agrega como hijo
-                currentStruct.addChildren(structs.get(children), isFromStruct);
+                //currentStruct.addChildren(structs.get(children), isFromStruct);
             }
 
             //Avisa que ya se ha asignado a las structs incompletas
@@ -248,7 +248,7 @@ public class SymbolTable {
         structs.put(sStruct, currentStruct);
 
         //Agrega la relacion con el padre solo si se llama desde un struct
-        addParentRelationships(sParent, currentStruct, isFromStruct);
+        //addParentRelationships(sParent, currentStruct, isFromStruct);
     }
 
     /**
@@ -274,23 +274,6 @@ public class SymbolTable {
             stack.add(parent);
             struct = structs.get(parent);
             parent = struct.getParent();
-        }
-    }
-
-    
-    /** 
-     * Agrega una relación padre-hijo sobre el struct especificado
-     * 
-     * @param parent Nombre de la superclase
-     * @param children Estructura con los datos del hijo
-     * @param isFromStruct Booleano que indica si se inserta desde un struct o impl.
-     */
-    private void addParentRelationships (String parent, Struct children, boolean isFromStruct) {
-        if (structs.get(parent) != null) {
-            structs.get(parent).addChildren(children, isFromStruct);
-        }
-        else {
-            checkDefinitionStructs.put(parent, children.getMetadata());
         }
     }
 
@@ -394,7 +377,8 @@ public class SymbolTable {
         }
         
         // Consolida las estructuras a partir de Object
-        structs.get("Object").consolidate();
+        structs.get("Object").consolidate(staticStruct);
+        System.out.println("");
     }
 
     /**

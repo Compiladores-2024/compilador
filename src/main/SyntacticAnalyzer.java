@@ -192,17 +192,14 @@ public class SyntacticAnalyzer {
      * @param token
      */
     private void structP(Token token) {
-        Token aux;
-        IDToken parent = IDToken.spOBJECT;
+        Token aux = null;
 
         if (checkFirst(First.firstHerenciaP)){
             aux = herenciaP();
-            parent=aux.getIDToken();
-            parent.setDescripcion(aux.getLexema());
         }
         
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, parent, true);
+        symbolTable.addStruct(token, aux, true);
 
         match(IDToken.sKEY_OPEN);
 
@@ -226,7 +223,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTRUCT);
 
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, IDToken.spOBJECT, false);
+        symbolTable.addStruct(token, null, false);
 
         match(IDToken.sKEY_OPEN);
         miembroP();
