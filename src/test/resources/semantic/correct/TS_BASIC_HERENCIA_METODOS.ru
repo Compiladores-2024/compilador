@@ -39,7 +39,7 @@ impl C{
         (IO.out_str("="));
     }
     fn m2(Int a,Str b)->void{
-        Int a;
+        Int c;
         (IO.out_int(1));
         a=1;
     }
