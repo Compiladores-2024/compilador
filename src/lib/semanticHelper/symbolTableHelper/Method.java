@@ -62,14 +62,21 @@ public class Method extends Metadata{
     public void addVar (Token token, Token type) {
         String name = token.getLexema();
 
-        //Si la variable no existe, la genera
-        if (variables.get(name) == null) {
-            variables.put(name, new Variable(token, type, true, currentVarIndex));
-            currentVarIndex++;
-        }
-        //Se intenta definir otra variable
+        //Si la variable no se ha pasado por parámetro
+        if (params.get(name) == null) {
+            //Si la variable no existe, la genera
+            if (variables.get(name) == null) {
+                variables.put(name, new Variable(token, type, true, currentVarIndex));
+                currentVarIndex++;
+            }
+            //Se intenta definir otra variable
+            else {
+                throw new SemanticException(token, "La variable '" + name + "' se ha declarado más de una vez en el método '" + getName() + "'.");
+            }
+        } 
+        //Se está definiendo una variable que se ha pasado por parámetro
         else {
-            throw new SemanticException(token, "La variable '" + name + "' se ha declarado más de una vez en el método '" + getName() + "'.");
+            throw new SemanticException(token, "Variable '" + name + "' ya declarada como parámetro del método '" + getName() + "'.");
         }
     }
 
