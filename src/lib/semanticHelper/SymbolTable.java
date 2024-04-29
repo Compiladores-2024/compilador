@@ -338,14 +338,14 @@ public class SymbolTable {
             }
         } else {
             // Valida si el tipo de retorno está definido
-            if (!IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
+            if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
                 checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
             }
 
             // si el tipo de dato del param no se ha definido previamente entonces 
             // se añade a checkDefinitionStructs para validarlo en la consolidación
             for (Param param : params) {
-                if (!this.structs.containsKey(param.getType().getLexema())){
+                if (!param.getType().getLexema().contains("Array") && !this.structs.containsKey(param.getType().getLexema())){
                     checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
                 }
             }

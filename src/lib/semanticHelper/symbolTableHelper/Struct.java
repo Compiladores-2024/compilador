@@ -132,7 +132,7 @@ public class Struct extends Metadata {
                 else {
                     throw new SemanticException(
                         method.getMetadata(),
-                        "Método '" + methodName + "' ya declarado en un ancestro."
+                        "Método '" + methodName + "' ya declarado en un ancestro. Verifique la signature."
                     );
                 }
             }
