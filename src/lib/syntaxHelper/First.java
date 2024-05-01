@@ -118,6 +118,7 @@ public class First {
         add(IDToken.typeCHAR);
         add(IDToken.idSTRUCT);
         add(IDToken.typeARRAY);
+        add(IDToken.spOBJECT);
     }};
     /**
      * Primeros de ListaDeclaracionVariables 
