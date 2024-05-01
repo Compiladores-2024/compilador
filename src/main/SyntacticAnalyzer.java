@@ -553,13 +553,7 @@ public class SyntacticAnalyzer {
     */
     private Token tipoReferencia () {
         Token token = currentToken;
-        if (IDToken.idSTRUCT.equals(token.getIDToken())) {
-            match(IDToken.idSTRUCT);
-        } else {
-            if (IDToken.spOBJECT.equals(token.getIDToken())) {
-                match(IDToken.spOBJECT);
-            }
-        }
+        match(IDToken.idSTRUCT);
         return token;
     }
 
