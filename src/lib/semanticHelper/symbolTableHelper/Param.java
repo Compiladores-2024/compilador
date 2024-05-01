@@ -36,10 +36,10 @@ public class Param extends Metadata{
 
     
     /** 
-     * @return String con el formato: Tipo-de-dato Nombre-variable
+     * @return String con el formato: Tipo-de-dato
      */
     public String toString() {
-        return type.getLexema() + " " + getName();
+        return type.getLexema();
     }
     
     /**
