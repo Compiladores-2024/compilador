@@ -194,6 +194,11 @@ public class SymbolTable {
             throw new SemanticException(token, "No se puede heredar de un tipo de dato predefinido. Tipo: " + sParent);
         }
         
+        //Valida que no herede de el mismo
+        if (sParent.equals(sStruct)) {
+            throw new SemanticException(token, "No se permite heredar de sí mismo. Struct: " + sStruct);
+        }
+        
         //Si no se ha definido la superclase, la agrega a un stack de redefinición y asigna object
         if (parentStruct == null) {
             //Avisa que cuando se defina, se debe setear como superclase de esta struct.
