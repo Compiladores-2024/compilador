@@ -561,7 +561,7 @@ public class SyntacticAnalyzer {
         else {
             match(IDToken.spOBJECT);
         }
-        
+
         return token;
     }
 
@@ -1098,8 +1098,12 @@ public class SyntacticAnalyzer {
                     tipoPrimitivo();
                     checkExpresion = true;
                 } else {
-                    if (currentToken.getIDToken().equals(IDToken.idSTRUCT)){
-                        match(IDToken.idSTRUCT);
+                    if (checkFirst(First.firstTipoReferencia)){
+                        if (IDToken.idSTRUCT.equals(currentToken.getIDToken())) {
+                            match(IDToken.idSTRUCT);
+                        } else {
+                            match(IDToken.spOBJECT);
+                        }
                         argumentosActuales();
                     }
                     else{
