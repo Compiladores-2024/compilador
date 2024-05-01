@@ -553,7 +553,15 @@ public class SyntacticAnalyzer {
     */
     private Token tipoReferencia () {
         Token token = currentToken;
-        match(IDToken.idSTRUCT);
+
+        //Matchea idStruct o palabra reservada Object
+        if (IDToken.idSTRUCT.equals(token.getIDToken())) {
+            match(IDToken.idSTRUCT);
+        }
+        else {
+            match(IDToken.spOBJECT);
+        }
+        
         return token;
     }
 

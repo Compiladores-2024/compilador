@@ -22,7 +22,7 @@ public class SyntacticRunner {
      * @param args args
      */
     public static void main(String[] args) {
-        //args = new String[] {"src/test/resources/semantic/extra_tests/test_error_16.ru"};
+        args = new String[] {"src/test/resources/semantic/passing_extra_tests/att.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);

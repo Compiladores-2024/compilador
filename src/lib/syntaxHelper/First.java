@@ -141,6 +141,7 @@ public class First {
         add(IDToken.typeCHAR);
         add(IDToken.idSTRUCT);
         add(IDToken.typeARRAY);
+        add(IDToken.spOBJECT);
     }};
     /**
      * Primeros de ArgumentoFormal 
@@ -190,6 +191,7 @@ public class First {
      */
     public static final HashSet<IDToken> firstTipoReferencia = new HashSet<IDToken>(){{
         add(IDToken.idSTRUCT);
+        add(IDToken.spOBJECT);
     }};
     /**
      * Primeros de TipoArreglo 
