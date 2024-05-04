@@ -1,25 +1,24 @@
-struct Mundo {
+struct Master {
     pri Int a;
     Str b;
+    Char c;
+    Bool d;
 }
-impl Mundo{
-    .(){ a = 42;}
-    fn get_a()-> Int { ret a; }
-    st fn imprimo_algo()-> void {
-        IO.out_str("hola mundo");
-    }
-}
-
-struct Prueba{
-    Mundo c;
+impl Master {
+    .() {}
+    fn m1 () -> void {}
 }
 
-impl Prueba{
-    .(){
-        c = new Mundo();
-        y = c.b; // Acceso correcto al atributo de la clase
-        z = c.a; // Acceso incorrecto al atributo de la clase
-        c.imprimo_algo();
+struct Prueba : Master {}
+impl Prueba {
+    .(){}
+    fn m1 (Int a, Str b) -> void {}
+    
+    st fn m2 () -> Array Int {
+        Int a, i, j;
+        Str b;
+        Char c;
+        Bool d;
     }
 }
 

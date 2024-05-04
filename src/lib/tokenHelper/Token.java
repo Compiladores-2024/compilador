@@ -44,16 +44,43 @@ public class Token {
 
     
     /** 
+     * Setea el nombre del token
+     * @param name Retorna el nombre del Token
+     */
+    public void setName(IDToken name) {
+        this.name = name;
+        this.lexema = name.toString();
+    }
+
+    /** 
+     * Retorna el nombre del token
      * @return IDToken
      */
     public IDToken getIDToken(){
         return this.name;
     }
 
+    /** 
+     * Obtiene la línea donde se encuentra el token
+     * @return Line
+     */
     public int getLine(){
         return this.line;
     }
+
+    /** 
+     * Obtiene la columna donde se encuentra el token
+     * @return Column
+     */
     public int getColumn(){
         return this.column;
+    }
+
+    /** 
+     * Obtiene el lexema del token
+     * @return Lexema
+     */
+    public String getLexema() {
+        return lexema;
     }
 }

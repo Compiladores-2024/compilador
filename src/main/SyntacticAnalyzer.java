@@ -1,11 +1,15 @@
 package src.main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import src.lib.exceptionHelper.LexicalException;
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
+import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 import src.lib.syntaxHelper.First;
@@ -21,6 +25,7 @@ import src.lib.syntaxHelper.First;
  */
 public class SyntacticAnalyzer { 
     LexicalAnalyzer lexicalAnalyzer;
+    SymbolTable symbolTable;
     Token currentToken;
 
     /**
@@ -37,18 +42,22 @@ public class SyntacticAnalyzer {
      * Método que comenzará la ejecución del análisis sintáctico.
      * 
      * @since 06/04/2024
-     * @throws LexicalException
-     * @throws SyntacticException
+     * @throws LexicalException Error léxico
+     * @throws SyntacticException Error sintáctico
+     * @throws SemanticException Error semántico
      */
-    public void run () throws LexicalException, SyntacticException{
+    public void run () throws LexicalException, SyntacticException, SemanticException{
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
+
+        //Genera la tabla de símbolos y asigna el token actual
+        symbolTable = new SymbolTable();
 
         //Comienza el análisis
         this.program();
 
-        //Si el análisis no retorna error, ha sido correcto
-        System.out.println("CORRECTO: ANALISIS SINTACTICO");
+        //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos
+        symbolTable.consolidate();
     }
 
     /**
@@ -124,7 +133,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <program> ::= <Lista-Definiciones><Start> | <Start>
@@ -137,13 +146,23 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Start> ::= start <Bloque-Método>  
     */
     private void start() {
+        Token token = currentToken;
         match(IDToken.idSTART);
+        
+        //Agrega el metodo start
+        symbolTable.addMethod(
+            token, 
+            new ArrayList<Param>(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
+
         bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
             throw throwError(createHashSet(IDToken.EOF));
@@ -151,28 +170,37 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Struct> ::= struct idStruct <Struct’>  
     */
     private void struct() {
+        Token token;
         match(IDToken.pSTRUCT);
+        token = currentToken;
         match(IDToken.idSTRUCT);
-        structP();
+        structP(token);
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
-     * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }  
-    */
-    private void structP() {
+     * <Struct’> ::= <Herencia’> { <Atributo’> } | <Herencia’> { } | { <Atributo’> }
+     * 
+     * @param token
+     */
+    private void structP(Token token) {
+        Token aux = null;
+
         if (checkFirst(First.firstHerenciaP)){
-            herenciaP();
+            aux = herenciaP();
         }
         
+        //Genera la estructura en la tabla de simbolos
+        symbolTable.addStruct(token, aux, true);
+
         match(IDToken.sKEY_OPEN);
 
         if (checkFirst(First.firstAtributoP)){
@@ -183,32 +211,39 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Impl> ::= impl idStruct { <Miembro’> }  
     */
     private void impl () {
+        Token token = currentToken;
         match(IDToken.pIMPL);
+        token = currentToken;
         match(IDToken.idSTRUCT);
+
+        //Genera la estructura en la tabla de simbolos
+        symbolTable.addStruct(token, null, false);
+
         match(IDToken.sKEY_OPEN);
         miembroP();
         match(IDToken.sKEY_CLOSE);
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Herencia> ::= : <Tipo>  
+     * @return Token
     */
-    private void herencia () {
+    private Token herencia () {
         match(IDToken.sCOLON);
-        tipo();
+        return tipo();
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Miembro> ::= <Método> | <Constructor>  
@@ -232,54 +267,74 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
     */
     private void constructor () {
+        Token token = currentToken;
         match(IDToken.sDOT);
-        argumentosFormales();
+        
+        //Agrega el metodo constructor
+        symbolTable.addMethod(
+            token, argumentosFormales(), 
+            false, 
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+        );
+
         bloqueMetodo();
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Atributo> ::= <Visibilidad’> <Tipo> <Lista-Declaración-Variables> ;  | <Tipo> <Lista-Declaración-Variables> ;  
     */
     private void atributo () {
+        boolean isPrivate = false;
+
         if (checkFirst(First.firstVisibilidadP)){
-            visibilidadP();   
+            visibilidadP();
+            isPrivate = true;
         }
 
-        tipo();
-        listaDeclaracionVariables();
+        listaDeclaracionVariables(tipo(), isPrivate, true);
+
         match(IDToken.sSEMICOLON);
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
     private void metodo () {
+        boolean isStatic = false;
+        ArrayList<Param> params;
+        Token token;
+
         if (checkFirst(First.firstFormaMetodoP)){
             formaMetodoP();
+            isStatic = true;
         }
 
         match(IDToken.pFN);
+        token = currentToken;
         match(IDToken.idOBJECT);
-        argumentosFormales();
+        params = argumentosFormales();
         match(IDToken.sARROW_METHOD);
-        tipoMetodo();
+
+        //Agrega el método a la tabla de símbolos
+        symbolTable.addMethod(token, params, isStatic, tipoMetodo());
+
         bloqueMetodo();
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Visibilidad> ::= pri  
@@ -289,7 +344,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Forma-Método> ::= st  
@@ -299,7 +354,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
@@ -318,105 +373,141 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Decl-Var-Locales> ::= <Tipo> <Lista-Declaración-Variables> ;   
     */
     private void declVarLocales () {
-        tipo();
-        listaDeclaracionVariables();
+        listaDeclaracionVariables(tipo(),false, false);
         match(IDToken.sSEMICOLON);
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
+     * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>
      * 
-     * <Lista-Declaración-Variables>::= idMetAt | idMetAt , <Lista-Declaración-Variables>  
+     * @param type Tipo de dato
+     * @param isPrivate Booleano para indicar si la variable es privada o no
+     * @param isAtribute Booleano que indica si es un atributo o variable local.
     */
-    private void listaDeclaracionVariables () {
+    private void listaDeclaracionVariables (Token type, boolean isPrivate, boolean isAtribute) {
+        Token token = currentToken;
         match(IDToken.idOBJECT);
+
+        symbolTable.addVar(token, type, isPrivate, isAtribute);
+
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaDeclaracionVariables();
+            listaDeclaracionVariables(type, isPrivate, isAtribute);
         }
     }
 
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumentos-Formales>::= ( <Lista-Argumentos-Formales’> ) | ( )  
+     * 
+     * @return ArrayList<Param> Returna una lista de parámetros.
     */
-    private void argumentosFormales () {
+    private ArrayList<Param> argumentosFormales () {
+        ArrayList<Param> result = new ArrayList<Param>();
+
         match(IDToken.sPAR_OPEN);
         if (checkFirst(First.firstListaArgumentosFormalesP)){
-            listaArgumentosFormalesP();
+            result = listaArgumentosFormalesP();
         }
         match(IDToken.sPAR_CLOSE);
+
+        return result;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Argumentos-Formales> ::= <Argumento-Formal> , <Lista-Argumentos-Formales> | <Argumento-Formal>  
+     * @param index
+     * @return ArrayList<Param>
     */
-    private void listaArgumentosFormales () {
-  
-        argumentoFormal();
+    private ArrayList<Param> listaArgumentosFormales (int index) {
+        ArrayList<Param> result = new ArrayList<Param>();
+        
+        //Agrega el parametro actual
+        result.add(argumentoFormal(index));
+
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
-            listaArgumentosFormales();
+
+            //Agrega los parametros que se han obtenido recursivamente
+            result.addAll(listaArgumentosFormales(index + 1));
         }
-    
+
+        //Lista de parametros ordenados
+        return result;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumento-Formal> ::= <Tipo> idMetAt  
+     * @param index
+     * @return Param
     */
-    private void argumentoFormal () {
-        tipo();
+    private Param argumentoFormal (int index) {
+        Token type = tipo();
+        Param param = new Param(currentToken, type, index);
         match(IDToken.idOBJECT);
+        return param;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Método> ::= <Tipo> | void  
+     * @return Token
     */
-    private void tipoMetodo () {
+    private Token tipoMetodo () {
+        Token result;
+
         if (checkFirst(First.firstTipo)){
-            tipo();
+            result = tipo();
         }
         else{
+            result = new Token(
+                IDToken.typeVOID,
+                "void",
+                currentToken.getLine(),
+                currentToken.getColumn()
+            );
             match(IDToken.typeVOID);
         }
+        return result;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo> ::= <Tipo-Primitivo> | <Tipo-Referencia> | <Tipo-Arreglo>  
+     * @return Token
     */
-    private void tipo () {
+    private Token tipo () {
         if (checkFirst(First.firstTipoPrimitivo)){
-            tipoPrimitivo();
+            return tipoPrimitivo();
         }
         else{
             if (checkFirst(First.firstTipoReferencia)){
-                tipoReferencia();
+                return tipoReferencia();
             }
             else{
                 if (checkFirst(First.firstTipoArreglo)){
-                    tipoArreglo();
+                    return tipoArreglo();
                 }
                 else{
                     throw throwError(First.firstTipo);
@@ -426,12 +517,14 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Primitivo> ::= Str | Bool | Int | Char  
+     * @return Token
     */
-    private void tipoPrimitivo () {
+    private Token tipoPrimitivo () {
+        Token token = currentToken;
         switch (currentToken.getIDToken()) {
             case typeINT:
                 match(IDToken.typeINT);
@@ -445,36 +538,67 @@ public class SyntacticAnalyzer {
             case typeCHAR:
                 match(IDToken.typeCHAR);
                 break;
-                
             default:
                 throw throwError(First.firstTipoPrimitivo);
-                
         }
+        return token;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Referencia> ::= idStruct  
+     * @return Token
     */
-    private void tipoReferencia () {
-        match(IDToken.idSTRUCT);
+    private Token tipoReferencia () {
+        Token token = currentToken;
+
+        //Matchea idStruct o palabra reservada Object
+        if (IDToken.idSTRUCT.equals(token.getIDToken())) {
+            match(IDToken.idSTRUCT);
+        }
+        else {
+            match(IDToken.spOBJECT);
+        }
+
+        return token;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Tipo-Arreglo> ::= Array <Tipo-Primitivo>  
-    */
-    private void tipoArreglo () {
+     * @return Token
+     */
+    private Token tipoArreglo () {
+        Token token = currentToken;
         match(IDToken.typeARRAY);
-        tipoPrimitivo();
+
+        //Accion para avisar que es array
+        switch (tipoPrimitivo().getIDToken()) {
+            case typeINT:
+                token.setName(IDToken.typeArrayINT);
+                break;
+            case typeSTR:
+                token.setName(IDToken.typeArraySTR);
+                break;
+            case typeBOOL:
+                token.setName(IDToken.typeArrayBOOL);
+                break;
+            case typeCHAR:
+                token.setName(IDToken.typeArrayCHAR);
+                break;
+            default:
+                throw throwError(First.firstTipoPrimitivo);
+        }
+
+        return token;
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia> ::= ; 
@@ -551,7 +675,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <MoreIF> ::= else <Sentencia>
@@ -562,7 +686,7 @@ public class SyntacticAnalyzer {
     }
     
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Bloque> ::= { <Sentencia’> } | { }  
@@ -576,7 +700,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
@@ -605,7 +729,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <AccesoVar-Simple> ::= id <Encadenado-Simple’> | id [ <Expresión> ] | id  
@@ -624,7 +748,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <AccesoSelf-Simple> ::= self <Encadenado-Simple’> | self  
@@ -637,7 +761,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado-Simple> ::= . id  
@@ -648,7 +772,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia-Simple> ::= ( <Expresión> )  
@@ -660,7 +784,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Expresión> ::= <ExpOr>  
@@ -670,7 +794,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpOr> ::= <ExpAnd> <ExpOr’> | <ExpAnd>  
@@ -683,7 +807,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAnd> ::= <ExpIgual><ExpAnd’> | <ExpIgual>  
@@ -696,7 +820,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpIgual> ::= <ExpCompuesta><ExpIgual’> | <ExpCompuesta>  
@@ -709,7 +833,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAd> ::= <ExpMul><ExpAd’> | <ExpMul>  
@@ -722,7 +846,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpMul> ::= <ExpUn> <ExpMul’> | <ExpUn>  
@@ -735,7 +859,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpCompuesta> ::= <ExpAd> <OpCompuesto> <ExpAd> | <ExpAd>  
@@ -749,7 +873,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
@@ -764,7 +888,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpIgual> ::= == | !=  
@@ -783,7 +907,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpCompuesto> ::= < |> | <= |>=  
@@ -808,7 +932,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpAd> ::= + | -  
@@ -827,7 +951,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpUnario> ::= + | - | ! | ++ | --  
@@ -856,7 +980,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <OpMul> ::= * | / | %  
@@ -878,7 +1002,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
@@ -896,7 +1020,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Literal> ::= nil | true | false | intLiteral | StrLiteral | charLiteral
@@ -927,7 +1051,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
@@ -939,7 +1063,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Primario’> ::=  ( <Expresión> ) 
@@ -974,8 +1098,12 @@ public class SyntacticAnalyzer {
                     tipoPrimitivo();
                     checkExpresion = true;
                 } else {
-                    if (currentToken.getIDToken().equals(IDToken.idSTRUCT)){
-                        match(IDToken.idSTRUCT);
+                    if (checkFirst(First.firstTipoReferencia)){
+                        if (IDToken.idSTRUCT.equals(currentToken.getIDToken())) {
+                            match(IDToken.idSTRUCT);
+                        } else {
+                            match(IDToken.spOBJECT);
+                        }
                         argumentosActuales();
                     }
                     else{
@@ -1006,101 +1134,7 @@ public class SyntacticAnalyzer {
         }
     }
 
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <ExpresionParentizada> ::= ( <Expresión> ) <Encadenado’> | ( <Expresión> )   
-    // */
-    // private void expresionParentizada () {
-    //     match(IDToken.sPAR_OPEN);
-    //     expresion();
-    //     match(IDToken.sPAR_CLOSE);
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <AccesoSelf> ::= self <Encadenado’> | self  
-    // */
-    // private void accesoSelf () {
-    //     match(IDToken.pSELF);
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <AccesoVar> ::= id <Encadenado’> | id  |  id [ <Expresión> ] <Encadenado’> | id [ <Expresión> ]  
-    //  * 
-    //  * La regla es igual a acceso accesoVariableEncadenado, asi que se reutiliza el código.
-    // */
-    // private void accesoVar () {
-    //     accesoVariableEncadenado();
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Método> ::= id <Argumentos-Actuales> <Encadenado’> | id <Argumentos-Actuales>  
-    // */
-    // private void llamadaMetodo () {
-    //     isID();
-    //     argumentosActuales();
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Método-Estático> ::= idStruct . <Llamada-Método> <Encadenado’>  |  idStruct . <Llamada-Método>  
-    // */
-    // private void llamadaMetodoEstatico () {
-    //     match(IDToken.idSTRUCT);
-    //     match(IDToken.sDOT);
-    //     llamadaMetodo();
-    //     if (checkFirst(First.firstEncadenadoP)) {
-    //         encadenadoP();
-    //     }
-    // }
-
-
-    // /*
-    //  * Método que ejecuta la regla de producción: <br/>
-    //  * 
-    //  * <Llamada-Constructor> ::= new idStruct <Argumentos-Actuales> <Encadenado’>  
-    //  *              | new <Tipo-Primitivo> [ <Expresión> ]
-    //  *              | new idStruct <Argumentos-Actuales>  
-    // */
-    // private void llamadaConstructor () {
-    //     match(IDToken.pNEW);
-    //     if (currentToken.getIDToken().equals(IDToken.idSTRUCT)) {
-    //         match(IDToken.idSTRUCT);
-    //         argumentosActuales();
-    //         if (checkFirst(First.firstEncadenadoP)) {
-    //             encadenadoP();
-    //         }
-    //     }
-    //     else {
-    //         tipoPrimitivo();
-    //         match(IDToken.sCOR_OPEN);
-    //         expresion();
-    //         match(IDToken.sCOR_CLOSE);
-    //     }
-    // }
-
-
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Argumentos-Actuales> ::= ( <Lista-Expresiones’> ) | ( )  
@@ -1114,7 +1148,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
@@ -1128,7 +1162,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado> ::= <EncadenadoExtra> | <EncadenadoExtra> <Encadenado’>  
@@ -1139,7 +1173,7 @@ public class SyntacticAnalyzer {
             encadenadoP();
         }
     }
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <EncadenadoExtra> ::= . id <Argumentos-Actuales>
@@ -1163,7 +1197,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Definiciones>::= <Struct><Lista-Definiciones> | <Struct> | <Impl><Lista-Definiciones> | <Impl>  
@@ -1198,7 +1232,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Atributo’> ::= <Atributo><Atributo’> | <Atributo>  
@@ -1211,7 +1245,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Decl-Var-Locales’> ::= <Decl-Var-Locales><Decl-Var-Locales’> | <Decl-Var-Locales>  
@@ -1224,7 +1258,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Sentencia’> ::= <Sentencia><Sentencia’> | <Sentencia>  
@@ -1237,7 +1271,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado-Simple’> ::= <Encadenado-Simple><Encadenado-Simple’> | <Encadenado-Simple>  
@@ -1250,17 +1284,17 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Herencia’> ::= <Herencia>  
     */
-    private void herenciaP () {
-        herencia();
+    private Token herenciaP () {
+        return herencia();
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Visibilidad’> ::= <Visibilidad>  
@@ -1270,7 +1304,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Forma-Método’> ::= <Forma-Método>  
@@ -1280,7 +1314,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Expresión’> ::= <Expresión>  
@@ -1290,7 +1324,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Encadenado’> ::= <Encadenado>  
@@ -1300,7 +1334,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Expresiones’> ::= <Lista-Expresiones>  
@@ -1310,17 +1344,17 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Lista-Argumentos-Formales’> ::= <Lista-Argumentos-Formales>  
     */
-    private void listaArgumentosFormalesP () {
-        listaArgumentosFormales();
+    private ArrayList<Param> listaArgumentosFormalesP () {
+        return listaArgumentosFormales(0);
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <Miembro’> ::= <Miembro> | <Miembro><Miembro’>  
@@ -1333,7 +1367,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
@@ -1347,7 +1381,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
@@ -1361,7 +1395,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
@@ -1375,7 +1409,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
@@ -1389,7 +1423,7 @@ public class SyntacticAnalyzer {
     }
 
 
-    /*
+    /**
      * Método que ejecuta la regla de producción: <br/>
      * 
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
@@ -1400,5 +1434,13 @@ public class SyntacticAnalyzer {
         if (checkFirst(First.firstExpMulP)) {
             expMulP();
         }
+    }
+
+    /** 
+     * Obtiene un string en formato json de la tabla de símbolos
+     * @return String con tabla de símbolos en formato json
+     */
+    public String toJSON(){
+        return this.symbolTable.toJSON();
     }
 }

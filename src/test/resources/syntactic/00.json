@@ -1,0 +1,61 @@
+{
+    "structs": [
+        {
+            "nombre": "Prueba",
+            "heredaDe": "Object",
+            "methodIndex": 1,
+            "varIndex": 0,
+            "variables": [],
+            "métodos": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "param1",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "param2",
+                            "tipo": "Str",
+                            "posicion": 1
+                        },
+                        {
+                            "nombre": "param3",
+                            "tipo": "Char",
+                            "posicion": 2
+                        },
+                        {
+                            "nombre": "param4",
+                            "tipo": "Bool",
+                            "posicion": 3
+                        },
+                        {
+                            "nombre": "param5",
+                            "tipo": "Array Int",
+                            "posicion": 4
+                        },
+                        {
+                            "nombre": "param6",
+                            "tipo": "Array Str",
+                            "posicion": 5
+                        },
+                        {
+                            "nombre": "param7",
+                            "tipo": "Array Char",
+                            "posicion": 6
+                        },
+                        {
+                            "nombre": "param8",
+                            "tipo": "Array Bool",
+                            "posicion": 7
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

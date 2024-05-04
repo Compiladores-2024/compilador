@@ -13,6 +13,7 @@ import src.lib.tokenHelper.Token;
  * @since 07/03/2024
  */
 public class Static {
+    private Static () {}
     /**
      * Método que se utiliza para escribir los resultados del analizador léxico
      * ya sea por consola o en un fichero específico.
@@ -66,7 +67,7 @@ public class Static {
      * @param text Texto completo a escribir.
      * @param path Ubicación al archivo en el que se guardará el resultado.
      */
-    private static void write (String text, String path) {
+    public static void write (String text, String path) {
         try {
             java.io.FileWriter writer = new java.io.FileWriter(path);
             writer.write(text);
