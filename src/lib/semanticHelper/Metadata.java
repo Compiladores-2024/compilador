@@ -1,4 +1,4 @@
-package src.lib.semanticHelper.symbolTableHelper;
+package src.lib.semanticHelper;
 
 import java.util.Collection;
 import java.util.HashMap;

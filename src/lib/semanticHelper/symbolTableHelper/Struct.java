@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import src.lib.exceptionHelper.SemanticException;
+import src.lib.semanticHelper.Metadata;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
