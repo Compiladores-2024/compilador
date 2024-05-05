@@ -1,6 +1,5 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import src.lib.semanticHelper.Metadata;
 import src.lib.tokenHelper.Token;
 
 /**

@@ -305,6 +305,20 @@ public class SymbolTable {
             currentMethod.addVar(token, type);;
         }
     }
+
+    /**
+     * Método que devuelve el nombre del struct actual
+     */
+    public String getCurrentStructName(){
+        return this.currentStruct.getName();
+    }
+
+    /**
+     * Método que devuelve el nombre del metodo actual
+     */
+    public String getCurrentMethodName(){
+        return this.currentMethod.getName();
+    }
     
     /**
      * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.

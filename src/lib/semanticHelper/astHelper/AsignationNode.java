@@ -1,5 +1,7 @@
 package src.lib.semanticHelper.astHelper;
 
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -14,8 +16,8 @@ public class AsignationNode extends SentenceNode{
     private ExpressionNode rightSide;
 
 
-    public AsignationNode(Token token, int position, ExpressionNode left, ExpressionNode right){
-        super(token, position);
+    public AsignationNode(Token token, Struct struct, Method method ,ExpressionNode left, ExpressionNode right){
+        super(token, struct,method); 
         this.leftSide=left;
         this.rightSide=right;
     }

@@ -2,6 +2,8 @@ package src.lib.semanticHelper.astHelper;
 
 import java.util.LinkedList;
 
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 public class IF_Node extends SentenceNode{
@@ -9,8 +11,8 @@ public class IF_Node extends SentenceNode{
     private LinkedList<SentenceNode> sentenceThen;
     private LinkedList<SentenceNode> sentenceElse;
 
-    public IF_Node(Token token, int pos){
-        super(token, pos);
+    public IF_Node(Token token, Struct struct, Method method){
+        super(token, struct,method);
         this.sentenceThen = new LinkedList<>();
         this.sentenceElse = new LinkedList<>();
     }

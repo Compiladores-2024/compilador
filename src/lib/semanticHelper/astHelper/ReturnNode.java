@@ -4,10 +4,10 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
-public class ExpressionNode extends SentenceNode {
+public class ReturnNode extends SentenceNode{
     
-    
-    public ExpressionNode (Token token, Struct struct, Method method){
+
+    public ReturnNode (Token token, Struct struct, Method method){
         super(token, struct,method);
     }
 }
