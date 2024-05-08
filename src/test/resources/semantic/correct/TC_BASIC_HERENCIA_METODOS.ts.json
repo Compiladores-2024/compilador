@@ -275,20 +275,7 @@
                     "retorno": "Int",
                     "posicion": 0,
                     "parámetros": [],
-                    "variables": [
-                        {
-                            "nombre": "s",
-                            "tipo": "Str",
-                            "public": "false",
-                            "posicion": 0
-                        },
-                        {
-                            "nombre": "b",
-                            "tipo": "Bool",
-                            "public": "false",
-                            "posicion": 1
-                        }
-                    ]
+                    "variables": []
                 },
                 {
                     "nombre": "m2",

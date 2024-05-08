@@ -132,13 +132,6 @@ public class Struct extends Metadata {
             method = methods.get(methodName);
             parentMethod = parentMethods.get(methodName);
 
-            // si un metodo padre es static, es un error sobreescribirlo
-            if(parentMethod.isStatic()){
-                throw new SemanticException(
-                    method.getMetadata(),
-                    "Método '" + methodName + "' ya declarado en un ancestro como static."
-                );
-            }
 
             //Si el metodo no existe, lo agrega
             if (method == null) {
@@ -146,6 +139,13 @@ public class Struct extends Metadata {
             }
             //Si existe y posee la misma signature, actualiza la posicion
             else {
+                // si un metodo padre es static, es un error sobreescribirlo
+                if(parentMethod.isStatic()){
+                    throw new SemanticException(
+                        method.getMetadata(),
+                        "Método '" + methodName + "' ya declarado en un ancestro como static. No se puede sobreescribir métodos static"
+                    );
+                }
                 if (method.getSignature().equals(parentMethod.getSignature())) {
                     method.setPosition(parentMethod.getPosition());
                 }
