@@ -21,8 +21,8 @@ impl B{
     .(){
         
     }
-    fn m1(Int a)->void{
-
+    st fn m1(Str a)->void{
+        Int q;
     }
 }
 

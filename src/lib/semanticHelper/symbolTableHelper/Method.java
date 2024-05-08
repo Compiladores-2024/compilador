@@ -81,6 +81,16 @@ public class Method extends Metadata{
     }
 
     /**
+     * Retorna booleano true en caso de que el metodo sea static. Caso contrario retorna false
+     * @return Boolean con la signature del método.
+     */
+    public Boolean isStatic(){
+        return this.isStatic==true;
+    }
+
+
+
+    /**
      * Retorna la firma de un método.
      * @return String con la signature del método.
      */
