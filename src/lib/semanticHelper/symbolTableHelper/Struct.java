@@ -123,7 +123,8 @@ public class Struct extends Metadata {
         HashSet<String> methodsToCheck = new HashSet<String>(methods.keySet());
         int newMethodIndex = parentMethods.size();
         
-        boolean addingMethods=true;
+        //bool para comprobar si se deben modificar las position de los metodos
+        boolean addingMethods;
         addingMethods = (parentMethods.isEmpty()==true ? false : true);
         
         // Recorre los metodos del padre, los inserta, actualiza los índices
@@ -160,6 +161,7 @@ public class Struct extends Metadata {
             methodsToCheck.remove(methodName);
         }
 
+        //si hay metodos heredados entonces actualiza las position
         if (addingMethods){
 
             //Actualiza la posición de los metodos restantes
