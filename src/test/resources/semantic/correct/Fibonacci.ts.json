@@ -268,13 +268,13 @@
             ],
             "métodos": [
                 {
-                    "nombre": "imprimo_sucesion",
+                    "nombre": "sucesion_fib",
                     "static": "false",
-                    "retorno": "void",
+                    "retorno": "Int",
                     "posicion": 0,
                     "parámetros": [
                         {
-                            "nombre": "s",
+                            "nombre": "n",
                             "tipo": "Int",
                             "posicion": 0
                         }
@@ -296,13 +296,13 @@
                     "variables": []
                 },
                 {
-                    "nombre": "sucesion_fib",
+                    "nombre": "imprimo_sucesion",
                     "static": "false",
-                    "retorno": "Int",
+                    "retorno": "void",
                     "posicion": 2,
                     "parámetros": [
                         {
-                            "nombre": "n",
+                            "nombre": "s",
                             "tipo": "Int",
                             "posicion": 0
                         }
