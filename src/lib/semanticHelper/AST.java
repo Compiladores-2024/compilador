@@ -2,7 +2,7 @@ package src.lib.semanticHelper;
 
 import java.util.HashMap;
 
-import src.lib.semanticHelper.astHelper.SentenceBlockNode;
+import src.lib.semanticHelper.astHelper.SentenceBlock;
 
 
 /**
@@ -13,16 +13,12 @@ import src.lib.semanticHelper.astHelper.SentenceBlockNode;
  * @since 04/05/2024
  */
 public class AST {
-    private HashMap<String,SentenceBlockNode> blockHash;
-    private SymbolTable st; 
+    private HashMap<String, HashMap<String, SentenceBlock>> blocks;
 
     public AST(){
-        this.blockHash = new HashMap<>();
+        this.blocks = new HashMap<String, HashMap<String, SentenceBlock>>();
     }
 
-    public void addBlock(SentenceBlockNode block){
-        // this.blockHash.put(st.getCurrentStructName()+st.getCurrentMethodName(), block);
-    }
 
     public void consolidate(){
 

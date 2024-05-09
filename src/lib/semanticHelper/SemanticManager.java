@@ -14,12 +14,17 @@ public class SemanticManager {
     private Method currentMethod;
     private Method start;
     private SymbolTable symbolTable;
+    private AST ast;
 
     public SemanticManager () {
-        //Genera la tabla de símbolos y asigna el token actual
+        //Genera la tabla de símbolos
         symbolTable = new SymbolTable();
+
+        //Genera el arbol sintactico abstracto
+        ast = new AST();
     }
 
+    //METODOS PARA INSERTAR DATOS A LA TABLA DE SIMBOLOS
     public void addStruct(Token token, Token parent, boolean isFromStruct) {
         currentStruct = symbolTable.addStruct(token, parent, isFromStruct);
     }
@@ -52,8 +57,14 @@ public class SemanticManager {
 
     }
 
+
+    //METODOS PARA INSERTAR DATOS AL AST
+
+
+
     public void consolidate (){
         symbolTable.consolidate();
+        ast.consolidate();
     }
 
     public String toJSON () {
