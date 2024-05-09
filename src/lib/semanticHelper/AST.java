@@ -21,7 +21,7 @@ public class AST {
     }
 
     public void addBlock(SentenceBlockNode block){
-        this.blockHash.put(st.getCurrentStructName()+st.getCurrentMethodName(), block);
+        // this.blockHash.put(st.getCurrentStructName()+st.getCurrentMethodName(), block);
     }
 
     public void consolidate(){

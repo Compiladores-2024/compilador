@@ -18,9 +18,9 @@ import src.lib.tokenHelper.Token;
  */
 public class SymbolTable {
     private final HashSet<String> staticStruct;
-    private Struct currentStruct;
-    private Method currentMethod;
-    private Method start;
+    // private Struct currentStruct;
+    // private Method currentMethod;
+    // private Method start;
     private HashMap<String, Struct> structs;
 
     // Estructura que se utiliza para almacenar clases que deben reasignar herencias.
@@ -185,9 +185,11 @@ public class SymbolTable {
      * @param parent IDToken que representa la clase de la cual hereda el struct (Por defecto Object)
      * @param isFromStruct Booleano que avisa si se está generando desde un struct o un implement
      */
-    public void addStruct(Token token, Token parent, boolean isFromStruct) {
+    public Struct addStruct(Token token, Token parent, boolean isFromStruct) {
         String sStruct = token.getLexema(), sParent = parent != null ? parent.getLexema() : "Object";
-        Struct parentStruct = structs.get(sParent);
+        Struct parentStruct = structs.get(sParent),
+            currentStruct;
+
 
         //Valida que no se herede de los tipos primitivos
         if (!sParent.equals("Object") && staticStruct.contains(sParent)) {
@@ -253,6 +255,8 @@ public class SymbolTable {
         //Agrega la estructura al hash
         structs.put(sStruct, currentStruct);
 
+        //Retorna el dato recien creado
+        return currentStruct;
         //Agrega la relacion con el padre solo si se llama desde un struct
         //addParentRelationships(sParent, currentStruct, isFromStruct);
     }
@@ -292,33 +296,30 @@ public class SymbolTable {
      * @param isPrivate Booleano que avisa si la variable es privada o no
      * @param isAtribute Booleano que avisa si es un atributo o variable local
      */
-    public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
+    public void addVar(Token token, Token type, boolean isPrivate) {
         //Valida si se ha definido la estructura de tipo
         if (!type.getLexema().contains("Array") && structs.get(type.getLexema()) == null) {
             checkDefinitionStructs.put(type.getLexema(), type);
-        }
-        
-        //Agrego metodo o atributo
-        if(isAtribute){
-            currentStruct.addVar(token, type, isPrivate);
-        } else {
-            currentMethod.addVar(token, type);;
         }
     }
 
     /**
      * Método que devuelve el nombre del struct actual
      */
-    public String getCurrentStructName(){
-        return this.currentStruct.getName();
+    // public String getCurrentStructName(){
+    //     return this.currentStruct.getName();
+    // }
+
+    public Struct getStruct(String name){
+        return this.structs.get(name);
     }
 
     /**
      * Método que devuelve el nombre del metodo actual
      */
-    public String getCurrentMethodName(){
-        return this.currentMethod.getName();
-    }
+    // public String getCurrentMethodName(){
+    //     return this.currentMethod.getName();
+    // }
     
     /**
      * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.
@@ -329,34 +330,22 @@ public class SymbolTable {
      * @param isStatic Booleano que avisa si es estático o no
      * @param returnTypeToken Tipo de retorno del método
      */
-    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
-        if (token.getIDToken().equals(IDToken.idSTART)) {
-            //Valida si se está generando el método start y que no se haya generado otro
-            if (start == null) {
-                start = new Method(token, params, returnTypeToken.getIDToken(), isStatic, 0);
-                currentMethod = start;
-            }
-            else {
-                throw new SemanticException(token, "No se permite definir más de un método start.");
-            }
-        } else {
-            // Valida si el tipo de retorno está definido
-            if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
-                checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
-            }
-
-            // si el tipo de dato del param no se ha definido previamente entonces 
-            // se añade a checkDefinitionStructs para validarlo en la consolidación
-            for (Param param : params) {
-                if (!param.getType().getLexema().contains("Array") && !this.structs.containsKey(param.getType().getLexema())){
-                    checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
-                }
-            }
-
-            //Agrega el método al hash
-            currentMethod = currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
+        // Valida si el tipo de retorno está definido
+        if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
+            checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
         }
 
+        // si el tipo de dato del param no se ha definido previamente entonces 
+        // se añade a checkDefinitionStructs para validarlo en la consolidación
+        for (Param param : params) {
+            if (!param.getType().getLexema().contains("Array") && !this.structs.containsKey(param.getType().getLexema())){
+                checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
+            }
+        }
+
+        //Agrega el método al hash
+        return currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
     }
 
     /**
@@ -407,8 +396,8 @@ public class SymbolTable {
      * @since 19/04/2024
      * @return Estructura de datos en formato JSON
      */
-    public String toJSON() {
-        String structJSON = "", startJSON = start.toJSON("    ");
+    public String toJSON(String startJSON) {
+        String structJSON = "";
         int count = structs.size();
 
         for (Struct struct : structs.values()) {

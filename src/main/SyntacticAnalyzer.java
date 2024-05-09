@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
-import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.SemanticManager;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -25,7 +25,7 @@ import src.lib.syntaxHelper.First;
  */
 public class SyntacticAnalyzer { 
     LexicalAnalyzer lexicalAnalyzer;
-    SymbolTable symbolTable;
+    SemanticManager semanticManager;
     Token currentToken;
 
     /**
@@ -50,14 +50,14 @@ public class SyntacticAnalyzer {
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
-        //Genera la tabla de símbolos y asigna el token actual
-        symbolTable = new SymbolTable();
+        //Genera la tabla de símbolos
+        semanticManager = new SemanticManager();
 
         //Comienza el análisis
         this.program();
 
         //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos
-        symbolTable.consolidate();
+        semanticManager.consolidate();
     }
 
     /**
@@ -156,7 +156,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         
         //Agrega el metodo start
-        symbolTable.addMethod(
+        semanticManager.addMethod(
             token, 
             new ArrayList<Param>(), 
             false, 
@@ -199,7 +199,7 @@ public class SyntacticAnalyzer {
         }
         
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, aux, true);
+        semanticManager.addStruct(token, aux, true);
 
         match(IDToken.sKEY_OPEN);
 
@@ -223,7 +223,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTRUCT);
 
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, null, false);
+        semanticManager.addStruct(token, null, false);
 
         match(IDToken.sKEY_OPEN);
         miembroP();
@@ -277,7 +277,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(
+        semanticManager.addMethod(
             token, argumentosFormales(), 
             false, 
             new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
@@ -328,7 +328,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sARROW_METHOD);
 
         //Agrega el método a la tabla de símbolos
-        symbolTable.addMethod(token, params, isStatic, tipoMetodo());
+        semanticManager.addMethod(token, params, isStatic, tipoMetodo());
 
         bloqueMetodo();
     }
@@ -396,7 +396,7 @@ public class SyntacticAnalyzer {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(token, type, isPrivate, isAtribute);
+        semanticManager.addVar(token, type, isPrivate, isAtribute);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
@@ -1441,6 +1441,6 @@ public class SyntacticAnalyzer {
      * @return String con tabla de símbolos en formato json
      */
     public String toJSON(){
-        return this.symbolTable.toJSON();
+        return this.semanticManager.toJSON();
     }
 }
