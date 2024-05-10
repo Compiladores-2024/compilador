@@ -4,7 +4,7 @@ import java.beans.Expression;
 
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 
-public class Conditional {
+public class Conditional extends Sentence{
     
     private Expression condition;
     private SentenceBlock thenBlock;

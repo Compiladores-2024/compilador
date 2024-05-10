@@ -4,7 +4,7 @@ import java.beans.Expression;
 
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
 
-public class Asignation {
+public class Assignation extends Sentence{
     
     private SimpleAccess leftSide;
     private Expression rightSide;
