@@ -9,7 +9,14 @@ public class CreateInstance extends Primary{
     
     private HashMap<String,Expression> params;
 
-    public CreateInstance (Token id, HashMap<String, Expression> params, Primary rightChained) {
-        super(rightChained);
+    public CreateInstance (Token id, HashMap<String, Expression> params, Primary rightChained, String struct, String method) {
+        super(rightChained, struct, method);
     }
+
+    @Override
+    public String toJSON(String tabs){
+        return "";
+
+    }
+
 }

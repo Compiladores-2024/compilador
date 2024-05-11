@@ -10,12 +10,15 @@ public class Assignation extends Sentence{
     private Primary leftSide;
     private Expression rightSide;
 
-    public Assignation (ArrayAccess leftSide, Expression rightSide) {
+    public Assignation (Primary leftSide, Expression rightSide, String struct, String method) {
+        super(struct, method);
         this.leftSide = leftSide;
         this.rightSide = rightSide;
     }
-    public Assignation (SimpleAccess leftSide, Expression rightSide) {
-        this.leftSide = leftSide;
-        this.rightSide = rightSide;
+
+    @Override
+    public String toJSON(String tabs){
+        return "";
+
     }
 }

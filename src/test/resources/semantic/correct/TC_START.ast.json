@@ -1,0 +1,48 @@
+{
+        "Bloques de: start" : [
+            {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "nil",
+            "id": "nil"
+        },
+        {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "true",
+            "id": "true"
+        },
+        {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "false",
+            "id": "false"
+        },
+        {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "literal Int",
+            "id": "1"
+        },
+        {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "literal Str",
+            "id": "1"
+        },
+        {
+            "struct": "",
+            "method": "start",
+            "nombre": "SimpleAccess",
+            "tipo": "literal Char",
+            "id": "'1'"
+        }
+
+    ]
+
+}

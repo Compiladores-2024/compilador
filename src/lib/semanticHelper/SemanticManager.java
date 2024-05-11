@@ -1,8 +1,11 @@
 package src.lib.semanticHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
+import src.lib.semanticHelper.astHelper.SentenceBlock;
+import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
@@ -57,17 +60,35 @@ public class SemanticManager {
 
     }
 
+    public String getCurrentStructName(){
+        return  (this.currentStruct == null ? "" : this.currentStruct.getName());
+    }
+
+    public String getCurrentMethodName(){
+        return this.currentMethod.getName();
+    }
 
     //METODOS PARA INSERTAR DATOS AL AST
 
-
+    public void addBlock(String methodName, SentenceBlock sentenceBlock){
+        HashMap<String, SentenceBlock> hashMap= new HashMap<String, SentenceBlock> ();
+        hashMap.put(methodName, sentenceBlock);
+        this.ast.addBlock(getCurrentStructName(), hashMap);
+    }
 
     public void consolidate (){
         symbolTable.consolidate();
         ast.consolidate();
     }
 
-    public String toJSON () {
-        return symbolTable.toJSON(start.toJSON("    "));
+    /** 
+     * Genera un ArrayList<String> con los json generados para tabla de símbolos y ast
+     * @return ArrayList<String> con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
+     */
+    public ArrayList<String> toJSON () {
+        ArrayList<String> generacionIntermedias = new ArrayList<String>(2);
+        generacionIntermedias.add( symbolTable.toJSON(start.toJSON("    ")));
+        generacionIntermedias.add(ast.toJSON("    "));
+        return generacionIntermedias;
     }
 }

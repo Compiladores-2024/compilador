@@ -10,9 +10,16 @@ public class CreateArray extends Primary{
     private IDToken type;
     private Expression dimention;
 
-    public CreateArray (Token value, IDToken type, Expression dimention){
-        super(null);
+    public CreateArray (Token value, IDToken type, Expression dimention, Primary rightChained, String struct, String method) {
+        super(null, struct, method);
         this.type = type;
         this.dimention = dimention;
     }
+
+    @Override
+    public String toJSON(String tabs){
+        return "";
+
+    }
+    
 }

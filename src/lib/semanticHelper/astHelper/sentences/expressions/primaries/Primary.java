@@ -8,7 +8,12 @@ public abstract class Primary extends Expression{
     private Struct referredStruct; 
     private Primary rightChained;
 
-    public Primary(Primary rightChained) {
+    public Primary(Primary rightChained, String struct, String method) {
+        super(struct, method);
         this.rightChained = rightChained;
+    }
+
+    public void setChained(Primary primary){
+        this.rightChained=primary;
     }
 }
