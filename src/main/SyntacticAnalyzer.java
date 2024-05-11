@@ -1,5 +1,6 @@
 package src.main;
 
+import java.security.Identity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -865,7 +866,7 @@ public class SyntacticAnalyzer {
     private Expression expAnd () {
         Expression expression= expIgual();
         if (checkFirst(First.firstExpAndP)) {
-            expAndP();
+            expAndP(expression);
         }
         return expression;
     }
@@ -879,7 +880,7 @@ public class SyntacticAnalyzer {
     private Expression expIgual () {
         Expression expression = expCompuesta();
         if (checkFirst(First.firstExpIgualP)) {
-            expIgualP();
+            expIgualP(expression);
         }
         return expression;
     }
@@ -893,7 +894,7 @@ public class SyntacticAnalyzer {
     private Expression expAd () {
         Expression expression = expMul();
         if (checkFirst(First.firstExpAdP)) {
-            expAdP();
+            expAdP(expression);
         }
         return expression;
     }
@@ -907,7 +908,7 @@ public class SyntacticAnalyzer {
     private Expression expMul () {
         Expression expression= expUn();
         if (checkFirst(First.firstExpMulP)) {
-            expMulP();
+            expMulP(expression);
         }
         return expression;
     }
@@ -920,16 +921,14 @@ public class SyntacticAnalyzer {
     */
     private Expression expCompuesta () {
         Expression leftSide = expAd();
-        boolean pass=false;
         IDToken idToken=null;
         Expression rightSide=null;
         if (checkFirst(First.firstOpCompuesto)) {
-            pass=true;
             idToken = opCompuesto();
             rightSide = expAd();
+            return (new BinaryExpression(leftSide, idToken, rightSide,semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName()));
         }
-        return (pass==true ? new BinaryExpression(leftSide, idToken, rightSide,semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName())
-             : leftSide);
+        return leftSide;
     }
 
 
@@ -1457,14 +1456,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
     */
-    private Expression expOrP (Expression expressionLeft) {
+    private Expression expOrP (Expression leftSide) {
         match(IDToken.oOR);
         Expression expressionRight = expAnd();
-        BinaryExpression binaryExpression =new BinaryExpression(expressionLeft, IDToken.oOR, expressionRight,  semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
+        BinaryExpression binExpression= new BinaryExpression(leftSide, IDToken.oAND, expressionRight,
+            semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         if (checkFirst(First.firstExpOrP)) {
-            expOrP(binaryExpression);
+            expOrP(binExpression);
         }
-        return binaryExpression;
+        return binExpression;
     }
 
 
@@ -1473,12 +1473,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
     */
-    private void expAndP () {
+    private Expression expAndP (Expression leftSide) {
         match(IDToken.oAND);
-        expIgual();
+        Expression expressionRight = expIgual();
+        BinaryExpression binExpression= new BinaryExpression(leftSide, IDToken.oAND, expressionRight,
+            semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         if (checkFirst(First.firstExpAndP)) {
-            expAndP();
+            expAndP(binExpression);
         }
+        return binExpression;
     }
 
 
@@ -1487,12 +1490,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
     */
-    private void expIgualP () {
-        opIgual();
-        expCompuesta();
+    private Expression expIgualP (Expression leftSide) {
+        IDToken idToken= opIgual();
+        Expression expressionRight = expCompuesta();
+        BinaryExpression binExpression= new BinaryExpression(leftSide, idToken, expressionRight,
+            semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         if (checkFirst(First.firstExpIgualP)) {
-            expIgualP();
+            expIgualP(binExpression);
         }
+        return binExpression;
     }
 
 
@@ -1501,12 +1507,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
     */
-    private void expAdP () {
-        opAd();
-        expMul();
+    private Expression expAdP (Expression leftSide) {
+        IDToken idToken= opAd();
+        Expression expressionRight =  expMul();
+        BinaryExpression binExpression= new BinaryExpression(leftSide, idToken, expressionRight, 
+            semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         if (checkFirst(First.firstExpAdP)) {
-            expAdP();
+            expAdP(binExpression);
         }
+        return binExpression;
     }
 
 
@@ -1515,12 +1524,14 @@ public class SyntacticAnalyzer {
      * 
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
     */
-    private void expMulP () {
-        opMul();
-        expUn();
+    private Expression expMulP (Expression leftSide) {
+        IDToken idToken= opMul();
+        Expression expressionRight = expUn();
+        BinaryExpression binExpression= new BinaryExpression(leftSide, idToken, expressionRight, semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         if (checkFirst(First.firstExpMulP)) {
-            expMulP();
+            expMulP(binExpression);
         }
+        return binExpression;
     }
 
     /** 

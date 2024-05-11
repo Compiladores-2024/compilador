@@ -1,70 +1,70 @@
 {
         "Bloques de: A" : [
         {
+        "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
-        "nombre": "SimpleAccess",
         "tipo": "nil",
         "id": "nil",
         "rightChained": ""
     },
     {
+        "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
-        "nombre": "SimpleAccess",
         "tipo": "literal Str",
         "id": "false",
         "rightChained": ""
     },
     {
-        "struct": "A",
-        "method": ".",
         "nombre": "Asignation",
-        "leftSide":     {
         "struct": "A",
         "method": ".",
+        "leftSide":     {
         "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
         "tipo": "id variable o método",
         "id": "b",
         "rightChained":     {
+        "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
-        "nombre": "SimpleAccess",
         "tipo": "id variable o método",
         "id": "num",
         "rightChained": ""
     }
     },
         "rightSide":     {
+        "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
-        "nombre": "SimpleAccess",
         "tipo": "literal Int",
         "id": "1",
         "rightChained": ""
     }
     },
     {
-        "struct": "A",
-        "method": ".",
         "nombre": "Asignation",
-        "leftSide":     {
         "struct": "A",
         "method": ".",
+        "leftSide":     {
         "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
         "tipo": "id variable o método",
         "id": "a",
         "rightChained": ""
     },
         "rightSide":     {
+        "nombre": "UnaryExpression",
         "struct": "A",
         "method": ".",
-        "nombre": "UnaryExpression",
         "operator": "++",
         "expresion":     {
+        "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
-        "nombre": "SimpleAccess",
         "tipo": "literal Int",
         "id": "1",
         "rightChained": ""

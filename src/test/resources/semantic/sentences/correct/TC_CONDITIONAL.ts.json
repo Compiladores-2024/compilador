@@ -64,13 +64,19 @@
                 }            
             ],
             "cantidadMetodos": 1,
-            "cantidadAtributos": 1,
+            "cantidadAtributos": 2,
             "atributos": [
                 {
                     "nombre": "a",
                     "tipo": "Int",
                     "public": "true",
                     "posicion": 0
+                },
+                {
+                    "nombre": "boolean",
+                    "tipo": "Bool",
+                    "public": "true",
+                    "posicion": 1
                 }
             ],
             "métodos": [

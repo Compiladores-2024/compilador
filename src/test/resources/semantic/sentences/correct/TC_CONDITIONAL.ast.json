@@ -32,6 +32,46 @@
         "id": "1",
         "rightChained": ""
     }
+    }    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": "m1",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "id variable o método",
+        "id": "boolean",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": "m1",
+        "operator": ">=",
+        "leftSide":     {
+        "nombre": "UnaryExpression",
+        "struct": "A",
+        "method": "m1",
+        "operator": "++",
+        "expresion":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "literal Int",
+        "id": "1",
+        "rightChained": ""
+    }
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "literal Int",
+        "id": "3",
+        "rightChained": ""
+    }
+    }
     },
         "elseBlock": ""
     }
