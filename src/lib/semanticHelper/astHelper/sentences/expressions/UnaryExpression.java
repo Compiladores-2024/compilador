@@ -16,9 +16,9 @@ public class UnaryExpression extends Expression{
 
     public String toJSON(String tabs){
         return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + "UnaryExpression" + "\",\n" +
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"nombre\": \"" + "UnaryExpression" + "\",\n" +
             tabs + "    \"operator\": \"" + operator.toString() + "\",\n" +
             tabs + "    \"expresion\": " + expression.toJSON(tabs) + "\n" +
         tabs + "}";

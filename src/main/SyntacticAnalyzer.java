@@ -12,6 +12,8 @@ import src.lib.exceptionHelper.SyntacticException;
 import src.lib.semanticHelper.SemanticManager;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.astHelper.sentences.Assignation;
+import src.lib.semanticHelper.astHelper.sentences.Conditional;
+import src.lib.semanticHelper.astHelper.sentences.Loop;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.astHelper.sentences.expressions.BinaryExpression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -653,21 +655,28 @@ public class SyntacticAnalyzer {
                     if (currentToken.getIDToken().equals(IDToken.pIF)){
                         match(IDToken.pIF);
                         match(IDToken.sPAR_OPEN);
-                        expresion();
+                        Expression condition = expresion();
                         match(IDToken.sPAR_CLOSE);
-                        sentencia(sentenceList);
+                        ArrayList<Sentence> sentenceThen = new ArrayList<Sentence>();
+                        sentencia(sentenceThen);
+                        ArrayList<Sentence> sentenceElse = new ArrayList<Sentence>();
                         if (checkFirst(First.firstMoreIF)){
-                            moreIF(sentenceList);
+                            moreIF(sentenceElse);
                         }
+                        sentenceList.add(new Conditional(condition, sentenceThen, sentenceElse, 
+                            semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName()));
                     }
                     //while ( <Expresión> ) <Sentencia> 
                     else{
                         if (currentToken.getIDToken().equals(IDToken.pWHILE)){
                             match(IDToken.pWHILE);
                             match(IDToken.sPAR_OPEN);
-                            expresion();
+                            Expression condition = expresion();
                             match(IDToken.sPAR_CLOSE);
-                            sentencia(sentenceList);
+                            ArrayList<Sentence> sentenceLoop = new ArrayList<Sentence>();
+                            sentencia(sentenceLoop);
+                            sentenceList.add(new Loop(condition, sentenceLoop, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName()));
+                            System.out.println("");
                         }
                         //<Bloque> 
                         else{

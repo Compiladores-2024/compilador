@@ -20,9 +20,9 @@ public class Assignation extends Sentence{
     @Override
     public String toJSON(String tabs){
         return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + "Asignation" + "\",\n" +
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"nombre\": \"" + "Asignation" + "\",\n" +
             tabs + "    \"leftSide\": " + leftSide.toJSON(tabs) + ",\n" +
             tabs + "    \"rightSide\": " + rightSide.toJSON(tabs) + "\n" +
         tabs + "}";
