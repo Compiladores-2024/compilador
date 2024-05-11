@@ -1,0 +1,84 @@
+{
+        "Bloques de: A" : [
+        {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "nil",
+        "id": "nil"
+    },
+    {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Str",
+        "id": "false"
+    },
+    {
+        "struct": "A",
+        "method": ".",
+        "nombre": "Asignation",
+        "leftSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "id variable o método",
+        "id": "a"
+    },
+        "rightSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Int",
+        "id": "1"
+    }
+    }
+
+    ],
+        "Bloques de: start" : [
+        {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "nil",
+        "id": "nil"
+    },
+    {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "true",
+        "id": "true"
+    },
+    {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "false",
+        "id": "false"
+    },
+    {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Int",
+        "id": "1"
+    },
+    {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Str",
+        "id": "1"
+    },
+    {
+        "struct": "start",
+        "method": "start",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Char",
+        "id": "'1'"
+    }
+
+    ]
+
+}

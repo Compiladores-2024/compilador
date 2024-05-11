@@ -17,6 +17,10 @@ public class SentenceBlock {
         this.sentenceList.add(sentence);
     }
 
+    public String getStructName(){
+        return sentenceList.get(0).getNameStruct();
+    }
+
     public String toJSON(String string){
         String blocksString =""; 
         int count = sentenceList.size();

@@ -2,6 +2,7 @@ package src.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
@@ -172,8 +173,10 @@ public class SyntacticAnalyzer {
             false, 
             new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
         );
-
-        bloqueMetodo("start");
+        semanticManager.cleanCurrentStruct();
+        HashMap<String, SentenceBlock> hashMap= new HashMap<String, SentenceBlock> ();
+        bloqueMetodo("start",hashMap);
+        semanticManager.addBlock(hashMap);
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
             throw throwError(createHashSet(IDToken.EOF));
         }
@@ -227,6 +230,7 @@ public class SyntacticAnalyzer {
      * <Impl> ::= impl idStruct { <Miembro’> }  
     */
     private void impl () {
+        HashMap<String, SentenceBlock> hashMap= new HashMap<String, SentenceBlock> ();
         Token token = currentToken;
         match(IDToken.pIMPL);
         token = currentToken;
@@ -236,8 +240,9 @@ public class SyntacticAnalyzer {
         semanticManager.addStruct(token, null, false);
 
         match(IDToken.sKEY_OPEN);
-        miembroP();
+        miembroP(hashMap);
         match(IDToken.sKEY_CLOSE);
+        semanticManager.addBlock(hashMap);
     }
 
 
@@ -258,13 +263,14 @@ public class SyntacticAnalyzer {
      * 
      * <Miembro> ::= <Método> | <Constructor>  
     */
-    private void miembro () {
+    private void miembro ( HashMap<String, SentenceBlock> hashMap) {
+        
         if (checkFirst(First.firstMetodo)){
-            metodo();
+            metodo(hashMap);
         }
         else{
             if (checkFirst(First.firstConstructor)){
-                constructor();
+                constructor(hashMap);
             }
             else{
                 throw throwError(
@@ -274,6 +280,7 @@ public class SyntacticAnalyzer {
                 );
             }
         }
+        
     }
 
 
@@ -282,7 +289,7 @@ public class SyntacticAnalyzer {
      * 
      * <Constructor> ::= . <Argumentos-Formales> <Bloque-Método>  
     */
-    private void constructor () {
+    private void constructor (HashMap<String, SentenceBlock> hashMap) {
         Token token = currentToken;
         match(IDToken.sDOT);
         
@@ -293,7 +300,7 @@ public class SyntacticAnalyzer {
             new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
         );
 
-        bloqueMetodo("constructor");
+        bloqueMetodo("constructor", hashMap);
     }
 
 
@@ -321,7 +328,7 @@ public class SyntacticAnalyzer {
      * 
      * <Método> ::= fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  | <Forma-Método’>fn idMetAt<Argumentos-Formales>-><Tipo-Método><Bloque-Método>  
     */
-    private void metodo () {
+    private void metodo ( HashMap<String, SentenceBlock> hashMap) {
         boolean isStatic = false;
         ArrayList<Param> params;
         Token token;
@@ -340,7 +347,7 @@ public class SyntacticAnalyzer {
         //Agrega el método a la tabla de símbolos
         semanticManager.addMethod(token, params, isStatic, tipoMetodo());
 
-        bloqueMetodo(token.getLexema());
+        bloqueMetodo(token.getLexema(),hashMap);
     }
 
 
@@ -369,7 +376,7 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
-    private void bloqueMetodo(String nameMethod) {
+    private void bloqueMetodo(String nameMethod, HashMap<String, SentenceBlock> hashMap) {
         match(IDToken.sKEY_OPEN);
 
         if (checkFirst(First.firstDeclVarLocalesP)){
@@ -380,7 +387,7 @@ public class SyntacticAnalyzer {
             ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
             sentenciaP(sentenceList);
             SentenceBlock sentenceBlock = new SentenceBlock(sentenceList);
-            semanticManager.addBlock(nameMethod,sentenceBlock);
+            hashMap.put(nameMethod, sentenceBlock);
         }
         match(IDToken.sKEY_CLOSE);  
     }
@@ -718,7 +725,7 @@ public class SyntacticAnalyzer {
      * 
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
     */
-    private Assignation asignacion (ArrayList<Sentence> sentenceList) {
+    private void asignacion (ArrayList<Sentence> sentenceList) {
         boolean pass = false;
         SimpleAccess leftSide=null;
         Expression expression=null;
@@ -741,7 +748,9 @@ public class SyntacticAnalyzer {
                 }}
             );
         }
-        return new Assignation(leftSide, expression, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
+        sentenceList.add(new Assignation(leftSide, expression, semanticManager.getCurrentStructName(), 
+            semanticManager.getCurrentMethodName()));
+
     }
 
 
@@ -1424,10 +1433,10 @@ public class SyntacticAnalyzer {
      * 
      * <Miembro’> ::= <Miembro> | <Miembro><Miembro’>  
     */
-    private void miembroP () {
-        miembro();
+    private void miembroP (HashMap<String, SentenceBlock> hashMap) {
+        miembro(hashMap);
         if (checkFirst(First.firstMiembroP)) {
-            miembroP();
+            miembroP(hashMap);
         }
     }
 

@@ -60,8 +60,12 @@ public class SemanticManager {
 
     }
 
+    public void cleanCurrentStruct(){
+        this.currentStruct=null;
+    }
+
     public String getCurrentStructName(){
-        return  (this.currentStruct == null ? "" : this.currentStruct.getName());
+        return  (this.currentStruct == null ? "start" : this.currentStruct.getName());
     }
 
     public String getCurrentMethodName(){
@@ -70,9 +74,9 @@ public class SemanticManager {
 
     //METODOS PARA INSERTAR DATOS AL AST
 
-    public void addBlock(String methodName, SentenceBlock sentenceBlock){
-        HashMap<String, SentenceBlock> hashMap= new HashMap<String, SentenceBlock> ();
-        hashMap.put(methodName, sentenceBlock);
+
+    public void addBlock(HashMap<String, SentenceBlock> hashMap){
+
         this.ast.addBlock(getCurrentStructName(), hashMap);
     }
 

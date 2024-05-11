@@ -32,23 +32,30 @@ public class AST {
     public String toJSON(String tabs) {
         String blocksJSON = "";
 
+        int countBlocks = blocks.size();
         for (Map.Entry<String, HashMap<String, SentenceBlock>> set : blocks.entrySet()) {
-            String key= (set.getKey()=="" ? "start" : set.getKey());
+
+            
+            String key= (set.getKey());
             blocksJSON+= tabs + "    \"Bloques de: " + key + "\" : [\n";
             for (HashMap<String, SentenceBlock> block : blocks.values()) {
-    
-                
-                int count = block.size();
-                for (SentenceBlock sentence : block.values()) {
                     
-    
-                    blocksJSON += tabs + sentence.toJSON("        ") + ( count > 1 ? "," : "") + "\n";
+
+                int count = block.size();
+                for (SentenceBlock sentenceb : block.values()) {
+                    
+                    if(sentenceb.getStructName()==key){
+
+                        blocksJSON += tabs + sentenceb.toJSON(tabs) + ( count > 1 ? "," : "") + "\n";
+                    }
                     count--;
                     
                 }
                 
             }
-            blocksJSON+="    ]\n";
+
+            blocksJSON+="    ]" +  ( countBlocks > 1 ? "," : "") + "\n";
+            --countBlocks;
         }
 
         return "{\n" +
