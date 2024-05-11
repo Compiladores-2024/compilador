@@ -1,0 +1,81 @@
+{
+        "Bloques de: A" : [
+        {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "nil",
+        "id": "nil",
+        "rightChained": ""
+    },
+    {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Str",
+        "id": "false",
+        "rightChained": ""
+    },
+    {
+        "struct": "A",
+        "method": ".",
+        "nombre": "Asignation",
+        "leftSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "id variable o método",
+        "id": "b",
+        "rightChained":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "id variable o método",
+        "id": "num",
+        "rightChained": ""
+    }
+    },
+        "rightSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Int",
+        "id": "1",
+        "rightChained": ""
+    }
+    },
+    {
+        "struct": "A",
+        "method": ".",
+        "nombre": "Asignation",
+        "leftSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "id variable o método",
+        "id": "a",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "UnaryExpression",
+        "operator": "++",
+        "expresion":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "literal Int",
+        "id": "1",
+        "rightChained": ""
+    }
+    }
+    }
+
+    ],
+        "Bloques de: B" : [
+    ],
+        "Bloques de: start" : [
+    ]
+
+}

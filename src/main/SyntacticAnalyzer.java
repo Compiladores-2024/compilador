@@ -926,14 +926,12 @@ public class SyntacticAnalyzer {
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
     */
     private Expression expUn () {
-        Expression expression=null;
+
         if (checkFirst(First.firstOpUnario)) {
-            opUnario();
-            expUn();
+            return new UnaryExpression(opUnario(), expUn(), semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
         } else {
-            expression = operando();
+            return operando();
         }
-        return expression;
     }
 
 
