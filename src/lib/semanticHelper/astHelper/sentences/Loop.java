@@ -18,8 +18,9 @@ public class Loop extends Sentence{
     public String toJSON(String tabs){
         String loopJSON="";
         for (Sentence sentence : loopBlock) {
-            loopJSON+= sentence.toJSON(tabs);
+            loopJSON+= tabs +"      "+ sentence.toJSON(tabs) + "\n";
         }
+
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + "Loop" + "\",\n" +
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +

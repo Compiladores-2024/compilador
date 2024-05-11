@@ -1,19 +1,24 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.tokenHelper.IDToken;
 
 public class Return extends Sentence{
 
     private Expression expression; 
 
-    public Return(String struct, String method) {
+    public Return(Expression expression, String struct, String method) {
         super(struct, method);
+        this.expression=expression;
     }
 
-    @Override
     public String toJSON(String tabs){
-        return "";
-
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + "Return" + "\",\n" +
+            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
+            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
+            tabs + "    \"expressionReturn\": " + (expression == null ? ("\""+"\"") : expression.toJSON(tabs)) + "\n" +
+        tabs + "}";
     }
 
 }

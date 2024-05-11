@@ -14,6 +14,7 @@ import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.astHelper.sentences.Assignation;
 import src.lib.semanticHelper.astHelper.sentences.Conditional;
 import src.lib.semanticHelper.astHelper.sentences.Loop;
+import src.lib.semanticHelper.astHelper.sentences.Return;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.astHelper.sentences.expressions.BinaryExpression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -685,12 +686,15 @@ public class SyntacticAnalyzer {
                             }
                             // ret <Expresión’> ;  y ret ;
                             else{
+                                Expression expression=null;
                                 if (currentToken.getIDToken().equals(IDToken.pRET)){
                                     match(IDToken.pRET);
                                     if (checkFirst(First.firstExpresionP)){
-                                        expresionP();
+                                        expression = expresionP();
                                     }
                                     match(IDToken.sSEMICOLON);
+                                    sentenceList.add(new Return(expression, semanticManager.getCurrentStructName(), 
+                                        semanticManager.getCurrentMethodName()));
                                 } 
                                 else {
                                     throw throwError(First.firstSentencia);
@@ -1400,8 +1404,8 @@ public class SyntacticAnalyzer {
      * 
      * <Expresión’> ::= <Expresión>  
     */
-    private void expresionP () {
-        expresion();
+    private Expression expresionP () {
+        return expresion();
     }
 
 
