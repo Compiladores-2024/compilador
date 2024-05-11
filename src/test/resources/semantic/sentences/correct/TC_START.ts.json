@@ -67,7 +67,32 @@
             "cantidadAtributos": 1,
             "atributos": [
                 {
-                    "nombre": "a",
+                    "nombre": "b",
+                    "tipo": "B",
+                    "public": "true",
+                    "posicion": 0
+                }
+            ],
+            "métodos": []
+        },
+        {
+            "nombre": "B",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 1,
+            "atributos": [
+                {
+                    "nombre": "num",
                     "tipo": "Int",
                     "public": "true",
                     "posicion": 0
@@ -272,13 +297,6 @@
         "retorno": "void",
         "posicion": 0,
         "parámetros": [],
-        "variables": [
-            {
-                "nombre": "a",
-                "tipo": "Int",
-                "public": "false",
-                "posicion": 0
-            }
-        ]
+        "variables": []
     }
 }

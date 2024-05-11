@@ -1,22 +1,21 @@
 struct A{
-    Int a;
+    B b;
 }
 
 impl A{
     .(){
         (nil);
         ("false");
-        a=1;
+        b.num=1;
     }
 }
+struct B{
+    Int num;
+}
 
+impl B{
+    .(){}
+}
 start{
-    Int a;
-    (nil);
-    (true);
-    (false);
-    (1);
-    ("1");
-    ('1');
 }
 

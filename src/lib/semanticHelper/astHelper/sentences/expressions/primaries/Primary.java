@@ -6,7 +6,7 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 public abstract class Primary extends Expression{
     
     private Struct referredStruct; 
-    private Primary rightChained;
+    protected Primary rightChained;
 
     public Primary(Primary rightChained, String struct, String method) {
         super(struct, method);

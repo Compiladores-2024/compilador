@@ -5,14 +5,16 @@
         "method": ".",
         "nombre": "SimpleAccess",
         "tipo": "nil",
-        "id": "nil"
+        "id": "nil",
+        "rightChained": ""
     },
     {
         "struct": "A",
         "method": ".",
         "nombre": "SimpleAccess",
         "tipo": "literal Str",
-        "id": "false"
+        "id": "false",
+        "rightChained": ""
     },
     {
         "struct": "A",
@@ -23,62 +25,30 @@
         "method": ".",
         "nombre": "SimpleAccess",
         "tipo": "id variable o método",
-        "id": "a"
+        "id": "b",
+        "rightChained":     {
+        "struct": "A",
+        "method": ".",
+        "nombre": "SimpleAccess",
+        "tipo": "id variable o método",
+        "id": "num",
+        "rightChained": ""
+    }
     },
         "rightSide":     {
         "struct": "A",
         "method": ".",
         "nombre": "SimpleAccess",
         "tipo": "literal Int",
-        "id": "1"
+        "id": "1",
+        "rightChained": ""
     }
     }
 
     ],
+        "Bloques de: B" : [
+    ],
         "Bloques de: start" : [
-        {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "nil",
-        "id": "nil"
-    },
-    {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "true",
-        "id": "true"
-    },
-    {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "false",
-        "id": "false"
-    },
-    {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "literal Int",
-        "id": "1"
-    },
-    {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "literal Str",
-        "id": "1"
-    },
-    {
-        "struct": "start",
-        "method": "start",
-        "nombre": "SimpleAccess",
-        "tipo": "literal Char",
-        "id": "'1'"
-    }
-
     ]
 
 }

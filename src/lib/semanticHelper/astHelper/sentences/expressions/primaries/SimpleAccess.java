@@ -19,7 +19,8 @@ public class SimpleAccess extends Primary{
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
             tabs + "    \"nombre\": \"" + "SimpleAccess" + "\",\n" +
             tabs + "    \"tipo\": \"" + value.getIDToken() + "\",\n" +
-            tabs + ((value.getIDToken() == IDToken.constSTR) ? "    \"id\": " + value.getLexema() + "\n" :  "    \"id\": \"" + value.getLexema() + "\"\n") +
+            tabs + ((value.getIDToken() == IDToken.constSTR) ? "    \"id\": " + value.getLexema() + ",\n" :  "    \"id\": \"" + value.getLexema() + "\",\n") +
+            tabs + "    \"rightChained\": "  + (rightChained==null ? "\""+"\""  : rightChained.toJSON(tabs)) + "\n" +
         tabs + "}";
     }
 }
