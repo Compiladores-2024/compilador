@@ -3,7 +3,7 @@ import subprocess
 
 # Define las rutas al archivo .jar, fuentes y resultados
 jar_file_path = "etapa3.jar"
-sources_path = "resources/semantic/error"
+sources_path = "resources/semantic/sentences/correct"
 
 # Obtiene una lista de todos los archivos fuente
 sources_folder = [os.path.join(sources_path, filename) for filename in os.listdir(sources_path)]

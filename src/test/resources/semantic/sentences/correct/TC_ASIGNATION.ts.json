@@ -1,0 +1,362 @@
+{
+    "structs": [
+        {
+            "nombre": "Str",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 2,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "concat",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "A",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": [
+                        {
+                            "nombre": "num1",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 0
+                        }
+                    ]
+                }            
+            ],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 4,
+            "atributos": [
+                {
+                    "nombre": "b",
+                    "tipo": "B",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "s",
+                    "tipo": "Str",
+                    "public": "true",
+                    "posicion": 2
+                },
+                {
+                    "nombre": "arrInt",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 3
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "m1",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "B",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 1,
+            "atributos": [
+                {
+                    "nombre": "num",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "boolean",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "num",
+                            "tipo": "Int",
+                            "posicion": 1
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
+            "nombre": "IO",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 12,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "out_array_int",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Array",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_array_char",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Array",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "in_str",
+                    "static": "true",
+                    "retorno": "Str",
+                    "posicion": 2,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_char",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 3,
+                    "parámetros": [
+                        {
+                            "nombre": "c",
+                            "tipo": "Char",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_array_str",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 4,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Array",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "in_int",
+                    "static": "true",
+                    "retorno": "Int",
+                    "posicion": 5,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_int",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 6,
+                    "parámetros": [
+                        {
+                            "nombre": "i",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "in_bool",
+                    "static": "true",
+                    "retorno": "Bool",
+                    "posicion": 7,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_str",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 8,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "in_char",
+                    "static": "true",
+                    "retorno": "Char",
+                    "posicion": 9,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_bool",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 10,
+                    "parámetros": [
+                        {
+                            "nombre": "b",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "out_array_bool",
+                    "static": "true",
+                    "retorno": "void",
+                    "posicion": 11,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Array",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Char",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
+            "nombre": "Object",
+            "heredaDe": "No posee",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
+            "nombre": "Int",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        }
+    ],
+    "start": {
+        "nombre": "start",
+        "static": "false",
+        "retorno": "void",
+        "posicion": 0,
+        "parámetros": [],
+        "variables": []
+    }
+}
