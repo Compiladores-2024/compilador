@@ -1,10 +1,8 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
-import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.tokenHelper.Token;
 
 public class MethodAccess extends Primary{
@@ -23,7 +21,7 @@ public class MethodAccess extends Primary{
         String paramsJSON="[";
         int count = params.size();
         for (Expression expression : params) {
-            paramsJSON+= tabs +"      "+ expression.toJSON(tabs) + (count > 1 ? ",\n" : "\n" );
+            paramsJSON += tabs +"      "+ expression.toJSON(tabs) + (count > 1 ? ",\n" : "\n" );
             count--;
         }
         paramsJSON+=tabs + "]";
@@ -33,7 +31,7 @@ public class MethodAccess extends Primary{
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
             tabs + "    \"MetodoAcceso\": \"" + method.getLexema() +  "\",\n" +
-            tabs + "    \"params\": " +  (paramsJSON=="" ? ("\"" + "\"") : paramsJSON) + "\n" +
+            tabs + "    \"params\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }
 }

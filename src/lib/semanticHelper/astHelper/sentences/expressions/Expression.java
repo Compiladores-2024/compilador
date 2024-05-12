@@ -15,6 +15,6 @@ public abstract class Expression extends Sentence{
     }
 
     public void setChained(Primary primary){
-        this.rightChained=primary;
+        this.rightChained = primary;
     }
 }

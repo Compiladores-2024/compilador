@@ -1,7 +1,6 @@
 package src.lib.semanticHelper;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 
@@ -31,30 +30,20 @@ public class AST {
 
     public String toJSON(String tabs) {
         String blocksJSON = "";
+        int countBlocks = blocks.size(), count = 0;
 
-        int countBlocks = blocks.size();
-        for (Map.Entry<String, HashMap<String, SentenceBlock>> set : blocks.entrySet()) {
+        //Recorro las estructuras
+        for (String sStruct : blocks.keySet()) {
+            blocksJSON += tabs + "    \"Bloques de: " + sStruct + "\" : [\n";
 
-            
-            String key= (set.getKey());
-            blocksJSON+= tabs + "    \"Bloques de: " + key + "\" : [\n";
-            for (HashMap<String, SentenceBlock> block : blocks.values()) {
-                    
-
-                int count = block.size();
-                for (SentenceBlock sentenceb : block.values()) {
-                    
-                    if(sentenceb.getStructName()==key){
-
-                        blocksJSON += tabs + sentenceb.toJSON(tabs) + ( count > 1 ? "," : "") + "\n";
-                    }
-                    count--;
-                    
-                }
-                
+            //Recorro los bloques de esa estructura
+            count = blocks.get(sStruct).values().size();
+            for (SentenceBlock oBlock : blocks.get(sStruct).values()) {
+                blocksJSON += tabs + oBlock.toJSON(tabs) + ( count > 1 ? "," : "") + "\n";
+                count--;
             }
 
-            blocksJSON+="    ]" +  ( countBlocks > 1 ? "," : "") + "\n";
+            blocksJSON += "    ]" + (countBlocks > 1 ? "," : "") + "\n";
             --countBlocks;
         }
 

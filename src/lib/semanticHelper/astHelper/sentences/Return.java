@@ -1,7 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
-import src.lib.tokenHelper.IDToken;
 
 public class Return extends Sentence{
 
@@ -17,7 +16,7 @@ public class Return extends Sentence{
             tabs + "    \"nombre\": \"" + "Return" + "\",\n" +
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"expressionReturn\": " + (expression == null ? ("\""+"\"") : expression.toJSON(tabs)) + "\n" +
+            tabs + "    \"expressionReturn\": " + (expression == null ? ("\"\"") : expression.toJSON(tabs)) + "\n" +
         tabs + "}";
     }
 

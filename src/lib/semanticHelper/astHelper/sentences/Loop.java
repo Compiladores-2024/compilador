@@ -26,7 +26,7 @@ public class Loop extends Sentence{
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
             tabs + "    \"condition\": " + condition.toJSON(tabs) + ",\n" +
-            tabs + "    \"loopBlock\": " +  (loopJSON=="" ? ("\"" + "\"") : loopJSON) + "\n" +
+            tabs + "    \"loopBlock\": " +  (loopJSON == "" ? ("\"\"") : loopJSON) + "\n" +
         tabs + "}";
     }
 
