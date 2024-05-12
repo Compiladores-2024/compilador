@@ -76,6 +76,33 @@
         "struct": "A",
         "method": ".",
         "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "arr",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "CreateArray",
+        "struct": "A",
+        "method": ".",
+        "typeArray": "Int",
+        "dimention":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "literal Int",
+        "id": "5",
+        "rightChained": ""
+    }
+    }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
         "nombre": "ArrayAccess",
         "struct": "A",
         "method": ".",

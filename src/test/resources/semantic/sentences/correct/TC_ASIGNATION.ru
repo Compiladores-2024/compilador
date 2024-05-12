@@ -10,7 +10,9 @@ impl A{
         ("false");
         b.num=1;
         a=++1;
+        arr=new Int[5];
         arrInt[0]=0;
+
     }
 }
 struct B{

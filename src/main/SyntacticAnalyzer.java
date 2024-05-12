@@ -20,6 +20,7 @@ import src.lib.semanticHelper.astHelper.sentences.expressions.BinaryExpression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.UnaryExpression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.ArrayAccess;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateArray;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.MethodAccess;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
@@ -1150,7 +1151,10 @@ public class SyntacticAnalyzer {
      */
     private Primary primarioP () {
         Primary primary = null;
+        Token token=null;
         boolean checkExpresion = false;
+        boolean constructor=false;
+        Primary rightChained = null; 
         ArrayList<Expression> expressionsList = new ArrayList<Expression>();
         switch (currentToken.getIDToken()) {
             case sPAR_OPEN:
@@ -1170,8 +1174,9 @@ public class SyntacticAnalyzer {
             case pNEW:
                 match(IDToken.pNEW);
                 if (checkFirst(First.firstTipoPrimitivo)) {
-                    tipoPrimitivo();
+                    token = tipoPrimitivo();
                     checkExpresion = true;
+                    constructor=true;
                 } else {
                     if (checkFirst(First.firstTipoReferencia)){
                         if (IDToken.idSTRUCT.equals(currentToken.getIDToken())) {
@@ -1204,8 +1209,11 @@ public class SyntacticAnalyzer {
         }
         if (checkExpresion) {
             match(IDToken.sCOR_OPEN);
-            expresion();
+            Expression expression = expresion();
             match(IDToken.sCOR_CLOSE);
+            if(constructor){
+                return new CreateArray(token.getIDToken(), expression, rightChained, semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
+            }
         }
         return primary;
     }
