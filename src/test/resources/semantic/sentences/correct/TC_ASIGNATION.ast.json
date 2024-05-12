@@ -1,6 +1,20 @@
 {
         "Bloques de: A" : [
         {
+        "nombre": "Return",
+        "struct": "A",
+        "method": "m1",
+        "expressionReturn":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "literal Int",
+        "id": "10",
+        "rightChained": ""
+    }
+    }
+,
+        {
         "nombre": "SimpleAccess",
         "struct": "A",
         "method": ".",
@@ -158,10 +172,87 @@
         "id": "0",
         "rightChained": ""
     }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "a",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "MethodAccess",
+        "struct": "A",
+        "method": ".",
+        "MetodoAcceso": "m1",
+        "params": [    ]
+    }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "s",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id Struct",
+        "id": "B",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "A",
+        "method": ".",
+        "MetodoAcceso": "m3",
+        "params": [              {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "true",
+        "id": "true",
+        "rightChained": ""
+    },
+              {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "literal Int",
+        "id": "1",
+        "rightChained": ""
+    }
+    ]
+    }
+    }
     }
 
     ],
         "Bloques de: B" : [
+        {
+        "nombre": "Return",
+        "struct": "B",
+        "method": "m3",
+        "expressionReturn":     {
+        "nombre": "SimpleAccess",
+        "struct": "B",
+        "method": "m3",
+        "tipo": "literal Str",
+        "id": "",
+        "rightChained": ""
+    }
+    }
+
     ],
         "Bloques de: start" : [
     ]

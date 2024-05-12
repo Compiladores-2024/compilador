@@ -1169,11 +1169,16 @@ public class SyntacticAnalyzer {
                 return new SimpleAccess(token, rightChained, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
                 
             case idSTRUCT:
+                token=currentToken;
                 match(IDToken.idSTRUCT);
                 match(IDToken.sDOT);
+                Token tokenMethod=currentToken;
                 isID();
                 argumentosActuales(expressionsList);
-                break;
+                rightChained=new MethodAccess(tokenMethod, expressionsList, null, 
+                    semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
+                return new SimpleAccess(token, rightChained, 
+                    semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
             case pNEW:
                 match(IDToken.pNEW);
                 if (checkFirst(First.firstTipoPrimitivo)) {
@@ -1205,6 +1210,7 @@ public class SyntacticAnalyzer {
                 isID();
                 if (checkFirst(First.firstArgumentosActuales)) {
                     argumentosActuales(expressionsList);
+                    return new MethodAccess(token, expressionsList, rightChained,semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
                 }
                 else {
                     if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
