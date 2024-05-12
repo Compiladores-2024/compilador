@@ -22,8 +22,8 @@ public class BinaryExpression extends Expression{
             tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
             tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
             tabs + "    \"operator\": \"" + (operator == null ? "" :operator.toString()) + "\",\n" +
-            tabs + "    \"leftSide\": " + (leftSide == null ?  ("\"" + "\""):  leftSide.toJSON(tabs)) + ",\n" +
-            tabs + "    \"rightSide\": " + (rightSide == null ? ("\"" + "\"")  : rightSide.toJSON(tabs)) + "\n" +
+            tabs + "    \"leftSide\": " + (leftSide == null ?  ("\"\""):  leftSide.toJSON(tabs)) + ",\n" +
+            tabs + "    \"rightSide\": " + (rightSide == null ? ("\"\"")  : rightSide.toJSON(tabs)) + "\n" +
         tabs + "}";
     }
 

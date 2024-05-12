@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
-import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
@@ -61,7 +60,7 @@ public class SemanticManager {
     }
 
     public void cleanCurrentStruct(){
-        this.currentStruct=null;
+        this.currentStruct = null;
     }
 
     public String getCurrentStructName(){
@@ -76,7 +75,6 @@ public class SemanticManager {
 
 
     public void addBlock(HashMap<String, SentenceBlock> hashMap){
-
         this.ast.addBlock(getCurrentStructName(), hashMap);
     }
 
@@ -91,7 +89,7 @@ public class SemanticManager {
      */
     public ArrayList<String> toJSON () {
         ArrayList<String> generacionIntermedias = new ArrayList<String>(2);
-        generacionIntermedias.add( symbolTable.toJSON(start.toJSON("    ")));
+        generacionIntermedias.add(symbolTable.toJSON(start.toJSON("    ")));
         generacionIntermedias.add(ast.toJSON("    "));
         return generacionIntermedias;
     }

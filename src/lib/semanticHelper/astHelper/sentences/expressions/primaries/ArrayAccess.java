@@ -11,7 +11,7 @@ public class ArrayAccess extends Primary{
     public ArrayAccess (Token value, Expression indexArray, Primary rightChained, String struct, String method) {
         super(rightChained, struct, method);
         this.indexArray = indexArray;
-        this.value=value;
+        this.value = value;
     }
 
     @Override
