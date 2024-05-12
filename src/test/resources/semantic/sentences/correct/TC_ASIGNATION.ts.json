@@ -64,7 +64,7 @@
                 }            
             ],
             "cantidadMetodos": 0,
-            "cantidadAtributos": 2,
+            "cantidadAtributos": 3,
             "atributos": [
                 {
                     "nombre": "b",
@@ -77,6 +77,12 @@
                     "tipo": "Int",
                     "public": "true",
                     "posicion": 1
+                },
+                {
+                    "nombre": "arrInt",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 2
                 }
             ],
             "métodos": []

@@ -1,6 +1,5 @@
 package src.main;
 
-import java.security.Identity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -741,10 +740,10 @@ public class SyntacticAnalyzer {
     */
     private void asignacion (ArrayList<Sentence> sentenceList) {
         boolean pass = false;
-        SimpleAccess leftSide=null;
+        Primary leftSide=null;
         Expression expression=null;
         if (checkFirst(First.firstAccesoVarSimple)){
-            leftSide = (SimpleAccess) accesoVarSimple();
+            leftSide = accesoVarSimple();
             pass = true;
         }
         if (checkFirst(First.firstAccesoSelfSimple)){
@@ -785,7 +784,7 @@ public class SyntacticAnalyzer {
                 match(IDToken.sCOR_OPEN);
                 Expression indexArray = expresion();
                 match(IDToken.sCOR_CLOSE);
-                return new ArrayAccess(token, indexArray, null, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
+                return new ArrayAccess(token, indexArray, rightSide, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
             }
         }
         return new SimpleAccess(token, rightSide, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());

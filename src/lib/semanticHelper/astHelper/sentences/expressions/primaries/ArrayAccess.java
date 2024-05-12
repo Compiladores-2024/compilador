@@ -16,8 +16,13 @@ public class ArrayAccess extends Primary{
 
     @Override
     public String toJSON(String tabs){
-        return "";
-
+        return tabs + "{\n" +
+            tabs + "    \"nombre\": \"" + "ArrayAccess" + "\",\n" +
+            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
+            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
+            tabs + "    \"value\": \""  + value.getLexema() + "\",\n" +
+            tabs + "    \"expresion\": " + indexArray.toJSON(tabs) + "\n" +
+        tabs + "}";
     }
     
 }

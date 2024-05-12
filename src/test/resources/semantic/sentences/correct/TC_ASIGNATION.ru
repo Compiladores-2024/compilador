@@ -1,6 +1,7 @@
 struct A{
     B b;
     Int a;
+    Array Int arrInt;
 }
 
 impl A{
@@ -9,6 +10,7 @@ impl A{
         ("false");
         b.num=1;
         a=++1;
+        arrInt[0]=0;
     }
 }
 struct B{

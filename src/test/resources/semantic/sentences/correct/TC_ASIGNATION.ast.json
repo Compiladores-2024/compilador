@@ -70,6 +70,33 @@
         "rightChained": ""
     }
     }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "ArrayAccess",
+        "struct": "A",
+        "method": ".",
+        "value": "arrInt",
+        "expresion":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "literal Int",
+        "id": "0",
+        "rightChained": ""
+    }
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "literal Int",
+        "id": "0",
+        "rightChained": ""
+    }
     }
 
     ],
