@@ -21,6 +21,7 @@ import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.UnaryExpression;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.ArrayAccess;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateArray;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateInstance;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.MethodAccess;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
@@ -1076,13 +1077,13 @@ public class SyntacticAnalyzer {
      * 
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
     */
-    private Primary operando () {
+    private Expression operando () {
         if (checkFirst(First.firstLiteral)) {
             Token token = literal();
             return new SimpleAccess(token, null,semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
         }
         else {
-            Primary primaryNode = primario();
+            Expression primaryNode = primario();
             if (checkFirst(First.firstEncadenadoP)) {
                 primaryNode.setChained(encadenadoP());
             }
@@ -1129,8 +1130,8 @@ public class SyntacticAnalyzer {
      * 
      * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
     */
-    private Primary primario () {
-        Primary primary = primarioP();
+    private Expression primario () {
+        Expression primary = primarioP();
         if (checkFirst(First.firstEncadenadoP)) {
             primary.setChained(encadenadoP());
         }
@@ -1149,7 +1150,7 @@ public class SyntacticAnalyzer {
      *              | new idStruct <Argumentos-Actuales>
      *              | new <Tipo-Primitivo> [ <Expresión> ]
      */
-    private Primary primarioP () {
+    private Expression primarioP () {
         Primary primary = null;
         Token token=null;
         boolean checkExpresion = false;
@@ -1159,12 +1160,14 @@ public class SyntacticAnalyzer {
         switch (currentToken.getIDToken()) {
             case sPAR_OPEN:
                 match(IDToken.sPAR_OPEN);
-                expresion();
+                Expression expression = expresion();
                 match(IDToken.sPAR_CLOSE);
-                break;
+                return expression;
             case pSELF:
+                token=currentToken;
                 match(IDToken.pSELF);
-                break;
+                return new SimpleAccess(token, rightChained, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
+                
             case idSTRUCT:
                 match(IDToken.idSTRUCT);
                 match(IDToken.sDOT);
@@ -1179,12 +1182,14 @@ public class SyntacticAnalyzer {
                     constructor=true;
                 } else {
                     if (checkFirst(First.firstTipoReferencia)){
+                        token=currentToken;
                         if (IDToken.idSTRUCT.equals(currentToken.getIDToken())) {
                             match(IDToken.idSTRUCT);
                         } else {
                             match(IDToken.spOBJECT);
                         }
                         argumentosActuales(expressionsList);
+                        return new CreateInstance(token, expressionsList, rightChained, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
                     }
                     else{
                         throw throwError(
@@ -1196,6 +1201,7 @@ public class SyntacticAnalyzer {
                 }
                 break;
             default:
+                token = currentToken;
                 isID();
                 if (checkFirst(First.firstArgumentosActuales)) {
                     argumentosActuales(expressionsList);
@@ -1205,7 +1211,7 @@ public class SyntacticAnalyzer {
                         checkExpresion = true;
                     }
                 }
-                break;
+                return new SimpleAccess(token, rightChained, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
         }
         if (checkExpresion) {
             match(IDToken.sCOR_OPEN);

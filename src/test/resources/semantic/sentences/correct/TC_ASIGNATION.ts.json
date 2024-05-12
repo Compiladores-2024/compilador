@@ -60,7 +60,14 @@
                     "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
-                    "variables": []
+                    "variables": [
+                        {
+                            "nombre": "num1",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 0
+                        }
+                    ]
                 }            
             ],
             "cantidadMetodos": 0,
@@ -96,7 +103,13 @@
                     "static": "false",
                     "retorno": "void",
                     "posicion": 0,
-                    "parámetros": [],
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
                     "variables": []
                 }            
             ],

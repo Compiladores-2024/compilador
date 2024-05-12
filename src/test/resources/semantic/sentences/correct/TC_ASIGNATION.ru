@@ -6,8 +6,10 @@ struct A{
 
 impl A{
     .(){
+        Int num1;
         (nil);
         ("false");
+        b=new B((++num1));
         b.num=1;
         a=++1;
         arr=new Int[5];
@@ -20,7 +22,7 @@ struct B{
 }
 
 impl B{
-    .(){}
+    .(Int a){}
 }
 start{
 }

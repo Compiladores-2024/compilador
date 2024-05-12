@@ -26,6 +26,40 @@
         "method": ".",
         "tipo": "id variable o método",
         "id": "b",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "CreateInstance",
+        "struct": "A",
+        "method": ".",
+        "identificador": "B",
+        "params":               {
+        "nombre": "UnaryExpression",
+        "struct": "A",
+        "method": ".",
+        "operator": "++",
+        "expresion":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "num1",
+        "rightChained": ""
+    }
+    }
+
+    }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "b",
         "rightChained":     {
         "nombre": "SimpleAccess",
         "struct": "A",
