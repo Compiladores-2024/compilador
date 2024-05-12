@@ -1215,6 +1215,7 @@ public class SyntacticAnalyzer {
                 else {
                     if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
                         checkExpresion = true;
+                        break;
                     }
                 }
                 return new SimpleAccess(token, rightChained, semanticManager.getCurrentStructName(), semanticManager.getCurrentMethodName());
@@ -1226,6 +1227,7 @@ public class SyntacticAnalyzer {
             if(constructor){
                 return new CreateArray(token.getIDToken(), expression, rightChained, semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
             }
+            return new ArrayAccess(token, expression, rightChained, semanticManager.getCurrentStructName(),semanticManager.getCurrentMethodName());
         }
         return primary;
     }

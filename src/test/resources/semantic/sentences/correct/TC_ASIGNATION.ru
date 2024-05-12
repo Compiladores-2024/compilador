@@ -17,7 +17,7 @@ impl A{
         arrInt[0]=0;
         a=m1();
         s=B.m3(true,1);
-
+        a=arrInt[0];
 
     }
     fn m1()->Int{
