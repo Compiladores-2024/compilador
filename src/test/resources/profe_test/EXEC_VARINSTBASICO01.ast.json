@@ -1,0 +1,109 @@
+{
+        "Bloques de: A" : [
+        {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "IO",
+        "id": "IO",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "A",
+        "method": "m1",
+        "MetodoAcceso": "out_int",
+        "params": [              {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "id variable o método",
+        "id": "a1",
+        "rightChained": ""
+    }
+    ]
+    }
+    }
+,
+        {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": "seta1",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "seta1",
+        "tipo": "id variable o método",
+        "id": "a1",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "seta1",
+        "tipo": "id variable o método",
+        "id": "p1",
+        "rightChained": ""
+    }
+    }
+
+    ],
+        "Bloques de: start" : [
+        {
+        "nombre": "Asignation",
+        "struct": "start",
+        "method": "start",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "id variable o método",
+        "id": "x",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "CreateInstance",
+        "struct": "start",
+        "method": "start",
+        "identificador": "A",
+        "params": ""
+    }
+    },
+    {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "id variable o método",
+        "id": "x",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "start",
+        "method": "start",
+        "MetodoAcceso": "seta1",
+        "params": [              {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "literal Int",
+        "id": "1234",
+        "rightChained": ""
+    }
+    ]
+    }
+    },
+    {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "id variable o método",
+        "id": "x",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "start",
+        "method": "start",
+        "MetodoAcceso": "m1",
+        "params": [    ]
+    }
+    }
+
+    ]
+
+}

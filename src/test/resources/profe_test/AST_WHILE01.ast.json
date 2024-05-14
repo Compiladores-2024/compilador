@@ -5,14 +5,50 @@
         "struct": "A",
         "method": "m1",
         "condition":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": "m1",
+        "operator": ">",
+        "leftSide":     {
         "nombre": "SimpleAccess",
         "struct": "A",
         "method": "m1",
-        "tipo": "true",
-        "id": "true",
+        "tipo": "id variable o método",
+        "id": "p1",
         "rightChained": ""
     },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "id variable o método",
+        "id": "v1",
+        "rightChained": ""
+    }
+    },
         "loopBlock": [            {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "IO",
+        "id": "IO",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "A",
+        "method": "m1",
+        "MetodoAcceso": "out_int",
+        "params": [              {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "id variable o método",
+        "id": "v1",
+        "rightChained": ""
+    }
+    ]
+    }
+    },
+            {
         "nombre": "Asignation",
         "struct": "A",
         "method": "m1",
@@ -21,7 +57,20 @@
         "struct": "A",
         "method": "m1",
         "tipo": "id variable o método",
-        "id": "a",
+        "id": "v1",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": "m1",
+        "operator": "+",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "id variable o método",
+        "id": "v1",
         "rightChained": ""
     },
         "rightSide":     {
@@ -31,49 +80,14 @@
         "tipo": "literal Int",
         "id": "1",
         "rightChained": ""
+    }
     }
     }
     ]
     }
-,
-        {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "nil",
-        "id": "nil",
-        "rightChained": ""
-    },
-    {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Str",
-        "id": "false",
-        "rightChained": ""
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": ".",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "id variable o método",
-        "id": "a",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Int",
-        "id": "1",
-        "rightChained": ""
-    }
-    }
 
+    ],
+        "Bloques de: B" : [
     ],
         "Bloques de: start" : [
     ]

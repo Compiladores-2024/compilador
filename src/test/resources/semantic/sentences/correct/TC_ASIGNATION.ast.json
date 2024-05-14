@@ -262,6 +262,90 @@
         "rightChained": ""
     }
     }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "a",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": ".",
+        "operator": "+",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "a",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "num",
+        "rightChained": ""
+    }
+    }
+    },
+    {
+        "nombre": "Asignation",
+        "struct": "A",
+        "method": ".",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "boolean",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": ".",
+        "operator": "==",
+        "leftSide":     {
+        "nombre": "BinaryExpression",
+        "struct": "A",
+        "method": ".",
+        "operator": "+",
+        "leftSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "a",
+        "rightChained": ""
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "id variable o método",
+        "id": "num",
+        "rightChained": ""
+    }
+    },
+        "rightSide":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": ".",
+        "tipo": "literal Int",
+        "id": "10",
+        "rightChained": ""
+    }
+    }
     }
 
     ],

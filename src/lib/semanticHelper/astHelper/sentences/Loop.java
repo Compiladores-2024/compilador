@@ -16,10 +16,13 @@ public class Loop extends Sentence{
 
     @Override
     public String toJSON(String tabs){
-        String loopJSON="";
+        String loopJSON="[";
+        int count = loopBlock.size();
         for (Sentence sentence : loopBlock) {
-            loopJSON+= tabs +"      "+ sentence.toJSON(tabs) + "\n";
+            loopJSON+= tabs + tabs +  sentence.toJSON(tabs) +  (count > 1 ? ",\n" : "\n" );
+            count--;
         }
+        loopJSON+=tabs + "]";
 
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + "Loop" + "\",\n" +

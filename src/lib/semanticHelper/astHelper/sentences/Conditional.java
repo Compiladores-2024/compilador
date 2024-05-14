@@ -20,17 +20,23 @@ public class Conditional extends Sentence{
 
     @Override
     public String toJSON(String tabs){
-        String thenJSON="", elseJSON="";
+        String thenJSON="[", elseJSON="[";
 
         //Genero el json del bloque then
+        int countThen = thenBlock.size();
         for (Sentence sentence : thenBlock) {
-            thenJSON+= sentence.toJSON(tabs);
+            thenJSON+= tabs + sentence.toJSON(tabs) +  (countThen > 1 ? ",\n" : "\n" );
+            countThen--;
         }
-        
+        thenJSON+=tabs+"]";
+
+        int countElse = elseBlock.size();
         //Genero el json del bloque else
         for (Sentence sentence : elseBlock) {
-            elseJSON += sentence.toJSON(tabs);
+            elseJSON += tabs + sentence.toJSON(tabs) +  (countElse > 1 ? ",\n" : "\n" );
+            countElse--;
         }
+        elseJSON+=tabs+"]";
 
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + "Conditional" + "\",\n" + 

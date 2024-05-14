@@ -853,7 +853,7 @@ public class SyntacticAnalyzer {
     private Expression expOr () {
         Expression expresionLeft = expAnd();
         if (checkFirst(First.firstExpOrP)) {
-            expOrP(expresionLeft);
+            expresionLeft = expOrP(expresionLeft);
         }
         return expresionLeft;
     }
@@ -867,7 +867,7 @@ public class SyntacticAnalyzer {
     private Expression expAnd () {
         Expression expression= expIgual();
         if (checkFirst(First.firstExpAndP)) {
-            expAndP(expression);
+            expression = expAndP(expression);
         }
         return expression;
     }
@@ -881,7 +881,7 @@ public class SyntacticAnalyzer {
     private Expression expIgual () {
         Expression expression = expCompuesta();
         if (checkFirst(First.firstExpIgualP)) {
-            expIgualP(expression);
+            expression = expIgualP(expression);
         }
         return expression;
     }
@@ -895,7 +895,7 @@ public class SyntacticAnalyzer {
     private Expression expAd () {
         Expression expression = expMul();
         if (checkFirst(First.firstExpAdP)) {
-            expAdP(expression);
+            expression = expAdP(expression);
         }
         return expression;
     }
@@ -909,7 +909,7 @@ public class SyntacticAnalyzer {
     private Expression expMul () {
         Expression expression= expUn();
         if (checkFirst(First.firstExpMulP)) {
-            expMulP(expression);
+            expression = expMulP(expression);
         }
         return expression;
     }

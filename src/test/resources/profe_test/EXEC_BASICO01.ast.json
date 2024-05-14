@@ -1,0 +1,28 @@
+{
+        "Bloques de: start" : [
+        {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "IO",
+        "id": "IO",
+        "rightChained":     {
+        "nombre": "MethodAccess",
+        "struct": "start",
+        "method": "start",
+        "MetodoAcceso": "out_int",
+        "params": [              {
+        "nombre": "SimpleAccess",
+        "struct": "start",
+        "method": "start",
+        "tipo": "literal Int",
+        "id": "12345",
+        "rightChained": ""
+    }
+    ]
+    }
+    }
+
+    ]
+
+}

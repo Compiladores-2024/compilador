@@ -1,0 +1,23 @@
+{
+        "Bloques de: A" : [
+        {
+        "nombre": "Return",
+        "struct": "A",
+        "method": "m1",
+        "expressionReturn":     {
+        "nombre": "SimpleAccess",
+        "struct": "A",
+        "method": "m1",
+        "tipo": "nil",
+        "id": "nil",
+        "rightChained": ""
+    }
+    }
+
+    ],
+        "Bloques de: B" : [
+    ],
+        "Bloques de: start" : [
+    ]
+
+}
