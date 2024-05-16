@@ -10,14 +10,16 @@ public class Return extends Sentence{
         super(struct, method);
         this.expression=expression;
     }
+    public Return(Expression expression) {
+        super("struct", "method");
+        this.expression = expression;
+    }
 
     public String toJSON(String tabs){
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "Return" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"expressionReturn\": " + (expression == null ? ("\"\"") : expression.toJSON(tabs)) + "\n" +
-        tabs + "}";
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "Return" + "\",\n" +
+            tabs + "    \"expresión\": " + (expression != null ? expression.toJSON(tabs + "    ") : "\"\"") + "\n" +
+            tabs + "}";
     }
 
 }

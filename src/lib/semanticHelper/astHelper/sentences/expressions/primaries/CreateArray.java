@@ -14,16 +14,19 @@ public class CreateArray extends Primary{
         this.type = type;
         this.dimention = dimention;
     }
+    public CreateArray (IDToken type, Expression dimention, Primary rightChained) {
+        super(rightChained, "struct", "method");
+        this.type = type;
+        this.dimention = dimention;
+    }
 
     @Override
     public String toJSON(String tabs){
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "CreateArray" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"typeArray\": \""  + type.toString() + "\",\n" +
-            tabs + "    \"dimention\": " + dimention.toJSON(tabs) + "\n" +
-        tabs + "}";
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "CreateArray" + "\",\n" +
+            tabs + "    \"tipoArray\": \""  + type.toString() + "\",\n" +
+            tabs + "    \"dimension\": " + dimention.toJSON(tabs + "    ") + "\n" +
+            tabs + "}";
     }
     
 }

@@ -15,22 +15,28 @@ public class MethodAccess extends Primary{
         this.params = params;
         this.method=value;
     }
+    public MethodAccess (Token value, ArrayList<Expression> params, Primary rightChained) {
+        super(rightChained, "struct", "method");
+        this.params = params;
+        this.method=value;
+    }
 
     @Override
     public String toJSON(String tabs){
-        String paramsJSON="[";
         int count = params.size();
+        String paramsJSON = count > 0 ? "[\n" : "[";
+
         for (Expression expression : params) {
-            paramsJSON += tabs +"      "+ expression.toJSON(tabs) + (count > 1 ? ",\n" : "\n" );
+            paramsJSON += tabs + "        " + expression.toJSON(tabs + "        ") +
+                (count > 1 ? "," : "") + "\n";
             count--;
         }
-        paramsJSON+=tabs + "]";
 
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "MethodAccess" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"MetodoAcceso\": \"" + method.getLexema() +  "\",\n" +
+        paramsJSON += (params.size() > 0 ? (tabs + "    ]") : "]");
+
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "MethodAccess" + "\",\n" +
+            tabs + "    \"método\": \"" + method.getLexema() +  "\",\n" +
             tabs + "    \"params\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }

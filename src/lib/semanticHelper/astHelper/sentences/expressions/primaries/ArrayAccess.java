@@ -13,15 +13,18 @@ public class ArrayAccess extends Primary{
         this.indexArray = indexArray;
         this.value = value;
     }
+    public ArrayAccess (Token value, Expression indexArray, Primary rightChained) {
+        super(rightChained, "struct", "method");
+        this.indexArray = indexArray;
+        this.value = value;
+    }
 
     @Override
     public String toJSON(String tabs){
         return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "ArrayAccess" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"value\": \""  + value.getLexema() + "\",\n" +
-            tabs + "    \"expresion\": " + indexArray.toJSON(tabs) + "\n" +
+            tabs + "    \"tipo\": \"" + "ArrayAccess" + "\",\n" +
+            tabs + "    \"lexema\": \""  + value.getLexema() + "\",\n" +
+            tabs + "    \"índice\": " + indexArray.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
     

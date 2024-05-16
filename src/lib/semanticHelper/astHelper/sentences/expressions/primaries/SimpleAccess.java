@@ -11,16 +11,18 @@ public class SimpleAccess extends Primary{
         super(rightChained, struct, method);
         this.value=value;
     }
+    public SimpleAccess (Token value, Primary rightChained) {
+        super(rightChained, "struct", "method");
+        this.value = value;
+    }
 
 
     public String toJSON(String tabs){
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "SimpleAccess" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"tipo\": \"" + value.getIDToken() + "\",\n" +
-            tabs + ((value.getIDToken() == IDToken.constSTR) ? "    \"id\": " + value.getLexema() + ",\n" :  "    \"id\": \"" + value.getLexema() + "\",\n") +
-            tabs + "    \"rightChained\": "  + (rightChained==null ? ("\"\"")  : rightChained.toJSON(tabs)) + "\n" +
-        tabs + "}";
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "SimpleAccess" + "\",\n" +
+            tabs + "    \"lexema\": " + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + value.getLexema() + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
+            tabs + "    \"tipoDeDato\": \"" + value.getIDToken() + "\",\n" +
+            tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
+            tabs + "}";
     }
 }

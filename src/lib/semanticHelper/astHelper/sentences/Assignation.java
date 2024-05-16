@@ -13,15 +13,18 @@ public class Assignation extends Sentence{
         this.leftSide = leftSide;
         this.rightSide = rightSide;
     }
+    public Assignation (Primary leftSide, Expression rightSide) {
+        super("struct", "method");
+        this.leftSide = leftSide;
+        this.rightSide = rightSide;
+    }
 
     @Override
     public String toJSON(String tabs){
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "Asignation" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"leftSide\": " + leftSide.toJSON(tabs) + ",\n" +
-            tabs + "    \"rightSide\": " + rightSide.toJSON(tabs) + "\n" +
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "Asignation" + "\",\n" +
+            tabs + "    \"leftSide\": " + leftSide.toJSON(tabs + "    ") + ",\n" +
+            tabs + "    \"rightSide\": " + rightSide.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
 }

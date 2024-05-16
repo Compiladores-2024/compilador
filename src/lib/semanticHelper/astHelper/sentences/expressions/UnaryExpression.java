@@ -12,15 +12,18 @@ public class UnaryExpression extends Expression{
         this.operator = operator;
         this.expression = expression;
     }
+    public UnaryExpression (IDToken operator, Expression expression) {
+        super("struct", "method");
+        this.operator = operator;
+        this.expression = expression;
+    }
 
 
     public String toJSON(String tabs){
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "UnaryExpression" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"operator\": \"" + operator.toString() + "\",\n" +
-            tabs + "    \"expresion\": " + expression.toJSON(tabs) + "\n" +
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "UnaryExpression" + "\",\n" +
+            tabs + "    \"operador\": \"" + operator.toString() + "\",\n" +
+            tabs + "    \"expresion\": " + expression.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
 }

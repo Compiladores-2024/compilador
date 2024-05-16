@@ -303,23 +303,10 @@ public class SymbolTable {
         }
     }
 
-    /**
-     * Método que devuelve el nombre del struct actual
-     */
-    // public String getCurrentStructName(){
-    //     return this.currentStruct.getName();
-    // }
 
     public Struct getStruct(String name){
         return this.structs.get(name);
     }
-
-    /**
-     * Método que devuelve el nombre del metodo actual
-     */
-    // public String getCurrentMethodName(){
-    //     return this.currentMethod.getName();
-    // }
     
     /**
      * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.
@@ -411,7 +398,7 @@ public class SymbolTable {
             "    \"structs\": [\n" +
                 structJSON +
             "    ],\n"+
-            "    \"start\": " + startJSON.substring(4, startJSON.length()) +
+            "    \"start\": " + startJSON.substring(4) +
         "\n}";
     }
 }
