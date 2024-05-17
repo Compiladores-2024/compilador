@@ -319,6 +319,15 @@ public class Struct extends Metadata {
             throw new SemanticException(getMetadata(), "La estructura '" + getName() + "' se ha " + (isFromStruct ? "definido" : "implementado") + " más de una vez.");
         }
     }
+
+
+    public boolean checkVariable(String var){
+        return (this.variables.containsKey(var));
+    }
+
+    public IDToken getVariableType(String var){
+        return (this.variables.get(var).getType());
+    }
     
 
     /**

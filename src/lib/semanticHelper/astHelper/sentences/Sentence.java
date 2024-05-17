@@ -1,20 +1,19 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
+import src.lib.semanticHelper.SymbolTable;
+import src.lib.tokenHelper.Token;
+
 public abstract class Sentence {
     
-    private String currentMethod;
-    private String currentStruct;
+    protected Token token;
 
-    public Sentence(String struct, String method){
-        this.currentStruct = struct;
-        this.currentMethod = method;
+    public Sentence(Token token){
+        this.token = token;
     }
 
-    public String getNameStruct(){
-        return this.currentStruct;
-    }
-    public String getNameMethod(){
-        return this.currentMethod;
-    }
+    public Sentence(){}
+
     public abstract String toJSON(String tabs);
+
+    public abstract void checkTypes(SymbolTable symbolTable, String struct, String method);
 }

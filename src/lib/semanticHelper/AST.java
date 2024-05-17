@@ -30,8 +30,14 @@ public class AST {
     }
 
 
-    public void consolidate(){
-
+    public void consolidate(SymbolTable symbolTable){
+        SentenceBlock block;
+        for (String sStruct : blocks.keySet()) {
+            for (String sMethod : blocks.get(sStruct).keySet()) {
+                block = blocks.get(sStruct).get(sMethod);
+                block.consolidate(symbolTable, sStruct, sMethod);
+            }
+        }
     }
 
     public String toJSON(String tabs) {

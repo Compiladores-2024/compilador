@@ -2,6 +2,7 @@ package src.lib.semanticHelper.astHelper;
 
 import java.util.ArrayList;
 
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.tokenHelper.Token;
 
@@ -17,6 +18,12 @@ public class SentenceBlock {
 
     public String getIDBlock() {
         return idBlock.getLexema();
+    }
+
+    public void consolidate(SymbolTable symbolTable, String struct, String method){
+        for (Sentence sentence : sentenceList) {
+            sentence.checkTypes(symbolTable, struct, method);
+        }
     }
 
     public String toJSON(String tabs){

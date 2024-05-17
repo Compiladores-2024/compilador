@@ -1,109 +1,99 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "IO",
-        "id": "IO",
-        "rightChained":     {
-        "nombre": "MethodAccess",
-        "struct": "A",
-        "method": "m1",
-        "MetodoAcceso": "out_int",
-        "params": [              {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "a1",
-        "rightChained": ""
-    }
-    ]
-    }
-    }
-,
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "IO",
+                    "tipoDeDato": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "método": "out_int",
+                        "params": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "lexema": "a1",
+                                "tipoDeDato": "id variable o método",
+                                "encadenado": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "seta1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "seta1",
-        "tipo": "id variable o método",
-        "id": "a1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "seta1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    }
-    }
-
-    ],
-        "Bloques de: start" : [
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
         {
-        "nombre": "Asignation",
-        "struct": "start",
-        "method": "start",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "id variable o método",
-        "id": "x",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "CreateInstance",
-        "struct": "start",
-        "method": "start",
-        "identificador": "A",
-        "params": ""
-    }
-    },
-    {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "id variable o método",
-        "id": "x",
-        "rightChained":     {
-        "nombre": "MethodAccess",
-        "struct": "start",
-        "method": "start",
-        "MetodoAcceso": "seta1",
-        "params": [              {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "literal Int",
-        "id": "1234",
-        "rightChained": ""
-    }
-    ]
-    }
-    },
-    {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "id variable o método",
-        "id": "x",
-        "rightChained":     {
-        "nombre": "MethodAccess",
-        "struct": "start",
-        "method": "start",
-        "MetodoAcceso": "m1",
-        "params": [    ]
-    }
-    }
-
+            "nombreMetodo": "seta1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "a1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "x",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "A",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "x",
+                    "tipoDeDato": "id variable o método",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "método": "seta1",
+                        "params": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "lexema": "1234",
+                                "tipoDeDato": "literal Int",
+                                "encadenado": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "x",
+                    "tipoDeDato": "id variable o método",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "método": "m1",
+                        "params": []
+                    }
+                }
+            ]
+        }
     ]
 
 }
