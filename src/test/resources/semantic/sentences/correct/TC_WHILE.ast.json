@@ -1,81 +1,74 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "Loop",
-        "struct": "A",
-        "method": "m1",
-        "condition":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "true",
-        "id": "true",
-        "rightChained": ""
-    },
-        "loopBlock": [            {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "a",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "literal Int",
-        "id": "1",
-        "rightChained": ""
-    }
-    }
-    ]
-    }
-,
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Loop",
+                    "condicion": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "true",
+                        "tipoDeDato": "true",
+                        "encadenado": ""
+                    },
+                    "bloqueLoop": [
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "lexema": "a",
+                                "tipoDeDato": "id variable o método",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "lexema": "1",
+                                "tipoDeDato": "literal Int",
+                                "encadenado": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
         {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "nil",
-        "id": "nil",
-        "rightChained": ""
-    },
-    {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Str",
-        "id": "false",
-        "rightChained": ""
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": ".",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "id variable o método",
-        "id": "a",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Int",
-        "id": "1",
-        "rightChained": ""
-    }
-    }
-
-    ],
-        "Bloques de: start" : [
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "nil",
+                    "tipoDeDato": "nil",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "false",
+                    "tipoDeDato": "literal Str",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "a",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "1",
+                        "tipoDeDato": "literal Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
     ]
 
 }

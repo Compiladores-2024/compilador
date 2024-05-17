@@ -1,54 +1,56 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "nil",
-        "id": "nil",
-        "rightChained": ""
-    },
-    {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Str",
-        "id": "false",
-        "rightChained": ""
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": ".",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "id variable o método",
-        "id": "b",
-        "rightChained":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "id variable o método",
-        "id": "num",
-        "rightChained": ""
-    }
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": ".",
-        "tipo": "literal Int",
-        "id": "1",
-        "rightChained": ""
-    }
-    }
-
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "nil",
+                    "tipoDeDato": "nil",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "lexema": "false",
+                    "tipoDeDato": "literal Str",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "b",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": {
+                            "tipo": "SimpleAccess",
+                            "lexema": "num",
+                            "tipoDeDato": "id variable o método",
+                            "encadenado": ""
+                        }
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "1",
+                        "tipoDeDato": "literal Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
     ],
-        "Bloques de: B" : [
-    ],
-        "Bloques de: start" : [
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
     ]
 
 }

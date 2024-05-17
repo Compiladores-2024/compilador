@@ -1,157 +1,147 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "a1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "CreateInstance",
-        "struct": "A",
-        "method": "m1",
-        "identificador": "C",
-        "params": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "nil",
-        "id": "nil",
-        "rightChained": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v2",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "CreateInstance",
-        "struct": "A",
-        "method": "m1",
-        "identificador": "Object",
-        "params": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v2",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    }
-    },
-    {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "self",
-        "id": "self",
-        "rightChained": ""
-    }
-    }
-
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "a1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "C",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "nil",
+                        "tipoDeDato": "nil",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "v2",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "Object",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "v2",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "self",
+                        "tipoDeDato": "self",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
     ],
-        "Bloques de: B" : [
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
     ],
-        "Bloques de: C" : [
-    ],
-        "Bloques de: start" : [
+    "bloquesDeC" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
     ]
 
 }

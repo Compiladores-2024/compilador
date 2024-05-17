@@ -1,36 +1,32 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
-import java.util.ArrayList;
+import src.lib.tokenHelper.Token;
 
 public class Loop extends Sentence{
     
     Expression condition;
-    ArrayList<Sentence> loopBlock;
+    Sentence loopBlock;
 
-    public Loop(Expression condition,ArrayList<Sentence>loop,  String struct, String method) {
-        super(struct, method);
-        this.condition=condition;
-        this.loopBlock=loop;
+    public Loop(Token token, Expression condition, Sentence loop) {
+        super(token);
+        this.condition = condition;
+        this.loopBlock = loop;
+    }
+
+    @Override
+    public void checkTypes(SymbolTable symbolTable, String struct, String method){
+
     }
 
     @Override
     public String toJSON(String tabs){
-        String loopJSON="[";
-        int count = loopBlock.size();
-        for (Sentence sentence : loopBlock) {
-            loopJSON+= tabs + tabs +  sentence.toJSON(tabs) +  (count > 1 ? ",\n" : "\n" );
-            count--;
-        }
-        loopJSON+=tabs + "]";
-
-        return tabs + "{\n" +
-            tabs + "    \"nombre\": \"" + "Loop" + "\",\n" +
-            tabs + "    \"struct\": \"" + this.getNameStruct() + "\",\n" +
-            tabs + "    \"method\": \"" + this.getNameMethod() + "\",\n" +
-            tabs + "    \"condition\": " + condition.toJSON(tabs) + ",\n" +
-            tabs + "    \"loopBlock\": " +  (loopJSON == "" ? ("\"\"") : loopJSON) + "\n" +
-        tabs + "}";
+        return "{\n" +
+            tabs + "    \"tipo\": \"" + "Loop" + "\",\n" +
+            tabs + "    \"condicion\": " + condition.toJSON(tabs + "    ") + ",\n" +
+            tabs + "    \"bloqueLoop\": " +  loopBlock.toJSON(tabs + "    ") + "\n" +
+            tabs + "}";
     }
 
 }

@@ -1,7 +1,6 @@
 package src.lib.semanticHelper;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
@@ -59,28 +58,16 @@ public class SemanticManager {
 
     }
 
-    public void cleanCurrentStruct(){
-        this.currentStruct = null;
-    }
 
-    public String getCurrentStructName(){
-        return  (this.currentStruct == null ? "start" : this.currentStruct.getName());
-    }
-
-    public String getCurrentMethodName(){
-        return this.currentMethod.getName();
-    }
 
     //METODOS PARA INSERTAR DATOS AL AST
-
-
-    public void addBlock(HashMap<String, SentenceBlock> hashMap){
-        this.ast.addBlock(getCurrentStructName(), hashMap);
+    public void addBlock(SentenceBlock block){
+        this.ast.addBlock(currentStruct, block);
     }
 
     public void consolidate (){
         symbolTable.consolidate();
-        ast.consolidate();
+        ast.consolidate(symbolTable);
     }
 
     /** 
