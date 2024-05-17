@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -26,6 +27,10 @@ public class Variable extends Metadata{
         super(token, position);
         this.type = type;
         this.isPrivate = isPrivate;
+    }
+
+    public IDToken getType(){
+        return this.type.getIDToken();
     }
     
     /**

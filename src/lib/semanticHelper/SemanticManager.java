@@ -67,7 +67,7 @@ public class SemanticManager {
 
     public void consolidate (){
         symbolTable.consolidate();
-        ast.consolidate();
+        ast.consolidate(symbolTable);
     }
 
     /** 

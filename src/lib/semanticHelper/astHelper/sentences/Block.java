@@ -2,14 +2,20 @@ package src.lib.semanticHelper.astHelper.sentences;
 
 import java.util.ArrayList;
 
+import src.lib.semanticHelper.SymbolTable;
+
 public class Block extends Sentence{
     private ArrayList<Sentence> sentenceList;
 
     public Block(ArrayList<Sentence> list){
-        super("struct", "method");
         this.sentenceList = list;
     }
 
+    @Override
+    public void checkTypes(SymbolTable symbolTable, String struct, String method){
+
+    }
+    
     public String toJSON(String tabs){
         int count = sentenceList.size();
         String blocksString = "[" + (count > 0 ? "\n" : "]");

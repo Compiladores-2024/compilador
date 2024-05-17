@@ -663,6 +663,7 @@ public class SyntacticAnalyzer {
                 else{
                     //if ( <Expresión> ) <Sentencia> <MoreIF> y if ( <Expresión> ) <Sentencia> 
                     if (currentToken.getIDToken().equals(IDToken.pIF)){
+                        Token token = currentToken;
                         match(IDToken.pIF);
                         match(IDToken.sPAR_OPEN);
                         exp = expresion(); //Condicion del if
@@ -674,16 +675,17 @@ public class SyntacticAnalyzer {
                             auxSentence2 = moreIF();
                         }
 
-                        sentence = new Conditional(exp, auxSentence1, auxSentence2);
+                        sentence = new Conditional(token,exp, auxSentence1, auxSentence2);
                     }
                     //while ( <Expresión> ) <Sentencia> 
                     else{
                         if (currentToken.getIDToken().equals(IDToken.pWHILE)){
+                            Token token = currentToken;
                             match(IDToken.pWHILE);
                             match(IDToken.sPAR_OPEN);
                             exp = expresion(); //Condicion del while
                             match(IDToken.sPAR_CLOSE);
-                            sentence = new Loop(exp, sentencia());
+                            sentence = new Loop(token, exp, sentencia());
                         }
                         //<Bloque> 
                         else{
@@ -693,12 +695,13 @@ public class SyntacticAnalyzer {
                             // ret <Expresión’> ;  y ret ;
                             else{
                                 if (currentToken.getIDToken().equals(IDToken.pRET)){
+                                    Token token = currentToken;
                                     match(IDToken.pRET);
                                     if (checkFirst(First.firstExpresionP)){
                                         exp = expresionP();
                                     }
                                     match(IDToken.sSEMICOLON);
-                                    sentence = new Return(exp);
+                                    sentence = new Return(token, exp);
                                 } 
                                 else {
                                     throw throwError(First.firstSentencia);
@@ -751,6 +754,7 @@ public class SyntacticAnalyzer {
         boolean pass = false;
         Primary leftSide=null;
         Expression expression=null;
+        Token token;
 
         //Obtiene la parte izquierda
         if (checkFirst(First.firstAccesoVarSimple)){
@@ -764,6 +768,7 @@ public class SyntacticAnalyzer {
 
         //Obtiene la parte derecha
         if (pass) {
+            token = currentToken;
             match(IDToken.ASSIGN);
             expression = expresion();
         } else {
@@ -775,7 +780,7 @@ public class SyntacticAnalyzer {
         }
 
         //Genera el nodo de asignacion
-        return new Assignation(leftSide, expression);
+        return new Assignation(token, leftSide, expression);
     }
 
 
@@ -936,9 +941,10 @@ public class SyntacticAnalyzer {
         Expression rightSide = null;
 
         if (checkFirst(First.firstOpCompuesto)) {
+            Token token = currentToken;
             operator = opCompuesto();
             rightSide = expAd();
-            return new BinaryExpression(leftSide, operator, rightSide);
+            return new BinaryExpression(token, leftSide, operator, rightSide);
         }
         return leftSide;
     }
@@ -952,7 +958,8 @@ public class SyntacticAnalyzer {
     private Expression expUn () {
         Expression exp;
         if (checkFirst(First.firstOpUnario)) {
-            exp = new UnaryExpression(opUnario(), expUn());
+            Token token = currentToken;
+            exp = new UnaryExpression(token, opUnario(), expUn());
         } else {
             exp = operando();
         }
@@ -1189,7 +1196,7 @@ public class SyntacticAnalyzer {
                     match(IDToken.sCOR_OPEN);
                     exp = expresion();
                     match(IDToken.sCOR_CLOSE);
-                    exp = new CreateArray(token.getIDToken(), exp, null);
+                    exp = new CreateArray(token, exp, null);
                 } else {
                     //Valida que sea idStruct o palabra reservada Object
                     if (checkFirst(First.firstTipoReferencia)){
@@ -1486,8 +1493,9 @@ public class SyntacticAnalyzer {
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
     */
     private Expression expOrP (Expression leftSide) {
+        Token token = currentToken;
         match(IDToken.oOR);
-        Expression exp = new BinaryExpression(leftSide, IDToken.oOR, expAnd());
+        Expression exp = new BinaryExpression(token, leftSide, IDToken.oOR, expAnd());
 
         if (checkFirst(First.firstExpOrP)) {
             exp = expOrP(exp);
@@ -1502,8 +1510,9 @@ public class SyntacticAnalyzer {
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
     */
     private Expression expAndP (Expression leftSide) {
+        Token token = currentToken;
         match(IDToken.oAND);
-        Expression exp = new BinaryExpression(leftSide, IDToken.oAND, expIgual());
+        Expression exp = new BinaryExpression(token, leftSide, IDToken.oAND, expIgual());
 
         if (checkFirst(First.firstExpAndP)) {
             exp = expAndP(exp);
@@ -1518,8 +1527,9 @@ public class SyntacticAnalyzer {
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
     */
     private Expression expIgualP (Expression leftSide) {
+        Token token = currentToken;
         IDToken idToken= opIgual();
-        Expression exp = new BinaryExpression(leftSide, idToken, expCompuesta());
+        Expression exp = new BinaryExpression(token, leftSide, idToken, expCompuesta());
 
         if (checkFirst(First.firstExpIgualP)) {
             exp = expIgualP(exp);
@@ -1534,7 +1544,8 @@ public class SyntacticAnalyzer {
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
     */
     private Expression expAdP (Expression leftSide) {
-        Expression exp = new BinaryExpression(leftSide, opAd(), expMul());
+        Token token=currentToken;
+        Expression exp = new BinaryExpression(token, leftSide, opAd(), expMul());
 
         if (checkFirst(First.firstExpAdP)) {
             exp = expAdP(exp);
@@ -1549,7 +1560,8 @@ public class SyntacticAnalyzer {
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
     */
     private Expression expMulP (Expression leftSide) {
-        Expression exp = new BinaryExpression(leftSide, opMul(), expUn());
+        Token token = currentToken;
+        Expression exp = new BinaryExpression(token, leftSide, opMul(), expUn());
 
         if (checkFirst(First.firstExpMulP)) {
             exp = expMulP(exp);

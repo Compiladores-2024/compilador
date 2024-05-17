@@ -4,8 +4,7 @@ import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 
 public abstract class Primary extends Expression{
 
-    public Primary(Primary rightChained, String struct, String method) {
-        super(struct, method);
+    public Primary(Primary rightChained) {
         this.rightChained = rightChained;
     }
 

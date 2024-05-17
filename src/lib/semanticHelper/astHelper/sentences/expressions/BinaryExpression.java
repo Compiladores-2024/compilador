@@ -1,6 +1,8 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.tokenHelper.IDToken;
+import src.lib.tokenHelper.Token;
 
 
 public class BinaryExpression extends Expression{
@@ -9,17 +11,21 @@ public class BinaryExpression extends Expression{
     private Expression rightSide;
     private IDToken operator;
 
-    public BinaryExpression (Expression leftSide, IDToken operator, Expression rightSide, String struct, String method) {
-        super(struct, method);
+    public BinaryExpression (Token token, Expression leftSide, IDToken operator, Expression rightSide) {
+        super(token);
         this.leftSide = leftSide;
         this.operator = operator;
         this.rightSide = rightSide;
     }
-    public BinaryExpression (Expression leftSide, IDToken operator, Expression rightSide) {
-        super("struct", "method");
-        this.leftSide = leftSide;
-        this.operator = operator;
-        this.rightSide = rightSide;
+    
+    @Override
+    public void checkTypes(SymbolTable symbolTable, String struct, String method){
+
+    }
+
+    @Override
+    public IDToken obtainType(SymbolTable st, String struct, String method){
+        return null;
     }
 
     public String toJSON(String tabs){

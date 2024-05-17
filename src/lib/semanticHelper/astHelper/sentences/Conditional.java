@@ -1,6 +1,10 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
+import src.lib.exceptionHelper.SemanticException;
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.tokenHelper.IDToken;
+import src.lib.tokenHelper.Token;
 
 public class Conditional extends Sentence{
     
@@ -9,17 +13,27 @@ public class Conditional extends Sentence{
     private Sentence elseBlock;
 
 
-    public Conditional(Expression condition, Sentence thenBlock,Sentence elseBlock,String struct, String method  ) {
-        super(struct, method);
-        this.condition=condition;
-        this.thenBlock=thenBlock;
-        this.elseBlock=elseBlock;
-    }
-    public Conditional(Expression condition, Sentence thenBlock, Sentence elseBlock) {
-        super("struct", "method");
+    public Conditional(Token token, Expression condition, Sentence thenBlock, Sentence elseBlock) {
+        super(token);
         this.condition = condition;
         this.thenBlock = thenBlock;
         this.elseBlock = elseBlock;
+    }
+
+    public boolean isBool(IDToken conditionType){
+        return (conditionType.equals(IDToken.typeBOOL)
+        || conditionType.equals(IDToken.pTRUE)
+        || conditionType.equals(IDToken.pFALSE) );
+    }
+
+    @Override
+    public void checkTypes(SymbolTable st, String struct, String method){
+        IDToken conditionType = this.condition.obtainType(st, struct, method);
+        if (conditionType!=null){
+            if (!isBool(conditionType)){
+                throw new SemanticException(this.token, "El tipo de la condicion if no es booleano");
+            }
+        }
     }
 
     @Override
