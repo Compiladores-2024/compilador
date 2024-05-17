@@ -1,23 +1,45 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "Return",
-        "struct": "A",
-        "method": "m1",
-        "expressionReturn":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "nil",
-        "id": "nil",
-        "rightChained": ""
-    }
-    }
-
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "nil",
+                        "tipoDeDato": "nil",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
     ],
-        "Bloques de: B" : [
-    ],
-        "Bloques de: start" : [
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
     ]
 
 }

@@ -1,95 +1,99 @@
 {
-        "Bloques de: A" : [
+    "bloquesDeA" : [
         {
-        "nombre": "Loop",
-        "struct": "A",
-        "method": "m1",
-        "condition":     {
-        "nombre": "BinaryExpression",
-        "struct": "A",
-        "method": "m1",
-        "operator": ">",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "p1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    }
-    },
-        "loopBlock": [            {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "IO",
-        "id": "IO",
-        "rightChained":     {
-        "nombre": "MethodAccess",
-        "struct": "A",
-        "method": "m1",
-        "MetodoAcceso": "out_int",
-        "params": [              {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    }
-    ]
-    }
-    },
-            {
-        "nombre": "Asignation",
-        "struct": "A",
-        "method": "m1",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "BinaryExpression",
-        "struct": "A",
-        "method": "m1",
-        "operator": "+",
-        "leftSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "id variable o método",
-        "id": "v1",
-        "rightChained": ""
-    },
-        "rightSide":     {
-        "nombre": "SimpleAccess",
-        "struct": "A",
-        "method": "m1",
-        "tipo": "literal Int",
-        "id": "1",
-        "rightChained": ""
-    }
-    }
-    }
-    ]
-    }
-
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Loop",
+                    "condicion": {
+                        "tipo": "BinaryExpression",
+                        "operador": ">",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "lexema": "p1",
+                            "tipoDeDato": "id variable o método",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "lexema": "v1",
+                            "tipoDeDato": "id variable o método",
+                            "encadenado": ""
+                        }
+                    },
+                    "bloqueLoop": [
+{
+                            "tipo": "SimpleAccess",
+                            "lexema": "IO",
+                            "tipoDeDato": "IO",
+                            "encadenado": {
+                                "tipo": "MethodAccess",
+                                "método": "out_int",
+                                "params": [
+                                    {
+                                        "tipo": "SimpleAccess",
+                                        "lexema": "v1",
+                                        "tipoDeDato": "id variable o método",
+                                        "encadenado": ""
+                                    }
+                                ]
+                            }
+                        },
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "lexema": "v1",
+                                "tipoDeDato": "id variable o método",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "BinaryExpression",
+                                "operador": "+",
+                                "leftSide": {
+                                    "tipo": "SimpleAccess",
+                                    "lexema": "v1",
+                                    "tipoDeDato": "id variable o método",
+                                    "encadenado": ""
+                                },
+                                "rightSide": {
+                                    "tipo": "SimpleAccess",
+                                    "lexema": "1",
+                                    "tipoDeDato": "literal Int",
+                                    "encadenado": ""
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
     ],
-        "Bloques de: B" : [
-    ],
-        "Bloques de: start" : [
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
     ]
 
 }
