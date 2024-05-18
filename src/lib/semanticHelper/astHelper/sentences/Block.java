@@ -13,7 +13,9 @@ public class Block extends Sentence{
 
     @Override
     public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
+        for (Sentence sentence : sentenceList) {
+            sentence.checkTypes(symbolTable, struct, method);
+        }
     }
     
     public String toJSON(String tabs){

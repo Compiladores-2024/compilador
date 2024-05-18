@@ -13,6 +13,10 @@ public abstract class Sentence {
 
     public Sentence(){}
 
+    public String getLexema(){
+        return this.token.getLexema();
+    }
+
     public abstract String toJSON(String tabs);
 
     public abstract void checkTypes(SymbolTable symbolTable, String struct, String method);

@@ -10,11 +10,10 @@ import src.lib.tokenHelper.Token;
 public class CreateInstance extends Primary{
     
     private ArrayList<Expression> params;
-    private Token identifier;
 
     public CreateInstance (Token id, ArrayList<Expression> params, Primary rightChained) {
         super(rightChained);
-        this.identifier = id;
+        this.token = id;
         this.params = params;
     }
 
@@ -24,7 +23,7 @@ public class CreateInstance extends Primary{
     }
 
     @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
+    public String obtainType(SymbolTable st, String struct, String method){
         return null;
     }
 
@@ -42,7 +41,7 @@ public class CreateInstance extends Primary{
         paramsJSON += (params.size() > 0 ? (tabs + "    ]") : "]");
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateInstance" + "\",\n" +
-            tabs + "    \"identificador\": \"" + identifier.getLexema() +  "\",\n" +
+            tabs + "    \"identificador\": \"" + token.getLexema() +  "\",\n" +
             tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }

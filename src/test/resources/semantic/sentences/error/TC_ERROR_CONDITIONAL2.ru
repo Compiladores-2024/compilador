@@ -12,7 +12,7 @@ impl A{
 
     }
     fn m1(Int c)->void{
-        if (b.m1()){
+        if (c.m5()){                /? identificador c no definido
             b.check=true;
             boolean = ++1 >=3;
         }else{

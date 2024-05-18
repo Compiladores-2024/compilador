@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.print.DocFlavor.STRING;
+
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -320,13 +322,50 @@ public class Struct extends Metadata {
         }
     }
 
-
-    public boolean checkVariable(String var){
+    public boolean checkIfVar(String var, String method){
         return (this.variables.containsKey(var));
     }
 
-    public IDToken getVariableType(String var){
-        return (this.variables.get(var).getType());
+    public boolean checkIfMethod(String var, String method){
+        return (this.methods.get(method).checkVariableMethod(var));
+    }
+
+
+    
+    public String getVariableType(String var, String method){
+        String type="";
+        // si es un atributo
+        if (this.variables.containsKey(var)) {
+            //devuelve el tipo de esa variable
+            type= this.variables.get(var).getLexemaType();
+        }else{
+            if(this.methods.containsKey(method)){
+                if (this.methods.get(method).checkVariableMethod(var)){
+                    type = this.methods.get(method).getVarType(var);
+                }else{
+                    if (this.methods.get(method).checkParamMethod(var)){
+                        type = this.methods.get(method).getParamType(var);
+                    }
+                }
+            }
+        }
+        return type;
+    }
+
+    public String getMethodType(String method){
+        String type="";
+        if(this.methods.containsKey(method)){
+            type = this.methods.get(method).getReturnType();
+        }
+        return type;
+    }
+
+    public String getVariableTypeLexema(String var){
+        return (this.variables.get(var).getLexemaType());
+    }
+
+    public boolean isMethod(String method){
+        return (this.methods.containsKey(method));
     }
     
 

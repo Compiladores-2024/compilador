@@ -26,5 +26,5 @@ public abstract class Expression extends Sentence{
         return resultType;
     }
 
-    public abstract IDToken obtainType(SymbolTable st, String struct, String method);
+    public abstract String obtainType(SymbolTable st, String struct, String method);
 }

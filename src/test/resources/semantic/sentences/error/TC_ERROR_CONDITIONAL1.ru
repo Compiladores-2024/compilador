@@ -19,7 +19,7 @@ impl A{
             if(true){
 
             }else{
-                if(b.m2()){
+                if(b.m2()){   /? m2 returns Int
 
                 }
             }
@@ -39,8 +39,8 @@ impl B{
         ret true;
     }
 
-    fn m2()->Bool{
-        ret false;
+    fn m2()->Int{
+        ret 1;
     }
 
 }

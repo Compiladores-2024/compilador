@@ -1301,10 +1301,12 @@ public class SyntacticAnalyzer {
             exp = new MethodAccess(token, argumentosActuales(), null);
         }
         else{
-            match(IDToken.sCOR_OPEN);
-            exp = expresion();
-            match(IDToken.sCOR_CLOSE);
-            exp = new ArrayAccess(token, exp, null);
+            if(currentToken.getIDToken().equals(IDToken.sCOR_OPEN)){
+                match(IDToken.sCOR_OPEN);
+                exp = expresion();
+                match(IDToken.sCOR_CLOSE);
+                exp = new ArrayAccess(token, exp, null);
+            }
         }
 
         return exp;

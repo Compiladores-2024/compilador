@@ -20,19 +20,23 @@ public class Conditional extends Sentence{
         this.elseBlock = elseBlock;
     }
 
-    public boolean isBool(IDToken conditionType){
-        return (conditionType.equals(IDToken.typeBOOL)
-        || conditionType.equals(IDToken.pTRUE)
-        || conditionType.equals(IDToken.pFALSE) );
+    public boolean isBool(String type){
+        return (type.equals(IDToken.typeBOOL.toString())
+        || type.equals(IDToken.pTRUE.toString())
+        || type.equals(IDToken.pFALSE.toString()) );
     }
 
     @Override
     public void checkTypes(SymbolTable st, String struct, String method){
-        IDToken conditionType = this.condition.obtainType(st, struct, method);
+        String conditionType = this.condition.obtainType(st, struct, method);
         if (conditionType!=null){
             if (!isBool(conditionType)){
                 throw new SemanticException(this.token, "El tipo de la condicion if no es booleano");
             }
+        }
+        this.thenBlock.checkTypes(st, struct, method);
+        if (this.elseBlock!=null){
+            this.elseBlock.checkTypes(st, struct, method);
         }
     }
 

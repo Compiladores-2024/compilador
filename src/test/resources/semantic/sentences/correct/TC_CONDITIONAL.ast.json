@@ -7,23 +7,32 @@
                     "tipo": "Conditional",
                     "condicion": {
                         "tipo": "SimpleAccess",
-                        "lexema": "true",
-                        "tipoDeDato": "true",
-                        "encadenado": ""
+                        "lexema": "b",
+                        "tipoDeDato": "id variable o método",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "método": "m1",
+                            "params": []
+                        }
                     },
                     "thenBlock": [
 {
                             "tipo": "Asignation",
                             "leftSide": {
                                 "tipo": "SimpleAccess",
-                                "lexema": "a",
+                                "lexema": "b",
                                 "tipoDeDato": "id variable o método",
-                                "encadenado": ""
+                                "encadenado": {
+                                    "tipo": "SimpleAccess",
+                                    "lexema": "check",
+                                    "tipoDeDato": "id variable o método",
+                                    "encadenado": ""
+                                }
                             },
                             "rightSide": {
                                 "tipo": "SimpleAccess",
-                                "lexema": "1",
-                                "tipoDeDato": "literal Int",
+                                "lexema": "true",
+                                "tipoDeDato": "true",
                                 "encadenado": ""
                             }
                         },
@@ -57,7 +66,35 @@
                             }
                         }
                     ],
-                    "elseBlock": []
+                    "elseBlock": [
+{
+                            "tipo": "Conditional",
+                            "condicion": {
+                                "tipo": "SimpleAccess",
+                                "lexema": "true",
+                                "tipoDeDato": "true",
+                                "encadenado": ""
+                            },
+                            "thenBlock": [],
+                            "elseBlock": [
+{
+                                    "tipo": "Conditional",
+                                    "condicion": {
+                                        "tipo": "SimpleAccess",
+                                        "lexema": "b",
+                                        "tipoDeDato": "id variable o método",
+                                        "encadenado": {
+                                            "tipo": "MethodAccess",
+                                            "método": "m2",
+                                            "params": []
+                                        }
+                                    },
+                                    "thenBlock": [],
+                                    "elseBlock": []
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -91,6 +128,42 @@
                         "encadenado": ""
                     }
                 }
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "true",
+                        "tipoDeDato": "true",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "lexema": "false",
+                        "tipoDeDato": "false",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
             ]
         },
         {

@@ -80,6 +80,26 @@ public class Method extends Metadata{
         }
     }
 
+    public boolean checkVariableMethod(String var){
+        return (this.variables.containsKey(var));
+    }
+
+    public boolean checkParamMethod(String var){
+        return (this.params.containsKey(var));
+    }
+
+    public String getReturnType(){
+        return this.returnType.toString();
+    }
+
+    public String getVarType(String var){
+        return this.variables.get(var).getLexemaType();
+    }
+
+    public String getParamType(String var){
+        return this.params.get(var).toString();
+    }
+
     /**
      * Retorna la firma de un método.
      * @return String con la signature del método.

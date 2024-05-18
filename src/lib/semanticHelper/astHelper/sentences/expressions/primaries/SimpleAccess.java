@@ -1,16 +1,16 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class SimpleAccess extends Primary{
     
-    private Token value; 
 
     public SimpleAccess (Token value, Primary rightChained) {
         super(rightChained);
-        this.value = value;
+        this.token = value;
     }
 
     @Override
@@ -18,22 +18,26 @@ public class SimpleAccess extends Primary{
 
     }
 
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        IDToken type = null;
-        if (this.rightChained==null){
-            if (this.value.getIDToken().equals(IDToken.idOBJECT)){
-                String varName=this.value.getLexema();
-                // si existe dentro del contexto
-                if (st.getStruct(struct).checkVariable(varName) ){
-                    type = st.getStruct(struct).getVariableType(varName);
-                }
-            }
-            else{
-                type=value.getIDToken();
+    public String obtainType(SymbolTable st, String struct, String method){
+        String type = null;
+        String varName =this.token.getLexema();
+        if (this.token.getIDToken().equals(IDToken.idOBJECT)){
+            // si existe dentro del contexto del struct devuelve el tipo 
+            type = st.getStruct(struct).getVariableType(varName, method);
+            if (type==""){
+                throw new SemanticException(token, "Identificador: "+token.getLexema() 
+                + " no declarado en struct: " + struct + " o en metodo: " + method);
             }
         }
+        else{
+            type=this.token.getIDToken().toString();
+        }
+        if (this.rightChained!=null){
+            
+            type = this.rightChained.obtainType(st, type, null);
+            
+        }
 
-        // mas
         return type;
     }
 
@@ -43,8 +47,8 @@ public class SimpleAccess extends Primary{
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "SimpleAccess" + "\",\n" +
-            tabs + "    \"lexema\": " + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + value.getLexema() + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
-            tabs + "    \"tipoDeDato\": \"" + value.getIDToken() + "\",\n" +
+            tabs + "    \"lexema\": " + (token.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + token.getLexema() + (token.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
+            tabs + "    \"tipoDeDato\": \"" + token.getIDToken() + "\",\n" +
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
             tabs + "}";
     }

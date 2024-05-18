@@ -8,12 +8,11 @@ import src.lib.tokenHelper.Token;
 public class ArrayAccess extends Primary{
     
     private Expression indexArray;
-    private Token value;
 
     public ArrayAccess (Token value, Expression indexArray, Primary rightChained) {
         super(rightChained);
         this.indexArray = indexArray;
-        this.value = value;
+        this.token = value;
     }
 
     @Override
@@ -22,7 +21,7 @@ public class ArrayAccess extends Primary{
     }
 
     @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
+    public String obtainType(SymbolTable st, String struct, String method){
         return null;
     }
 
@@ -30,7 +29,7 @@ public class ArrayAccess extends Primary{
     public String toJSON(String tabs){
         return tabs + "{\n" +
             tabs + "    \"tipo\": \"" + "ArrayAccess" + "\",\n" +
-            tabs + "    \"lexema\": \""  + value.getLexema() + "\",\n" +
+            tabs + "    \"lexema\": \""  + token.getLexema() + "\",\n" +
             tabs + "    \"índice\": " + indexArray.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }

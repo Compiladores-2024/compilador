@@ -21,7 +21,7 @@ public class UnaryExpression extends Expression{
     }
 
     @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
+    public String obtainType(SymbolTable st, String struct, String method){
         return null;
     }
 

@@ -7,13 +7,12 @@ import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class CreateArray extends Primary{
-    
-    private Token type;
+
     private Expression dimention;
 
     public CreateArray (Token type, Expression dimention, Primary rightChained) {
         super(rightChained);
-        this.type = type;
+        this.token = type;
         this.dimention = dimention;
     }
 
@@ -23,7 +22,7 @@ public class CreateArray extends Primary{
     }
 
     @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
+    public String obtainType(SymbolTable st, String struct, String method){
         return null;
     }
 
@@ -31,7 +30,7 @@ public class CreateArray extends Primary{
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateArray" + "\",\n" +
-            tabs + "    \"tipoArray\": \""  + type.getLexema() + "\",\n" +
+            tabs + "    \"tipoArray\": \""  + token.getLexema() + "\",\n" +
             tabs + "    \"dimension\": " + dimention.toJSON(tabs + "    ") + "\n" +
             tabs + "}";
     }
