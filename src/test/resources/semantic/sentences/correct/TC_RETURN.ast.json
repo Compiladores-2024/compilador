@@ -164,6 +164,15 @@
                     }
                 }
             ]
+        },
+        {
+            "nombreMetodo": "m12",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
         }
     ],
     "bloquesDeB" : [

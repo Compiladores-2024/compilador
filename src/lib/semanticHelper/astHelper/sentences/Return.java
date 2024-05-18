@@ -61,6 +61,7 @@ public class Return extends Sentence{
                 if (this.expression==null && !returnMethod.equals(IDToken.typeVOID.toString()) ) {
                     error=true;
                 }
+                break;
             
             default:
                 if (!returnMethod.equals(returnType)){

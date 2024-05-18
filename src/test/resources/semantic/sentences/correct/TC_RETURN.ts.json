@@ -63,7 +63,7 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 11,
+            "cantidadMetodos": 12,
             "cantidadAtributos": 4,
             "atributos": [
                 {
@@ -184,6 +184,14 @@
                     "static": "false",
                     "retorno": "B",
                     "posicion": 10,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m12",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 11,
                     "parámetros": [],
                     "variables": []
                 }

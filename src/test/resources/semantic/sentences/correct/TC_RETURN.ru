@@ -46,7 +46,9 @@ impl A{
     fn m11()->Bool{
         ret b.check;
     }
-
+    fn m12()->void{
+        ret;
+    }
 
 }
 
