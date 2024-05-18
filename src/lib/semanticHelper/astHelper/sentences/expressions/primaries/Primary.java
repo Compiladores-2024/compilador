@@ -9,7 +9,7 @@ import src.lib.tokenHelper.Token;
 
 public abstract class Primary extends Expression{
     protected Token identifier;
-    protected Primary rightChained;
+    
 
     public Primary(Token identifier, Primary rightChained) {
         this.identifier = identifier;
@@ -42,17 +42,17 @@ public abstract class Primary extends Expression{
 
             //Si no es método, valida si proviene de encadenado y si es variable de metodo
             if (type == null && leftSide == null) {
-                token = method.getParamType(position);
+                type = method.getParamType(position);
 
                 //Si no es parametro, valida si es variable local
-                if (token == null) {
-                    token = method.getVariableType(identifier.getLexema());
+                if (type == null) {
+                    type = method.getVariableType(identifier.getLexema());
                 }
             }
         }
         
         //Si no se ha obtenido, no existe
-        if (token == null) {
+        if (type == null) {
             throw new SemanticException(identifier, "Variable no declarada.", true);
         }
 

@@ -34,8 +34,9 @@ public class Assignation extends Sentence{
         rightSide.consolidate(st, struct, method, leftExpression);
 
         //Valida que posean el mismo tipo de dato
-        leftType = leftSide.getResultType();
-        rightType = rightSide.getResultType();
+        leftType = leftSide.getResultTypeChained();
+
+        rightType = rightSide.getResultTypeChained();
         if (!leftType.equals(rightType)) {
             throw new SemanticException(token, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
         }
