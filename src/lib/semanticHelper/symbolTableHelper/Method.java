@@ -16,7 +16,7 @@ import src.lib.tokenHelper.Token;
  */
 public class Method extends Metadata{
     private boolean isStatic;
-    private IDToken returnType;
+    private Token returnType;
     private int currentVarIndex;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
@@ -31,7 +31,7 @@ public class Method extends Metadata{
      * @param isStatic Booleano para identificar si es estático o no
      * @param position Posición dentro de la tabla de símbolos
      */
-    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
+    public Method (Token metadata, ArrayList<Param> parameters, Token returnType, boolean isStatic, int position) {
         super(metadata, position);
 
         variables = new HashMap<String, Variable>();
@@ -89,7 +89,7 @@ public class Method extends Metadata{
     }
 
     public String getReturnType(){
-        return this.returnType.toString();
+        return (this.returnType.getIDToken().equals(IDToken.idSTRUCT) ? returnType.getLexema() : returnType.getIDToken().toString() );
     }
 
     public String getVarType(String var){
@@ -113,7 +113,8 @@ public class Method extends Metadata{
         }
 
         //Retorna la signature
-        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.toString();
+        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + 
+            (returnType.getIDToken()==IDToken.idSTRUCT ? returnType.getLexema() : returnType.getIDToken().toString()  );
     }
     
     /**
@@ -126,10 +127,11 @@ public class Method extends Metadata{
     public String toJSON(String tabs) {
         String variableJSON = toJSONEntity(variables, tabs), paramsJSON = toJSONEntity(params, tabs);
 
+        String typeReturn = (returnType.getIDToken()==IDToken.idSTRUCT ? returnType.getLexema() : returnType.getIDToken().toString());
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"static\": \"" + isStatic + "\",\n" +
-            tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
+            tabs + "    \"retorno\": \"" + typeReturn + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
             tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "]\n" +

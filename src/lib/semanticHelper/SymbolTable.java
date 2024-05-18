@@ -144,7 +144,7 @@ public class SymbolTable {
      * @param returnType Tipo de dato a retornar.
      */
     private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, IDToken returnType) {
-        struct.addMethod(token, params, isStatic, returnType == null ? IDToken.typeVOID : returnType);
+        struct.addMethod(token, params, isStatic, (returnType==null ? new Token(IDToken.typeVOID, null, 0, 0) : new Token(returnType, null, 0, 0)));
     }
 
     /** 
@@ -332,7 +332,7 @@ public class SymbolTable {
         }
 
         //Agrega el método al hash
-        return currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
+        return currentStruct.addMethod(token, params, isStatic, returnTypeToken);
     }
 
     /**

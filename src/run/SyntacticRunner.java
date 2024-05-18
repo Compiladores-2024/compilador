@@ -22,7 +22,7 @@ public class SyntacticRunner {
      * @param args args
      */
     public static void main(String[] args) {
-        // args = new String[] {"src/test/resources/semantic/sentences/correct/TC_CONDITIONAL.ru"};
+        // args = new String[] {"src/test/resources/semantic/sentences/correct/TC_RETURN.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);

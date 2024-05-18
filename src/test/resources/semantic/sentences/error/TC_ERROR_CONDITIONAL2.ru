@@ -1,3 +1,6 @@
+/? ERROR: SEMANTICO - DECLARACIONES 
+/? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
+/? | LINEA 18 | COLUMNA 15 | Metodo: m5 no declarado en struct: Int |
 struct A{
     Int a;
     Bool boolean;
@@ -12,7 +15,7 @@ impl A{
 
     }
     fn m1(Int c)->void{
-        if (c.m5()){                /? identificador c no definido
+        if (c.m5()){                /? metodo m5 no definido en c tipo Int
             b.check=true;
             boolean = ++1 >=3;
         }else{

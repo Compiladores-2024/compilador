@@ -1,3 +1,6 @@
+/? ERROR: SEMANTICO - DECLARACIONES
+/? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
+/? | LINEA 25 | COLUMNA 17 | El tipo de la condicion if no es booleano |
 struct A{
     Int a;
     Bool boolean;

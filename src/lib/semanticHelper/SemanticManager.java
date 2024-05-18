@@ -45,7 +45,7 @@ public class SemanticManager {
         if (token.getIDToken().equals(IDToken.idSTART)) {
             //Valida si se está generando el método start y que no se haya generado otro
             if (start == null) {
-                start = new Method(token, params, returnTypeToken.getIDToken(), isStatic, 0);
+                start = new Method(token, params, returnTypeToken, isStatic, 0);
                 currentMethod = start;
             }
             else {
