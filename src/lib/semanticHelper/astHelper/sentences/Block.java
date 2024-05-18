@@ -3,6 +3,9 @@ package src.lib.semanticHelper.astHelper.sentences;
 import java.util.ArrayList;
 
 import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 
 public class Block extends Sentence{
     private ArrayList<Sentence> sentenceList;
@@ -14,6 +17,14 @@ public class Block extends Sentence{
     @Override
     public void checkTypes(SymbolTable symbolTable, String struct, String method){
 
+    }
+
+    @Override
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        //Consolida las sentencias
+        for (Sentence sentence : sentenceList) {
+            sentence.consolidate(st, struct, method, leftExpression);
+        }
     }
     
     public String toJSON(String tabs){

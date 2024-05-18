@@ -62,7 +62,11 @@ public class SemanticManager {
 
     //METODOS PARA INSERTAR DATOS AL AST
     public void addBlock(SentenceBlock block){
-        this.ast.addBlock(currentStruct, block);
+        //Si el bloque método es start, las sentencias no pertenecen a ninguna estructura
+        this.ast.addBlock(
+            (!block.getIDBlock().equals("start")) ? currentStruct : null,
+            block
+        );
     }
 
     public void consolidate (){

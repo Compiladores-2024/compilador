@@ -3,6 +3,9 @@ package src.lib.semanticHelper.astHelper.sentences;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
@@ -33,6 +36,20 @@ public class Conditional extends Sentence{
             if (!isBool(conditionType)){
                 throw new SemanticException(this.token, "El tipo de la condicion if no es booleano");
             }
+        }
+    }
+
+    @Override
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        //Consolida la condicion
+        condition.consolidate(st, struct, method, leftExpression);
+
+        //Consolida el boque if
+        thenBlock.consolidate(st, struct, method, leftExpression);
+
+        //Si posee bloque else, lo consolida
+        if (elseBlock != null) {
+            elseBlock.consolidate(st, struct, method, leftExpression);
         }
     }
 

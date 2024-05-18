@@ -96,6 +96,33 @@ public class Method extends Metadata{
         return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.toString();
     }
     
+
+    public Token getVariableType (String name) {
+        //Valida si es una variable local
+        Token result = variables.get(name) != null ? variables.get(name).getTokenType() : null;
+
+        //Si no lo es, valida que sea un param
+        if (result == null) {
+            result = params.get(name) != null ? params.get(name).getType() : null;
+        }
+        
+        return result;
+    }
+    
+    public Token getParamType(int position) {
+        for (Param param : params.values()) {
+            if (param.getPosition() == position) {
+                return param.getType();
+            }
+        }
+        return null;
+    }
+
+    public Token getReturnType () {
+        return new Token(returnType, returnType.toString(), currentVarIndex, currentVarIndex);
+    }
+
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 

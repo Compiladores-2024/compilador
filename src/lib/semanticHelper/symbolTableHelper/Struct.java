@@ -78,41 +78,31 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    /**
-     * Método que consolida la estructura
-     */
-    public void consolidate (HashSet<String> staticStructs) {
-        if (!getName().equals("Object")) {
-            //Valida que posea al menos un struct
-            if(countStructDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
-            }
-            
-            //Valida que posea al menos un impl
-            if(countImplDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
-            }
-            
-            //Valida que posea un constructor
-            if(constructor == null){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
-            }
+    public Token getAttributeType (String name) {
+        Token result = null;
+        Variable v = variables.get(name);
+        if (v != null) {
+            result = v.getTokenType();
         }
-        // Consolida y añade variables y metodos heredados a los hijos
-        for (Struct children : childrens.values()) {
-            if (!staticStructs.contains(children.getName())) {
-                // se comprueba si ya ha sido consolidado
-                if (children.consolidated.equals(false)){
-                    children.addMethodsInherited(methods);
-                    children.addVariablesInherited(variables);
-                }
-                children.consolidated=true;
-                children.consolidate(staticStructs);
-            }
+        return result;
+    }
+    public Token getReturnMethodType (String name) {
+        Token result = null;
+        Method m = methods.get(name);
+        if (m != null) {
+            result = m.getReturnType();
         }
+        return result;
     }
 
-    
+    public Method getMethod(String name) {
+        if (name == "Constructor") {
+            return constructor;
+        }
+        return methods.get(name);
+    }
+
+
     /** 
      * Agrega los métodos que hereda, este método lo llama la superclase del struct.
      * 
@@ -320,15 +310,39 @@ public class Struct extends Metadata {
         }
     }
 
-
-    public boolean checkVariable(String var){
-        return (this.variables.containsKey(var));
+    /**
+     * Método que consolida la estructura
+     */
+    public void consolidate (HashSet<String> staticStructs) {
+        if (!getName().equals("Object")) {
+            //Valida que posea al menos un struct
+            if(countStructDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
+            }
+            
+            //Valida que posea al menos un impl
+            if(countImplDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
+            }
+            
+            //Valida que posea un constructor
+            if(constructor == null){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
+            }
+        }
+        // Consolida y añade variables y metodos heredados a los hijos
+        for (Struct children : childrens.values()) {
+            if (!staticStructs.contains(children.getName())) {
+                // se comprueba si ya ha sido consolidado
+                if (children.consolidated.equals(false)){
+                    children.addMethodsInherited(methods);
+                    children.addVariablesInherited(variables);
+                }
+                children.consolidated=true;
+                children.consolidate(staticStructs);
+            }
+        }
     }
-
-    public IDToken getVariableType(String var){
-        return (this.variables.get(var).getType());
-    }
-    
 
     /**
      * Reescritura del método, convierte los datos en JSON.

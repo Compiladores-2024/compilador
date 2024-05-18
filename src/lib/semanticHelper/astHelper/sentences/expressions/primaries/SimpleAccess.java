@@ -1,16 +1,15 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class SimpleAccess extends Primary{
-    
-    private Token value; 
 
-    public SimpleAccess (Token value, Primary rightChained) {
-        super(rightChained);
-        this.value = value;
+    public SimpleAccess (Token identifier, Primary rightChained) {
+        super(identifier, rightChained);
     }
 
     @Override
@@ -18,23 +17,37 @@ public class SimpleAccess extends Primary{
 
     }
 
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        IDToken type = null;
-        if (this.rightChained==null){
-            if (this.value.getIDToken().equals(IDToken.idOBJECT)){
-                String varName=this.value.getLexema();
-                // si existe dentro del contexto
-                if (st.getStruct(struct).checkVariable(varName) ){
-                    type = st.getStruct(struct).getVariableType(varName);
-                }
-            }
-            else{
-                type=value.getIDToken();
-            }
+    @Override
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        //Valida que exista, solo si no es una constante (literal, false, true, nil)
+        if (!identifier.getLexema().contains("literal") && !identifier.getLexema().contains("false") && !identifier.getLexema().contains("true") && !identifier.getLexema().contains("nil")) {
+            variableExist(st, struct, method, leftExpression);
         }
 
-        // mas
-        return type;
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
+        }
+    }
+
+    public IDToken obtainType(SymbolTable st, String struct, String method){
+        // Token type = null;
+        // if (this.rightChained==null){
+        //     if (this.identifier.getIDToken().equals(IDToken.idOBJECT)){
+        //         String varName=this.identifier.getLexema();
+        //         // si existe dentro del contexto
+        //         if (st.getStruct(struct).checkVariable(varName) ){
+        //             type = st.getStruct(struct).getVariableType(varName);
+        //         }
+        //     }
+        //     else{
+        //         type=identifier.getIDToken();
+        //     }
+        // }
+
+        // // mas
+        // return type;
+        return null;
     }
 
 
@@ -43,8 +56,9 @@ public class SimpleAccess extends Primary{
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "SimpleAccess" + "\",\n" +
-            tabs + "    \"lexema\": " + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + value.getLexema() + (value.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
-            tabs + "    \"tipoDeDato\": \"" + value.getIDToken() + "\",\n" +
+            tabs + "    \"nombreVariable\": " + (identifier.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + identifier.getLexema() + (identifier.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
+            tabs + "    \"tipoDeDato\": \"" + identifier.getIDToken() + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
             tabs + "}";
     }

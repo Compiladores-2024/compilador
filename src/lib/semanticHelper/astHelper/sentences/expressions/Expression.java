@@ -7,23 +7,31 @@ import src.lib.tokenHelper.Token;
 
 public abstract class Expression extends Sentence{
     
-    private IDToken resultType;
-    protected Expression rightChained;
-
-
+    protected Token resultType;
+    protected int position;
+    
     public Expression(Token token) {
         super(token);
     }
-    public Expression(){
-        
+    public Expression(Token token, int position){
+        super(token);
+        this.position = position;
+    }
+    public Expression(){}
+
+    public String getResultType() {
+        return resultType.getLexema();
     }
 
-    public void setChained(Expression primary){
-        this.rightChained = primary;
+    public int getPosition() {
+        return position;
+    }
+    public void setPosition(int position) {
+        this.position = position;
     }
 
-    public IDToken getResultType() {
-        return resultType;
+    public void setResultType(Token resultType) {
+        this.resultType = resultType;
     }
 
     public abstract IDToken obtainType(SymbolTable st, String struct, String method);

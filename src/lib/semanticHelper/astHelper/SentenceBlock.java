@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 public class SentenceBlock {
@@ -20,9 +22,9 @@ public class SentenceBlock {
         return idBlock.getLexema();
     }
 
-    public void consolidate(SymbolTable symbolTable, String struct, String method){
+    public void consolidate(SymbolTable st, Struct struct, Method method){
         for (Sentence sentence : sentenceList) {
-            sentence.checkTypes(symbolTable, struct, method);
+            sentence.consolidate(st, struct, method, null);
         }
     }
 

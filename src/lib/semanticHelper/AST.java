@@ -21,7 +21,7 @@ public class AST {
     }
 
     public void addBlock(Struct currentStruct, SentenceBlock block){
-        String structName = currentStruct.getName();
+        String structName = currentStruct != null ? currentStruct.getName() : "start";
         //Nombre del metodo actual e informacion del bloque
         if (this.blocks.get(structName) == null) {
             this.blocks.put(structName, new HashMap<String, SentenceBlock>());
@@ -31,11 +31,14 @@ public class AST {
 
 
     public void consolidate(SymbolTable symbolTable){
-        SentenceBlock block;
+        Struct currentStruct;
+        //Recorre las estructuras
         for (String sStruct : blocks.keySet()) {
+            //Recorre los métodos
             for (String sMethod : blocks.get(sStruct).keySet()) {
-                block = blocks.get(sStruct).get(sMethod);
-                block.consolidate(symbolTable, sStruct, sMethod);
+                //Consolida el bloque pasandole el contexto de su correspondiente estrucutra
+                currentStruct = symbolTable.getStruct(sStruct);
+                blocks.get(sStruct).get(sMethod).consolidate(symbolTable, currentStruct, (currentStruct != null ? currentStruct.getMethod(sMethod) : null));
             }
         }
     }
@@ -47,7 +50,7 @@ public class AST {
 
         //Recorro las estructuras
         for (String sStruct : blocks.keySet()) {
-            blocksJSON += tabs + "\"bloquesDe" + sStruct + "\" : [\n";
+            blocksJSON += tabs + (sStruct != "start" ? "\"bloquesDe" : "\"") + sStruct + "\" : [\n";
 
             //Recorro los metodos de esa estructura
             countMethods = blocks.get(sStruct).size();

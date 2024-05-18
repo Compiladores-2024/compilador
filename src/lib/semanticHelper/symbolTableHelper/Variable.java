@@ -32,6 +32,9 @@ public class Variable extends Metadata{
     public IDToken getType(){
         return this.type.getIDToken();
     }
+    public Token getTokenType(){
+        return this.type;
+    }
     
     /**
      * Reescritura del método, convierte los datos en JSON.
