@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javax.print.DocFlavor.STRING;
-
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -322,16 +320,7 @@ public class Struct extends Metadata {
         }
     }
 
-    public boolean checkIfVar(String var, String method){
-        return (this.variables.containsKey(var));
-    }
 
-    public boolean checkIfMethod(String var, String method){
-        return (this.methods.get(method).checkVariableMethod(var));
-    }
-
-
-    
     public String getVariableType(String var, String method){
         String type="";
         // si es un atributo
@@ -364,11 +353,7 @@ public class Struct extends Metadata {
         return (this.variables.get(var).getLexemaType());
     }
 
-    public boolean isMethod(String method){
-        return (this.methods.containsKey(method));
-    }
     
-
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
