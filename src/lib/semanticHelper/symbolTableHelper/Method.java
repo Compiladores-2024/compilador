@@ -108,6 +108,10 @@ public class Method extends Metadata{
         
         return result;
     }
+
+    public int getParamSize(){
+        return this.params.size();
+    }
     
     public Token getParamType(int position) {
         for (Param param : params.values()) {

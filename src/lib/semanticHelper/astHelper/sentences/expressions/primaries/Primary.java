@@ -5,6 +5,7 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public abstract class Primary extends Expression{
@@ -24,11 +25,16 @@ public abstract class Primary extends Expression{
         Token type = null;
         //Si posee lado izquierdo, validamos atributos y metodos de allí
         if (leftSide != null) {
-            struct = st.getStruct(leftSide.getResultType());
-            
-            //La estructura de tipo del lado izquierdo debe existir
-            if (struct == null) {
-                throw new SemanticException(identifier, "Estructura no declarada " + leftSide.getResultType() + ".", true);
+            if (leftSide.resultType!=null){
+                if (leftSide.getResultType().getIDToken().equals(IDToken.idSTRUCT)){
+                    
+                    struct = st.getStruct(leftSide.getResultType().getLexema());
+                    
+                    //La estructura de tipo del lado izquierdo debe existir
+                    if (struct == null) {
+                        throw new SemanticException(identifier, "Estructura no declarada " + leftSide.getResultType() + ".", true);
+                    }
+                }
             }
         }
 
@@ -39,21 +45,21 @@ public abstract class Primary extends Expression{
         //Si no es atributo, valida que sea metodo
         if (type == null) {
             type = struct.getReturnMethodType(identifier.getLexema());
+            
+        }
+        //Si no es método, valida si proviene de encadenado y si es variable de metodo
+        if (type == null) {
+            type = method.getParamType(position);
 
-            //Si no es método, valida si proviene de encadenado y si es variable de metodo
-            if (type == null && leftSide == null) {
-                type = method.getParamType(position);
-
-                //Si no es parametro, valida si es variable local
-                if (type == null) {
-                    type = method.getVariableType(identifier.getLexema());
-                }
+            //Si no es parametro, valida si es variable local
+            if (type == null) {
+                type = method.getVariableType(identifier.getLexema());
             }
         }
         
         //Si no se ha obtenido, no existe
         if (type == null) {
-            throw new SemanticException(identifier, "Variable no declarada.", true);
+            throw new SemanticException(identifier, "Variable " + identifier.getLexema()+ " no declarada.", true);
         }
 
         //Setea el tipo de resultado

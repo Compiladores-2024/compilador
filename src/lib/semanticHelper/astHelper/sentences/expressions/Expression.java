@@ -21,8 +21,8 @@ public abstract class Expression extends Sentence{
     }
     public Expression(){}
 
-    public String getResultType() {
-        return resultType.getLexema();
+    public Token getResultType() {
+        return resultType;
     }
 
     public String getResultTypeChained() {

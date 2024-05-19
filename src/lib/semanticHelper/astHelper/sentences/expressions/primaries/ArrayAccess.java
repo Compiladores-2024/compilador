@@ -47,7 +47,7 @@ public class ArrayAccess extends Primary{
         return tabs + "{\n" +
             tabs + "    \"tipo\": \"" + "ArrayAccess" + "\",\n" +
             tabs + "    \"nombreVariable\": \""  + identifier.getLexema() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"índice\": " + indexArray.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }

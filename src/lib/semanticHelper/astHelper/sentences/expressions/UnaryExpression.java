@@ -40,7 +40,7 @@ public class UnaryExpression extends Expression{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "UnaryExpression" + "\",\n" +
             tabs + "    \"operador\": \"" + operator.toString() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"expresion\": " + expression.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }

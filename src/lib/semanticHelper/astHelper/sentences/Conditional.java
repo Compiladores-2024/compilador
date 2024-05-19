@@ -23,26 +23,20 @@ public class Conditional extends Sentence{
         this.elseBlock = elseBlock;
     }
 
-    public boolean isBool(IDToken conditionType){
-        return (conditionType.equals(IDToken.typeBOOL)
-        || conditionType.equals(IDToken.pTRUE)
-        || conditionType.equals(IDToken.pFALSE) );
-    }
 
     @Override
     public void checkTypes(SymbolTable st, String struct, String method){
-        IDToken conditionType = this.condition.obtainType(st, struct, method);
-        if (conditionType!=null){
-            if (!isBool(conditionType)){
-                throw new SemanticException(this.token, "El tipo de la condicion if no es booleano");
-            }
-        }
     }
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la condicion
         condition.consolidate(st, struct, method, leftExpression);
+        
+        // si la condicion no es bool es un error
+        if (!condition.getResultTypeChained().equals(IDToken.typeBOOL.toString())){
+            throw new SemanticException(this.token, "El tipo de la condicion if no es booleano", true);
+        }
 
         //Consolida el boque if
         thenBlock.consolidate(st, struct, method, leftExpression);

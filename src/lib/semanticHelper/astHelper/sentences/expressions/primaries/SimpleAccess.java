@@ -72,7 +72,7 @@ public class SimpleAccess extends Primary{
             tabs + "    \"tipo\": \"" + "SimpleAccess" + "\",\n" +
             tabs + "    \"nombreVariable\": " + (identifier.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + identifier.getLexema() + (identifier.getIDToken().equals(IDToken.constSTR) ? "" : "\"") + ",\n" +
             tabs + "    \"tipoDeDato\": \"" + identifier.getIDToken() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
             tabs + "}";
     }

@@ -1307,9 +1307,11 @@ public class SyntacticAnalyzer {
             exp = new MethodAccess(token, argumentosActuales(), null);
         }
         else{
-            match(IDToken.sCOR_OPEN);
-            exp = new ArrayAccess(token, expresion(), null);
-            match(IDToken.sCOR_CLOSE);
+            if(currentToken.getIDToken().equals(IDToken.sCOR_OPEN)){
+                match(IDToken.sCOR_OPEN);
+                exp = new ArrayAccess(token, expresion(), null);
+                match(IDToken.sCOR_CLOSE);
+            }
         }
 
         return exp;

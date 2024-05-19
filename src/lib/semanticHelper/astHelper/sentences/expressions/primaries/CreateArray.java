@@ -46,7 +46,7 @@ public class CreateArray extends Primary{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateArray" + "\",\n" +
             tabs + "    \"tipoArray\": \""  + type.getLexema() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"dimension\": " + dimention.toJSON(tabs + "    ") + "\n" +
             tabs + "}";
     }

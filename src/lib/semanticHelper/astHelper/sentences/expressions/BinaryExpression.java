@@ -46,7 +46,7 @@ public class BinaryExpression extends Expression{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "BinaryExpression" + "\",\n" +
             tabs + "    \"operador\": \"" + operator.toString() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"leftSide\": " + (leftSide == null ?  ("\"\""):  leftSide.toJSON(tabs + "    ")) + ",\n" +
             tabs + "    \"rightSide\": " + (rightSide == null ? ("\"\"")  : rightSide.toJSON(tabs + "    ")) + "\n" +
         tabs + "}";

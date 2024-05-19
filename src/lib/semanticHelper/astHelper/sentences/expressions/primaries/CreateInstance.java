@@ -42,7 +42,7 @@ public class CreateInstance extends Primary{
             param.consolidate(st, struct, method, this);
             
             // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultType();
+            resultType = param.getResultType().getLexema();
             paramType = st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamType(param.getPosition()).getLexema();
             if (!resultType.equals(paramType)) {
                 throw new SemanticException(token, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
@@ -65,7 +65,7 @@ public class CreateInstance extends Primary{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateInstance" + "\",\n" +
             tabs + "    \"identificador\": \"" + identifier.getLexema() +  "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
             tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }
