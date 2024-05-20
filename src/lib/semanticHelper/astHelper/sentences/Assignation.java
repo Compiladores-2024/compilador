@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
+import src.lib.Const;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -37,7 +38,7 @@ public class Assignation extends Sentence{
             //Si el lado derecho es nil
             if (rightType.equals("NIL")) {
                 //El lado izquierdo no puede ser de tipo primitivo
-                if (primitiveTypes.contains(leftType)) {
+                if (Const.primitiveTypes.contains(leftType)) {
                     throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
                 }
             } else {

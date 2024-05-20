@@ -60,14 +60,7 @@
                     "retorno": "| void | void | LINEA 16 (COLUMNA 5) |",
                     "posicion": 0,
                     "parámetros": [],
-                    "variables": [
-                        {
-                            "nombre": "num1",
-                            "tipo": "Int",
-                            "public": "false",
-                            "posicion": 0
-                        }
-                    ]
+                    "variables": []
                 }            
             ],
             "cantidadMetodos": 1,
@@ -114,7 +107,7 @@
                 {
                     "nombre": "m1",
                     "static": "false",
-                    "retorno": "| Int | Int | LINEA 42 (COLUMNA 16) |",
+                    "retorno": "| Int | Int | LINEA 19 (COLUMNA 16) |",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -128,7 +121,7 @@
                 {
                     "nombre": ".",
                     "static": "false",
-                    "retorno": "| void | void | LINEA 51 (COLUMNA 5) |",
+                    "retorno": "| void | void | LINEA 28 (COLUMNA 5) |",
                     "posicion": 0,
                     "parámetros": [
                         {
@@ -154,7 +147,7 @@
                 {
                     "nombre": "m3",
                     "static": "true",
-                    "retorno": "| Str | Str | LINEA 52 (COLUMNA 38) |",
+                    "retorno": "| Str | Str | LINEA 29 (COLUMNA 38) |",
                     "posicion": 0,
                     "parámetros": [
                         {
@@ -173,7 +166,7 @@
                 {
                     "nombre": "m5",
                     "static": "true",
-                    "retorno": "| Bool | Bool | LINEA 55 (COLUMNA 38) |",
+                    "retorno": "| Bool | Bool | LINEA 32 (COLUMNA 38) |",
                     "posicion": 1,
                     "parámetros": [
                         {
@@ -403,9 +396,52 @@
     "start": {
         "nombre": "start",
         "static": "false",
-        "retorno": "| void | void | LINEA 59 (COLUMNA 1) |",
+        "retorno": "| void | void | LINEA 36 (COLUMNA 1) |",
         "posicion": 0,
         "parámetros": [],
-        "variables": []
+        "variables": [
+            {
+                "nombre": "num1",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 0
+            },
+            {
+                "nombre": "a",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 1
+            },
+            {
+                "nombre": "s",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 2
+            },
+            {
+                "nombre": "b",
+                "tipo": "B",
+                "public": "false",
+                "posicion": 3
+            },
+            {
+                "nombre": "arr",
+                "tipo": "Array Int",
+                "public": "false",
+                "posicion": 4
+            },
+            {
+                "nombre": "arrInt",
+                "tipo": "Array Int",
+                "public": "false",
+                "posicion": 5
+            },
+            {
+                "nombre": "boolean",
+                "tipo": "Bool",
+                "public": "false",
+                "posicion": 6
+            }
+        ]
     }
 }

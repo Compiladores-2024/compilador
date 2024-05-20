@@ -2,6 +2,7 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
+import src.lib.Const;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -37,7 +38,7 @@ public class CreateInstance extends Primary{
                 //Si el valor a enviar es nil
                 if (resultType.equals("NIL")) {
                     //El parametro no debe ser de tipo dato primitivo
-                    if (primitiveTypes.contains(paramType)) {
+                    if (Const.primitiveTypes.contains(paramType)) {
                         throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
                     }
                 }

@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
+import src.lib.Const;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
@@ -41,7 +42,7 @@ public class BinaryExpression extends Expression{
             //Si el lado derecho es nil
             if (rightType.equals("NIL")) {
                 //El lado izquierdo no debe ser tipo primitivo
-                if (primitiveTypes.contains(leftType)) {
+                if (Const.primitiveTypes.contains(leftType)) {
                     throw new SemanticException(identifier, "Se esperaba un tipo de dato " + leftType + ". Se encontró " + rightType, true);
                 }
             }

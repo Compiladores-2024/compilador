@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
+import src.lib.Const;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -41,7 +42,7 @@ public class Return extends Sentence{
                 if (expResult.equals("NIL")) {
 
                     //Solo se permite si no es de tipo primitivo
-                    if (primitiveTypes.contains(resultType)) {
+                    if (Const.primitiveTypes.contains(resultType)) {
                         throw new SemanticException(identifier, "Se esperaba un tipo de retorno " + resultType + ".", true);
                     }
                 }

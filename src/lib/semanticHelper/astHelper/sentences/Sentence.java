@@ -1,7 +1,5 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
-import java.util.HashSet;
-
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.symbolTableHelper.Method;
@@ -11,12 +9,7 @@ import src.lib.tokenHelper.Token;
 public abstract class Sentence {
     
     protected Token identifier;
-    protected HashSet<String> primitiveTypes = new HashSet<String>(){{
-        add("Int");
-        add("Str");
-        add("Char");
-        add("Bool");
-    }};
+    
 
     public Sentence(Token token){
         this.identifier = token;

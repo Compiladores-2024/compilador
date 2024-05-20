@@ -28,11 +28,11 @@ public class UnaryExpression extends Expression{
         //Valida que la expresion sea del tipo de dato correcto
         checkType();
 
-        setResultType(expression.getResultType());
+        setResultType(expression.getResultTypeChained());
     }
 
     private void checkType () {
-        switch (expression.getResultType()) {
+        switch (expression.getResultTypeChained()) {
             case "Int":
                 if (operator.equals(IDToken.oNOT)) {
                     throw new SemanticException(identifier, "Se esperaba un tipo de dato booleano", true);

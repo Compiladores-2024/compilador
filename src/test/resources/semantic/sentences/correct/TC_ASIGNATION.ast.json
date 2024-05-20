@@ -9,7 +9,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "0",
                         "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "null",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     }
                 }
@@ -18,11 +18,65 @@
         {
             "nombreMetodo": "Constructor",
             "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "m3",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "",
+                        "tipoDeDato": "literal Str",
+                        "resultadoDeTipo": "Str",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m5",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "false",
+                        "tipoDeDato": "false",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "bloquesDeStart" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
                 {
                     "tipo": "SimpleAccess",
                     "nombreVariable": "nil",
                     "tipoDeDato": "nil",
-                    "resultadoDeTipo": "null",
+                    "resultadoDeTipo": "NIL",
                     "encadenado": ""
                 },
                 {
@@ -203,11 +257,54 @@
                             "operador": "++",
                             "resultadoDeTipo": "Int",
                             "expresion": {
-                                "tipo": "MethodAccess",
-                                "nombreMetodo": "m1",
-                                "resultadoDeTipo": "Int",
-                                "parametros": []
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "A",
+                                "tipoDeDato": "id Struct",
+                                "resultadoDeTipo": "A",
+                                "encadenado": {
+                                    "tipo": "MethodAccess",
+                                    "nombreMetodo": "m1",
+                                    "resultadoDeTipo": "Int",
+                                    "parametros": []
+                                }
                             }
+                        }
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "s",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "B",
+                        "tipoDeDato": "id Struct",
+                        "resultadoDeTipo": "B",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m3",
+                            "resultadoDeTipo": "Str",
+                            "parametros": [
+                                {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "true",
+                                    "tipoDeDato": "true",
+                                    "resultadoDeTipo": "Bool",
+                                    "encadenado": ""
+                                },
+                                {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "1",
+                                    "tipoDeDato": "literal Int",
+                                    "resultadoDeTipo": "Int",
+                                    "encadenado": ""
+                                }
+                            ]
                         }
                     }
                 },
@@ -391,60 +488,6 @@
                         "encadenado": ""
                     }
                 }
-            ]
-        }
-    ],
-    "bloquesDeB" : [
-        {
-            "nombreMetodo": "Constructor",
-            "sentencias": [
-                {}
-            ]
-        },
-        {
-            "nombreMetodo": "m3",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "",
-                        "tipoDeDato": "literal Str",
-                        "resultadoDeTipo": "null",
-                        "encadenado": ""
-                    }
-                }
-            ]
-        },
-        {
-            "nombreMetodo": "m5",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "false",
-                        "tipoDeDato": "false",
-                        "resultadoDeTipo": "null",
-                        "encadenado": ""
-                    }
-                }
-            ]
-        }
-    ],
-    "bloquesDeStart" : [
-        {
-            "nombreMetodo": "Constructor",
-            "sentencias": [
-                {}
-            ]
-        }
-    ],
-    "start" : [
-        {
-            "nombreMetodo": "start",
-            "sentencias": [
-                {}
             ]
         }
     ]
