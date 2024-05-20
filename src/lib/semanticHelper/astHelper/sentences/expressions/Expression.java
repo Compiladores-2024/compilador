@@ -12,6 +12,7 @@ public abstract class Expression extends Sentence{
     
     public Expression(Token token) {
         super(token);
+        this.position = -1;
     }
     public Expression(Token token, int position){
         super(token);
