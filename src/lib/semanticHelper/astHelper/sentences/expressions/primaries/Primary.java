@@ -5,6 +5,7 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public abstract class Primary extends Expression{
@@ -55,7 +56,8 @@ public abstract class Primary extends Expression{
         if (type == null) {
             //Si es una llamada a metodo, valida que exista
             if(this instanceof MethodAccess) {
-                type = struct.getReturnMethodType(identifier.getLexema());
+                //Si la variable del lado izquierdo es de tipo object, puede acceder a cualquier metodo, sino debe validar que sea estatico
+                type = struct.getReturnMethodType(identifier.getLexema(), leftSide.getIdentifier().getIDToken().equals(IDToken.idSTRUCT));
             } else {
                 //Obtiene el tipo de dato del atributo
                 type = struct.getAttributeType(identifier.getLexema());

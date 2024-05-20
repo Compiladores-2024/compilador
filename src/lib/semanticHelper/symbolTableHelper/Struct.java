@@ -88,11 +88,17 @@ public class Struct extends Metadata {
         }
         return result;
     }
-    public String getReturnMethodType (String name) {
+    public String getReturnMethodType (String name, boolean isIDStruct) {
         String result = null;
         Method m = methods.get(name);
         if (m != null) {
+            //Obtiene el tipo de retorno
             result = m.getReturnType();
+
+            //Valida si accede a un metodo de manera estatica, este debe serlo
+            if (isIDStruct && !m.isStatic()) {
+                result = null;
+            }
         }
         return result;
     }
