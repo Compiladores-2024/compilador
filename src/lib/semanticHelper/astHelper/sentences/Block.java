@@ -20,7 +20,9 @@ public class Block extends Sentence{
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida las sentencias
         for (Sentence sentence : sentenceList) {
-            sentence.consolidate(st, struct, method, null);
+            if (sentence != null) {
+                sentence.consolidate(st, struct, method, null);
+            }
         }
     }
     
@@ -29,7 +31,9 @@ public class Block extends Sentence{
         String blocksString = "[" + (count > 0 ? "\n" : "]");
         if (count > 0) {
             for (Sentence sentence : sentenceList) {
-                blocksString += sentence.toJSON(tabs + "    ") + ( count > 1 ? "," : "") + "\n";
+                if (sentence != null) {
+                    blocksString += sentence.toJSON(tabs + "    ") + ( count > 1 ? "," : "") + "\n";
+                }
                 count--;
             }
             blocksString += tabs + "]";

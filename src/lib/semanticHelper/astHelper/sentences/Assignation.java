@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
 import src.lib.Const;
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -22,8 +23,7 @@ public class Assignation extends Sentence{
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
-        String leftType, rightType, currentType;
-        boolean isInherited = false;
+        String leftType, rightType;
 
         //Consolida el lado izquierdo
         leftSide.consolidate(st, struct, method, null);
@@ -46,19 +46,7 @@ public class Assignation extends Sentence{
                 }
             } else {
                 //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
-                currentType = rightType;
-                while (currentType != "Object" && !isInherited) {
-                    //Obtiene el padre 
-                    currentType = st.getStruct(currentType).getParent();
-
-                    //Valida si se obtuvo el tipo correcto
-                    isInherited = leftType.equals(currentType);
-                }
-
-                //Si no encuentra herencia, retorna error
-                if (!isInherited) {
-                    throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
-                }
+                Static.checkInherited(st, leftType, rightType, identifier);
             }
         }
     }

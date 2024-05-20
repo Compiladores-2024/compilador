@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.astHelper.sentences;
 
 import src.lib.Const;
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -40,7 +41,6 @@ public class Return extends Sentence{
             else {
                 //Si el resultado de la expresion es nil
                 if (expResult.equals("NIL")) {
-
                     //Solo se permite si no es de tipo primitivo
                     if (Const.primitiveTypes.contains(resultType)) {
                         throw new SemanticException(identifier, "Se esperaba un tipo de retorno " + resultType + ".", true);
@@ -48,7 +48,7 @@ public class Return extends Sentence{
                 }
                 //Tipos de datos distintos
                 else {
-                    throw new SemanticException(identifier, "Se esperaba un tipo de retorno " + resultType + ". Se encontró " + expResult, true);
+                    Static.checkInherited(st, resultType, expResult, identifier);
                 }
             }
         }

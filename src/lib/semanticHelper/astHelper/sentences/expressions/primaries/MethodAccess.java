@@ -2,8 +2,7 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
-import src.lib.Const;
-import src.lib.exceptionHelper.SemanticException;
+import src.lib.Static;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
@@ -21,7 +20,6 @@ public class MethodAccess extends Primary{
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         Method methodToCheckParams;
-        String resultType, paramType;
 
         //Valida que el método exista
         variableMethodExist(st, struct, method, leftExpression);
@@ -33,38 +31,8 @@ public class MethodAccess extends Primary{
             methodToCheckParams = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
         }
 
-        //Si no se le envia la cantidad necesaria de parametros, retorna null
-        if (methodToCheckParams.getParamsSize() != params.size()) {
-            throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
-        }
-
-        //Validar que los parámetros existan
-        for (Expression param : params) {
-            //Consolida la expresion
-            param.consolidate(st, struct, method, null);
-            
-            //Valida si se encuentra parametro (SINO, ESTA FUERA DEL RANGO)
-            if (methodToCheckParams.getParamType(param.getPosition()) != null) {
-                // Valida que el tipo de dato del parametro sea el mismo
-                resultType = param.getResultType();
-                paramType = methodToCheckParams.getParamType(param.getPosition());
-                //Valida que sean iguales
-                if (!paramType.contains(resultType)) {
-                    //Si el valor a enviar es nil
-                    if (resultType.equals("NIL")) {
-                        //El parametro no debe ser de tipo primitivo
-                        if (Const.primitiveTypes.contains(paramType)) {
-                            throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
-                        }
-                    }
-                    else {
-                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
-                    }
-                }
-            } else {
-                throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
-            }
-        }
+        //Consolida los parametros
+        Static.consolidateParams(params, st, struct, method, methodToCheckParams, identifier);
 
         //Si tiene encadenado, lo consolida
         if (rightChained != null) {

@@ -2,8 +2,7 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
-import src.lib.Const;
-import src.lib.exceptionHelper.SemanticException;
+import src.lib.Static;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
@@ -21,37 +20,11 @@ public class CreateInstance extends Primary{
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
-        String paramType, resultType;
         //Valida que la estructura exista
         structExist(st);
 
-        //Si no se le envia la cantidad necesaria de parametros, retorna null
-        if (st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamsSize() != params.size()) {
-            throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
-        }
-
         //Consolida los parametros
-        for (Expression param : params) {
-            //Consolida la expresion
-            param.consolidate(st, struct, method, null);
-            
-            // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultType();
-            paramType = st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamType(param.getPosition());
-            //Si son tipos de datos distintos
-            if (!paramType.contains(resultType)) {
-                //Si el valor a enviar es nil
-                if (resultType.equals("NIL")) {
-                    //El parametro no debe ser de tipo dato primitivo
-                    if (Const.primitiveTypes.contains(paramType)) {
-                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
-                    }
-                }
-                else {
-                    throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
-                }
-            }
-        }
+        Static.consolidateParams(params, st, struct, method, st.getStruct(identifier.getLexema()).getMethod("Constructor"), identifier);
 
         //Si tiene encadenado, lo consolida
         if (rightChained != null) {

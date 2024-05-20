@@ -25,7 +25,7 @@ public class ArrayAccess extends Primary{
         indexArray.consolidate(st, struct, method, null);
 
         //Valida que la expresion sea de tipo entero
-        if (!indexArray.getResultType().toString().contains("Int")) {
+        if (!indexArray.getResultTypeChained().contains("Int")) {
             throw new SemanticException(identifier, "El acceso a un array debe ser de tipo entero.", true);
         }
         
