@@ -16,7 +16,11 @@ public abstract class Primary extends Expression{
     }
 
     public void setChained(Primary primary){
-        this.rightChained = primary;
+        if(this.rightChained!=null){
+            this.rightChained.setChained(primary);
+        }else{
+            this.rightChained = primary;
+        }
     }
 
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
