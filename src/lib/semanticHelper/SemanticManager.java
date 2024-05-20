@@ -2,18 +2,16 @@ package src.lib.semanticHelper;
 
 import java.util.ArrayList;
 
-import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class SemanticManager {
     private Struct currentStruct;
     private Method currentMethod;
-    private Method start;
+    
     private SymbolTable symbolTable;
     private AST ast;
 
@@ -42,20 +40,8 @@ public class SemanticManager {
     }
 
     public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
-        if (token.getIDToken().equals(IDToken.idSTART)) {
-            //Valida si se está generando el método start y que no se haya generado otro
-            if (start == null) {
-                start = new Method(token, params, returnTypeToken, isStatic, 0);
-                currentMethod = start;
-            }
-            else {
-                throw new SemanticException(token, "No se permite definir más de un método start.");
-            }
-        } else {
-            //Agrega el método a la tabla de simbolos
-            currentMethod = symbolTable.addMethod(token, params, isStatic, returnTypeToken, currentStruct);
-        }
-
+        //Agrega el método a la tabla de simbolos
+        currentMethod = symbolTable.addMethod(token, params, isStatic, returnTypeToken, currentStruct);
     }
 
 
@@ -80,7 +66,7 @@ public class SemanticManager {
      */
     public ArrayList<String> toJSON () {
         ArrayList<String> generacionIntermedias = new ArrayList<String>(2);
-        generacionIntermedias.add(symbolTable.toJSON(start.toJSON("    ")));
+        generacionIntermedias.add(symbolTable.toJSON());
         generacionIntermedias.add(ast.toJSON("    "));
         return generacionIntermedias;
     }

@@ -37,8 +37,17 @@ public class AST {
             //Recorre los métodos
             for (String sMethod : blocks.get(sStruct).keySet()) {
                 //Consolida el bloque pasandole el contexto de su correspondiente estrucutra
-                currentStruct = symbolTable.getStruct(sStruct);
-                blocks.get(sStruct).get(sMethod).consolidate(symbolTable, currentStruct, (currentStruct != null ? currentStruct.getMethod(sMethod) : null));
+                if (sStruct == "start") {
+                    //Si es el metodo start, define como estructura a Object
+                    currentStruct = symbolTable.getStruct("Object");
+                } else {
+                    currentStruct = symbolTable.getStruct(sStruct);
+                }
+                blocks.get(sStruct).get(sMethod).consolidate(symbolTable, currentStruct, (
+                    currentStruct != null ? (
+                        sStruct == "start" ? symbolTable.getStartMehod() : currentStruct.getMethod(sMethod)
+                    ) : null
+                ));
             }
         }
     }

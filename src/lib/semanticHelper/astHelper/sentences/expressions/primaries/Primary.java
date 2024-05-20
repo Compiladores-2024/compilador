@@ -16,9 +16,9 @@ public abstract class Primary extends Expression{
     }
 
     public void setChained(Primary primary){
-        if(this.rightChained!=null){
+        if (rightChained != null) {
             this.rightChained.setChained(primary);
-        }else{
+        } else {
             this.rightChained = primary;
         }
     }

@@ -27,10 +27,14 @@ public class SentenceBlock {
     public void consolidate(SymbolTable st, Struct struct, Method method){
         if (sentenceList.size() > 0) {
             Sentence currentSentence, lastSentence = sentenceList.get(0);
+
+            //Consolida la primer sentencia
+            lastSentence.consolidate(st, struct, method, null);
+
             //Recorre las sentencias
             for (int i = 1; i < sentenceList.size(); i++) {
                 currentSentence = sentenceList.get(i);
-    
+                
                 //Consolida la sentencia actual
                 currentSentence.consolidate(st, struct, method, null);
                 

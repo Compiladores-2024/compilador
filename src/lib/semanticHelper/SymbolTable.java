@@ -20,7 +20,7 @@ public class SymbolTable {
     private final HashSet<String> staticStruct;
     // private Struct currentStruct;
     // private Method currentMethod;
-    // private Method start;
+    private Method start;
     private HashMap<String, Struct> structs;
 
     // Estructura que se utiliza para almacenar clases que deben reasignar herencias.
@@ -307,6 +307,10 @@ public class SymbolTable {
     public Struct getStruct(String name){
         return this.structs.get(name);
     }
+
+    public Method getStartMehod () {
+        return start;
+    }
     
     /**
      * Método que agrega un método a la tabla de símbolos. Este deriva la lógica en el método de la estructura.
@@ -318,21 +322,36 @@ public class SymbolTable {
      * @param returnTypeToken Tipo de retorno del método
      */
     public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
-        // Valida si el tipo de retorno está definido
-        if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
-            checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
-        }
-
-        // si el tipo de dato del param no se ha definido previamente entonces 
-        // se añade a checkDefinitionStructs para validarlo en la consolidación
-        for (Param param : params) {
-            if (!param.getType().getLexema().contains("Array") && !this.structs.containsKey(param.getType().getLexema())){
-                checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
+        Method result;
+        if (token.getIDToken().equals(IDToken.idSTART)) {
+            //Valida si se está generando el método start y que no se haya generado otro
+            if (start == null) {
+                start = new Method(token, params, returnTypeToken, isStatic, 0);
+                result = start;
             }
+            else {
+                throw new SemanticException(token, "No se permite definir más de un método start.");
+            }
+        } else {
+            // Valida si el tipo de retorno está definido
+            if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){
+                checkDefinitionStructs.put(returnTypeToken.getLexema(), returnTypeToken);
+            }
+
+            // si el tipo de dato del param no se ha definido previamente entonces 
+            // se añade a checkDefinitionStructs para validarlo en la consolidación
+            for (Param param : params) {
+                if (!param.getType().getLexema().contains("Array") && !this.structs.containsKey(param.getType().getLexema())){
+                    checkDefinitionStructs.put(param.getType().getLexema(), param.getType());
+                }
+            }
+
+            //Agrega el método al hash
+            result = currentStruct.addMethod(token, params, isStatic, returnTypeToken);
         }
 
         //Agrega el método al hash
-        return currentStruct.addMethod(token, params, isStatic, returnTypeToken);
+        return result;
     }
 
     /**
@@ -383,8 +402,8 @@ public class SymbolTable {
      * @since 19/04/2024
      * @return Estructura de datos en formato JSON
      */
-    public String toJSON(String startJSON) {
-        String structJSON = "";
+    public String toJSON() {
+        String structJSON = "", startJSON = start.toJSON("    ");
         int count = structs.size();
 
         for (Struct struct : structs.values()) {
