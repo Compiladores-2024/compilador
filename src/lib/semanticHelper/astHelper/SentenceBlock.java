@@ -25,6 +25,7 @@ public class SentenceBlock {
     }
 
     public void consolidate(SymbolTable st, Struct struct, Method method){
+        boolean hasReturn = false;
         if (sentenceList.size() > 0) {
             Sentence currentSentence, lastSentence = sentenceList.get(0);
 
@@ -39,13 +40,21 @@ public class SentenceBlock {
                 currentSentence.consolidate(st, struct, method, null);
                 
                 //Si la sentencia anterior es un return y la actual tambien, retorna error
-                if (lastSentence instanceof Return && currentSentence instanceof Return) {
-                    throw new SemanticException(currentSentence.getIdentifier(), "Sentencia inalcanzable.", true);    
+                if (lastSentence instanceof Return) {
+                    hasReturn = true;
+                    if (currentSentence instanceof Return) {
+                        throw new SemanticException(currentSentence.getIdentifier(), "Sentencia inalcanzable.", true);    
+                    }
                 }
     
                 //Actualiza la ultima sentencia
                 lastSentence = currentSentence;
             }
+        }
+
+        //Si no posee return general, retorna error
+        if (!hasReturn && !method.getReturnType().equals("void")) {
+            throw new SemanticException(method.getMetadata(), "Falta sentencia return.", true);    
         }
     }
 
