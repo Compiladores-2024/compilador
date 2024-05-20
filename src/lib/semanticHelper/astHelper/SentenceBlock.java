@@ -8,6 +8,7 @@ import src.lib.semanticHelper.astHelper.sentences.Return;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class SentenceBlock {
@@ -39,17 +40,20 @@ public class SentenceBlock {
                 //Consolida la sentencia actual
                 currentSentence.consolidate(st, struct, method, null);
                 
+                //Valida si la expresion es de tipo return
+                hasReturn = hasReturn || lastSentence.getIdentifier().getIDToken().equals(IDToken.pRET);
+
                 //Si la sentencia anterior es un return y la actual tambien, retorna error
-                if (lastSentence instanceof Return) {
-                    hasReturn = true;
-                    if (currentSentence instanceof Return) {
-                        throw new SemanticException(currentSentence.getIdentifier(), "Sentencia inalcanzable.", true);    
-                    }
+                if (currentSentence instanceof Return && lastSentence instanceof Return) {
+                    throw new SemanticException(currentSentence.getIdentifier(), "Sentencia inalcanzable.", true);    
                 }
     
                 //Actualiza la ultima sentencia
                 lastSentence = currentSentence;
             }
+
+            //Valida si la expresion es de tipo return
+            hasReturn = hasReturn || lastSentence.getIdentifier().getIDToken().equals(IDToken.pRET);
         }
 
         //Si no posee return general, retorna error
