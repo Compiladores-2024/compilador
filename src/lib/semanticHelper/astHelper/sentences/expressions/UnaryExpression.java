@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.symbolTableHelper.Method;
@@ -18,10 +19,6 @@ public class UnaryExpression extends Expression{
         this.expression = expression;
     }
 
-    @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
@@ -29,18 +26,35 @@ public class UnaryExpression extends Expression{
         expression.consolidate(st, struct, method, leftExpression);
 
         //Valida que la expresion sea del tipo de dato correcto
+        checkType();
+
+        setResultType(expression.getResultType());
     }
 
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
+    private void checkType () {
+        switch (expression.getResultType()) {
+            case "Int":
+                if (operator.equals(IDToken.oNOT)) {
+                    throw new SemanticException(identifier, "Se esperaba un tipo de dato booleano", true);
+                }
+                break;
+            case "Bool":
+                if (!operator.equals(IDToken.oNOT)) {
+                    throw new SemanticException(identifier, "Se esperaba un tipo de dato entero", true);
+                }
+                break;
+            case "Char":
+            case "Str":
+            default:
+                throw new SemanticException(identifier, "Se esperaba un tipo de dato entero o booleano", true);
+        }
     }
 
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "UnaryExpression" + "\",\n" +
             tabs + "    \"operador\": \"" + operator.toString() + "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"expresion\": " + expression.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }

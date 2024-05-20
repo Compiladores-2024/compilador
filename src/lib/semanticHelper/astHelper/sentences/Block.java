@@ -6,24 +6,21 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.tokenHelper.Token;
 
 public class Block extends Sentence{
     private ArrayList<Sentence> sentenceList;
 
-    public Block(ArrayList<Sentence> list){
+    public Block(Token token, ArrayList<Sentence> list){
+        super(token);
         this.sentenceList = list;
-    }
-
-    @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
     }
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida las sentencias
         for (Sentence sentence : sentenceList) {
-            sentence.consolidate(st, struct, method, leftExpression);
+            sentence.consolidate(st, struct, method, null);
         }
     }
     

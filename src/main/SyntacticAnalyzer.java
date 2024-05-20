@@ -735,6 +735,7 @@ public class SyntacticAnalyzer {
     */
     private Sentence bloque() {
         ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
+        Token token = currentToken;
         match(IDToken.sKEY_OPEN);
         if (checkFirst(First.firstSentenciaP)){
             sentenceList = sentenciaP();
@@ -742,7 +743,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sKEY_CLOSE);
 
         //Agrega el bloque (Aunque no posea sentencias)
-        return new Block(sentenceList);
+        return new Block(token, sentenceList);
     }
 
 

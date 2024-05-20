@@ -78,16 +78,16 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    public Token getAttributeType (String name) {
-        Token result = null;
+    public String getAttributeType (String name) {
+        String result = null;
         Variable v = variables.get(name);
         if (v != null) {
-            result = v.getTokenType();
+            result = v.getType();
         }
         return result;
     }
-    public Token getReturnMethodType (String name) {
-        Token result = null;
+    public String getReturnMethodType (String name) {
+        String result = null;
         Method m = methods.get(name);
         if (m != null) {
             result = m.getReturnType();
@@ -197,7 +197,7 @@ public class Struct extends Metadata {
      * @param returnType Tipo de retorno
      * @return Método insertado en la estructura
      */
-    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnType) {
         String name = token.getLexema();
         Method method = methods.get(name),
             newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));

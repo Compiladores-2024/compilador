@@ -7,7 +7,6 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class MethodAccess extends Primary{
@@ -19,65 +18,51 @@ public class MethodAccess extends Primary{
     }
 
     @Override
-    public void checkTypes(SymbolTable st, String struct, String method){
-
-    }
-
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
-    }
-    
-
-    @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String resultType, paramType;
 
         //Valida que el método exista
-        boolean structError=false;
-        boolean structErrorLeftExpression = false;
-        if (method == null) {
-            structError=true;
-        }
-        String resultTypeLeft="";
-        if (leftExpression!=null){
-            resultTypeLeft = leftExpression.getResultType().getLexema();
-            // si no existe en el struct de la izquierda
-            if (st.getStruct(resultTypeLeft).getMethod(this.identifier.getLexema())==null){
-                structErrorLeftExpression=true;
-            } 
+        variableMethodExist(st, struct, method, leftExpression);
+
+        //Obtiene el metodo al que hace referencia
+        if (leftExpression == null) {
+            method = struct.getMethod(identifier.getLexema());
+        } else {
+            method = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
         }
 
-        if (structError){
-            throw new SemanticException(token, "Método " + identifier.getLexema() + " no existe en la estructura " + struct.getName() + ".", true);
-        }
-
-        if(structErrorLeftExpression){
-            throw new SemanticException(this.identifier, "Método " + identifier.getLexema() + " no existe en la estructura " + resultTypeLeft + ".", true);
-
-        }
-
-        String structName = (resultTypeLeft!=null ? resultTypeLeft : struct.getName());
-        if (params.size()!= st.getStruct(structName).getMethod(this.identifier.getLexema()).getParamSize()){
-            throw new SemanticException(identifier, "El numero de argumentos actuales del metodo "+ identifier.getLexema()   +  " no coincide con el numero de argumentos formales", true);
-        }
-
-        // se asigna el tipo al metodo
-        this.setResultType(st.getStruct(resultTypeLeft!="" ? resultTypeLeft : struct.getName()).getMethod(this.identifier.getLexema()).getReturnType());
-        
         //Validar que los parámetros existan
         for (Expression param : params) {
             //Consolida la expresion
-            param.consolidate(st, struct, method, this);
+            param.consolidate(st, struct, method, null);
             
-            // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultType().getLexema();
-            paramType = method.getParamType(param.getPosition()).getLexema();
-            if (!resultType.equals(paramType)) {
-                throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+            //Valida si se encuentra parametro (SINO, ESTA FUERA DEL RANGO)
+            if (method.getParamType(param.getPosition()) != null) {
+                // Valida que el tipo de dato del parametro sea el mismo
+                resultType = param.getResultType();
+                paramType = method.getParamType(param.getPosition());
+                //Valida que sean iguales
+                if (!paramType.contains(resultType)) {
+                    //Si el valor a enviar es nil
+                    if (resultType.equals("NIL")) {
+                        //El parametro no debe ser de tipo primitivo
+                        if (primitiveTypes.contains(paramType)) {
+                            throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+                        }
+                    }
+                    else {
+                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+                    }
+                }
+            } else {
+                throw new SemanticException(identifier, "Cantidad de argumentos inválida. Máximo: " + (param.getPosition() - 1) + ".", true);
             }
         }
 
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
+        }
     }
 
     @Override
@@ -96,7 +81,7 @@ public class MethodAccess extends Primary{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "MethodAccess" + "\",\n" +
             tabs + "    \"nombreMetodo\": \"" + identifier.getLexema() +  "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"parametros\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }

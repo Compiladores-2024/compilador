@@ -1,6 +1,5 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -29,11 +28,8 @@ public class Variable extends Metadata{
         this.isPrivate = isPrivate;
     }
 
-    public IDToken getType(){
-        return this.type.getIDToken();
-    }
-    public Token getTokenType(){
-        return this.type;
+    public String getType(){
+        return this.type.getLexema();
     }
     
     /**

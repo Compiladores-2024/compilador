@@ -23,27 +23,22 @@ public class Conditional extends Sentence{
         this.elseBlock = elseBlock;
     }
 
-
-    @Override
-    public void checkTypes(SymbolTable st, String struct, String method){
-    }
-
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la condicion
-        condition.consolidate(st, struct, method, leftExpression);
+        condition.consolidate(st, struct, method, null);
         
         // si la condicion no es bool es un error
         if (!condition.getResultTypeChained().equals(IDToken.typeBOOL.toString())){
-            throw new SemanticException(this.token, "El tipo de la condicion if no es booleano", true);
+            throw new SemanticException(this.identifier, "El tipo de la condicion if no es booleano", true);
         }
 
         //Consolida el boque if
-        thenBlock.consolidate(st, struct, method, leftExpression);
+        thenBlock.consolidate(st, struct, method, null);
 
         //Si posee bloque else, lo consolida
         if (elseBlock != null) {
-            elseBlock.consolidate(st, struct, method, leftExpression);
+            elseBlock.consolidate(st, struct, method, null);
         }
     }
 

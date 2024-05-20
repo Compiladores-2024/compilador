@@ -7,7 +7,6 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class CreateInstance extends Primary{
@@ -16,18 +15,7 @@ public class CreateInstance extends Primary{
 
     public CreateInstance (Token id, ArrayList<Expression> params, Primary rightChained) {
         super(id, rightChained);
-        this.identifier = id;
         this.params = params;
-    }
-
-    @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
-
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
     }
 
     @Override
@@ -39,14 +27,29 @@ public class CreateInstance extends Primary{
         //Consolida los parametros
         for (Expression param : params) {
             //Consolida la expresion
-            param.consolidate(st, struct, method, this);
+            param.consolidate(st, struct, method, null);
             
             // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultType().getLexema();
-            paramType = st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamType(param.getPosition()).getLexema();
-            if (!resultType.equals(paramType)) {
-                throw new SemanticException(token, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+            resultType = param.getResultType();
+            paramType = st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamType(param.getPosition());
+            //Si son tipos de datos distintos
+            if (!paramType.contains(resultType)) {
+                //Si el valor a enviar es nil
+                if (resultType.equals("NIL")) {
+                    //El parametro no debe ser de tipo dato primitivo
+                    if (primitiveTypes.contains(paramType)) {
+                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+                    }
+                }
+                else {
+                    throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+                }
             }
+        }
+
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
         }
     }
 
@@ -65,7 +68,7 @@ public class CreateInstance extends Primary{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateInstance" + "\",\n" +
             tabs + "    \"identificador\": \"" + identifier.getLexema() +  "\",\n" +
-            tabs + "    \"resultadoDeTipo\": \""  + resultType.getLexema() + "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }

@@ -19,17 +19,12 @@ public class Loop extends Sentence{
     }
 
     @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
-
-    @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la condicion
-        condition.consolidate(st, struct, method, leftExpression);
+        condition.consolidate(st, struct, method, null);
 
         //Consolida el bloque
-        loopBlock.consolidate(st, struct, method, leftExpression);
+        loopBlock.consolidate(st, struct, method, null);
     }
     
     @Override

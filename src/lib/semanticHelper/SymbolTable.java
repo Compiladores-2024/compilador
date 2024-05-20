@@ -92,19 +92,19 @@ public class SymbolTable {
         }};
 
         //Retornos de metodos si tuviesen
-        HashMap<String, HashMap<String, IDToken>> returns = new HashMap<String, HashMap<String, IDToken>>(){{
-            put("IO", new HashMap<String, IDToken>() {{
-                put("in_str", IDToken.typeSTR);
-                put("in_int", IDToken.typeINT);
-                put("in_bool", IDToken.typeBOOL);
-                put("in_char", IDToken.typeCHAR);
+        HashMap<String, HashMap<String, Token>> returns = new HashMap<String, HashMap<String, Token>>(){{
+            put("IO", new HashMap<String, Token>() {{
+                put("in_str", new Token(IDToken.typeSTR, IDToken.typeSTR.toString(), 0, 0));
+                put("in_int", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+                put("in_bool", new Token(IDToken.typeBOOL, IDToken.typeBOOL.toString(), 0, 0));
+                put("in_char", new Token(IDToken.typeCHAR, IDToken.typeCHAR.toString(), 0, 0));
             }});
-            put("Array", new HashMap<String, IDToken>() {{
-                put("length", IDToken.typeINT);
+            put("Array", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
             }});
-            put("Str", new HashMap<String, IDToken>() {{
-                put("length", IDToken.typeINT);
-                put("concat", IDToken.typeSTR);
+            put("Str", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+                put("concat", new Token(IDToken.typeSTR, IDToken.typeSTR.toString(), 0, 0));
             }});
         }};
 
@@ -143,8 +143,8 @@ public class SymbolTable {
      * @param params Lista de parámetros.
      * @param returnType Tipo de dato a retornar.
      */
-    private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, IDToken returnType) {
-        struct.addMethod(token, params, isStatic, returnType == null ? IDToken.typeVOID : returnType);
+    private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, Token returnType) {
+        struct.addMethod(token, params, isStatic, returnType == null ? new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn()) : returnType);
     }
 
     /** 
@@ -332,7 +332,7 @@ public class SymbolTable {
         }
 
         //Agrega el método al hash
-        return currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
+        return currentStruct.addMethod(token, params, isStatic, returnTypeToken);
     }
 
     /**

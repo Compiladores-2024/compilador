@@ -2,7 +2,9 @@ package src.lib.semanticHelper.astHelper;
 
 import java.util.ArrayList;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.astHelper.sentences.Return;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
@@ -23,8 +25,23 @@ public class SentenceBlock {
     }
 
     public void consolidate(SymbolTable st, Struct struct, Method method){
-        for (Sentence sentence : sentenceList) {
-            sentence.consolidate(st, struct, method, null);
+        if (sentenceList.size() > 0) {
+            Sentence currentSentence, lastSentence = sentenceList.get(0);
+            //Recorre las sentencias
+            for (int i = 1; i < sentenceList.size(); i++) {
+                currentSentence = sentenceList.get(i);
+    
+                //Consolida la sentencia actual
+                currentSentence.consolidate(st, struct, method, null);
+                
+                //Si la sentencia anterior es un return y la actual tambien, retorna error
+                if (lastSentence instanceof Return && currentSentence instanceof Return) {
+                    throw new SemanticException(currentSentence.getIdentifier(), "Sentencia inalcanzable.", true);    
+                }
+    
+                //Actualiza la ultima sentencia
+                lastSentence = currentSentence;
+            }
         }
     }
 

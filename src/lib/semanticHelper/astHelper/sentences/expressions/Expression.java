@@ -1,14 +1,12 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
-import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public abstract class Expression extends Sentence{
     
-    protected Token resultType;
+    protected String resultType;
     protected Primary rightChained;
     protected int position;
     
@@ -19,9 +17,8 @@ public abstract class Expression extends Sentence{
         super(token);
         this.position = position;
     }
-    public Expression(){}
 
-    public Token getResultType() {
+    public String getResultType() {
         return resultType;
     }
 
@@ -30,7 +27,7 @@ public abstract class Expression extends Sentence{
             return this.rightChained.getResultTypeChained();
         }
         
-        return resultType.getIDToken().toString();
+        return resultType;
     }
 
     public int getPosition() {
@@ -40,9 +37,7 @@ public abstract class Expression extends Sentence{
         this.position = position;
     }
 
-    public void setResultType(Token resultType) {
+    public void setResultType(String resultType) {
         this.resultType = resultType;
     }
-
-    public abstract IDToken obtainType(SymbolTable st, String struct, String method);
 }

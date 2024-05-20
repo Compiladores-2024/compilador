@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -16,7 +15,7 @@ import src.lib.tokenHelper.Token;
  */
 public class Method extends Metadata{
     private boolean isStatic;
-    private IDToken returnType;
+    private Token returnType;
     private int currentVarIndex;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
@@ -31,7 +30,7 @@ public class Method extends Metadata{
      * @param isStatic Booleano para identificar si es estático o no
      * @param position Posición dentro de la tabla de símbolos
      */
-    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
+    public Method (Token metadata, ArrayList<Param> parameters, Token returnType, boolean isStatic, int position) {
         super(metadata, position);
 
         variables = new HashMap<String, Variable>();
@@ -97,13 +96,13 @@ public class Method extends Metadata{
     }
     
 
-    public Token getVariableType (String name) {
+    public String getVariableType (String name) {
         //Valida si es una variable local
-        Token result = variables.get(name) != null ? variables.get(name).getTokenType() : null;
+        String result = variables.get(name) != null ? variables.get(name).getType().toString() : null;
 
         //Si no lo es, valida que sea un param
         if (result == null) {
-            result = params.get(name) != null ? params.get(name).getType() : null;
+            result = params.get(name) != null ? params.get(name).getType().toString() : null;
         }
         
         return result;
@@ -113,17 +112,17 @@ public class Method extends Metadata{
         return this.params.size();
     }
     
-    public Token getParamType(int position) {
+    public String getParamType(int position) {
         for (Param param : params.values()) {
             if (param.getPosition() == position) {
-                return param.getType();
+                return param.getType().getLexema();
             }
         }
         return null;
     }
 
-    public Token getReturnType () {
-        return new Token(returnType, returnType.toString(), currentVarIndex, currentVarIndex);
+    public String getReturnType () {
+        return returnType.getLexema();
     }
 
 
