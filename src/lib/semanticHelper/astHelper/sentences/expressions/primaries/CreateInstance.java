@@ -25,6 +25,11 @@ public class CreateInstance extends Primary{
         //Valida que la estructura exista
         structExist(st);
 
+        //Si no se le envia la cantidad necesaria de parametros, retorna null
+        if (st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamsSize() != params.size()) {
+            throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
+        }
+
         //Consolida los parametros
         for (Expression param : params) {
             //Consolida la expresion

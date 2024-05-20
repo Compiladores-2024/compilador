@@ -33,6 +33,11 @@ public class MethodAccess extends Primary{
             methodToCheckParams = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
         }
 
+        //Si no se le envia la cantidad necesaria de parametros, retorna null
+        if (methodToCheckParams.getParamsSize() != params.size()) {
+            throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
+        }
+
         //Validar que los parámetros existan
         for (Expression param : params) {
             //Consolida la expresion
