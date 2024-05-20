@@ -57,7 +57,7 @@ public class MethodAccess extends Primary{
                     }
                 }
             } else {
-                throw new SemanticException(identifier, "Cantidad de argumentos inválida. Máximo: " + (param.getPosition() - 1) + ".", true);
+                throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
             }
         }
 
