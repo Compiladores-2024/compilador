@@ -26,12 +26,15 @@ public abstract class Primary extends Expression{
 
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
         String type = null;
+        boolean validateStatic = false;
 
         //Si posee lado izquierdo, validamos atributos y metodos del tipo de resultado
         if (leftSide != null) {
             //Obtiene la estructura
             struct = st.getStruct(leftSide.getResultType());
-            
+
+            validateStatic = leftSide.getIdentifier().getIDToken().equals(IDToken.idSTRUCT);
+
             //La estructura de tipo del lado izquierdo debe existir
             if (struct == null) {
                 throw new SemanticException(identifier, "Estructura no declarada " + leftSide.getResultType() + ".", true);
@@ -62,7 +65,7 @@ public abstract class Primary extends Expression{
             //Si es una llamada a metodo, valida que exista
             if(this instanceof MethodAccess) {
                 //Si la variable del lado izquierdo es de tipo object, puede acceder a cualquier metodo, sino debe validar que sea estatico
-                type = struct.getReturnMethodType(identifier.getLexema(), leftSide.getIdentifier().getIDToken().equals(IDToken.idSTRUCT));
+                type = struct.getReturnMethodType(identifier.getLexema(), validateStatic);
             } else {
                 //Obtiene el tipo de dato del atributo
                 type = struct.getAttributeType(identifier.getLexema());
