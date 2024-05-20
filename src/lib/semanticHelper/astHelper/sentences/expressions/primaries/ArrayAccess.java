@@ -28,13 +28,19 @@ public class ArrayAccess extends Primary{
         if (!indexArray.getResultType().toString().contains("Int")) {
             throw new SemanticException(identifier, "El acceso a un array debe ser de tipo entero.", true);
         }
-
-        setResultType(resultType.split("Array")[1].trim());
-
-        //Si tiene encadenado, lo consolida
-        if (rightChained != null) {
-            rightChained.consolidate(st, struct, method, this);
+        
+        //Valida si la variable es de tipo array
+        if (resultType.contains("Array")) {
+            setResultType(resultType.split("Array")[1].trim());
+            
+            //Si tiene encadenado, lo consolida
+            if (rightChained != null) {
+                rightChained.consolidate(st, struct, method, this);
+            }
+        } else {
+            throw new SemanticException(identifier, ("La variable no es de tipo Array. Tipo detectado: " + resultType), true);
         }
+
     }
 
     @Override
