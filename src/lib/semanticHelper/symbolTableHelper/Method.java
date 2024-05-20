@@ -110,10 +110,6 @@ public class Method extends Metadata{
         
         return result;
     }
-
-    public int getParamSize(){
-        return this.params.size();
-    }
     
     public String getParamType(int position) {
         for (Param param : params.values()) {
@@ -122,6 +118,9 @@ public class Method extends Metadata{
             }
         }
         return null;
+    }
+    public String getParamType(String name) {
+        return params.get(name) != null ? params.get(name).getType().getLexema() : null;
     }
 
     public String getReturnType () {
