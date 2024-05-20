@@ -54,6 +54,9 @@ public class Method extends Metadata{
     public boolean isStatic() {
         return isStatic;
     }
+    public int getParamsSize () {
+        return params.size();
+    }
 
     /** 
      * Método que agrega una variable local al método.
