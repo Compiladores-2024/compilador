@@ -82,7 +82,9 @@ public class Struct extends Metadata {
         String result = null;
         Variable v = variables.get(name);
         if (v != null) {
-            result = v.getType();
+            if (!v.isPrivate()) {
+                result = v.getType();
+            }
         }
         return result;
     }

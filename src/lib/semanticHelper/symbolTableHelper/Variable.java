@@ -10,8 +10,8 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Variable extends Metadata{
-    boolean isPrivate;
-    Token type;
+    private boolean isPrivate;
+    private Token type;
 
     /**
      * Constructor de la clase.
@@ -30,6 +30,9 @@ public class Variable extends Metadata{
 
     public String getType(){
         return this.type.getLexema();
+    }
+    public boolean isPrivate() {
+        return isPrivate;
     }
     
     /**

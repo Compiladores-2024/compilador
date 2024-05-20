@@ -51,7 +51,10 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
-    
+    public boolean isStatic() {
+        return isStatic;
+    }
+
     /** 
      * Método que agrega una variable local al método.
      * 
