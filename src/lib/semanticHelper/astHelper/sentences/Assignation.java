@@ -22,7 +22,7 @@ public class Assignation extends Sentence{
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
-        String leftType, rightType;
+        String leftType, rightType, currentType;
         boolean isInherited = false;
 
         //Consolida el lado izquierdo
@@ -46,12 +46,13 @@ public class Assignation extends Sentence{
                 }
             } else {
                 //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
-                while (rightType != "Object" && !isInherited) {
+                currentType = rightType;
+                while (currentType != "Object" && !isInherited) {
                     //Obtiene el padre 
-                    rightType = st.getStruct(rightType).getParent();
+                    currentType = st.getStruct(currentType).getParent();
 
                     //Valida si se obtuvo el tipo correcto
-                    isInherited = leftType.equals(rightType);
+                    isInherited = leftType.equals(currentType);
                 }
 
                 //Si no encuentra herencia, retorna error
