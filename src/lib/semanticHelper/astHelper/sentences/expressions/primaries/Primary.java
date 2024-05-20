@@ -37,17 +37,22 @@ public abstract class Primary extends Expression{
                 throw new SemanticException(identifier, "Estructura no declarada " + leftSide.getResultType() + ".", true);
             }
         }
-        //Si no posee parte izquierda, valida si la variable es parametro o variable local
+        //Si no posee parte izquierda, valida si es acceso self
         else {
-            type = method.getParamType(identifier.getLexema());
-
-            //Si no es parametro, valida si es variable local
-            if (type == null) {
-                type = method.getVariableType(identifier.getLexema());
-
-                //Si no es ninguna, revisa si es una estructura definida
+            if (identifier.getIDToken().equals(IDToken.pSELF)) {
+                type = struct.getName();
+            } else {
+                //Si no, valida si la variable es parametro o variable local
+                type = method.getParamType(identifier.getLexema());
+    
+                //Si no es parametro, valida si es variable local
                 if (type == null) {
-                    type = st.getStruct(identifier.getLexema()) != null ? st.getStruct(identifier.getLexema()).getName() : null;
+                    type = method.getVariableType(identifier.getLexema());
+    
+                    //Si no es ninguna, revisa si es una estructura definida
+                    if (type == null) {
+                        type = st.getStruct(identifier.getLexema()) != null ? st.getStruct(identifier.getLexema()).getName() : null;
+                    }
                 }
             }
         }

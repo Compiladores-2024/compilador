@@ -23,6 +23,8 @@ public class Assignation extends Sentence{
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String leftType, rightType;
+        boolean isInherited = false;
+
         //Consolida el lado izquierdo
         leftSide.consolidate(st, struct, method, null);
 
@@ -33,6 +35,7 @@ public class Assignation extends Sentence{
         leftType = leftSide.getResultTypeChained();
 
         rightType = rightSide.getResultTypeChained();
+
         //Valida que ambos lados sean del mismo tipo
         if (!rightType.contains(leftType)) {
             //Si el lado derecho es nil
@@ -42,7 +45,19 @@ public class Assignation extends Sentence{
                     throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
                 }
             } else {
-                throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
+                //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
+                while (rightType != "Object" && !isInherited) {
+                    //Obtiene el padre 
+                    rightType = st.getStruct(rightType).getParent();
+
+                    //Valida si se obtuvo el tipo correcto
+                    isInherited = leftType.equals(rightType);
+                }
+
+                //Si no encuentra herencia, retorna error
+                if (!isInherited) {
+                    throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
+                }
             }
         }
     }
