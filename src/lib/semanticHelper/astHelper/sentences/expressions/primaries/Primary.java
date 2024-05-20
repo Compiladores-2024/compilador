@@ -39,7 +39,7 @@ public abstract class Primary extends Expression{
         }
         //Si no posee parte izquierda, valida si la variable es parametro o variable local
         else {
-            type = method.getParamType(position);
+            type = method.getParamType(identifier.getLexema());
 
             //Si no es parametro, valida si es variable local
             if (type == null) {
