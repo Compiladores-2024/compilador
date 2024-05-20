@@ -20,6 +20,7 @@ public class MethodAccess extends Primary{
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        Method methodToCheckParams;
         String resultType, paramType;
 
         //Valida que el método exista
@@ -27,9 +28,9 @@ public class MethodAccess extends Primary{
 
         //Obtiene el metodo al que hace referencia
         if (leftExpression == null) {
-            method = struct.getMethod(identifier.getLexema());
+            methodToCheckParams = struct.getMethod(identifier.getLexema());
         } else {
-            method = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
+            methodToCheckParams = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
         }
 
         //Validar que los parámetros existan
@@ -38,10 +39,10 @@ public class MethodAccess extends Primary{
             param.consolidate(st, struct, method, null);
             
             //Valida si se encuentra parametro (SINO, ESTA FUERA DEL RANGO)
-            if (method.getParamType(param.getPosition()) != null) {
+            if (methodToCheckParams.getParamType(param.getPosition()) != null) {
                 // Valida que el tipo de dato del parametro sea el mismo
                 resultType = param.getResultType();
-                paramType = method.getParamType(param.getPosition());
+                paramType = methodToCheckParams.getParamType(param.getPosition());
                 //Valida que sean iguales
                 if (!paramType.contains(resultType)) {
                     //Si el valor a enviar es nil
