@@ -23,8 +23,11 @@ public class CreateInstance extends Primary{
         //Valida que la estructura exista
         structExist(st);
 
-        //Consolida los parametros
-        Static.consolidateParams(params, st, struct, method, st.getStruct(identifier.getLexema()).getMethod("Constructor"), identifier);
+        //si el lexema es distinto de Object
+        if (!identifier.getLexema().equals("Object")){
+            //Consolida los parametros
+            Static.consolidateParams(params, st, struct, method, st.getStruct(identifier.getLexema()).getMethod("Constructor"), identifier);
+        }
 
         //Si tiene encadenado, lo consolida
         if (rightChained != null) {
