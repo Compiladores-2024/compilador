@@ -118,6 +118,7 @@ public class Static {
 
     public static void checkInherited (SymbolTable st, String origin, String currentType, Token metadata) {
         boolean isInherited = false;
+        String resultType=currentType;
         //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
         while (currentType != "Object" && !isInherited) {
             //Obtiene el padre 
@@ -129,7 +130,7 @@ public class Static {
 
         //Si no encuentra herencia, retorna error
         if (!isInherited) {
-            throw new SemanticException(metadata, "Se esperaba una variable de tipo " + origin + " y se encontro una de tipo " + origin + ".", true);
+            throw new SemanticException(metadata, "Se esperaba una variable de tipo " + origin + " y se encontro una de tipo " + resultType + ".", true);
         }
     }
 
