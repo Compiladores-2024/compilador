@@ -63,7 +63,7 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 1,
+            "cantidadMetodos": 6,
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": [
@@ -76,6 +76,70 @@
                         {
                             "nombre": "num1",
                             "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "B",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "num1",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m4",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 3,
+                    "parámetros": [
+                        {
+                            "nombre": "str",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m5",
+                    "static": "false",
+                    "retorno": "Bool",
+                    "posicion": 4,
+                    "parámetros": [
+                        {
+                            "nombre": "boolean",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m6",
+                    "static": "false",
+                    "retorno": "Char",
+                    "posicion": 5,
+                    "parámetros": [
+                        {
+                            "nombre": "char",
+                            "tipo": "Char",
                             "posicion": 0
                         }
                     ],
