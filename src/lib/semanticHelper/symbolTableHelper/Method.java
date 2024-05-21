@@ -144,7 +144,7 @@ public class Method extends Metadata{
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"static\": \"" + isStatic + "\",\n" +
-            tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
+            tabs + "    \"retorno\": \"" + returnType.getLexema() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
             tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "]\n" +
