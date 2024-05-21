@@ -1,6 +1,6 @@
 /? ERROR: SEMANTICO - SENTENCIAS
 /? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
-/? | LINEA 12 | COLUMNA 9 | Se esperaba un tipo de retorno Array Int. Se encontró Array Str |
+/? | LINEA 13 | COLUMNA 24 | La dimensión debe ser de tipo entero. Se encontró un tipo de dato Str. |
 struct A{
 
 }
@@ -9,7 +9,9 @@ impl A{
     .(){
     }
     fn m1(Int num1)->Array Int{
-        ret new Str[10];
+        Array Int arrayInt;
+        arrayInt = new Int["10"];
+        ret arrayInt;
     }
 }
 
