@@ -63,9 +63,28 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 1,
-            "cantidadAtributos": 0,
-            "atributos": [],
+            "cantidadMetodos": 2,
+            "cantidadAtributos": 3,
+            "atributos": [
+                {
+                    "nombre": "arrayStr",
+                    "tipo": "Array Str",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "arrayBool",
+                    "tipo": "Array Bool",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "arrayChar",
+                    "tipo": "Array Char",
+                    "public": "true",
+                    "posicion": 2
+                }
+            ],
             "métodos": [
                 {
                     "nombre": "m1",
@@ -93,6 +112,14 @@
                             "posicion": 1
                         }
                     ]
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
                 }
             ]
         },
