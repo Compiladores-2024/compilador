@@ -10,8 +10,8 @@ import src.lib.tokenHelper.Token;
 
 public class Loop extends Sentence{
     
-    Expression condition;
-    Sentence loopBlock;
+    private Expression condition;
+    private Sentence loopBlock;
 
     public Loop(Token token, Expression condition, Sentence loop) {
         super(token);
