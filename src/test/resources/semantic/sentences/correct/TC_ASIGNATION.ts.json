@@ -1,39 +1,7 @@
 {
     "structs": [
         {
-            "nombre": "Str",
-            "heredaDe": "Object",
-            "constructor": [],
-            "cantidadMetodos": 2,
-            "cantidadAtributos": 0,
-            "atributos": [],
-            "métodos": [
-                {
-                    "nombre": "length",
-                    "static": "false",
-                    "retorno": "| Int | Int | LINEA 0 (COLUMNA 0) |",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                },
-                {
-                    "nombre": "concat",
-                    "static": "false",
-                    "retorno": "| Str | Str | LINEA 0 (COLUMNA 0) |",
-                    "posicion": 1,
-                    "parámetros": [
-                        {
-                            "nombre": "s",
-                            "tipo": "Str",
-                            "posicion": 0
-                        }
-                    ],
-                    "variables": []
-                }
-            ]
-        },
-        {
-            "nombre": "Array",
+            "nombre": "Array Str",
             "heredaDe": "Object",
             "constructor": [],
             "cantidadMetodos": 1,
@@ -43,7 +11,7 @@
                 {
                     "nombre": "length",
                     "static": "false",
-                    "retorno": "| Int | Int | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "Int",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -57,7 +25,7 @@
                 {
                     "nombre": ".",
                     "static": "false",
-                    "retorno": "| void | void | LINEA 16 (COLUMNA 5) |",
+                    "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -106,8 +74,8 @@
             "métodos": [
                 {
                     "nombre": "m1",
-                    "static": "false",
-                    "retorno": "| Int | Int | LINEA 19 (COLUMNA 16) |",
+                    "static": "true",
+                    "retorno": "Int",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -121,7 +89,7 @@
                 {
                     "nombre": ".",
                     "static": "false",
-                    "retorno": "| void | void | LINEA 28 (COLUMNA 5) |",
+                    "retorno": "void",
                     "posicion": 0,
                     "parámetros": [
                         {
@@ -147,7 +115,7 @@
                 {
                     "nombre": "m3",
                     "static": "true",
-                    "retorno": "| Str | Str | LINEA 29 (COLUMNA 38) |",
+                    "retorno": "Str",
                     "posicion": 0,
                     "parámetros": [
                         {
@@ -166,7 +134,7 @@
                 {
                     "nombre": "m5",
                     "static": "true",
-                    "retorno": "| Bool | Bool | LINEA 32 (COLUMNA 38) |",
+                    "retorno": "Bool",
                     "posicion": 1,
                     "parámetros": [
                         {
@@ -185,13 +153,40 @@
             ]
         },
         {
-            "nombre": "Bool",
+            "nombre": "Array Int",
             "heredaDe": "Object",
             "constructor": [],
-            "cantidadMetodos": 0,
+            "cantidadMetodos": 1,
             "cantidadAtributos": 0,
             "atributos": [],
-            "métodos": []
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array Char",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
         },
         {
             "nombre": "Start",
@@ -200,7 +195,7 @@
                 {
                     "nombre": ".",
                     "static": "false",
-                    "retorno": "| void | void | LINEA 12 (COLUMNA 5) |",
+                    "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -222,7 +217,7 @@
                 {
                     "nombre": "out_array_int",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 0,
                     "parámetros": [
                         {
@@ -236,7 +231,7 @@
                 {
                     "nombre": "out_array_char",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 1,
                     "parámetros": [
                         {
@@ -250,7 +245,7 @@
                 {
                     "nombre": "in_str",
                     "static": "true",
-                    "retorno": "| Str | Str | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "Str",
                     "posicion": 2,
                     "parámetros": [],
                     "variables": []
@@ -258,7 +253,7 @@
                 {
                     "nombre": "out_char",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 3,
                     "parámetros": [
                         {
@@ -272,7 +267,7 @@
                 {
                     "nombre": "out_array_str",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 4,
                     "parámetros": [
                         {
@@ -286,7 +281,7 @@
                 {
                     "nombre": "in_int",
                     "static": "true",
-                    "retorno": "| Int | Int | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "Int",
                     "posicion": 5,
                     "parámetros": [],
                     "variables": []
@@ -294,7 +289,7 @@
                 {
                     "nombre": "out_int",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 6,
                     "parámetros": [
                         {
@@ -308,7 +303,7 @@
                 {
                     "nombre": "in_bool",
                     "static": "true",
-                    "retorno": "| Bool | Bool | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "Bool",
                     "posicion": 7,
                     "parámetros": [],
                     "variables": []
@@ -316,7 +311,7 @@
                 {
                     "nombre": "out_str",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 8,
                     "parámetros": [
                         {
@@ -330,7 +325,7 @@
                 {
                     "nombre": "in_char",
                     "static": "true",
-                    "retorno": "| Char | Char | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "Char",
                     "posicion": 9,
                     "parámetros": [],
                     "variables": []
@@ -338,7 +333,7 @@
                 {
                     "nombre": "out_bool",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 10,
                     "parámetros": [
                         {
@@ -352,7 +347,7 @@
                 {
                     "nombre": "out_array_bool",
                     "static": "true",
-                    "retorno": "| void | void | LINEA 0 (COLUMNA 0) |",
+                    "retorno": "void",
                     "posicion": 11,
                     "parámetros": [
                         {
@@ -364,6 +359,74 @@
                     "variables": []
                 }
             ]
+        },
+        {
+            "nombre": "Int",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
+            "nombre": "Array Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Str",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 2,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "concat",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
         },
         {
             "nombre": "Char",
@@ -382,21 +445,12 @@
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": []
-        },
-        {
-            "nombre": "Int",
-            "heredaDe": "Object",
-            "constructor": [],
-            "cantidadMetodos": 0,
-            "cantidadAtributos": 0,
-            "atributos": [],
-            "métodos": []
         }
     ],
     "start": {
         "nombre": "start",
         "static": "false",
-        "retorno": "| void | void | LINEA 36 (COLUMNA 1) |",
+        "retorno": "void",
         "posicion": 0,
         "parámetros": [],
         "variables": [

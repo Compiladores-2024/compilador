@@ -16,7 +16,7 @@ impl A{
     .(){
         
     }
-    fn m1() -> Int{
+    st fn m1() -> Int{
         ret 0;
     }
 }

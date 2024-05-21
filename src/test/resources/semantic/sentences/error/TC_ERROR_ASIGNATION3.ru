@@ -1,14 +1,13 @@
-
 /? ERROR: SEMANTICO - SENTENCIAS
 /? | NUMERO DE LINEA: | NUMERO DE COLUMNA: | DESCRIPCION: |
-/? | LINEA 11 | COLUMNA 10 | Se esperaba una variable de tipo Int y se encontro una de tipo Str. |
+/? | LINEA 10 | COLUMNA 10 | Se esperaba una variable de tipo Char y se encontro una de tipo Int. |
 struct A{
-    Int a;
+    Char a;
 }
 
 impl A{
     .(){
-        a="";
+        a=1;
     }
 }
 

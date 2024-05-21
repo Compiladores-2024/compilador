@@ -56,7 +56,28 @@
         {
             "nombreMetodo": "start",
             "sentencias": [
-                {}
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "boolean",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "estructuraB",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m1",
+                            "resultadoDeTipo": "Bool",
+                            "parametros": []
+                        }
+                    }
+                }
             ]
         }
     ]

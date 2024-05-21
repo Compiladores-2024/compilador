@@ -6,29 +6,20 @@
                 {
                     "tipo": "Return",
                     "expresión": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "nil",
-                        "tipoDeDato": "nil",
-                        "resultadoDeTipo": "NIL",
-                        "encadenado": ""
+                        "tipo": "CreateArray",
+                        "tipoArray": "Int",
+                        "resultadoDeTipo": "Array Int",
+                        "dimension": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "10",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
                     }
                 }
             ]
         },
-        {
-            "nombreMetodo": "m2",
-            "sentencias": [
-                {}
-            ]
-        },
-        {
-            "nombreMetodo": "Constructor",
-            "sentencias": [
-                {}
-            ]
-        }
-    ],
-    "bloquesDeB" : [
         {
             "nombreMetodo": "Constructor",
             "sentencias": [

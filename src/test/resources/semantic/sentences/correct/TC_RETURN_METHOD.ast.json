@@ -16,12 +16,6 @@
             ]
         },
         {
-            "nombreMetodo": "m2",
-            "sentencias": [
-                {}
-            ]
-        },
-        {
             "nombreMetodo": "Constructor",
             "sentencias": [
                 {}

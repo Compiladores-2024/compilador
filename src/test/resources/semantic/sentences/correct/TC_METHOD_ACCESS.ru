@@ -23,4 +23,7 @@ impl B{
     }
 }
 start{
+    B estructuraB;
+    Bool boolean;
+    boolean = estructuraB.m1();
 }

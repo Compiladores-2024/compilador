@@ -63,99 +63,22 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 2,
-            "cantidadAtributos": 1,
-            "atributos": [
-                {
-                    "nombre": "a1",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 0
-                }
-            ],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
             "métodos": [
                 {
                     "nombre": "m1",
                     "static": "false",
-                    "retorno": "void",
+                    "retorno": "Array Int",
                     "posicion": 0,
                     "parámetros": [
                         {
-                            "nombre": "p1",
+                            "nombre": "num1",
                             "tipo": "Int",
                             "posicion": 0
                         }
                     ],
-                    "variables": [
-                        {
-                            "nombre": "v1",
-                            "tipo": "Int",
-                            "public": "false",
-                            "posicion": 0
-                        }
-                    ]
-                },
-                {
-                    "nombre": "m2",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 1,
-                    "parámetros": [],
-                    "variables": []
-                }
-            ]
-        },
-        {
-            "nombre": "B",
-            "heredaDe": "A",
-            "constructor": [
-                {
-                    "nombre": ".",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                }            
-            ],
-            "cantidadMetodos": 2,
-            "cantidadAtributos": 1,
-            "atributos": [
-                {
-                    "nombre": "a1",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 0
-                }
-            ],
-            "métodos": [
-                {
-                    "nombre": "m1",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 0,
-                    "parámetros": [
-                        {
-                            "nombre": "p1",
-                            "tipo": "Int",
-                            "posicion": 0
-                        }
-                    ],
-                    "variables": [
-                        {
-                            "nombre": "v1",
-                            "tipo": "Int",
-                            "public": "false",
-                            "posicion": 0
-                        }
-                    ]
-                },
-                {
-                    "nombre": "m2",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 1,
-                    "parámetros": [],
                     "variables": []
                 }
             ]
