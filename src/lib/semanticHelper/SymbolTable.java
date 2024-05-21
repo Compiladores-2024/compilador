@@ -40,6 +40,10 @@ public class SymbolTable {
             add("Object");
             add("IO");
             add("Array");
+            add("Array Int");
+            add("Array Str");
+            add("Array Bool");
+            add("Array Char");
             add("Int");
             add("Str");
             add("Char");
@@ -55,7 +59,10 @@ public class SymbolTable {
         //Definicion de estructuras
         Struct objectStruct = new Struct(new Token(IDToken.spOBJECT, "Object", 0, 0), null),
             IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0),objectStruct),
-            Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), objectStruct),
+            ArrayStr   = new Struct(new Token(IDToken.typeARRAY, "Array Str", 0, 0), objectStruct),
+            ArrayBool  = new Struct(new Token(IDToken.typeARRAY, "Array Bool", 0, 0), objectStruct),
+            ArrayInt   = new Struct(new Token(IDToken.typeARRAY, "Array Int", 0, 0), objectStruct),
+            ArrayChar  = new Struct(new Token(IDToken.typeARRAY, "Array Char", 0, 0), objectStruct),
             Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), objectStruct),
             Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), objectStruct),
             Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), objectStruct),
@@ -82,7 +89,16 @@ public class SymbolTable {
                 put("in_bool", nullParams);
                 put("in_char", nullParams);
             }});
-            put("Array", new HashMap<String, ArrayList<Param>>(){{
+            put("Array Str", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Int", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Char", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Bool", new HashMap<String, ArrayList<Param>>(){{
                 put("length", nullParams);
             }});
             put("Str", new HashMap<String, ArrayList<Param>>(){{
@@ -99,7 +115,16 @@ public class SymbolTable {
                 put("in_bool", new Token(IDToken.typeBOOL, IDToken.typeBOOL.toString(), 0, 0));
                 put("in_char", new Token(IDToken.typeCHAR, IDToken.typeCHAR.toString(), 0, 0));
             }});
-            put("Array", new HashMap<String, Token>() {{
+            put("Array Str", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Array Bool", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Array Int", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Array Char\"", new HashMap<String, Token>() {{
                 put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
             }});
             put("Str", new HashMap<String, Token>() {{
@@ -113,7 +138,10 @@ public class SymbolTable {
         structs.put("IO", IO);
         structs.put("Char", Char);
         structs.put("Str", Str);
-        structs.put("Array", Array);
+        structs.put("Array Str", ArrayStr);
+        structs.put("Array Bool", ArrayBool);
+        structs.put("Array Int", ArrayInt);
+        structs.put("Array Char", ArrayChar);
         structs.put("Int", Int);
         structs.put("Bool", Bool);
 
