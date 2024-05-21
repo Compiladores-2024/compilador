@@ -64,41 +64,29 @@
                 }            
             ],
             "cantidadMetodos": 1,
-            "cantidadAtributos": 3,
-            "atributos": [
-                {
-                    "nombre": "a",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 0
-                },
-                {
-                    "nombre": "boolean",
-                    "tipo": "Bool",
-                    "public": "true",
-                    "posicion": 1
-                },
-                {
-                    "nombre": "structB",
-                    "tipo": "B",
-                    "public": "true",
-                    "posicion": 2
-                }
-            ],
+            "cantidadAtributos": 0,
+            "atributos": [],
             "métodos": [
                 {
                     "nombre": "m1",
                     "static": "false",
-                    "retorno": "void",
+                    "retorno": "B",
                     "posicion": 0,
                     "parámetros": [
                         {
-                            "nombre": "c",
+                            "nombre": "num1",
                             "tipo": "Int",
                             "posicion": 0
                         }
                     ],
-                    "variables": []
+                    "variables": [
+                        {
+                            "nombre": "structB",
+                            "tipo": "B",
+                            "public": "false",
+                            "posicion": 0
+                        }
+                    ]
                 }
             ]
         },
@@ -111,18 +99,35 @@
                     "static": "false",
                     "retorno": "void",
                     "posicion": 0,
-                    "parámetros": [],
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Bool",
+                            "posicion": 1
+                        }
+                    ],
                     "variables": []
                 }            
             ],
             "cantidadMetodos": 0,
-            "cantidadAtributos": 1,
+            "cantidadAtributos": 2,
             "atributos": [
+                {
+                    "nombre": "num",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
                 {
                     "nombre": "condition",
                     "tipo": "Bool",
                     "public": "true",
-                    "posicion": 0
+                    "posicion": 1
                 }
             ],
             "métodos": []

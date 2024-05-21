@@ -64,68 +64,37 @@
                 }            
             ],
             "cantidadMetodos": 1,
-            "cantidadAtributos": 3,
-            "atributos": [
-                {
-                    "nombre": "a",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 0
-                },
-                {
-                    "nombre": "boolean",
-                    "tipo": "Bool",
-                    "public": "true",
-                    "posicion": 1
-                },
-                {
-                    "nombre": "structB",
-                    "tipo": "B",
-                    "public": "true",
-                    "posicion": 2
-                }
-            ],
+            "cantidadAtributos": 0,
+            "atributos": [],
             "métodos": [
                 {
                     "nombre": "m1",
                     "static": "false",
-                    "retorno": "void",
+                    "retorno": "Array Int",
                     "posicion": 0,
                     "parámetros": [
                         {
-                            "nombre": "c",
+                            "nombre": "num1",
                             "tipo": "Int",
                             "posicion": 0
                         }
                     ],
-                    "variables": []
+                    "variables": [
+                        {
+                            "nombre": "arrayInt",
+                            "tipo": "Array Int",
+                            "public": "false",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "size",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 1
+                        }
+                    ]
                 }
             ]
-        },
-        {
-            "nombre": "B",
-            "heredaDe": "Object",
-            "constructor": [
-                {
-                    "nombre": ".",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                }            
-            ],
-            "cantidadMetodos": 0,
-            "cantidadAtributos": 1,
-            "atributos": [
-                {
-                    "nombre": "condition",
-                    "tipo": "Bool",
-                    "public": "true",
-                    "posicion": 0
-                }
-            ],
-            "métodos": []
         },
         {
             "nombre": "Array Int",
