@@ -1,0 +1,3 @@
+[submodule "tiny-ru-tests"]
+	path = tiny-ru-tests
+	url = git@github.com:amag1/tiny-ru-tests.git
