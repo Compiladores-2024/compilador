@@ -33,8 +33,8 @@ public class BinaryExpression extends Expression{
         rightSide.consolidate(st, struct, method, leftExpression);
 
         //Valida que posean el mismo tipo de dato
-        leftType = leftSide.getResultType();
-        rightType = rightSide.getResultType();
+        leftType = leftSide.getResultTypeChained();
+        rightType = rightSide.getResultTypeChained();
 
         //Si los operadores no son iguales
         if (!leftType.equals(rightType)){
