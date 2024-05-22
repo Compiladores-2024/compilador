@@ -11,20 +11,46 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa el bloque de sentencias
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class SentenceBlock {
 
     private Token idBlock;
     private ArrayList<Sentence> sentenceList;
 
+    /**
+     * Constructor de la clase.
+     * @param idBlock ID del bloque
+     * @param list Lista de sentencias pertenecientes
+     */
     public SentenceBlock(Token idBlock, ArrayList<Sentence> list){
         this.sentenceList = list;
         this.idBlock = idBlock;
     }
 
+    
+    /** 
+     * Obtiene el id de bloque.
+     * 
+     * @return ID del bloque
+     */
     public String getIDBlock() {
         return idBlock.getLexema();
     }
 
+    
+    /** 
+     * Consolida el bloque de sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     */
     public void consolidate(SymbolTable st, Struct struct, Method method){
         boolean hasReturn = false;
         if (sentenceList.size() > 0) {
@@ -62,6 +88,13 @@ public class SentenceBlock {
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         int count = sentenceList.size();
         String blocksString = count > 0 ? "" : (tabs + "{}\n");

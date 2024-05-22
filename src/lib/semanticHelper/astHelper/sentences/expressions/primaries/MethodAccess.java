@@ -9,14 +9,36 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa acceso a método.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class MethodAccess extends Primary{
     private ArrayList<Expression> params;
 
+    /**
+     * Constructor de la clase.
+     * @param identifier Identificador 
+     * @param params Expresiones de los parámetros del método
+     * @param rightChained Encadenado
+     */
     public MethodAccess (Token identifier, ArrayList<Expression> params, Primary rightChained) {
         super(identifier, rightChained);
         this.params = params;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         Method methodToCheckParams;
@@ -40,6 +62,13 @@ public class MethodAccess extends Primary{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         int count = params.size();

@@ -7,15 +7,38 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+
+/**
+ * Nodo que representa acceso a un array.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class ArrayAccess extends Primary{
     
     private Expression indexArray;
 
+    /**
+     * Constructor de la clase.
+     * @param identifier Encadenado
+     * @param indexArray Expresión con la posición a acceder dentro del array
+     * @param rightChained Encadenado
+     */
     public ArrayAccess (Token identifier, Expression indexArray, Primary rightChained) {
         super(identifier, rightChained);
         this.indexArray = indexArray;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Valida que la variable exista
@@ -43,6 +66,13 @@ public class ArrayAccess extends Primary{
 
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         return tabs + "{\n" +

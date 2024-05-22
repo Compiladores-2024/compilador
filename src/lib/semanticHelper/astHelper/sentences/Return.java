@@ -10,15 +10,36 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa la sentencia especial Return.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class Return extends Sentence{
 
     private Expression expression; 
 
+    /**
+     * Constructor de la clase.
+     * @param token Identificador
+     * @param expression Expresión a retornar.
+     */
     public Return(Token token, Expression expression) {
         super(token);
         this.expression = expression;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String resultType = method.getReturnType(), expResult = "NIL";
@@ -54,6 +75,13 @@ public class Return extends Sentence{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "Return" + "\",\n" +

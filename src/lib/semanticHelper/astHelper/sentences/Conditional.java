@@ -9,13 +9,27 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa el condicional
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class Conditional extends Sentence{
     
     private Expression condition;
     private Sentence thenBlock; 
     private Sentence elseBlock;
 
-
+    /**
+     * Constructor de la clase.
+     * 
+     * @param token Identificador
+     * @param condition Condición del condicional
+     * @param thenBlock Bloque de sentencias then
+     * @param elseBlock Bloque de sentencias else
+     */
     public Conditional(Token token, Expression condition, Sentence thenBlock, Sentence elseBlock) {
         super(token);
         this.condition = condition;
@@ -23,6 +37,15 @@ public class Conditional extends Sentence{
         this.elseBlock = elseBlock;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la condicion
@@ -42,6 +65,13 @@ public class Conditional extends Sentence{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         return "{\n" +

@@ -1578,8 +1578,8 @@ public class SyntacticAnalyzer {
     }
 
     /** 
-     * Genera un ArrayList<String> con los json generados para tabla de símbolos y ast
-     * @return ArrayList<String> con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
+     * Genera un ArrayList de strings con los json generados para tabla de símbolos y ast
+     * @return ArrayList de strings con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
      */
     public ArrayList<String> toJSON(){
         return this.semanticManager.toJSON();

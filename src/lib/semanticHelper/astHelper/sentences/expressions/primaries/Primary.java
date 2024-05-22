@@ -8,14 +8,32 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+
+/**
+ * Nodo que representa sentencias primarias.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public abstract class Primary extends Expression{
     
-
+    /**
+     * Constructor de la clase.
+     * @param identifier Identificador
+     * @param rightChained Encadenado
+     */
     public Primary(Token identifier, Primary rightChained) {
         super(identifier);
         this.rightChained = rightChained;
     }
 
+    
+    /** 
+     * Setea una expresión encadenada
+     * 
+     * @param primary Expresión derecha del encadenado
+     */
     public void setChained(Primary primary){
         if (rightChained != null) {
             this.rightChained.setChained(primary);
@@ -24,6 +42,15 @@ public abstract class Primary extends Expression{
         }
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftSide Expresión previa
+     */
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
         String type = null;
         boolean validateStatic = false;
@@ -81,6 +108,12 @@ public abstract class Primary extends Expression{
         setResultType(type);
     }
 
+    
+    /** 
+     * Valida que la estructura exista
+     * 
+     * @param st Tabla de símbolos
+     */
     protected void structExist (SymbolTable st) {
         Struct struct = st.getStruct(identifier.getLexema());
         //Valida que la estructura exista

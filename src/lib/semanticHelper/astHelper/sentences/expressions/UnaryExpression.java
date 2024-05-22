@@ -9,11 +9,24 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa la expresión unaria.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class UnaryExpression extends Expression{
     
     private Expression expression;
     private IDToken operator;
 
+    /**
+     * Constructor de la clase.
+     * @param token Identificador
+     * @param operator Operador de la expresión
+     * @param expression Expresión a aplicar operación.
+     */
     public UnaryExpression (Token token, IDToken operator, Expression expression) {
         super(token);
         this.operator = operator;
@@ -21,6 +34,15 @@ public class UnaryExpression extends Expression{
     }
 
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la expresion
@@ -73,6 +95,13 @@ public class UnaryExpression extends Expression{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "UnaryExpression" + "\",\n" +
