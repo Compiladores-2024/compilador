@@ -52,6 +52,8 @@ public class BinaryExpression extends Expression{
             }
         }
 
+        checkOperation(leftSide.getResultTypeChained());
+
         setResultType(getType(leftSide.getResultTypeChained()));
     }
 
@@ -71,6 +73,28 @@ public class BinaryExpression extends Expression{
                 break;
         }
         return result;
+    }
+
+    /**
+     * Método que verifica si la operacion realizada es aceptada para los tipos de los operandos
+     * 
+     * @since 22/05/2024
+     * @param type tipo de operandos
+     */
+    private void checkOperation(String type){
+        switch(operator){
+            case oDIV:
+            case oMOD:
+            case oMULT:
+            case oSUM:
+            case oSUB:
+                if (!type.equals("Int")){
+                    throw new SemanticException(identifier, "Operacion " + operator + " no soportada para operandos de tipo " + type, true);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public String toJSON(String tabs){
