@@ -10,7 +10,13 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
-
+/**
+ * Nodo que representa una expresión binaria.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class BinaryExpression extends Expression{
     
     private Expression leftSide;

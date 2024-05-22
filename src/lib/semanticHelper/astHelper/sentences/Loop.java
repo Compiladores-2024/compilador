@@ -8,6 +8,13 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa el bucle
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class Loop extends Sentence{
     
     private Expression condition;

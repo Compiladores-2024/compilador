@@ -8,6 +8,14 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+
+/**
+ * Nodo que representa sentencias primarias.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public abstract class Primary extends Expression{
     
 

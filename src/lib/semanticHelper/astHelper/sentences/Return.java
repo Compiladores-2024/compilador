@@ -10,6 +10,13 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa la sentencia especial Return.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class Return extends Sentence{
 
     private Expression expression; 

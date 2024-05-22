@@ -9,6 +9,13 @@ import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa instanciación de clases
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class CreateInstance extends Primary{
     
     private ArrayList<Expression> params;

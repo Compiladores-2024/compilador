@@ -9,6 +9,13 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa el condicional
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class Conditional extends Sentence{
     
     private Expression condition;

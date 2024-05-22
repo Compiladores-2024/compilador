@@ -6,6 +6,13 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa un acceso simple
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class SimpleAccess extends Primary{
 
     public SimpleAccess (Token identifier, Primary rightChained) {

@@ -4,6 +4,13 @@ import src.lib.semanticHelper.astHelper.sentences.Sentence;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa una expresión.
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public abstract class Expression extends Sentence{
     
     protected String resultType;

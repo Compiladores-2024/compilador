@@ -9,6 +9,13 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Nodo que representa creación de arreglos
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class CreateArray extends Primary{
     
     private Token type;
