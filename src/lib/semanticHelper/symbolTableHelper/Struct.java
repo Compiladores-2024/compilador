@@ -78,11 +78,11 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    public String getAttributeType (String name) {
+    public String getAttributeType (String name, String implStruct) {
         String result = null;
         Variable v = variables.get(name);
         if (v != null) {
-            if (!v.isPrivate()) {
+            if (!v.isPrivate() || (this.getName().equals(implStruct))) {
                 result = v.getType();
             }
         }
