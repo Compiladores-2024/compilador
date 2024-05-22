@@ -23,6 +23,13 @@ public class BinaryExpression extends Expression{
     private Expression rightSide;
     private IDToken operator;
 
+    /**
+     * Constructor de la clase.
+     * @param token Identificador
+     * @param leftSide Expresión del lado izquierdo del operador.
+     * @param operator Operador.
+     * @param rightSide Expresión del lado derecho del operador.
+     */
     public BinaryExpression (Token token, Expression leftSide, IDToken operator, Expression rightSide) {
         super(token);
         this.leftSide = leftSide;
@@ -30,6 +37,15 @@ public class BinaryExpression extends Expression{
         this.rightSide = rightSide;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String leftType, rightType;
@@ -61,6 +77,13 @@ public class BinaryExpression extends Expression{
         setResultType(getType(leftSide.getResultTypeChained()));
     }
 
+    
+    /** 
+     * Obtiene el tipo de dato según el operador.
+     * 
+     * @param result Tipo de dato de la expresión
+     * @return String
+     */
     private String getType(String result) {
         switch (operator) {
             case oAND:
@@ -79,6 +102,13 @@ public class BinaryExpression extends Expression{
         return result;
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "BinaryExpression" + "\",\n" +

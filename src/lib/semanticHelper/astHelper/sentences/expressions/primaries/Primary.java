@@ -18,12 +18,22 @@ import src.lib.tokenHelper.Token;
  */
 public abstract class Primary extends Expression{
     
-
+    /**
+     * Constructor de la clase.
+     * @param identifier Identificador
+     * @param rightChained Encadenado
+     */
     public Primary(Token identifier, Primary rightChained) {
         super(identifier);
         this.rightChained = rightChained;
     }
 
+    
+    /** 
+     * Setea una expresión encadenada
+     * 
+     * @param primary Expresión derecha del encadenado
+     */
     public void setChained(Primary primary){
         if (rightChained != null) {
             this.rightChained.setChained(primary);
@@ -32,6 +42,15 @@ public abstract class Primary extends Expression{
         }
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
         String type = null;
         boolean validateStatic = false;
@@ -89,6 +108,13 @@ public abstract class Primary extends Expression{
         setResultType(type);
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     protected void structExist (SymbolTable st) {
         Struct struct = st.getStruct(identifier.getLexema());
         //Valida que la estructura exista

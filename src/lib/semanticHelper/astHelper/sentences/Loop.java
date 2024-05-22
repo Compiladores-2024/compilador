@@ -20,12 +20,28 @@ public class Loop extends Sentence{
     private Expression condition;
     private Sentence loopBlock;
 
+    /**
+     * Constructor de la clase.
+     * 
+     * @param token Identificador
+     * @param condition Expresión con la condición del loop
+     * @param loop Bloque de sentencia del loop
+     */
     public Loop(Token token, Expression condition, Sentence loop) {
         super(token);
         this.condition = condition;
         this.loopBlock = loop;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida la condicion
@@ -40,6 +56,13 @@ public class Loop extends Sentence{
         loopBlock.consolidate(st, struct, method, null);
     }
     
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         return "{\n" +

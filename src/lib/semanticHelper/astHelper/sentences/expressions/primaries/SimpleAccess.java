@@ -15,10 +15,25 @@ import src.lib.tokenHelper.Token;
  */
 public class SimpleAccess extends Primary{
 
+    /**
+     * Constructor de la clase.
+     * 
+     * @param identifier Identificador
+     * @param rightChained Encadenado
+     */
     public SimpleAccess (Token identifier, Primary rightChained) {
         super(identifier, rightChained);
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Valida que exista, solo si no es una constante (literal, false, true, nil)
@@ -37,6 +52,13 @@ public class SimpleAccess extends Primary{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         return "{\n" +
             tabs + "    \"tipo\": \"" + "SimpleAccess" + "\",\n" +

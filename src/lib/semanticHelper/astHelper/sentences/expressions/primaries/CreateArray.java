@@ -21,12 +21,28 @@ public class CreateArray extends Primary{
     private Token type;
     private Expression dimention;
 
+    /**
+     * Constructor de la clase.
+     * 
+     * @param type Tipo de array a crear
+     * @param dimention Expresión con la dimensión del array
+     * @param rightChained Encadenado
+     */
     public CreateArray (Token type, Expression dimention, Primary rightChained) {
         super(type, rightChained);
         this.type = type;
         this.dimention = dimention;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String resultType;
@@ -63,6 +79,13 @@ public class CreateArray extends Primary{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         return "{\n" +

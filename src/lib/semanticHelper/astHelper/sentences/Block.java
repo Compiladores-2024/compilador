@@ -18,11 +18,25 @@ import src.lib.tokenHelper.Token;
 public class Block extends Sentence{
     private ArrayList<Sentence> sentenceList;
 
+    /**
+     * Constructor de la clase.
+     * @param token Identificador
+     * @param list Lista de sentencias del bloque
+     */
     public Block(Token token, ArrayList<Sentence> list){
         super(token);
         this.sentenceList = list;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Consolida las sentencias
@@ -33,6 +47,13 @@ public class Block extends Sentence{
         }
     }
     
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     public String toJSON(String tabs){
         int count = sentenceList.size();
         String blocksString = "[" + (count > 0 ? "\n" : "]");

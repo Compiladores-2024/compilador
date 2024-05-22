@@ -23,12 +23,28 @@ public class Assignation extends Sentence{
     private Primary leftSide;
     private Expression rightSide;
 
+    /**
+     * Constructor de la clase.
+     * 
+     * @param token Identificador
+     * @param leftSide Expresión del lado izquierdo de la asignación.
+     * @param rightSide Expresión del lado derecho de la asignación.
+     */
     public Assignation (Token token, Primary leftSide, Expression rightSide) {
         super(token);
         this.leftSide = leftSide;
         this.rightSide = rightSide;
     }
 
+    
+    /** 
+     * Consolida la sentencia.
+     * 
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param leftExpression Expresión previa
+     */
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         String leftType, rightType;
@@ -59,6 +75,13 @@ public class Assignation extends Sentence{
         }
     }
 
+    
+    /** 
+     * Convierte los datos en JSON.
+     * 
+     * @param tabs Cantidad de separaciones
+     * @return String
+     */
     @Override
     public String toJSON(String tabs){
         return "{\n" +
