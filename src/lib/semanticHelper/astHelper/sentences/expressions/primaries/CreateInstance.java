@@ -2,30 +2,37 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
+import src.lib.Static;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
-import src.lib.tokenHelper.IDToken;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 public class CreateInstance extends Primary{
     
     private ArrayList<Expression> params;
-    private Token identifier;
 
     public CreateInstance (Token id, ArrayList<Expression> params, Primary rightChained) {
-        super(rightChained);
-        this.identifier = id;
+        super(id, rightChained);
         this.params = params;
     }
 
     @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        //Valida que la estructura exista
+        structExist(st);
 
-    }
+        //si el lexema es distinto de Object
+        if (!identifier.getLexema().equals("Object")){
+            //Consolida los parametros
+            Static.consolidateParams(params, st, struct, method, st.getStruct(identifier.getLexema()).getMethod("Constructor"), identifier);
+        }
 
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
+        }
     }
 
     @Override
@@ -43,6 +50,7 @@ public class CreateInstance extends Primary{
         return "{\n" +
             tabs + "    \"tipo\": \"" + "CreateInstance" + "\",\n" +
             tabs + "    \"identificador\": \"" + identifier.getLexema() +  "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }

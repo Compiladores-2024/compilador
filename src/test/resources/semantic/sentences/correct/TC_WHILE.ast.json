@@ -7,8 +7,9 @@
                     "tipo": "Loop",
                     "condicion": {
                         "tipo": "SimpleAccess",
-                        "lexema": "true",
+                        "nombreVariable": "true",
                         "tipoDeDato": "true",
+                        "resultadoDeTipo": "Bool",
                         "encadenado": ""
                     },
                     "bloqueLoop": [
@@ -16,14 +17,16 @@
                             "tipo": "Asignation",
                             "leftSide": {
                                 "tipo": "SimpleAccess",
-                                "lexema": "a",
+                                "nombreVariable": "a",
                                 "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             },
                             "rightSide": {
                                 "tipo": "SimpleAccess",
-                                "lexema": "1",
+                                "nombreVariable": "1",
                                 "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
                         }
@@ -36,33 +39,39 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "nil",
+                    "nombreVariable": "nil",
                     "tipoDeDato": "nil",
+                    "resultadoDeTipo": "NIL",
                     "encadenado": ""
                 },
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "false",
+                    "nombreVariable": "false",
                     "tipoDeDato": "literal Str",
+                    "resultadoDeTipo": "Str",
                     "encadenado": ""
                 },
                 {
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "a",
+                        "nombreVariable": "a",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "1",
+                        "nombreVariable": "1",
                         "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     }
                 }
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [

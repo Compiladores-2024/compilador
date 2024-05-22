@@ -25,6 +25,7 @@ import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateIn
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.MethodAccess;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleSentence;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -734,6 +735,7 @@ public class SyntacticAnalyzer {
     */
     private Sentence bloque() {
         ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
+        Token token = currentToken;
         match(IDToken.sKEY_OPEN);
         if (checkFirst(First.firstSentenciaP)){
             sentenceList = sentenciaP();
@@ -741,7 +743,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sKEY_CLOSE);
 
         //Agrega el bloque (Aunque no posea sentencias)
-        return new Block(sentenceList);
+        return new Block(token, sentenceList);
     }
 
 
@@ -1096,8 +1098,8 @@ public class SyntacticAnalyzer {
      * 
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
     */
-    private Expression operando () {
-        Expression exp;
+    private Primary operando () {
+        Primary exp;
 
         if (checkFirst(First.firstLiteral)) {
             exp = new SimpleAccess(literal(), null);
@@ -1150,8 +1152,8 @@ public class SyntacticAnalyzer {
      * 
      * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
     */
-    private Expression primario () {
-        Expression exp = primarioP();
+    private Primary primario () {
+        Primary exp = primarioP();
         if (checkFirst(First.firstEncadenadoP)) {
             exp.setChained(encadenadoP());
         }
@@ -1170,14 +1172,14 @@ public class SyntacticAnalyzer {
      *              | new idStruct <Argumentos-Actuales>
      *              | new <Tipo-Primitivo> [ <Expresión> ]
      */
-    private Expression primarioP () {
-        Expression exp = null;
+    private Primary primarioP () {
+        Primary exp = null;
         Token token = currentToken;
 
         switch (currentToken.getIDToken()) {
             case sPAR_OPEN:
                 match(IDToken.sPAR_OPEN);
-                exp = expresion();
+                exp = new SimpleSentence(token, expresion(), null);
                 match(IDToken.sPAR_CLOSE);
                 break;
             case pSELF:
@@ -1194,9 +1196,8 @@ public class SyntacticAnalyzer {
                 if (checkFirst(First.firstTipoPrimitivo)) {
                     token = tipoPrimitivo();
                     match(IDToken.sCOR_OPEN);
-                    exp = expresion();
+                    exp = new CreateArray(token, expresion(), null);
                     match(IDToken.sCOR_CLOSE);
-                    exp = new CreateArray(token, exp, null);
                 } else {
                     //Valida que sea idStruct o palabra reservada Object
                     if (checkFirst(First.firstTipoReferencia)){
@@ -1227,9 +1228,8 @@ public class SyntacticAnalyzer {
                 else {
                     if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
                         match(IDToken.sCOR_OPEN);
-                        exp = expresion();
+                        exp = new ArrayAccess(token, expresion(), null);
                         match(IDToken.sCOR_CLOSE);
-                        exp = new ArrayAccess(token, exp, null);
                     }
                 }
                 break;
@@ -1259,11 +1259,18 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
     */
-    private ArrayList<Expression> listaExpresiones () {
-        ArrayList<Expression> expressionsList = new ArrayList<Expression>() {{ add(expresion()); }};
+    private ArrayList<Expression> listaExpresiones (int position) {
+        ArrayList<Expression> expressionsList = new ArrayList<Expression>();
+        Expression exp = expresion();
+
+        //Agrego la expresion
+        exp.setPosition(position);
+        expressionsList.add(exp);
+
+        //Reviso si se debe agregar otro parametro
         if (currentToken.getIDToken().equals(IDToken.sCOM)) {
             match(IDToken.sCOM);
-            expressionsList.addAll( listaExpresiones() );
+            expressionsList.addAll( listaExpresiones(position + 1) );
         }
         return expressionsList;
     }
@@ -1274,8 +1281,8 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado> ::= <EncadenadoExtra> | <EncadenadoExtra> <Encadenado’>  
     */
-    private Expression encadenado () {
-        Expression exp = encadenadoExtra();
+    private Primary encadenado () {
+        Primary exp = encadenadoExtra();
         if (checkFirst(First.firstEncadenadoP)) {
             exp.setChained(encadenadoP());
         }
@@ -1288,9 +1295,9 @@ public class SyntacticAnalyzer {
 			                | . id  
 			                | . id [ <Expresión> ] 
     */
-    private Expression encadenadoExtra () {
+    private Primary encadenadoExtra () {
         Token token;
-        Expression exp;
+        Primary exp;
 
         match(IDToken.sDOT);
         
@@ -1301,10 +1308,11 @@ public class SyntacticAnalyzer {
             exp = new MethodAccess(token, argumentosActuales(), null);
         }
         else{
-            match(IDToken.sCOR_OPEN);
-            exp = expresion();
-            match(IDToken.sCOR_CLOSE);
-            exp = new ArrayAccess(token, exp, null);
+            if(currentToken.getIDToken().equals(IDToken.sCOR_OPEN)){
+                match(IDToken.sCOR_OPEN);
+                exp = new ArrayAccess(token, expresion(), null);
+                match(IDToken.sCOR_CLOSE);
+            }
         }
 
         return exp;
@@ -1449,7 +1457,7 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado’> ::= <Encadenado>  
     */
-    private Expression encadenadoP () {
+    private Primary encadenadoP () {
         return encadenado();
     }
 
@@ -1460,7 +1468,7 @@ public class SyntacticAnalyzer {
      * <Lista-Expresiones’> ::= <Lista-Expresiones>  
     */
     private ArrayList<Expression> listaExpresionesP () {
-        return listaExpresiones();
+        return listaExpresiones(0);
     }
 
 

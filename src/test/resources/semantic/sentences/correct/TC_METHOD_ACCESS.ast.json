@@ -1,0 +1,85 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Conditional",
+                    "condicion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "b",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m1",
+                            "resultadoDeTipo": "Bool",
+                            "parametros": []
+                        }
+                    },
+                    "thenBlock": [],
+                    "elseBlock": []
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "true",
+                        "tipoDeDato": "true",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "boolean",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "estructuraB",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m1",
+                            "resultadoDeTipo": "Bool",
+                            "parametros": []
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+
+}

@@ -1,39 +1,7 @@
 {
     "structs": [
         {
-            "nombre": "Str",
-            "heredaDe": "Object",
-            "constructor": [],
-            "cantidadMetodos": 2,
-            "cantidadAtributos": 0,
-            "atributos": [],
-            "métodos": [
-                {
-                    "nombre": "length",
-                    "static": "false",
-                    "retorno": "Int",
-                    "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                },
-                {
-                    "nombre": "concat",
-                    "static": "false",
-                    "retorno": "Str",
-                    "posicion": 1,
-                    "parámetros": [
-                        {
-                            "nombre": "s",
-                            "tipo": "Str",
-                            "posicion": 0
-                        }
-                    ],
-                    "variables": []
-                }
-            ]
-        },
-        {
-            "nombre": "Array",
+            "nombre": "Array Str",
             "heredaDe": "Object",
             "constructor": [],
             "cantidadMetodos": 1,
@@ -60,18 +28,11 @@
                     "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
-                    "variables": [
-                        {
-                            "nombre": "num1",
-                            "tipo": "Int",
-                            "public": "false",
-                            "posicion": 0
-                        }
-                    ]
+                    "variables": []
                 }            
             ],
             "cantidadMetodos": 1,
-            "cantidadAtributos": 5,
+            "cantidadAtributos": 6,
             "atributos": [
                 {
                     "nombre": "b",
@@ -98,16 +59,22 @@
                     "posicion": 3
                 },
                 {
+                    "nombre": "arr",
+                    "tipo": "Array Int",
+                    "public": "true",
+                    "posicion": 4
+                },
+                {
                     "nombre": "boolean",
                     "tipo": "Bool",
                     "public": "true",
-                    "posicion": 4
+                    "posicion": 5
                 }
             ],
             "métodos": [
                 {
                     "nombre": "m1",
-                    "static": "false",
+                    "static": "true",
                     "retorno": "Int",
                     "posicion": 0,
                     "parámetros": [],
@@ -134,7 +101,7 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 1,
+            "cantidadMetodos": 2,
             "cantidadAtributos": 1,
             "atributos": [
                 {
@@ -147,9 +114,28 @@
             "métodos": [
                 {
                     "nombre": "m3",
-                    "static": "false",
+                    "static": "true",
                     "retorno": "Str",
                     "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "boolean",
+                            "tipo": "Bool",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "num",
+                            "tipo": "Int",
+                            "posicion": 1
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "m5",
+                    "static": "true",
+                    "retorno": "Bool",
+                    "posicion": 1,
                     "parámetros": [
                         {
                             "nombre": "boolean",
@@ -167,9 +153,54 @@
             ]
         },
         {
-            "nombre": "Bool",
+            "nombre": "Array Int",
             "heredaDe": "Object",
             "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array Char",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Start",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
             "cantidadMetodos": 0,
             "cantidadAtributos": 0,
             "atributos": [],
@@ -330,6 +361,74 @@
             ]
         },
         {
+            "nombre": "Int",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
+            "nombre": "Array Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Str",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 2,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "concat",
+                    "static": "false",
+                    "retorno": "Str",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Str",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": []
+        },
+        {
             "nombre": "Char",
             "heredaDe": "Object",
             "constructor": [],
@@ -346,15 +445,6 @@
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": []
-        },
-        {
-            "nombre": "Int",
-            "heredaDe": "Object",
-            "constructor": [],
-            "cantidadMetodos": 0,
-            "cantidadAtributos": 0,
-            "atributos": [],
-            "métodos": []
         }
     ],
     "start": {
@@ -363,6 +453,49 @@
         "retorno": "void",
         "posicion": 0,
         "parámetros": [],
-        "variables": []
+        "variables": [
+            {
+                "nombre": "num1",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 0
+            },
+            {
+                "nombre": "a",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 1
+            },
+            {
+                "nombre": "s",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 2
+            },
+            {
+                "nombre": "b",
+                "tipo": "B",
+                "public": "false",
+                "posicion": 3
+            },
+            {
+                "nombre": "arr",
+                "tipo": "Array Int",
+                "public": "false",
+                "posicion": 4
+            },
+            {
+                "nombre": "arrInt",
+                "tipo": "Array Int",
+                "public": "false",
+                "posicion": 5
+            },
+            {
+                "nombre": "boolean",
+                "tipo": "Bool",
+                "public": "false",
+                "posicion": 6
+            }
+        ]
     }
 }

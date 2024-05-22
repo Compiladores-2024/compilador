@@ -3,6 +3,9 @@ package src.lib.semanticHelper.astHelper.sentences;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
@@ -20,19 +23,22 @@ public class Conditional extends Sentence{
         this.elseBlock = elseBlock;
     }
 
-    public boolean isBool(IDToken conditionType){
-        return (conditionType.equals(IDToken.typeBOOL)
-        || conditionType.equals(IDToken.pTRUE)
-        || conditionType.equals(IDToken.pFALSE) );
-    }
-
     @Override
-    public void checkTypes(SymbolTable st, String struct, String method){
-        IDToken conditionType = this.condition.obtainType(st, struct, method);
-        if (conditionType!=null){
-            if (!isBool(conditionType)){
-                throw new SemanticException(this.token, "El tipo de la condicion if no es booleano");
-            }
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        //Consolida la condicion
+        condition.consolidate(st, struct, method, null);
+        
+        // si la condicion no es bool es un error
+        if (!condition.getResultTypeChained().equals(IDToken.typeBOOL.toString())){
+            throw new SemanticException(this.identifier, "El tipo de la condicion if no es booleano", true);
+        }
+
+        //Consolida el boque if
+        thenBlock.consolidate(st, struct, method, null);
+
+        //Si posee bloque else, lo consolida
+        if (elseBlock != null) {
+            elseBlock.consolidate(st, struct, method, null);
         }
     }
 

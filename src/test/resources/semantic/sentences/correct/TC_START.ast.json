@@ -5,33 +5,38 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "nil",
+                    "nombreVariable": "nil",
                     "tipoDeDato": "nil",
+                    "resultadoDeTipo": "NIL",
                     "encadenado": ""
                 },
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "false",
+                    "nombreVariable": "false",
                     "tipoDeDato": "literal Str",
+                    "resultadoDeTipo": "Str",
                     "encadenado": ""
                 },
                 {
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "b",
+                        "nombreVariable": "b",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": {
                             "tipo": "SimpleAccess",
-                            "lexema": "num",
+                            "nombreVariable": "num",
                             "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
                             "encadenado": ""
                         }
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "1",
+                        "nombreVariable": "1",
                         "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     }
                 }
@@ -44,7 +49,9 @@
             "sentencias": [
                 {}
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [

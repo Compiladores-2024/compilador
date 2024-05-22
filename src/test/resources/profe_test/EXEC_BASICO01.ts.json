@@ -33,7 +33,7 @@
             ]
         },
         {
-            "nombre": "Array",
+            "nombre": "Array Str",
             "heredaDe": "Object",
             "constructor": [],
             "cantidadMetodos": 1,
@@ -44,6 +44,42 @@
                     "nombre": "length",
                     "static": "false",
                     "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array Int",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array Char",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
                     "variables": []
@@ -239,6 +275,24 @@
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": []
+        },
+        {
+            "nombre": "Array Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
         }
     ],
     "start": {

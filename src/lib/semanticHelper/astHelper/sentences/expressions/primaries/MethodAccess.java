@@ -2,30 +2,42 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
+import src.lib.Static;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
-import src.lib.tokenHelper.IDToken;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 public class MethodAccess extends Primary{
-    
-    private Token method;
     private ArrayList<Expression> params;
 
-    public MethodAccess (Token value, ArrayList<Expression> params, Primary rightChained) {
-        super(rightChained);
+    public MethodAccess (Token identifier, ArrayList<Expression> params, Primary rightChained) {
+        super(identifier, rightChained);
         this.params = params;
-        this.method=value;
     }
 
     @Override
-    public void checkTypes(SymbolTable st, String struct, String method){
+    public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        Method methodToCheckParams;
 
-    }
+        //Valida que el método exista
+        variableMethodExist(st, struct, method, leftExpression);
 
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
+        //Obtiene el metodo al que hace referencia
+        if (leftExpression == null) {
+            methodToCheckParams = struct.getMethod(identifier.getLexema());
+        } else {
+            methodToCheckParams = st.getStruct(leftExpression.getResultType()).getMethod(identifier.getLexema());
+        }
+
+        //Consolida los parametros
+        Static.consolidateParams(params, st, struct, method, methodToCheckParams, identifier);
+
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
+        }
     }
 
     @Override
@@ -43,8 +55,9 @@ public class MethodAccess extends Primary{
 
         return "{\n" +
             tabs + "    \"tipo\": \"" + "MethodAccess" + "\",\n" +
-            tabs + "    \"método\": \"" + method.getLexema() +  "\",\n" +
-            tabs + "    \"params\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
+            tabs + "    \"nombreMetodo\": \"" + identifier.getLexema() +  "\",\n" +
+            tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
+            tabs + "    \"parametros\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
         tabs + "}";
     }
 }

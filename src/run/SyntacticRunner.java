@@ -22,7 +22,7 @@ public class SyntacticRunner {
      * @param args args
      */
     public static void main(String[] args) {
-        // args = new String[] {"src/test/resources/semantic/sentences/correct/TC_ASIGNATION.ru"};
+        //args = new String[] {"src/test/resources/extra_tests/return.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
@@ -38,8 +38,8 @@ public class SyntacticRunner {
                 Static.write(syntacticAnalyzer.toJSON().get(0), jsonPathOutTS);
                 Static.write(syntacticAnalyzer.toJSON().get(1), jsonPathOutAST);
 
-                // imprimir mensaje de exito semantico declaraciones
-                System.out.println("CORRECTO: SEMANTICO - DECLARACIONES");
+                // imprimir mensaje de exito semantico sentencias
+                System.out.println("CORRECTO: SEMANTICO - SENTENCIAS");
             }
             //Captura el error sintactico y lo muestra por pantalla 
             catch (SyntacticException e) {

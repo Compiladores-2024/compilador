@@ -1,28 +1,30 @@
 {
-        "Bloques de: start" : [
+    "start" : [
         {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "IO",
-        "id": "IO",
-        "rightChained":     {
-        "nombre": "MethodAccess",
-        "struct": "start",
-        "method": "start",
-        "MetodoAcceso": "out_int",
-        "params": [              {
-        "nombre": "SimpleAccess",
-        "struct": "start",
-        "method": "start",
-        "tipo": "literal Int",
-        "id": "12345",
-        "rightChained": ""
-    }
-    ]
-    }
-    }
-
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "12345",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
     ]
 
 }

@@ -3,6 +3,11 @@ package src.lib;
 import java.util.ArrayList;
 
 import src.lib.exceptionHelper.CustomException;
+import src.lib.exceptionHelper.SemanticException;
+import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.semanticHelper.symbolTableHelper.Method;
+import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -109,5 +114,71 @@ public class Static {
      */
     public static boolean isNumber(char c) {
         return 47 < c && c < 58;
+    }
+
+    public static String getPrimitiveDataType (String type) {
+        String result = type;
+        //Si posee la palabra literal, obtiene el tipo de dato primitivo
+        if (type.contains("literal")) {
+            result = type.split("literal")[1].trim();
+        }
+        return result;
+    }
+
+    public static void checkInherited (SymbolTable st, String origin, String currentType, Token metadata) {
+        boolean isInherited = false;
+        String resultType=currentType;
+        //Solo si el tipo de dato no es void
+        if (!currentType.equals("void")) {
+            //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
+            while (!currentType.equals("Object") && !isInherited) {
+                //Parseo el tipo de dato
+                currentType = getPrimitiveDataType(currentType);
+                
+                //Obtiene el padre 
+                currentType = st.getStruct(currentType).getParent();
+    
+                //Valida si se obtuvo el tipo correcto
+                isInherited = origin.equals(currentType);
+            }
+        }
+
+        //Si no encuentra herencia, retorna error
+        if (!isInherited) {
+            throw new SemanticException(metadata, "Se esperaba una variable de tipo " + origin + " y se encontro una de tipo " + resultType + ".", true);
+        }
+    }
+
+    public static void consolidateParams (ArrayList<Expression> params, SymbolTable st, Struct struct, Method method, Method methodToCheckParams, Token identifier) {
+        String resultType, paramType;
+
+        //Si no se le envia la cantidad necesaria de parametros, retorna null
+        if (methodToCheckParams.getParamsSize() != params.size()) {
+            throw new SemanticException(identifier, "Cantidad de argumentos inválida.", true);
+        }
+        
+        //Consolida los parametros
+        for (Expression param : params) {
+            //Consolida la expresion
+            param.consolidate(st, struct, method, null);
+            
+            // Valida que el tipo de dato del parametro sea el mismo
+            resultType = getPrimitiveDataType(param.getResultTypeChained());
+            paramType = methodToCheckParams.getParamType(param.getPosition());
+            //Si son tipos de datos distintos
+            if (!paramType.equals(resultType)) {
+                //Si el valor a enviar es nil
+                if (resultType.equals("NIL")) {
+                    //El parametro no debe ser de tipo dato primitivo
+                    if (Const.primitiveTypes.contains(paramType)) {
+                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
+                    }
+                }
+                else {
+                    //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
+                    Static.checkInherited(st, paramType, resultType, identifier);
+                }
+            }
+        }
     }
 }

@@ -7,8 +7,9 @@
                     "tipo": "Return",
                     "expresión": {
                         "tipo": "SimpleAccess",
-                        "lexema": "nil",
+                        "nombreVariable": "nil",
                         "tipoDeDato": "nil",
+                        "resultadoDeTipo": "NIL",
                         "encadenado": ""
                     }
                 }
@@ -33,7 +34,9 @@
             "sentencias": [
                 {}
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [

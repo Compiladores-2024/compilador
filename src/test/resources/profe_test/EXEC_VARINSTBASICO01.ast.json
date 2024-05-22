@@ -5,16 +5,19 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "IO",
+                    "nombreVariable": "IO",
                     "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "método": "out_int",
-                        "params": [
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "lexema": "a1",
+                                "nombreVariable": "a1",
                                 "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
                         ]
@@ -35,19 +38,23 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "a1",
+                        "nombreVariable": "a1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "p1",
+                        "nombreVariable": "p1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     }
                 }
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [
@@ -55,28 +62,33 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "x",
+                        "nombreVariable": "x",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "CreateInstance",
                         "identificador": "A",
+                        "resultadoDeTipo": "A",
                         "parámetros": []
                     }
                 },
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "x",
+                    "nombreVariable": "x",
                     "tipoDeDato": "id variable o método",
+                    "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "método": "seta1",
-                        "params": [
+                        "nombreMetodo": "seta1",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "lexema": "1234",
+                                "nombreVariable": "1234",
                                 "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
                         ]
@@ -84,12 +96,14 @@
                 },
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "x",
+                    "nombreVariable": "x",
                     "tipoDeDato": "id variable o método",
+                    "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "método": "m1",
-                        "params": []
+                        "nombreMetodo": "m1",
+                        "resultadoDeTipo": "void",
+                        "parametros": []
                     }
                 }
             ]
