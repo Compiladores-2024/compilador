@@ -175,6 +175,10 @@ public class Static {
                     }
                 }
                 else {
+                    // si los tipos son distintos y un parametro es de tipo Object                     
+                    if (resultType.equals("Object")){
+                        throw new SemanticException(identifier, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);                        
+                    }
                     //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
                     Static.checkInherited(st, paramType, resultType, identifier);
                 }
