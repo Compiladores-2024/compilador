@@ -98,7 +98,7 @@ public class Method extends Metadata{
         }
 
         //Retorna la signature
-        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.toString();
+        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.getLexema();
     }
     
 
