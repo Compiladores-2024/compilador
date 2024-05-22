@@ -21,11 +21,7 @@ public class SimpleAccess extends Primary{
         }
         else{
             // se asigna el resultType
-            setResultType(
-                idToken.contains("literal") ? 
-                    idToken.split("literal")[1].trim() 
-                    : (idToken.contains("nil") ? "NIL" : "Bool")
-            );
+            setResultType(idToken.contains("literal") ? idToken : (idToken.contains("nil") ? "NIL" : "Bool"));
         }
 
         //Si tiene encadenado, lo consolida

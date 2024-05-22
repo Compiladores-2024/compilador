@@ -32,7 +32,20 @@ public class UnaryExpression extends Expression{
     }
 
     private void checkType () {
-        switch (expression.getResultTypeChained()) {
+        String type = expression.getResultTypeChained();
+
+        //Valida que no sea un literal
+        if (type.contains("literal")) {
+            throw new SemanticException(identifier, "No se permiten operaciones unarias con literales.", true);
+        }
+
+        //Valida que no sea un array
+        if (type.contains("Array")) {
+            throw new SemanticException(identifier, "No se permiten operaciones unarias con arrays.", true);
+        }
+
+        //Verifica el tipo de dato
+        switch (type) {
             case "Int":
                 if (operator.equals(IDToken.oNOT)) {
                     throw new SemanticException(identifier, "Se esperaba un tipo de dato booleano", true);

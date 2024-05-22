@@ -116,16 +116,31 @@ public class Static {
         return 47 < c && c < 58;
     }
 
+    public static String getPrimitiveDataType (String type) {
+        String result = type;
+        //Si posee la palabra literal, obtiene el tipo de dato primitivo
+        if (type.contains("literal")) {
+            result = type.split("literal")[1].trim();
+        }
+        return result;
+    }
+
     public static void checkInherited (SymbolTable st, String origin, String currentType, Token metadata) {
         boolean isInherited = false;
         String resultType=currentType;
-        //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
-        while (currentType != "Object" && !isInherited) {
-            //Obtiene el padre 
-            currentType = st.getStruct(currentType).getParent();
-
-            //Valida si se obtuvo el tipo correcto
-            isInherited = origin.equals(currentType);
+        //Solo si el tipo de dato no es void
+        if (!currentType.equals("void")) {
+            //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
+            while (!currentType.equals("Object") && !isInherited) {
+                //Parseo el tipo de dato
+                currentType = getPrimitiveDataType(currentType);
+                
+                //Obtiene el padre 
+                currentType = st.getStruct(currentType).getParent();
+    
+                //Valida si se obtuvo el tipo correcto
+                isInherited = origin.equals(currentType);
+            }
         }
 
         //Si no encuentra herencia, retorna error
@@ -148,10 +163,10 @@ public class Static {
             param.consolidate(st, struct, method, null);
             
             // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultTypeChained();
+            resultType = getPrimitiveDataType(param.getResultTypeChained());
             paramType = methodToCheckParams.getParamType(param.getPosition());
             //Si son tipos de datos distintos
-            if (!paramType.contains(resultType)) {
+            if (!paramType.equals(resultType)) {
                 //Si el valor a enviar es nil
                 if (resultType.equals("NIL")) {
                     //El parametro no debe ser de tipo dato primitivo

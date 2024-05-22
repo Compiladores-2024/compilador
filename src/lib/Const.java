@@ -91,5 +91,9 @@ public class Const {
         add("Str");
         add("Char");
         add("Bool");
+        add("literal Int");
+        add("literal Str");
+        add("literal Char");
+        add("literal Bool");
     }};
 }
