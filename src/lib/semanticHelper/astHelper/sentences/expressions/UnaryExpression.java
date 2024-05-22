@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
@@ -32,10 +33,10 @@ public class UnaryExpression extends Expression{
     }
 
     private void checkType () {
-        String type = expression.getResultTypeChained();
+        String type = Static.getPrimitiveDataType(expression.getResultTypeChained());
 
-        //Valida que no sea un literal
-        if (type.contains("literal")) {
+        //Valida que no sea un literal solo si el operador no es + o -
+        if (type.contains("literal") && !operator.equals(IDToken.oSUM) && !operator.equals(IDToken.oSUB)) {
             throw new SemanticException(identifier, "No se permiten operaciones unarias con literales.", true);
         }
 

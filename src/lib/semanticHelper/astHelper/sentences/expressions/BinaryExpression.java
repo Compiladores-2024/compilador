@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
 import src.lib.Const;
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
@@ -33,8 +34,8 @@ public class BinaryExpression extends Expression{
         rightSide.consolidate(st, struct, method, leftExpression);
 
         //Valida que posean el mismo tipo de dato
-        leftType = leftSide.getResultTypeChained();
-        rightType = rightSide.getResultTypeChained();
+        leftType = Static.getPrimitiveDataType(leftSide.getResultTypeChained());
+        rightType = Static.getPrimitiveDataType(rightSide.getResultTypeChained());
 
         //Si los operadores no son iguales
         if (!leftType.equals(rightType)){
