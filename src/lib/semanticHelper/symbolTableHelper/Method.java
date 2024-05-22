@@ -51,9 +51,6 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
-    public boolean isStatic() {
-        return isStatic;
-    }
     public int getParamsSize () {
         return params.size();
     }
@@ -90,10 +87,8 @@ public class Method extends Metadata{
      * @return Boolean con la signature del método.
      */
     public Boolean isStatic(){
-        return this.isStatic==true;
+        return this.isStatic;
     }
-
-
 
     /**
      * Retorna la firma de un método.
