@@ -33,7 +33,7 @@ public class UnaryExpression extends Expression{
     }
 
     private void checkType () {
-        String type = Static.getPrimitiveDataType(expression.getResultTypeChained());
+        String type = expression.getResultTypeChained();
 
         //Valida que no sea un literal solo si el operador no es + o -
         if (type.contains("literal") && !operator.equals(IDToken.oSUM) && !operator.equals(IDToken.oSUB)) {
@@ -44,6 +44,9 @@ public class UnaryExpression extends Expression{
         if (type.contains("Array")) {
             throw new SemanticException(identifier, "No se permiten operaciones unarias con arrays.", true);
         }
+
+        //Mapea el valor si debiese
+        type = Static.getPrimitiveDataType(type);
 
         //Verifica el tipo de dato
         switch (type) {
