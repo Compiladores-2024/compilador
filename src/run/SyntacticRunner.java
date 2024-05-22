@@ -22,7 +22,7 @@ public class SyntacticRunner {
      * @param args args
      */
     public static void main(String[] args) {
-        //args = new String[] {"src/test/resources/extra_tests/return.ru"};
+        // args = new String[] {"src/test/resources/semantic/sentences/error/TC_ERROR_OPERATION3.ru"};
         if (args.length > 0) {
             try{
                 SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
@@ -35,7 +35,7 @@ public class SyntacticRunner {
                 String ruta = args[0].split(".ru")[0];
                 String jsonPathOutTS = ruta+".ts.json"; 
                 String jsonPathOutAST = ruta+".ast.json"; 
-                Static.write(syntacticAnalyzer.toJSON().get(0), jsonPathOutTS);
+                // Static.write(syntacticAnalyzer.toJSON().get(0), jsonPathOutTS);
                 Static.write(syntacticAnalyzer.toJSON().get(1), jsonPathOutAST);
 
                 // imprimir mensaje de exito semantico sentencias
