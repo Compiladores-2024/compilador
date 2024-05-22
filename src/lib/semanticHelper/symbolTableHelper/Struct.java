@@ -78,12 +78,16 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    public String getAttributeType (String name, String implStruct) {
+    public String getAttributeType (String name) {
         String result = null;
         Variable v = variables.get(name);
         if (v != null) {
-            if (!v.isPrivate() || (this.getName().equals(implStruct))) {
+            if ( !(v.isPrivate())){
                 result = v.getType();
+            } else{
+                if (!(v.isInherited())){
+                    result = v.getType();
+                }
             }
         }
         return result;
@@ -186,7 +190,9 @@ public class Struct extends Metadata {
         for (String varName : parentVariables.keySet()) {
             //Si el atributo no existe, lo agrega
             if (variables.get(varName) == null) {
-                variables.put(varName, parentVariables.get(varName));
+                Variable newVar = new Variable(parentVariables.get(varName).getMetadata(), parentVariables.get(varName).getTypeToken(), parentVariables.get(varName).isPrivate(), parentVariables.get(varName).getPosition());
+                newVar.setIsInherited(true);
+                variables.put(varName, newVar);
             }
             //Si existe, se redefine y es error
             else {
