@@ -88,7 +88,7 @@ public class BinaryExpression extends Expression{
             case oMULT:
             case oSUM:
             case oSUB:
-                if (!type.equals("Int")){
+                if ( !(type.equals("Int") || type.equals("literal Int") ) ){
                     throw new SemanticException(identifier, "Operacion " + operator + " no soportada para operandos de tipo " + type, true);
                 }
                 break;
