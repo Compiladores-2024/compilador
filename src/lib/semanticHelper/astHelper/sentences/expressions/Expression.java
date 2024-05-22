@@ -13,8 +13,11 @@ import src.lib.tokenHelper.Token;
  */
 public abstract class Expression extends Sentence{
     
+    /** Tipo de dato de la expresión */
     protected String resultType;
+    /** Encadenado derecho */
     protected Primary rightChained;
+    /** Posición del parámetro */
     protected int position;
     
     /**

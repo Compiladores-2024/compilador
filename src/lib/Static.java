@@ -117,7 +117,8 @@ public class Static {
     }
 
     /** 
-     * @param type
+     * Mapea el tipo de dato, solo si es de tipo primitivo
+     * @param type Tipo de dato
      * @return String
      */
     public static String getPrimitiveDataType (String type) {

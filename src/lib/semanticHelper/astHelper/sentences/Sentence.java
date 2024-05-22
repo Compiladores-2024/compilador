@@ -14,7 +14,7 @@ import src.lib.tokenHelper.Token;
  * @since 17/05/2024
  */
 public abstract class Sentence {
-    
+    /** Identificador de la sentencia */
     protected Token identifier;
     
     /** 

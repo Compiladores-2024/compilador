@@ -16,6 +16,9 @@ import src.lib.semanticHelper.symbolTableHelper.Struct;
 public class AST {
     private HashMap<String, HashMap<String, SentenceBlock>> blocks;
 
+    /**
+     * Constructor de la clase.
+     */
     public AST(){
         this.blocks = new HashMap<String, HashMap<String, SentenceBlock>>();
     }
@@ -67,7 +70,7 @@ public class AST {
     /**
      * Convierte los datos en JSON.
      * 
-     * @since 22/04/2024
+     * @param tabs Cantidad de separaciones
      * @return Estructura de datos en formato JSON
      */
     public String toJSON(String tabs) {

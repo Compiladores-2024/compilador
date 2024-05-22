@@ -86,6 +86,7 @@ public class Const {
         put("Array", IDToken.typeARRAY);
     }};
 
+    /** Hash que guarda los tipos de datos primitivos */
     public static final HashSet<String> primitiveTypes = new HashSet<String>(){{
         add("Int");
         add("Str");

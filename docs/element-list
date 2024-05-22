@@ -2,6 +2,10 @@ src.lib
 src.lib.exceptionHelper
 src.lib.lexicalHelper
 src.lib.semanticHelper
+src.lib.semanticHelper.astHelper
+src.lib.semanticHelper.astHelper.sentences
+src.lib.semanticHelper.astHelper.sentences.expressions
+src.lib.semanticHelper.astHelper.sentences.expressions.primaries
 src.lib.semanticHelper.symbolTableHelper
 src.lib.syntaxHelper
 src.lib.tokenHelper

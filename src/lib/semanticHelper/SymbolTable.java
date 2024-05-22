@@ -212,6 +212,7 @@ public class SymbolTable {
      * @param token Metadata con el token correspondiente al idStruct
      * @param parent IDToken que representa la clase de la cual hereda el struct (Por defecto Object)
      * @param isFromStruct Booleano que avisa si se está generando desde un struct o un implement
+     * @return Struct
      */
     public Struct addStruct(Token token, Token parent, boolean isFromStruct) {
         String sStruct = token.getLexema(), sParent = parent != null ? parent.getLexema() : "Object";
@@ -322,7 +323,6 @@ public class SymbolTable {
      * @param token Metadata con el token correspondiente al idVar
      * @param type Tipo de dato
      * @param isPrivate Booleano que avisa si la variable es privada o no
-     * @param isAtribute Booleano que avisa si es un atributo o variable local
      */
     public void addVar(Token token, Token type, boolean isPrivate) {
         //Valida si se ha definido la estructura de tipo
@@ -359,6 +359,8 @@ public class SymbolTable {
      * @param params ArrayList con los parámetros del método
      * @param isStatic Booleano que avisa si es estático o no
      * @param returnTypeToken Tipo de retorno del método
+     * @param currentStruct Estructura actual a la cual hace referencia
+     * @return Method
      */
     public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
         Method result;

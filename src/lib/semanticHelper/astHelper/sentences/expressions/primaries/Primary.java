@@ -49,7 +49,7 @@ public abstract class Primary extends Expression{
      * @param st Tabla de símbolos
      * @param struct Estructura actual
      * @param method Método actual
-     * @param leftExpression Expresión previa
+     * @param leftSide Expresión previa
      */
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
         String type = null;
@@ -110,10 +110,9 @@ public abstract class Primary extends Expression{
 
     
     /** 
-     * Convierte los datos en JSON.
+     * Valida que la estructura exista
      * 
-     * @param tabs Cantidad de separaciones
-     * @return String
+     * @param st Tabla de símbolos
      */
     protected void structExist (SymbolTable st) {
         Struct struct = st.getStruct(identifier.getLexema());

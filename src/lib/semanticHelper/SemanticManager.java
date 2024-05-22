@@ -8,6 +8,13 @@ import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.Token;
 
+/**
+ * Clase encargada de manejar la tablad e símbolos y el AST
+ * 
+ * @author Cristian Serrano
+ * @author Federico Gimenez
+ * @since 17/05/2024
+ */
 public class SemanticManager {
     private Struct currentStruct;
     private Method currentMethod;
@@ -15,6 +22,9 @@ public class SemanticManager {
     private SymbolTable symbolTable;
     private AST ast;
 
+    /**
+     * Constructor de la clase.
+     */
     public SemanticManager () {
         //Genera la tabla de símbolos
         symbolTable = new SymbolTable();
@@ -99,14 +109,17 @@ public class SemanticManager {
         );
     }
 
+    /**
+     * Consolida la tabla de símbolos y el arbol sintáctico abstracto
+     */
     public void consolidate (){
         symbolTable.consolidate();
         ast.consolidate(symbolTable);
     }
 
     /** 
-     * Genera un ArrayList<String> con los json generados para tabla de símbolos y ast
-     * @return ArrayList<String> con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
+     * Genera un ArrayList de strings con los json generados para tabla de símbolos y ast
+     * @return ArrayList de strings con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
      */
     public ArrayList<String> toJSON () {
         ArrayList<String> generacionIntermedias = new ArrayList<String>(2);

@@ -149,13 +149,19 @@ public class Method extends Metadata{
     }
     
     /** 
-     * @param name
+     * Obtiene el tipo de parámetro
+     * 
+     * @param name Nombre del parámetro
      * @return String
      */
     public String getParamType(String name) {
         return params.get(name) != null ? params.get(name).getType().getLexema() : null;
     }
 
+    /**
+     * Obtiene el tipo de dato
+     * @return String
+     */
     public String getReturnType () {
         return returnType.getLexema();
     }

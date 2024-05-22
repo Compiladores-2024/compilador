@@ -356,6 +356,7 @@ public class Struct extends Metadata {
 
     /**
      * Método que consolida la estructura
+     * @param staticStructs Estructuras estáticas para consolidar
      */
     public void consolidate (HashSet<String> staticStructs) {
         if (!getName().equals("Object")) {
