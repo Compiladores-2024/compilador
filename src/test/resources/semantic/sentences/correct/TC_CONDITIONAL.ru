@@ -15,7 +15,7 @@ impl A{
         structB = new B();
         if (true){
             a=1;
-            boolean = ++1 >=3;
+            boolean = ++a >=3;
         }
         else{
             if(structB.condition == true ){
