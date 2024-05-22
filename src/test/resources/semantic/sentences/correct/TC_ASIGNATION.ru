@@ -44,7 +44,7 @@ start{
     ("false");
     b=new B((++num1));
     b.num=1;
-    a=++1;
+    a=++b.num;
     arr=new Int[5];
     arr=new Int[b.num];
     arrInt[0]=0;

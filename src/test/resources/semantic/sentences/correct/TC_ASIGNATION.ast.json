@@ -9,7 +9,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "0",
                         "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
                 }
@@ -38,7 +38,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "",
                         "tipoDeDato": "literal Str",
-                        "resultadoDeTipo": "Str",
+                        "resultadoDeTipo": "literal Str",
                         "encadenado": ""
                     }
                 }
@@ -83,7 +83,7 @@
                     "tipo": "SimpleAccess",
                     "nombreVariable": "false",
                     "tipoDeDato": "literal Str",
-                    "resultadoDeTipo": "Str",
+                    "resultadoDeTipo": "literal Str",
                     "encadenado": ""
                 },
                 {
@@ -103,7 +103,7 @@
                             {
                                 "tipo": "UnaryExpression",
                                 "operador": "++",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "expresion": {
                                     "tipo": "SimpleAccess",
                                     "nombreVariable": "num1",
@@ -134,7 +134,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "1",
                         "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
                 },
@@ -150,13 +150,19 @@
                     "rightSide": {
                         "tipo": "UnaryExpression",
                         "operador": "++",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "expresion": {
                             "tipo": "SimpleAccess",
-                            "nombreVariable": "1",
-                            "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
-                            "encadenado": ""
+                            "nombreVariable": "b",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "B",
+                            "encadenado": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "num",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
                         }
                     }
                 },
@@ -177,7 +183,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "5",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     }
@@ -220,7 +226,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "0",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     },
@@ -228,7 +234,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "0",
                         "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
                 },
@@ -244,18 +250,18 @@
                     "rightSide": {
                         "tipo": "BinaryExpression",
                         "operador": "+",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "leftSide": {
                             "tipo": "SimpleAccess",
                             "nombreVariable": "1",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         },
                         "rightSide": {
                             "tipo": "UnaryExpression",
                             "operador": "++",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "expresion": {
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "A",
@@ -301,7 +307,7 @@
                                     "tipo": "SimpleAccess",
                                     "nombreVariable": "1",
                                     "tipoDeDato": "literal Int",
-                                    "resultadoDeTipo": "Int",
+                                    "resultadoDeTipo": "literal Int",
                                     "encadenado": ""
                                 }
                             ]
@@ -325,7 +331,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "0",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     }
@@ -399,7 +405,7 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "10",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
                         }
@@ -448,7 +454,7 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "1",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
                         }

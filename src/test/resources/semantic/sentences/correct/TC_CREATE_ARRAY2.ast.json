@@ -20,7 +20,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "5",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     }
@@ -95,7 +95,7 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "1",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
                         }
@@ -117,7 +117,7 @@
                         "dimension": {
                             "tipo": "UnaryExpression",
                             "operador": "++",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "expresion": {
                                 "tipo": "MethodAccess",
                                 "nombreMetodo": "m2",
@@ -148,7 +148,7 @@
                         "tipo": "SimpleAccess",
                         "nombreVariable": "10",
                         "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
                 }
