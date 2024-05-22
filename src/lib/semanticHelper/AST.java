@@ -20,6 +20,12 @@ public class AST {
         this.blocks = new HashMap<String, HashMap<String, SentenceBlock>>();
     }
 
+    
+    /** 
+     * Agrega un bloque al AST.
+     * @param currentStruct Estructura actual.
+     * @param block Bloque a agregar.
+     */
     public void addBlock(Struct currentStruct, SentenceBlock block){
         String structName = currentStruct != null ? currentStruct.getName() : "start";
         //Nombre del metodo actual e informacion del bloque
@@ -30,6 +36,12 @@ public class AST {
     }
 
 
+    
+    /** 
+     * Método que consolida el arbol sintáctico abstracto.
+     * 
+     * @param symbolTable Tabla de símbolos.
+     */
     public void consolidate(SymbolTable symbolTable){
         Struct currentStruct;
         //Recorre las estructuras
@@ -52,6 +64,12 @@ public class AST {
         }
     }
 
+    /**
+     * Convierte los datos en JSON.
+     * 
+     * @since 22/04/2024
+     * @return Estructura de datos en formato JSON
+     */
     public String toJSON(String tabs) {
         String blocksJSON = "";
         SentenceBlock block;

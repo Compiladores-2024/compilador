@@ -116,6 +116,10 @@ public class Static {
         return 47 < c && c < 58;
     }
 
+    /** 
+     * @param type
+     * @return String
+     */
     public static String getPrimitiveDataType (String type) {
         String result = type;
         //Si posee la palabra literal, obtiene el tipo de dato primitivo
@@ -125,6 +129,14 @@ public class Static {
         return result;
     }
 
+    
+    /** 
+     * Valida que el tipo de dato dado sea válido según herencia.
+     * @param st Tabla de símbolos
+     * @param origin Tipo de dato de origen
+     * @param currentType Tipo de dato a validar
+     * @param metadata Metadata para errores
+     */
     public static void checkInherited (SymbolTable st, String origin, String currentType, Token metadata) {
         boolean isInherited = false;
         String resultType=currentType;
@@ -149,6 +161,17 @@ public class Static {
         }
     }
 
+    
+    /** 
+     * Consolida los parámetros de un método.
+     * 
+     * @param params Parámetros a consolidar
+     * @param st Tabla de símbolos
+     * @param struct Estructura actual
+     * @param method Método actual
+     * @param methodToCheckParams Método a validar
+     * @param identifier Identificador para manejo de errores
+     */
     public static void consolidateParams (ArrayList<Expression> params, SymbolTable st, Struct struct, Method method, Method methodToCheckParams, Token identifier) {
         String resultType, paramType;
 

@@ -28,9 +28,20 @@ public class Variable extends Metadata{
         this.isPrivate = isPrivate;
     }
 
+    
+    /** 
+     * Obtiene el tipo de dato de la variable.
+     * 
+     * @return Tipo de dato.
+     */
     public String getType(){
         return this.type.getLexema();
     }
+    
+    /** 
+     * Obtiene si es privado o no.
+     * @return Booleano que avisa si es privado o no.
+     */
     public boolean isPrivate() {
         return isPrivate;
     }

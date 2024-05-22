@@ -21,6 +21,11 @@ public class SentenceBlock {
         this.idBlock = idBlock;
     }
 
+    
+    /** 
+     * Obtiene el id de bloque
+     * @return ID del bloque
+     */
     public String getIDBlock() {
         return idBlock.getLexema();
     }

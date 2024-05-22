@@ -78,6 +78,13 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
+    
+    /** 
+     * Obtiene el tipo de dato del atributo
+     * @param name Nombre del atributo.
+     * @param implStruct Estructura a la cual hace referencia.
+     * @return Tipo de dato del atributo, solo si puede acceder.
+     */
     public String getAttributeType (String name, String implStruct) {
         String result = null;
         Variable v = variables.get(name);
@@ -88,6 +95,13 @@ public class Struct extends Metadata {
         }
         return result;
     }
+    
+    /** 
+     * Obtiene el tipo de retorno de un método.
+     * @param name Nombre del método.
+     * @param isIDStruct Booleano que identifica si se accede de manera estática
+     * @return Tipo de dato del retorno.
+     */
     public String getReturnMethodType (String name, boolean isIDStruct) {
         String result = null;
         Method m = methods.get(name);
@@ -103,6 +117,12 @@ public class Struct extends Metadata {
         return result;
     }
 
+    
+    /** 
+     * Obtiene un método.
+     * @param name Nombre del método.
+     * @return Método.
+     */
     public Method getMethod(String name) {
         if (name == "Constructor") {
             return constructor;

@@ -51,6 +51,12 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
+    
+    /** 
+     * Obtiene la cantidad de parámetros que posee el método.
+     * 
+     * @return Cantidad de parámetros del método 
+     */
     public int getParamsSize () {
         return params.size();
     }
@@ -107,6 +113,13 @@ public class Method extends Metadata{
     }
     
 
+    
+    /** 
+     * Obtiene el tipo de dato de una variable dada
+     * 
+     * @param name Nombre de la variable a obtener
+     * @return Tipo de dato de la variable
+     */
     public String getVariableType (String name) {
         //Valida si es una variable local
         String result = variables.get(name) != null ? variables.get(name).getType().toString() : null;
@@ -119,6 +132,13 @@ public class Method extends Metadata{
         return result;
     }
     
+    
+    /** 
+     * Obtiene el tipo de dato de una variable dada
+     * 
+     * @param position Posición de la variable a obtener
+     * @return Tipo de dato de la variable
+     */
     public String getParamType(int position) {
         for (Param param : params.values()) {
             if (param.getPosition() == position) {
@@ -127,6 +147,11 @@ public class Method extends Metadata{
         }
         return null;
     }
+    
+    /** 
+     * @param name
+     * @return String
+     */
     public String getParamType(String name) {
         return params.get(name) != null ? params.get(name).getType().getLexema() : null;
     }

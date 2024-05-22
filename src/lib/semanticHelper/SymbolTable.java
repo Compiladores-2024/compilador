@@ -332,10 +332,21 @@ public class SymbolTable {
     }
 
 
+    
+    /** 
+     * Obtiene una estructura dada
+     * @param name Nombre de la estructura
+     * @return Struct
+     */
     public Struct getStruct(String name){
         return this.structs.get(name);
     }
 
+    
+    /** 
+     * Obtiene el método start.
+     * @return Method
+     */
     public Method getStartMehod () {
         return start;
     }
