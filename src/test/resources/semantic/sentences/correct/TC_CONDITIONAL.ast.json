@@ -1,0 +1,196 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "structB",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "B",
+                        "resultadoDeTipo": "B",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "Conditional",
+                    "condicion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "true",
+                        "tipoDeDato": "true",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "thenBlock": [
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "a",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        },
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "boolean",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Bool",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "BinaryExpression",
+                                "operador": ">=",
+                                "resultadoDeTipo": "Bool",
+                                "leftSide": {
+                                    "tipo": "UnaryExpression",
+                                    "operador": "++",
+                                    "resultadoDeTipo": "Int",
+                                    "expresion": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "1",
+                                        "tipoDeDato": "literal Int",
+                                        "resultadoDeTipo": "Int",
+                                        "encadenado": ""
+                                    }
+                                },
+                                "rightSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "3",
+                                    "tipoDeDato": "literal Int",
+                                    "resultadoDeTipo": "Int",
+                                    "encadenado": ""
+                                }
+                            }
+                        }
+                    ],
+                    "elseBlock": [
+{
+                            "tipo": "Conditional",
+                            "condicion": {
+                                "tipo": "BinaryExpression",
+                                "operador": "==",
+                                "resultadoDeTipo": "Bool",
+                                "leftSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "structB",
+                                    "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "B",
+                                    "encadenado": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "condition",
+                                        "tipoDeDato": "id variable o método",
+                                        "resultadoDeTipo": "Bool",
+                                        "encadenado": ""
+                                    }
+                                },
+                                "rightSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "true",
+                                    "tipoDeDato": "true",
+                                    "resultadoDeTipo": "Bool",
+                                    "encadenado": ""
+                                }
+                            },
+                            "thenBlock": [
+{
+                                    "tipo": "Return",
+                                    "expresión": ""
+                                }
+                            ],
+                            "elseBlock": [
+{
+                                    "tipo": "Asignation",
+                                    "leftSide": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "a",
+                                        "tipoDeDato": "id variable o método",
+                                        "resultadoDeTipo": "Int",
+                                        "encadenado": ""
+                                    },
+                                    "rightSide": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "100",
+                                        "tipoDeDato": "literal Int",
+                                        "resultadoDeTipo": "Int",
+                                        "encadenado": ""
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "nil",
+                    "tipoDeDato": "nil",
+                    "resultadoDeTipo": "NIL",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "false",
+                    "tipoDeDato": "literal Str",
+                    "resultadoDeTipo": "Str",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "1",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

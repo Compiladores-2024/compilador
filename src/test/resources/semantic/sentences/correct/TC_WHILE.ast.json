@@ -1,0 +1,83 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Loop",
+                    "condicion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "true",
+                        "tipoDeDato": "true",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "bloqueLoop": [
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "a",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "nil",
+                    "tipoDeDato": "nil",
+                    "resultadoDeTipo": "NIL",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "false",
+                    "tipoDeDato": "literal Str",
+                    "resultadoDeTipo": "Str",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "1",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

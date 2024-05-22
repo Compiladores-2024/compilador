@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import src.lib.exceptionHelper.SemanticException;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -16,7 +15,7 @@ import src.lib.tokenHelper.Token;
  */
 public class Method extends Metadata{
     private boolean isStatic;
-    private IDToken returnType;
+    private Token returnType;
     private int currentVarIndex;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
@@ -31,7 +30,7 @@ public class Method extends Metadata{
      * @param isStatic Booleano para identificar si es estático o no
      * @param position Posición dentro de la tabla de símbolos
      */
-    public Method (Token metadata, ArrayList<Param> parameters, IDToken returnType, boolean isStatic, int position) {
+    public Method (Token metadata, ArrayList<Param> parameters, Token returnType, boolean isStatic, int position) {
         super(metadata, position);
 
         variables = new HashMap<String, Variable>();
@@ -52,7 +51,13 @@ public class Method extends Metadata{
         this.currentVarIndex = 0;
     }
 
-    
+    public boolean isStatic() {
+        return isStatic;
+    }
+    public int getParamsSize () {
+        return params.size();
+    }
+
     /** 
      * Método que agrega una variable local al método.
      * 
@@ -103,9 +108,39 @@ public class Method extends Metadata{
         }
 
         //Retorna la signature
-        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.toString();
+        return (this.isStatic ? "st " : "") + getName() + " " + sParams + "-> " + returnType.getLexema();
     }
     
+
+    public String getVariableType (String name) {
+        //Valida si es una variable local
+        String result = variables.get(name) != null ? variables.get(name).getType().toString() : null;
+
+        //Si no lo es, valida que sea un param
+        if (result == null) {
+            result = params.get(name) != null ? params.get(name).getType().toString() : null;
+        }
+        
+        return result;
+    }
+    
+    public String getParamType(int position) {
+        for (Param param : params.values()) {
+            if (param.getPosition() == position) {
+                return param.getType().getLexema();
+            }
+        }
+        return null;
+    }
+    public String getParamType(String name) {
+        return params.get(name) != null ? params.get(name).getType().getLexema() : null;
+    }
+
+    public String getReturnType () {
+        return returnType.getLexema();
+    }
+
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
@@ -119,7 +154,7 @@ public class Method extends Metadata{
         return tabs + "{\n" +
             tabs + "    \"nombre\": \"" + getName() + "\",\n" +
             tabs + "    \"static\": \"" + isStatic + "\",\n" +
-            tabs + "    \"retorno\": \"" + returnType.toString() + "\",\n" +
+            tabs + "    \"retorno\": \"" + returnType.getLexema() + "\",\n" +
             tabs + "    \"posicion\": " + getPosition() + ",\n" +
             tabs + "    \"parámetros\": [" + paramsJSON +  (paramsJSON == "" ? "" : (tabs + "    ")) + "],\n" +
             tabs + "    \"variables\": [" + variableJSON +  (variableJSON == "" ? "" : (tabs + "    ")) + "]\n" +

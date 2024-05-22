@@ -8,7 +8,24 @@ import java.util.stream.Collectors;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
-import src.lib.semanticHelper.SymbolTable;
+import src.lib.semanticHelper.SemanticManager;
+import src.lib.semanticHelper.astHelper.SentenceBlock;
+import src.lib.semanticHelper.astHelper.sentences.Assignation;
+import src.lib.semanticHelper.astHelper.sentences.Block;
+import src.lib.semanticHelper.astHelper.sentences.Conditional;
+import src.lib.semanticHelper.astHelper.sentences.Loop;
+import src.lib.semanticHelper.astHelper.sentences.Return;
+import src.lib.semanticHelper.astHelper.sentences.Sentence;
+import src.lib.semanticHelper.astHelper.sentences.expressions.BinaryExpression;
+import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.semanticHelper.astHelper.sentences.expressions.UnaryExpression;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.ArrayAccess;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateArray;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.CreateInstance;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.MethodAccess;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleSentence;
 import src.lib.semanticHelper.symbolTableHelper.Param;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -25,7 +42,7 @@ import src.lib.syntaxHelper.First;
  */
 public class SyntacticAnalyzer { 
     LexicalAnalyzer lexicalAnalyzer;
-    SymbolTable symbolTable;
+    SemanticManager semanticManager;
     Token currentToken;
 
     /**
@@ -50,14 +67,14 @@ public class SyntacticAnalyzer {
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
-        //Genera la tabla de símbolos y asigna el token actual
-        symbolTable = new SymbolTable();
+        //Genera la tabla de símbolos y el ast
+        semanticManager = new SemanticManager();
 
         //Comienza el análisis
         this.program();
 
-        //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos
-        symbolTable.consolidate();
+        //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos y el ast
+        semanticManager.consolidate();
     }
 
     /**
@@ -113,7 +130,8 @@ public class SyntacticAnalyzer {
      * Compara si el token actual es un 
      * idObject o idStruct o spIO o spOBJECT
      */
-    private void isID () {
+    private Token isID () {
+        Token token = currentToken;
         switch (currentToken.getIDToken()) {
             case idOBJECT:
                 match(IDToken.idOBJECT);
@@ -130,6 +148,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(createHashSet(IDToken.idOBJECT, IDToken.idSTRUCT, IDToken.spIO, IDToken.spOBJECT));
         }
+        return token;
     }
 
 
@@ -156,14 +175,15 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTART);
         
         //Agrega el metodo start
-        symbolTable.addMethod(
+        semanticManager.addMethod(
             token, 
             new ArrayList<Param>(), 
             false, 
             new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
         );
+        
+        bloqueMetodo(token);
 
-        bloqueMetodo();
         if (!currentToken.getIDToken().equals(IDToken.EOF)){
             throw throwError(createHashSet(IDToken.EOF));
         }
@@ -199,7 +219,7 @@ public class SyntacticAnalyzer {
         }
         
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, aux, true);
+        semanticManager.addStruct(token, aux, true);
 
         match(IDToken.sKEY_OPEN);
 
@@ -223,7 +243,7 @@ public class SyntacticAnalyzer {
         match(IDToken.idSTRUCT);
 
         //Genera la estructura en la tabla de simbolos
-        symbolTable.addStruct(token, null, false);
+        semanticManager.addStruct(token, null, false);
 
         match(IDToken.sKEY_OPEN);
         miembroP();
@@ -249,6 +269,7 @@ public class SyntacticAnalyzer {
      * <Miembro> ::= <Método> | <Constructor>  
     */
     private void miembro () {
+        
         if (checkFirst(First.firstMetodo)){
             metodo();
         }
@@ -264,6 +285,7 @@ public class SyntacticAnalyzer {
                 );
             }
         }
+        
     }
 
 
@@ -277,13 +299,13 @@ public class SyntacticAnalyzer {
         match(IDToken.sDOT);
         
         //Agrega el metodo constructor
-        symbolTable.addMethod(
+        semanticManager.addMethod(
             token, argumentosFormales(), 
             false, 
             new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
         );
 
-        bloqueMetodo();
+        bloqueMetodo(token);
     }
 
 
@@ -328,9 +350,9 @@ public class SyntacticAnalyzer {
         match(IDToken.sARROW_METHOD);
 
         //Agrega el método a la tabla de símbolos
-        symbolTable.addMethod(token, params, isStatic, tipoMetodo());
+        semanticManager.addMethod(token, params, isStatic, tipoMetodo());
 
-        bloqueMetodo();
+        bloqueMetodo(token);
     }
 
 
@@ -359,17 +381,25 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
-    private void bloqueMetodo() {
+    private void bloqueMetodo(Token idBlock) {
+        //Inicializa el array de sentencias
+        ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
+
         match(IDToken.sKEY_OPEN);
 
         if (checkFirst(First.firstDeclVarLocalesP)){
             declVarLocalesP();
         }
-
+        
+        //Valida si debe agregar sentencias al array
         if (checkFirst(First.firstSentenciaP)){
-            sentenciaP();
+            sentenceList = sentenciaP();
         }
-        match(IDToken.sKEY_CLOSE);        
+        
+        match(IDToken.sKEY_CLOSE);
+
+        //Agrega el bloque (Aunque no posea sentencias)
+        semanticManager.addBlock(new SentenceBlock(idBlock, sentenceList));
     }
 
 
@@ -396,7 +426,7 @@ public class SyntacticAnalyzer {
         Token token = currentToken;
         match(IDToken.idOBJECT);
 
-        symbolTable.addVar(token, type, isPrivate, isAtribute);
+        semanticManager.addVar(token, type, isPrivate, isAtribute);
 
         if (currentToken.getIDToken().equals(IDToken.sCOM)){
             match(IDToken.sCOM);
@@ -611,7 +641,10 @@ public class SyntacticAnalyzer {
      * | ret <Expresión’> ; 
      * | ret ;  
     */
-    private void sentencia () {
+    private Sentence sentencia () {
+        Sentence sentence = null, auxSentence1 = null, auxSentence2 = null;
+        Expression exp = null;
+
         //  ;
         if (currentToken.getIDToken().equals(IDToken.sSEMICOLON)){
             match(IDToken.sSEMICOLON);
@@ -619,49 +652,57 @@ public class SyntacticAnalyzer {
         else{
             // <Asignación> ;
             if (checkFirst(First.firstAsignacion)){
-                asignacion();
+                sentence = asignacion();
                 match(IDToken.sSEMICOLON);
             }
             else{
                 // <Sentencia-Simple> ;
                 if (checkFirst(First.firstSentenciaSimple)){
-                    sentenciaSimple();
+                    sentence = sentenciaSimple();
                     match(IDToken.sSEMICOLON);
                 }
                 else{
                     //if ( <Expresión> ) <Sentencia> <MoreIF> y if ( <Expresión> ) <Sentencia> 
                     if (currentToken.getIDToken().equals(IDToken.pIF)){
+                        Token token = currentToken;
                         match(IDToken.pIF);
                         match(IDToken.sPAR_OPEN);
-                        expresion();
+                        exp = expresion(); //Condicion del if
                         match(IDToken.sPAR_CLOSE);
-                        sentencia();
+                        auxSentence1 = sentencia(); //Sentencia then
+
+                        //Valida si posee sentencias else
                         if (checkFirst(First.firstMoreIF)){
-                            moreIF();
+                            auxSentence2 = moreIF();
                         }
+
+                        sentence = new Conditional(token,exp, auxSentence1, auxSentence2);
                     }
                     //while ( <Expresión> ) <Sentencia> 
                     else{
                         if (currentToken.getIDToken().equals(IDToken.pWHILE)){
+                            Token token = currentToken;
                             match(IDToken.pWHILE);
                             match(IDToken.sPAR_OPEN);
-                            expresion();
+                            exp = expresion(); //Condicion del while
                             match(IDToken.sPAR_CLOSE);
-                            sentencia();
+                            sentence = new Loop(token, exp, sentencia());
                         }
                         //<Bloque> 
                         else{
                             if (checkFirst(First.firstBloque)){
-                                bloque();
+                                sentence = bloque();
                             }
                             // ret <Expresión’> ;  y ret ;
                             else{
                                 if (currentToken.getIDToken().equals(IDToken.pRET)){
+                                    Token token = currentToken;
                                     match(IDToken.pRET);
                                     if (checkFirst(First.firstExpresionP)){
-                                        expresionP();
+                                        exp = expresionP();
                                     }
                                     match(IDToken.sSEMICOLON);
+                                    sentence = new Return(token, exp);
                                 } 
                                 else {
                                     throw throwError(First.firstSentencia);
@@ -672,6 +713,7 @@ public class SyntacticAnalyzer {
                 }
             }
         }
+        return sentence;
     }
 
 
@@ -680,9 +722,9 @@ public class SyntacticAnalyzer {
      * 
      * <MoreIF> ::= else <Sentencia>
     */
-    private void moreIF () {
+    private Sentence moreIF () {
         match(IDToken.pELSE);
-        sentencia();
+        return sentencia();
     }
     
 
@@ -691,12 +733,17 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque> ::= { <Sentencia’> } | { }  
     */
-    private void bloque () {
+    private Sentence bloque() {
+        ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
+        Token token = currentToken;
         match(IDToken.sKEY_OPEN);
         if (checkFirst(First.firstSentenciaP)){
-            sentenciaP();
+            sentenceList = sentenciaP();
         }
         match(IDToken.sKEY_CLOSE);
+
+        //Agrega el bloque (Aunque no posea sentencias)
+        return new Block(token, sentenceList);
     }
 
 
@@ -705,20 +752,27 @@ public class SyntacticAnalyzer {
      * 
      * <Asignación> ::= <AccesoVar-Simple> = <Expresión> | <AccesoSelf-Simple>=<Expresión>  
     */
-    private void asignacion () {
+    private Assignation asignacion() {
         boolean pass = false;
+        Primary leftSide=null;
+        Expression expression=null;
+        Token token;
+
+        //Obtiene la parte izquierda
         if (checkFirst(First.firstAccesoVarSimple)){
-            accesoVarSimple();
+            leftSide = accesoVarSimple();
             pass = true;
         }
         if (checkFirst(First.firstAccesoSelfSimple)){
-            accesoSelfSimple();
+            leftSide = accesoSelfSimple();
             pass = true;
         }
 
+        //Obtiene la parte derecha
         if (pass) {
+            token = currentToken;
             match(IDToken.ASSIGN);
-            expresion();
+            expression = expresion();
         } else {
             throw throwError(
                 new HashSet<IDToken>(First.firstAccesoVarSimple){{
@@ -726,6 +780,9 @@ public class SyntacticAnalyzer {
                 }}
             );
         }
+
+        //Genera el nodo de asignacion
+        return new Assignation(token, leftSide, expression);
     }
 
 
@@ -734,17 +791,20 @@ public class SyntacticAnalyzer {
      * 
      * <AccesoVar-Simple> ::= id <Encadenado-Simple’> | id [ <Expresión> ] | id  
     */
-    private void accesoVarSimple () {
-        isID();
+    private Primary accesoVarSimple () {
+        Token token = isID();
+        Primary primary = new SimpleAccess(token, null);
+
         if (checkFirst(First.firstEncadenadoSimpleP)){
-            encadenadoSimpleP();
+            primary = new SimpleAccess(token, encadenadoSimpleP());
         } else {
             if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
                 match(IDToken.sCOR_OPEN);
-                expresion();
+                primary = new ArrayAccess(token, expresion(), null) ;
                 match(IDToken.sCOR_CLOSE);
             }
         }
+        return primary;
     }
 
 
@@ -753,11 +813,16 @@ public class SyntacticAnalyzer {
      * 
      * <AccesoSelf-Simple> ::= self <Encadenado-Simple’> | self  
     */
-    private void accesoSelfSimple () {
+    private SimpleAccess accesoSelfSimple () {
+        Token token = currentToken;
+        SimpleAccess rightSide = null;
+
         match(IDToken.pSELF);
+        
         if (checkFirst(First.firstEncadenadoSimpleP)){
-            encadenadoSimpleP();
+            rightSide = encadenadoSimpleP();
         }
+        return new SimpleAccess(token, rightSide);
     }
 
 
@@ -766,9 +831,10 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado-Simple> ::= . id  
     */
-    private void encadenadoSimple () {
+    private Token encadenadoSimple () {
         match(IDToken.sDOT);
-        isID();
+        Token token = isID();
+        return token;
     }
 
 
@@ -777,10 +843,12 @@ public class SyntacticAnalyzer {
      * 
      * <Sentencia-Simple> ::= ( <Expresión> )  
     */
-    private void sentenciaSimple () {
+    private Expression sentenciaSimple () {
+        Expression exp;
         match(IDToken.sPAR_OPEN);
-        expresion();
+        exp = expresion();
         match(IDToken.sPAR_CLOSE);
+        return exp;
     }
 
 
@@ -789,8 +857,8 @@ public class SyntacticAnalyzer {
      * 
      * <Expresión> ::= <ExpOr>  
     */
-    private void expresion () {
-        expOr();
+    private Expression expresion () {
+        return expOr();
     }
 
 
@@ -799,11 +867,12 @@ public class SyntacticAnalyzer {
      * 
      * <ExpOr> ::= <ExpAnd> <ExpOr’> | <ExpAnd>  
     */
-    private void expOr () {
-        expAnd();
+    private Expression expOr () {
+        Expression expLeft = expAnd();
         if (checkFirst(First.firstExpOrP)) {
-            expOrP();
+            expLeft = expOrP(expLeft);
         }
+        return expLeft;
     }
 
 
@@ -812,11 +881,12 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAnd> ::= <ExpIgual><ExpAnd’> | <ExpIgual>  
     */
-    private void expAnd () {
-        expIgual();
+    private Expression expAnd () {
+        Expression exp = expIgual();
         if (checkFirst(First.firstExpAndP)) {
-            expAndP();
+            exp = expAndP(exp);
         }
+        return exp;
     }
 
 
@@ -825,11 +895,12 @@ public class SyntacticAnalyzer {
      * 
      * <ExpIgual> ::= <ExpCompuesta><ExpIgual’> | <ExpCompuesta>  
     */
-    private void expIgual () {
-        expCompuesta();
+    private Expression expIgual () {
+        Expression exp = expCompuesta();
         if (checkFirst(First.firstExpIgualP)) {
-            expIgualP();
+            exp = expIgualP(exp);
         }
+        return exp;
     }
 
 
@@ -838,11 +909,12 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAd> ::= <ExpMul><ExpAd’> | <ExpMul>  
     */
-    private void expAd () {
-        expMul();
+    private Expression expAd () {
+        Expression exp = expMul();
         if (checkFirst(First.firstExpAdP)) {
-            expAdP();
+            exp = expAdP(exp);
         }
+        return exp;
     }
 
 
@@ -851,11 +923,12 @@ public class SyntacticAnalyzer {
      * 
      * <ExpMul> ::= <ExpUn> <ExpMul’> | <ExpUn>  
     */
-    private void expMul () {
-        expUn();
+    private Expression expMul () {
+        Expression exp= expUn();
         if (checkFirst(First.firstExpMulP)) {
-            expMulP();
+            exp = expMulP(exp);
         }
+        return exp;
     }
 
 
@@ -864,12 +937,18 @@ public class SyntacticAnalyzer {
      * 
      * <ExpCompuesta> ::= <ExpAd> <OpCompuesto> <ExpAd> | <ExpAd>  
     */
-    private void expCompuesta () {
-        expAd();
+    private Expression expCompuesta () {
+        Expression leftSide = expAd();
+        IDToken operator = null;
+        Expression rightSide = null;
+
         if (checkFirst(First.firstOpCompuesto)) {
-            opCompuesto();
-            expAd();
+            Token token = currentToken;
+            operator = opCompuesto();
+            rightSide = expAd();
+            return new BinaryExpression(token, leftSide, operator, rightSide);
         }
+        return leftSide;
     }
 
 
@@ -878,13 +957,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpUn> ::= <OpUnario> <ExpUn> | <Operando>  
     */
-    private void expUn () {
+    private Expression expUn () {
+        Expression exp;
         if (checkFirst(First.firstOpUnario)) {
-            opUnario();
-            expUn();
+            Token token = currentToken;
+            exp = new UnaryExpression(token, opUnario(), expUn());
         } else {
-            operando();
+            exp = operando();
         }
+        return exp;
     }
 
 
@@ -893,8 +974,9 @@ public class SyntacticAnalyzer {
      * 
      * <OpIgual> ::= == | !=  
     */
-    private void opIgual () {
-        switch (currentToken.getIDToken()) {
+    private IDToken opIgual () {
+        IDToken idToken = currentToken.getIDToken();
+        switch (idToken) {
             case oEQUAL:
                 match(IDToken.oEQUAL);
                 break;
@@ -904,6 +986,7 @@ public class SyntacticAnalyzer {
             default:
             throw throwError(First.firstOpIgual);
         }
+        return idToken;
     }
 
 
@@ -912,8 +995,9 @@ public class SyntacticAnalyzer {
      * 
      * <OpCompuesto> ::= < |> | <= |>=  
     */
-    private void opCompuesto () {
-        switch (currentToken.getIDToken()) {
+    private IDToken opCompuesto () {
+        IDToken idToken = currentToken.getIDToken();
+        switch (idToken) {
             case oMIN:
                 match(IDToken.oMIN);
                 break;
@@ -929,6 +1013,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(First.firstOpCompuesto);
         }
+        return idToken;
     }
 
 
@@ -937,8 +1022,9 @@ public class SyntacticAnalyzer {
      * 
      * <OpAd> ::= + | -  
     */
-    private void opAd () {
-        switch (currentToken.getIDToken()) {
+    private IDToken opAd () {
+        IDToken idToken = currentToken.getIDToken();
+        switch (idToken) {
             case oSUM:
                 match(IDToken.oSUM);
                 break;
@@ -948,6 +1034,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(First.firstOpAd);
         }
+        return idToken;
     }
 
 
@@ -956,8 +1043,9 @@ public class SyntacticAnalyzer {
      * 
      * <OpUnario> ::= + | - | ! | ++ | --  
     */
-    private void opUnario () {
-        switch (currentToken.getIDToken()) {
+    private IDToken opUnario () {
+        IDToken idToken = currentToken.getIDToken();
+        switch (idToken) {
             case oSUM:
                 match(IDToken.oSUM);
                 break;
@@ -976,6 +1064,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(First.firstOpUnario);
         }
+        return idToken;
         
     }
 
@@ -985,8 +1074,9 @@ public class SyntacticAnalyzer {
      * 
      * <OpMul> ::= * | / | %  
     */
-    private void opMul () {
-        switch (currentToken.getIDToken()) {
+    private IDToken opMul () {
+        IDToken idToken = currentToken.getIDToken();
+        switch (idToken) {
             case oMULT:
                 match(IDToken.oMULT);
                 break;
@@ -999,6 +1089,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(First.firstOpMul);
         }
+        return idToken;
     }
 
 
@@ -1007,16 +1098,19 @@ public class SyntacticAnalyzer {
      * 
      * <Operando> ::= <Literal> | <Primario> <Encadenado’> | <Primario>  
     */
-    private void operando () {
+    private Primary operando () {
+        Primary exp;
+
         if (checkFirst(First.firstLiteral)) {
-            literal();
+            exp = new SimpleAccess(literal(), null);
         }
         else {
-            primario();
+            exp = primario();
             if (checkFirst(First.firstEncadenadoP)) {
-                encadenadoP();
+                exp.setChained(encadenadoP());
             }
         }
+        return exp;
     }
 
 
@@ -1025,7 +1119,8 @@ public class SyntacticAnalyzer {
      * 
      * <Literal> ::= nil | true | false | intLiteral | StrLiteral | charLiteral
     */
-    private void literal () {
+    private Token literal () {
+        Token token = currentToken;
         switch (currentToken.getIDToken()) {
             case pNIL:
                 match(IDToken.pNIL);
@@ -1048,6 +1143,7 @@ public class SyntacticAnalyzer {
             default:
                 throw throwError(First.firstLiteral);
         }
+        return token;
     }
 
 
@@ -1056,11 +1152,12 @@ public class SyntacticAnalyzer {
      * 
      * <Primario> :: = <Primario’> <Encadenado’> | <Primario’>
     */
-    private void primario () {
-        primarioP();
+    private Primary primario () {
+        Primary exp = primarioP();
         if (checkFirst(First.firstEncadenadoP)) {
-            encadenadoP();
+            exp.setChained(encadenadoP());
         }
+        return exp;
     }
 
     /**
@@ -1075,63 +1172,69 @@ public class SyntacticAnalyzer {
      *              | new idStruct <Argumentos-Actuales>
      *              | new <Tipo-Primitivo> [ <Expresión> ]
      */
-    private void primarioP () {
-        boolean checkExpresion = false;
+    private Primary primarioP () {
+        Primary exp = null;
+        Token token = currentToken;
+
         switch (currentToken.getIDToken()) {
             case sPAR_OPEN:
                 match(IDToken.sPAR_OPEN);
-                expresion();
+                exp = new SimpleSentence(token, expresion(), null);
                 match(IDToken.sPAR_CLOSE);
                 break;
             case pSELF:
                 match(IDToken.pSELF);
+                exp = new SimpleAccess(token, null);
                 break;
             case idSTRUCT:
                 match(IDToken.idSTRUCT);
                 match(IDToken.sDOT);
-                isID();
-                argumentosActuales();
+                exp = new SimpleAccess(token, new MethodAccess(isID(), argumentosActuales(), null));
                 break;
             case pNEW:
                 match(IDToken.pNEW);
                 if (checkFirst(First.firstTipoPrimitivo)) {
-                    tipoPrimitivo();
-                    checkExpresion = true;
+                    token = tipoPrimitivo();
+                    match(IDToken.sCOR_OPEN);
+                    exp = new CreateArray(token, expresion(), null);
+                    match(IDToken.sCOR_CLOSE);
                 } else {
+                    //Valida que sea idStruct o palabra reservada Object
                     if (checkFirst(First.firstTipoReferencia)){
+                        token = currentToken;
+                        
+                        //Matchea segun lo que es
                         if (IDToken.idSTRUCT.equals(currentToken.getIDToken())) {
                             match(IDToken.idSTRUCT);
                         } else {
                             match(IDToken.spOBJECT);
                         }
-                        argumentosActuales();
+
+                        //Genera la expresion
+                        exp = new CreateInstance(token, argumentosActuales(), null);
                     }
                     else{
-                        throw throwError(
-                            new HashSet<IDToken>(First.firstTipoPrimitivo){{
-                                add(IDToken.idSTRUCT);
-                            }}
-                        );
+                        throw throwError( new HashSet<IDToken>(First.firstTipoPrimitivo){{ addAll(First.firstTipoReferencia); }} );
                     }
                 }
                 break;
             default:
-                isID();
+                token = isID();
+                exp = new SimpleAccess(token, null);
+
                 if (checkFirst(First.firstArgumentosActuales)) {
-                    argumentosActuales();
+                    exp = new MethodAccess(token, argumentosActuales(), null);
                 }
                 else {
                     if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
-                        checkExpresion = true;
+                        match(IDToken.sCOR_OPEN);
+                        exp = new ArrayAccess(token, expresion(), null);
+                        match(IDToken.sCOR_CLOSE);
                     }
                 }
                 break;
         }
-        if (checkExpresion) {
-            match(IDToken.sCOR_OPEN);
-            expresion();
-            match(IDToken.sCOR_CLOSE);
-        }
+        return exp;
     }
 
     /**
@@ -1139,12 +1242,15 @@ public class SyntacticAnalyzer {
      * 
      * <Argumentos-Actuales> ::= ( <Lista-Expresiones’> ) | ( )  
     */
-    private void argumentosActuales () {
+    private ArrayList<Expression> argumentosActuales () {
+        ArrayList<Expression> result = new ArrayList<Expression>();
         match(IDToken.sPAR_OPEN);
         if (checkFirst(First.firstListaExpresionesP)) {
-            listaExpresionesP();
+            result = listaExpresionesP();
         }
         match(IDToken.sPAR_CLOSE);
+
+        return result;
     }
 
 
@@ -1153,12 +1259,20 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Expresiones> ::= <Expresión> | <Expresión> , <Lista-Expresiones>   
     */
-    private void listaExpresiones () {
-        expresion();
+    private ArrayList<Expression> listaExpresiones (int position) {
+        ArrayList<Expression> expressionsList = new ArrayList<Expression>();
+        Expression exp = expresion();
+
+        //Agrego la expresion
+        exp.setPosition(position);
+        expressionsList.add(exp);
+
+        //Reviso si se debe agregar otro parametro
         if (currentToken.getIDToken().equals(IDToken.sCOM)) {
             match(IDToken.sCOM);
-            listaExpresiones();
+            expressionsList.addAll( listaExpresiones(position + 1) );
         }
+        return expressionsList;
     }
 
 
@@ -1167,11 +1281,12 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado> ::= <EncadenadoExtra> | <EncadenadoExtra> <Encadenado’>  
     */
-    private void encadenado () {
-        encadenadoExtra();
+    private Primary encadenado () {
+        Primary exp = encadenadoExtra();
         if (checkFirst(First.firstEncadenadoP)) {
-            encadenadoP();
+            exp.setChained(encadenadoP());
         }
+        return exp;
     }
     /**
      * Método que ejecuta la regla de producción: <br/>
@@ -1180,20 +1295,27 @@ public class SyntacticAnalyzer {
 			                | . id  
 			                | . id [ <Expresión> ] 
     */
-    private void encadenadoExtra () {
+    private Primary encadenadoExtra () {
+        Token token;
+        Primary exp;
+
         match(IDToken.sDOT);
-        isID();
+        
+        token = isID();
+        exp = new SimpleAccess(token, null);
+
         if (checkFirst(First.firstArgumentosActuales)) {
-            
-            argumentosActuales();
+            exp = new MethodAccess(token, argumentosActuales(), null);
         }
         else{
-            if (currentToken.getIDToken().equals(IDToken.sCOR_OPEN)) {
+            if(currentToken.getIDToken().equals(IDToken.sCOR_OPEN)){
                 match(IDToken.sCOR_OPEN);
-                expresion();
+                exp = new ArrayAccess(token, expresion(), null);
                 match(IDToken.sCOR_CLOSE);
             }
         }
+
+        return exp;
     }
 
 
@@ -1263,11 +1385,15 @@ public class SyntacticAnalyzer {
      * 
      * <Sentencia’> ::= <Sentencia><Sentencia’> | <Sentencia>  
     */
-    private void sentenciaP () {
-        sentencia();
+    private ArrayList<Sentence> sentenciaP () {
+        //Genero el array de sentencias
+        ArrayList<Sentence> sentenceList = new ArrayList<Sentence>() {{ add(sentencia()); }};
+
+        //Verifico si se deben agregar mas y las concateno
         if (checkFirst(First.firstSentenciaP)) {
-            sentenciaP();
+            sentenceList.addAll( sentenciaP() );
         }
+        return sentenceList;
     }
 
 
@@ -1276,11 +1402,13 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado-Simple’> ::= <Encadenado-Simple><Encadenado-Simple’> | <Encadenado-Simple>  
     */
-    private void encadenadoSimpleP () {
-        encadenadoSimple();
+    private SimpleAccess encadenadoSimpleP () {
+        Token token = encadenadoSimple();
+        Primary rightSide = null;
         if (checkFirst(First.firstEncadenadoSimpleP)) {
-            encadenadoSimpleP();
+            rightSide = encadenadoSimpleP();
         }
+        return new SimpleAccess(token, rightSide);
     }
 
 
@@ -1319,8 +1447,8 @@ public class SyntacticAnalyzer {
      * 
      * <Expresión’> ::= <Expresión>  
     */
-    private void expresionP () {
-        expresion();
+    private Expression expresionP () {
+        return expresion();
     }
 
 
@@ -1329,8 +1457,8 @@ public class SyntacticAnalyzer {
      * 
      * <Encadenado’> ::= <Encadenado>  
     */
-    private void encadenadoP () {
-        encadenado();
+    private Primary encadenadoP () {
+        return encadenado();
     }
 
 
@@ -1339,8 +1467,8 @@ public class SyntacticAnalyzer {
      * 
      * <Lista-Expresiones’> ::= <Lista-Expresiones>  
     */
-    private void listaExpresionesP () {
-        listaExpresiones();
+    private ArrayList<Expression> listaExpresionesP () {
+        return listaExpresiones(0);
     }
 
 
@@ -1372,12 +1500,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpOr’> ::= || <ExpAnd> <ExpOr’> | || <ExpAnd>  
     */
-    private void expOrP () {
+    private Expression expOrP (Expression leftSide) {
+        Token token = currentToken;
         match(IDToken.oOR);
-        expAnd();
+        Expression exp = new BinaryExpression(token, leftSide, IDToken.oOR, expAnd());
+
         if (checkFirst(First.firstExpOrP)) {
-            expOrP();
+            exp = expOrP(exp);
         }
+        return exp;
     }
 
 
@@ -1386,12 +1517,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAnd’> ::= && <ExpIgual><ExpAnd’> | && <ExpIgual>  
     */
-    private void expAndP () {
+    private Expression expAndP (Expression leftSide) {
+        Token token = currentToken;
         match(IDToken.oAND);
-        expIgual();
+        Expression exp = new BinaryExpression(token, leftSide, IDToken.oAND, expIgual());
+
         if (checkFirst(First.firstExpAndP)) {
-            expAndP();
+            exp = expAndP(exp);
         }
+        return exp;
     }
 
 
@@ -1400,12 +1534,15 @@ public class SyntacticAnalyzer {
      * 
      * <ExpIgual’> ::= <OpIgual> <ExpCompuesta> <ExpIgual’> | <OpIgual> <ExpCompuesta>  
     */
-    private void expIgualP () {
-        opIgual();
-        expCompuesta();
+    private Expression expIgualP (Expression leftSide) {
+        Token token = currentToken;
+        IDToken idToken= opIgual();
+        Expression exp = new BinaryExpression(token, leftSide, idToken, expCompuesta());
+
         if (checkFirst(First.firstExpIgualP)) {
-            expIgualP();
+            exp = expIgualP(exp);
         }
+        return exp;
     }
 
 
@@ -1414,12 +1551,14 @@ public class SyntacticAnalyzer {
      * 
      * <ExpAd’> ::= <OpAd> <ExpMul> <ExpAd’> | <OpAd> <ExpMul>  
     */
-    private void expAdP () {
-        opAd();
-        expMul();
+    private Expression expAdP (Expression leftSide) {
+        Token token=currentToken;
+        Expression exp = new BinaryExpression(token, leftSide, opAd(), expMul());
+
         if (checkFirst(First.firstExpAdP)) {
-            expAdP();
+            exp = expAdP(exp);
         }
+        return exp;
     }
 
 
@@ -1428,19 +1567,21 @@ public class SyntacticAnalyzer {
      * 
      * <ExpMul’> ::= <OpMul> <ExpUn> <ExpMul’> | <OpMul> <ExpUn>  
     */
-    private void expMulP () {
-        opMul();
-        expUn();
+    private Expression expMulP (Expression leftSide) {
+        Token token = currentToken;
+        Expression exp = new BinaryExpression(token, leftSide, opMul(), expUn());
+
         if (checkFirst(First.firstExpMulP)) {
-            expMulP();
+            exp = expMulP(exp);
         }
+        return exp;
     }
 
     /** 
-     * Obtiene un string en formato json de la tabla de símbolos
-     * @return String con tabla de símbolos en formato json
+     * Genera un ArrayList<String> con los json generados para tabla de símbolos y ast
+     * @return ArrayList<String> con tabla de símbolos (posicion 0) y ast (posicion 1) en formato json
      */
-    public String toJSON(){
-        return this.symbolTable.toJSON();
+    public ArrayList<String> toJSON(){
+        return this.semanticManager.toJSON();
     }
 }

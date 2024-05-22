@@ -1,6 +1,7 @@
 package src.lib;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import src.lib.tokenHelper.IDToken;
 
@@ -37,6 +38,10 @@ public class Const {
     public static final String ERROR_SEMANTIC_DEC_HEADER = "ERROR: SEMANTICO - DECLARACIONES\n" + ERROR_HEADER;
     /** String con header de resultado semantico */
     public static final String SUCCESS_SEMANTIC_DEC_HEADER = "CORRECTO: SEMANTICO - DECLARACIONES";
+    /** String con header de error semantico */
+    public static final String ERROR_SEMANTIC_SENT_HEADER = "ERROR: SEMANTICO - SENTENCIAS\n" + ERROR_HEADER;
+    /** String con header de resultado semantico */
+    public static final String SUCCESS_SEMANTIC_SENT_HEADER = "CORRECTO: SEMANTICO - SENTENCIAS";
     
     //Strings de errores en el compilador
     /** Error a mostrar cuando no se proporciona código fuente */
@@ -79,5 +84,16 @@ public class Const {
         put("Char", IDToken.typeCHAR);
         put("Bool", IDToken.typeBOOL);
         put("Array", IDToken.typeARRAY);
+    }};
+
+    public static final HashSet<String> primitiveTypes = new HashSet<String>(){{
+        add("Int");
+        add("Str");
+        add("Char");
+        add("Bool");
+        add("literal Int");
+        add("literal Str");
+        add("literal Char");
+        add("literal Bool");
     }};
 }

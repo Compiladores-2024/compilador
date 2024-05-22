@@ -1,0 +1,111 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Loop",
+                    "condicion": {
+                        "tipo": "BinaryExpression",
+                        "operador": ">",
+                        "resultadoDeTipo": "Bool",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "p1",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "v1",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    },
+                    "bloqueLoop": [
+{
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "IO",
+                            "tipoDeDato": "IO",
+                            "resultadoDeTipo": "IO",
+                            "encadenado": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "out_int",
+                                "resultadoDeTipo": "void",
+                                "parametros": [
+                                    {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "v1",
+                                        "tipoDeDato": "id variable o método",
+                                        "resultadoDeTipo": "Int",
+                                        "encadenado": ""
+                                    }
+                                ]
+                            }
+                        },
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "v1",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "BinaryExpression",
+                                "operador": "+",
+                                "resultadoDeTipo": "Int",
+                                "leftSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "v1",
+                                    "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "Int",
+                                    "encadenado": ""
+                                },
+                                "rightSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "1",
+                                    "tipoDeDato": "literal Int",
+                                    "resultadoDeTipo": "Int",
+                                    "encadenado": ""
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

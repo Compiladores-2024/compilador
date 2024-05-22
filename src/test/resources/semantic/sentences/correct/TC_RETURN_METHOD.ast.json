@@ -1,0 +1,128 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "nil",
+                        "tipoDeDato": "nil",
+                        "resultadoDeTipo": "NIL",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "CreateInstance",
+                        "identificador": "B",
+                        "resultadoDeTipo": "B",
+                        "parámetros": []
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "m3",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "BinaryExpression",
+                        "operador": "+",
+                        "resultadoDeTipo": "Int",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "num1",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "5",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m4",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "str",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Str",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m5",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "boolean",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m6",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "char",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Char",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

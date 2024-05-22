@@ -21,4 +21,7 @@ public class SemanticException extends CustomException{
     public SemanticException(Token token, String description){
         super(Const.ERROR_SEMANTIC_DEC_HEADER, token.getLine(), token.getColumn(), description);
     }
+    public SemanticException(Token token, String description, boolean isSentence){
+        super(Const.ERROR_SEMANTIC_SENT_HEADER, token.getLine(), token.getColumn(), description);
+    }
 }

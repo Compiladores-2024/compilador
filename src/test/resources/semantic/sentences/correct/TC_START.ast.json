@@ -1,0 +1,63 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "nil",
+                    "tipoDeDato": "nil",
+                    "resultadoDeTipo": "NIL",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "false",
+                    "tipoDeDato": "literal Str",
+                    "resultadoDeTipo": "Str",
+                    "encadenado": ""
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "b",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "num",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "1",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

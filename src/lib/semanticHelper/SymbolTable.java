@@ -18,8 +18,8 @@ import src.lib.tokenHelper.Token;
  */
 public class SymbolTable {
     private final HashSet<String> staticStruct;
-    private Struct currentStruct;
-    private Method currentMethod;
+    // private Struct currentStruct;
+    // private Method currentMethod;
     private Method start;
     private HashMap<String, Struct> structs;
 
@@ -40,6 +40,10 @@ public class SymbolTable {
             add("Object");
             add("IO");
             add("Array");
+            add("Array Int");
+            add("Array Str");
+            add("Array Bool");
+            add("Array Char");
             add("Int");
             add("Str");
             add("Char");
@@ -55,7 +59,10 @@ public class SymbolTable {
         //Definicion de estructuras
         Struct objectStruct = new Struct(new Token(IDToken.spOBJECT, "Object", 0, 0), null),
             IO = new Struct(new Token(IDToken.spIO, "IO", 0, 0),objectStruct),
-            Array = new Struct(new Token(IDToken.typeARRAY, "Array", 0, 0), objectStruct),
+            ArrayStr   = new Struct(new Token(IDToken.typeARRAY, "Array Str", 0, 0), objectStruct),
+            ArrayBool  = new Struct(new Token(IDToken.typeARRAY, "Array Bool", 0, 0), objectStruct),
+            ArrayInt   = new Struct(new Token(IDToken.typeARRAY, "Array Int", 0, 0), objectStruct),
+            ArrayChar  = new Struct(new Token(IDToken.typeARRAY, "Array Char", 0, 0), objectStruct),
             Int = new Struct(new Token(IDToken.typeINT, "Int", 0, 0), objectStruct),
             Str = new Struct(new Token(IDToken.typeSTR, "Str", 0, 0), objectStruct),
             Char = new Struct(new Token(IDToken.typeCHAR, "Char", 0, 0), objectStruct),
@@ -82,7 +89,16 @@ public class SymbolTable {
                 put("in_bool", nullParams);
                 put("in_char", nullParams);
             }});
-            put("Array", new HashMap<String, ArrayList<Param>>(){{
+            put("Array Str", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Int", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Char", new HashMap<String, ArrayList<Param>>(){{
+                put("length", nullParams);
+            }});
+            put("Array Bool", new HashMap<String, ArrayList<Param>>(){{
                 put("length", nullParams);
             }});
             put("Str", new HashMap<String, ArrayList<Param>>(){{
@@ -92,19 +108,28 @@ public class SymbolTable {
         }};
 
         //Retornos de metodos si tuviesen
-        HashMap<String, HashMap<String, IDToken>> returns = new HashMap<String, HashMap<String, IDToken>>(){{
-            put("IO", new HashMap<String, IDToken>() {{
-                put("in_str", IDToken.typeSTR);
-                put("in_int", IDToken.typeINT);
-                put("in_bool", IDToken.typeBOOL);
-                put("in_char", IDToken.typeCHAR);
+        HashMap<String, HashMap<String, Token>> returns = new HashMap<String, HashMap<String, Token>>(){{
+            put("IO", new HashMap<String, Token>() {{
+                put("in_str", new Token(IDToken.typeSTR, IDToken.typeSTR.toString(), 0, 0));
+                put("in_int", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+                put("in_bool", new Token(IDToken.typeBOOL, IDToken.typeBOOL.toString(), 0, 0));
+                put("in_char", new Token(IDToken.typeCHAR, IDToken.typeCHAR.toString(), 0, 0));
             }});
-            put("Array", new HashMap<String, IDToken>() {{
-                put("length", IDToken.typeINT);
+            put("Array Str", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
             }});
-            put("Str", new HashMap<String, IDToken>() {{
-                put("length", IDToken.typeINT);
-                put("concat", IDToken.typeSTR);
+            put("Array Bool", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Array Int", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Array Char\"", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+            }});
+            put("Str", new HashMap<String, Token>() {{
+                put("length", new Token(IDToken.typeINT, IDToken.typeINT.toString(), 0, 0));
+                put("concat", new Token(IDToken.typeSTR, IDToken.typeSTR.toString(), 0, 0));
             }});
         }};
 
@@ -113,7 +138,10 @@ public class SymbolTable {
         structs.put("IO", IO);
         structs.put("Char", Char);
         structs.put("Str", Str);
-        structs.put("Array", Array);
+        structs.put("Array Str", ArrayStr);
+        structs.put("Array Bool", ArrayBool);
+        structs.put("Array Int", ArrayInt);
+        structs.put("Array Char", ArrayChar);
         structs.put("Int", Int);
         structs.put("Bool", Bool);
 
@@ -143,8 +171,8 @@ public class SymbolTable {
      * @param params Lista de parámetros.
      * @param returnType Tipo de dato a retornar.
      */
-    private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, IDToken returnType) {
-        struct.addMethod(token, params, isStatic, returnType == null ? IDToken.typeVOID : returnType);
+    private void addVoid (Struct struct, Token token, ArrayList<Param> params, Boolean isStatic, Token returnType) {
+        struct.addMethod(token, params, isStatic, returnType == null ? new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn()) : returnType);
     }
 
     /** 
@@ -185,9 +213,11 @@ public class SymbolTable {
      * @param parent IDToken que representa la clase de la cual hereda el struct (Por defecto Object)
      * @param isFromStruct Booleano que avisa si se está generando desde un struct o un implement
      */
-    public void addStruct(Token token, Token parent, boolean isFromStruct) {
+    public Struct addStruct(Token token, Token parent, boolean isFromStruct) {
         String sStruct = token.getLexema(), sParent = parent != null ? parent.getLexema() : "Object";
-        Struct parentStruct = structs.get(sParent);
+        Struct parentStruct = structs.get(sParent),
+            currentStruct;
+
 
         //Valida que no se herede de los tipos primitivos
         if (!sParent.equals("Object") && staticStruct.contains(sParent)) {
@@ -253,6 +283,8 @@ public class SymbolTable {
         //Agrega la estructura al hash
         structs.put(sStruct, currentStruct);
 
+        //Retorna el dato recien creado
+        return currentStruct;
         //Agrega la relacion con el padre solo si se llama desde un struct
         //addParentRelationships(sParent, currentStruct, isFromStruct);
     }
@@ -292,18 +324,20 @@ public class SymbolTable {
      * @param isPrivate Booleano que avisa si la variable es privada o no
      * @param isAtribute Booleano que avisa si es un atributo o variable local
      */
-    public void addVar(Token token, Token type, boolean isPrivate, boolean isAtribute) {
+    public void addVar(Token token, Token type, boolean isPrivate) {
         //Valida si se ha definido la estructura de tipo
         if (!type.getLexema().contains("Array") && structs.get(type.getLexema()) == null) {
             checkDefinitionStructs.put(type.getLexema(), type);
         }
-        
-        //Agrego metodo o atributo
-        if(isAtribute){
-            currentStruct.addVar(token, type, isPrivate);
-        } else {
-            currentMethod.addVar(token, type);;
-        }
+    }
+
+
+    public Struct getStruct(String name){
+        return this.structs.get(name);
+    }
+
+    public Method getStartMehod () {
+        return start;
     }
     
     /**
@@ -315,12 +349,13 @@ public class SymbolTable {
      * @param isStatic Booleano que avisa si es estático o no
      * @param returnTypeToken Tipo de retorno del método
      */
-    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
+        Method result;
         if (token.getIDToken().equals(IDToken.idSTART)) {
             //Valida si se está generando el método start y que no se haya generado otro
             if (start == null) {
-                start = new Method(token, params, returnTypeToken.getIDToken(), isStatic, 0);
-                currentMethod = start;
+                start = new Method(token, params, returnTypeToken, isStatic, 0);
+                result = start;
             }
             else {
                 throw new SemanticException(token, "No se permite definir más de un método start.");
@@ -340,9 +375,11 @@ public class SymbolTable {
             }
 
             //Agrega el método al hash
-            currentMethod = currentStruct.addMethod(token, params, isStatic, returnTypeToken.getIDToken());
+            result = currentStruct.addMethod(token, params, isStatic, returnTypeToken);
         }
 
+        //Agrega el método al hash
+        return result;
     }
 
     /**
@@ -408,7 +445,7 @@ public class SymbolTable {
             "    \"structs\": [\n" +
                 structJSON +
             "    ],\n"+
-            "    \"start\": " + startJSON.substring(4, startJSON.length()) +
+            "    \"start\": " + startJSON.substring(4) +
         "\n}";
     }
 }

@@ -78,41 +78,39 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    /**
-     * Método que consolida la estructura
-     */
-    public void consolidate (HashSet<String> staticStructs) {
-        if (!getName().equals("Object")) {
-            //Valida que posea al menos un struct
-            if(countStructDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
-            }
-            
-            //Valida que posea al menos un impl
-            if(countImplDefinition == 0){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
-            }
-            
-            //Valida que posea un constructor
-            if(constructor == null){
-                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
+    public String getAttributeType (String name, String implStruct) {
+        String result = null;
+        Variable v = variables.get(name);
+        if (v != null) {
+            if (!v.isPrivate() || (this.getName().equals(implStruct))) {
+                result = v.getType();
             }
         }
-        // Consolida y añade variables y metodos heredados a los hijos
-        for (Struct children : childrens.values()) {
-            if (!staticStructs.contains(children.getName())) {
-                // se comprueba si ya ha sido consolidado
-                if (children.consolidated.equals(false)){
-                    children.addMethodsInherited(methods);
-                    children.addVariablesInherited(variables);
-                }
-                children.consolidated=true;
-                children.consolidate(staticStructs);
+        return result;
+    }
+    public String getReturnMethodType (String name, boolean isIDStruct) {
+        String result = null;
+        Method m = methods.get(name);
+        if (m != null) {
+            //Obtiene el tipo de retorno
+            result = m.getReturnType();
+
+            //Valida si accede a un metodo de manera estatica, este debe serlo
+            if (isIDStruct && !m.isStatic()) {
+                result = null;
             }
         }
+        return result;
     }
 
-    
+    public Method getMethod(String name) {
+        if (name == "Constructor") {
+            return constructor;
+        }
+        return methods.get(name);
+    }
+
+
     /** 
      * Agrega los métodos que hereda, este método lo llama la superclase del struct.
      * 
@@ -223,7 +221,7 @@ public class Struct extends Metadata {
      * @param returnType Tipo de retorno
      * @return Método insertado en la estructura
      */
-    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnType) {
         String name = token.getLexema();
         Method method = methods.get(name),
             newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));
@@ -335,7 +333,40 @@ public class Struct extends Metadata {
             throw new SemanticException(getMetadata(), "La estructura '" + getName() + "' se ha " + (isFromStruct ? "definido" : "implementado") + " más de una vez.");
         }
     }
-    
+
+    /**
+     * Método que consolida la estructura
+     */
+    public void consolidate (HashSet<String> staticStructs) {
+        if (!getName().equals("Object")) {
+            //Valida que posea al menos un struct
+            if(countStructDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe definirse. Falta struct.");
+            }
+            
+            //Valida que posea al menos un impl
+            if(countImplDefinition == 0){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' debe implementarse. Falta impl.");
+            }
+            
+            //Valida que posea un constructor
+            if(constructor == null){
+                throw new SemanticException(getMetadata(), "Struct '"+ getName() + "' no tiene constructor implementado");
+            }
+        }
+        // Consolida y añade variables y metodos heredados a los hijos
+        for (Struct children : childrens.values()) {
+            if (!staticStructs.contains(children.getName())) {
+                // se comprueba si ya ha sido consolidado
+                if (children.consolidated.equals(false)){
+                    children.addMethodsInherited(methods);
+                    children.addVariablesInherited(variables);
+                }
+                children.consolidated=true;
+                children.consolidate(staticStructs);
+            }
+        }
+    }
 
     /**
      * Reescritura del método, convierte los datos en JSON.

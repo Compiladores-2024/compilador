@@ -1,0 +1,163 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "C",
+                        "resultadoDeTipo": "C",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "nil",
+                        "tipoDeDato": "nil",
+                        "resultadoDeTipo": "NIL",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v2",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Object",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "Object",
+                        "resultadoDeTipo": "Object",
+                        "parámetros": []
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v2",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Object",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "p1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "self",
+                        "tipoDeDato": "self",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {}
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "bloquesDeB" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "bloquesDeC" : [
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}
