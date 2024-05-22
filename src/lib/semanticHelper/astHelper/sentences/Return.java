@@ -25,7 +25,7 @@ public class Return extends Sentence{
         //Si posee expresion, la consolida
         if (expression != null) {
             expression.consolidate(st, struct, method, null);
-            expResult = expression.getResultType();
+            expResult = expression.getResultTypeChained();
         }
 
         //Valida que el tipo de retorno sea el mismo

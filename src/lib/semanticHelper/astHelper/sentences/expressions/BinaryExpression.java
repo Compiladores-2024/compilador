@@ -51,7 +51,7 @@ public class BinaryExpression extends Expression{
             }
         }
 
-        setResultType(getType(leftSide.getResultType()));
+        setResultType(getType(leftSide.getResultTypeChained()));
     }
 
     private String getType(String result) {

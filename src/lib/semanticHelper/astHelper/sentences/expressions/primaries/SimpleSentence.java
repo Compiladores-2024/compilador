@@ -18,7 +18,7 @@ public class SimpleSentence extends Primary{
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         exp.consolidate(st, struct, method, leftExpression);
-        setResultType(exp.getResultType());
+        setResultType(exp.getResultTypeChained());
     }
 
     @Override
