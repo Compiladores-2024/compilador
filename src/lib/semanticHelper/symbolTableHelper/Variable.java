@@ -30,7 +30,10 @@ public class Variable extends Metadata{
         this.isInherited=false;
     }
 
-
+    /**
+     * Obtiene el token correspondiente al tipo de dato de la variable
+     * @return Token
+     */
     public Token getTypeToken(){
         return this.type;
     }
@@ -53,10 +56,18 @@ public class Variable extends Metadata{
         return isPrivate;
     }
 
+    /**
+     * Setea booleano que identifica si es heredada o no
+     * @param bool Booleano
+     */
     public void setIsInherited(Boolean bool){
         this.isInherited= bool;
     }
 
+    /**
+     * Obtiene el booleano que indica si es heredado o no
+     * @return Booleano
+     */
     public Boolean isInherited(){
         return this.isInherited.equals(true);
     }
