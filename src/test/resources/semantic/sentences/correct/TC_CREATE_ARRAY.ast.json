@@ -1,0 +1,39 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "CreateArray",
+                        "tipoArray": "Int",
+                        "resultadoDeTipo": "Array Int",
+                        "dimension": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "10",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

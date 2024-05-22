@@ -7,14 +7,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "v1",
+                        "nombreVariable": "v1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "p1",
+                        "nombreVariable": "p1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": ""
                     }
                 },
@@ -22,14 +24,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "a1",
+                        "nombreVariable": "a1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "p1",
+                        "nombreVariable": "p1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": ""
                     }
                 },
@@ -37,13 +41,15 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "v1",
+                        "nombreVariable": "v1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "CreateInstance",
                         "identificador": "C",
+                        "resultadoDeTipo": "C",
                         "parámetros": []
                     }
                 },
@@ -51,14 +57,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "p1",
+                        "nombreVariable": "p1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "nil",
+                        "nombreVariable": "nil",
                         "tipoDeDato": "nil",
+                        "resultadoDeTipo": "NIL",
                         "encadenado": ""
                     }
                 },
@@ -66,13 +74,15 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "v2",
+                        "nombreVariable": "v2",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Object",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "CreateInstance",
                         "identificador": "Object",
+                        "resultadoDeTipo": "Object",
                         "parámetros": []
                     }
                 },
@@ -80,14 +90,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "v2",
+                        "nombreVariable": "v2",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Object",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "p1",
+                        "nombreVariable": "p1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "B",
                         "encadenado": ""
                     }
                 },
@@ -95,14 +107,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "v1",
+                        "nombreVariable": "v1",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "self",
+                        "nombreVariable": "self",
                         "tipoDeDato": "self",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     }
                 }
@@ -135,7 +149,9 @@
             "sentencias": [
                 {}
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [

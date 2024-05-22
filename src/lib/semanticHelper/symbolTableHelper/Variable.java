@@ -1,6 +1,5 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -11,8 +10,8 @@ import src.lib.tokenHelper.Token;
  * @since 19/04/2024
  */
 public class Variable extends Metadata{
-    boolean isPrivate;
-    Token type;
+    private boolean isPrivate;
+    private Token type;
 
     /**
      * Constructor de la clase.
@@ -29,11 +28,11 @@ public class Variable extends Metadata{
         this.isPrivate = isPrivate;
     }
 
-    public IDToken getType(){
-        return this.type.getIDToken();
+    public String getType(){
+        return this.type.getLexema();
     }
-    public Token getTokenType(){
-        return this.type;
+    public boolean isPrivate() {
+        return isPrivate;
     }
     
     /**

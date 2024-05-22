@@ -5,25 +5,30 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "IO",
+                    "nombreVariable": "IO",
                     "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "método": "out_int",
-                        "params": [
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "BinaryExpression",
                                 "operador": "+",
+                                "resultadoDeTipo": "Int",
                                 "leftSide": {
                                     "tipo": "SimpleAccess",
-                                    "lexema": "p1",
+                                    "nombreVariable": "p1",
                                     "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "Int",
                                     "encadenado": ""
                                 },
                                 "rightSide": {
                                     "tipo": "SimpleAccess",
-                                    "lexema": "p2",
+                                    "nombreVariable": "p2",
                                     "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "Int",
                                     "encadenado": ""
                                 }
                             }
@@ -45,7 +50,9 @@
             "sentencias": [
                 {}
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [
@@ -53,34 +60,40 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "lexema": "x",
+                        "nombreVariable": "x",
                         "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "CreateInstance",
                         "identificador": "A",
+                        "resultadoDeTipo": "A",
                         "parámetros": []
                     }
                 },
                 {
                     "tipo": "SimpleAccess",
-                    "lexema": "x",
+                    "nombreVariable": "x",
                     "tipoDeDato": "id variable o método",
+                    "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "método": "m1",
-                        "params": [
+                        "nombreMetodo": "m1",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "lexema": "10",
+                                "nombreVariable": "10",
                                 "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             },
                             {
                                 "tipo": "SimpleAccess",
-                                "lexema": "20",
+                                "nombreVariable": "20",
                                 "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
                         ]

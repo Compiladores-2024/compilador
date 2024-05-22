@@ -13,15 +13,15 @@ public class SimpleAccess extends Primary{
     }
 
     @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
-
-    @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Valida que exista, solo si no es una constante (literal, false, true, nil)
-        if (!identifier.getLexema().contains("literal") && !identifier.getLexema().contains("false") && !identifier.getLexema().contains("true") && !identifier.getLexema().contains("nil")) {
-            variableExist(st, struct, method, leftExpression);
+        String idToken = identifier.getIDToken().toString();
+        if (!idToken.contains("literal") && !idToken.contains("false") && !idToken.contains("true") && !idToken.contains("nil")) {
+            variableMethodExist(st, struct, method, leftExpression);
+        }
+        else{
+            // se asigna el resultType
+            setResultType(idToken.contains("literal") ? idToken : (idToken.contains("nil") ? "NIL" : "Bool"));
         }
 
         //Si tiene encadenado, lo consolida
@@ -29,29 +29,6 @@ public class SimpleAccess extends Primary{
             rightChained.consolidate(st, struct, method, this);
         }
     }
-
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        // Token type = null;
-        // if (this.rightChained==null){
-        //     if (this.identifier.getIDToken().equals(IDToken.idOBJECT)){
-        //         String varName=this.identifier.getLexema();
-        //         // si existe dentro del contexto
-        //         if (st.getStruct(struct).checkVariable(varName) ){
-        //             type = st.getStruct(struct).getVariableType(varName);
-        //         }
-        //     }
-        //     else{
-        //         type=identifier.getIDToken();
-        //     }
-        // }
-
-        // // mas
-        // return type;
-        return null;
-    }
-
-
-
 
     public String toJSON(String tabs){
         return "{\n" +

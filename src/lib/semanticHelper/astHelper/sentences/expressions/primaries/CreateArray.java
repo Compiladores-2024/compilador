@@ -21,23 +21,38 @@ public class CreateArray extends Primary{
     }
 
     @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
-
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
-    }
-
-    @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        String resultType;
+
         //Consolida la expresion de la dimesion
-        dimention.consolidate(st, struct, method, this);
+        dimention.consolidate(st, struct, method, null);
 
         //Valida que la dimensión sea de tipo entero
-        if (!dimention.getResultType().toString().contains("Int")) {
-            throw new SemanticException(token, "La dimensión debe ser de tipo entero.", true);
+        if (!dimention.getResultTypeChained().contains("Int")) {
+            throw new SemanticException(identifier, "La dimensión debe ser de tipo entero. Se encontró un tipo de dato " + dimention.getResultType() + ".", true);
+        }
+
+        //Setea el tipo de retorno
+        switch (type.getIDToken()) {
+            case typeINT:
+                resultType = IDToken.typeArrayINT.toString();
+                break;
+            case typeSTR:
+                resultType = IDToken.typeArraySTR.toString();
+                break;
+            case typeCHAR:
+                resultType = IDToken.typeArrayCHAR.toString();
+                break;
+            default: //BOOL
+                resultType = IDToken.typeArrayBOOL.toString();
+                break;
+        }
+        
+        setResultType(resultType);
+
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
         }
     }
 

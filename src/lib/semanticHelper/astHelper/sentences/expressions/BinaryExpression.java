@@ -1,5 +1,8 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions;
 
+import src.lib.Const;
+import src.lib.Static;
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
 import src.lib.semanticHelper.symbolTableHelper.Method;
@@ -20,14 +23,10 @@ public class BinaryExpression extends Expression{
         this.operator = operator;
         this.rightSide = rightSide;
     }
-    
-    @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
 
     @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
+        String leftType, rightType;
         //Consolida expresion izquierda
         leftSide.consolidate(st, struct, method, leftExpression);
 
@@ -35,11 +34,43 @@ public class BinaryExpression extends Expression{
         rightSide.consolidate(st, struct, method, leftExpression);
 
         //Valida que posean el mismo tipo de dato
+        leftType = Static.getPrimitiveDataType(leftSide.getResultTypeChained());
+        rightType = Static.getPrimitiveDataType(rightSide.getResultTypeChained());
+
+        //Si los operadores no son iguales
+        if (!leftType.equals(rightType)){
+
+            //Si el lado derecho es nil
+            if (rightType.equals("NIL")) {
+                //El lado izquierdo no debe ser tipo primitivo
+                if (Const.primitiveTypes.contains(leftType)) {
+                    throw new SemanticException(identifier, "Se esperaba un tipo de dato " + leftType + ". Se encontró " + rightType, true);
+                }
+            }
+            else {
+                throw new SemanticException(identifier, "Se esperaba un tipo de dato " + leftType + ". Se encontró " + rightType, true);
+            }
+        }
+
+        setResultType(getType(leftSide.getResultTypeChained()));
     }
 
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
+    private String getType(String result) {
+        switch (operator) {
+            case oAND:
+            case oOR:
+            case oMIN:
+            case oMIN_EQ:
+            case oMAX:
+            case oMAX_EQ:
+            case oNOT_EQ:
+            case oEQUAL:
+                result = "Bool";
+                break;
+            default:
+                break;
+        }
+        return result;
     }
 
     public String toJSON(String tabs){

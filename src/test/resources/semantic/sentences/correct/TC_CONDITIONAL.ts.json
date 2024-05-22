@@ -33,7 +33,7 @@
             ]
         },
         {
-            "nombre": "Array",
+            "nombre": "Array Str",
             "heredaDe": "Object",
             "constructor": [],
             "cantidadMetodos": 1,
@@ -64,7 +64,7 @@
                 }            
             ],
             "cantidadMetodos": 1,
-            "cantidadAtributos": 2,
+            "cantidadAtributos": 3,
             "atributos": [
                 {
                     "nombre": "a",
@@ -77,6 +77,12 @@
                     "tipo": "Bool",
                     "public": "true",
                     "posicion": 1
+                },
+                {
+                    "nombre": "structB",
+                    "tipo": "B",
+                    "public": "true",
+                    "posicion": 2
                 }
             ],
             "métodos": [
@@ -92,6 +98,67 @@
                             "posicion": 0
                         }
                     ],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "B",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 1,
+            "atributos": [
+                {
+                    "nombre": "condition",
+                    "tipo": "Bool",
+                    "public": "true",
+                    "posicion": 0
+                }
+            ],
+            "métodos": []
+        },
+        {
+            "nombre": "Array Int",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
+            "nombre": "Array Char",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
                     "variables": []
                 }
             ]
@@ -285,6 +352,24 @@
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": []
+        },
+        {
+            "nombre": "Array Bool",
+            "heredaDe": "Object",
+            "constructor": [],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "length",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
         }
     ],
     "start": {

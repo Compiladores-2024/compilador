@@ -8,32 +8,38 @@
                     "condicion": {
                         "tipo": "BinaryExpression",
                         "operador": ">",
+                        "resultadoDeTipo": "Bool",
                         "leftSide": {
                             "tipo": "SimpleAccess",
-                            "lexema": "p1",
+                            "nombreVariable": "p1",
                             "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
                             "encadenado": ""
                         },
                         "rightSide": {
                             "tipo": "SimpleAccess",
-                            "lexema": "v1",
+                            "nombreVariable": "v1",
                             "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
                             "encadenado": ""
                         }
                     },
                     "bloqueLoop": [
 {
                             "tipo": "SimpleAccess",
-                            "lexema": "IO",
+                            "nombreVariable": "IO",
                             "tipoDeDato": "IO",
+                            "resultadoDeTipo": "IO",
                             "encadenado": {
                                 "tipo": "MethodAccess",
-                                "método": "out_int",
-                                "params": [
+                                "nombreMetodo": "out_int",
+                                "resultadoDeTipo": "void",
+                                "parametros": [
                                     {
                                         "tipo": "SimpleAccess",
-                                        "lexema": "v1",
+                                        "nombreVariable": "v1",
                                         "tipoDeDato": "id variable o método",
+                                        "resultadoDeTipo": "Int",
                                         "encadenado": ""
                                     }
                                 ]
@@ -43,23 +49,27 @@
                             "tipo": "Asignation",
                             "leftSide": {
                                 "tipo": "SimpleAccess",
-                                "lexema": "v1",
+                                "nombreVariable": "v1",
                                 "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             },
                             "rightSide": {
                                 "tipo": "BinaryExpression",
                                 "operador": "+",
+                                "resultadoDeTipo": "Int",
                                 "leftSide": {
                                     "tipo": "SimpleAccess",
-                                    "lexema": "v1",
+                                    "nombreVariable": "v1",
                                     "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "Int",
                                     "encadenado": ""
                                 },
                                 "rightSide": {
                                     "tipo": "SimpleAccess",
-                                    "lexema": "1",
+                                    "nombreVariable": "1",
                                     "tipoDeDato": "literal Int",
+                                    "resultadoDeTipo": "Int",
                                     "encadenado": ""
                                 }
                             }
@@ -87,7 +97,9 @@
             "sentencias": [
                 {}
             ]
-        },
+        }
+    ],
+    "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [

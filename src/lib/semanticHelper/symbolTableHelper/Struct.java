@@ -78,19 +78,27 @@ public class Struct extends Metadata {
         this.parent = parent;
     }
 
-    public Token getAttributeType (String name) {
-        Token result = null;
+    public String getAttributeType (String name, String implStruct) {
+        String result = null;
         Variable v = variables.get(name);
         if (v != null) {
-            result = v.getTokenType();
+            if (!v.isPrivate() || (this.getName().equals(implStruct))) {
+                result = v.getType();
+            }
         }
         return result;
     }
-    public Token getReturnMethodType (String name) {
-        Token result = null;
+    public String getReturnMethodType (String name, boolean isIDStruct) {
+        String result = null;
         Method m = methods.get(name);
         if (m != null) {
+            //Obtiene el tipo de retorno
             result = m.getReturnType();
+
+            //Valida si accede a un metodo de manera estatica, este debe serlo
+            if (isIDStruct && !m.isStatic()) {
+                result = null;
+            }
         }
         return result;
     }
@@ -197,7 +205,7 @@ public class Struct extends Metadata {
      * @param returnType Tipo de retorno
      * @return Método insertado en la estructura
      */
-    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, IDToken returnType) {
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnType) {
         String name = token.getLexema();
         Method method = methods.get(name),
             newMethod = new Method(token, params, returnType, isStatic, (method == null ? currentMethodIndex : method.getPosition()));

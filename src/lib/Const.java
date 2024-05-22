@@ -1,6 +1,7 @@
 package src.lib;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import src.lib.tokenHelper.IDToken;
 
@@ -83,5 +84,16 @@ public class Const {
         put("Char", IDToken.typeCHAR);
         put("Bool", IDToken.typeBOOL);
         put("Array", IDToken.typeARRAY);
+    }};
+
+    public static final HashSet<String> primitiveTypes = new HashSet<String>(){{
+        add("Int");
+        add("Str");
+        add("Char");
+        add("Bool");
+        add("literal Int");
+        add("literal Str");
+        add("literal Char");
+        add("literal Bool");
     }};
 }

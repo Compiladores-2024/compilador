@@ -1,0 +1,173 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayInt",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateArray",
+                        "tipoArray": "Int",
+                        "resultadoDeTipo": "Array Int",
+                        "dimension": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "5",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "size",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayInt",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Int",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "length",
+                            "resultadoDeTipo": "Int",
+                            "parametros": []
+                        }
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayBool",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Bool",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateArray",
+                        "tipoArray": "Bool",
+                        "resultadoDeTipo": "Array Bool",
+                        "dimension": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m2",
+                            "resultadoDeTipo": "Int",
+                            "parametros": []
+                        }
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayChar",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Char",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateArray",
+                        "tipoArray": "Char",
+                        "resultadoDeTipo": "Array Char",
+                        "dimension": {
+                            "tipo": "BinaryExpression",
+                            "operador": "+",
+                            "resultadoDeTipo": "Int",
+                            "leftSide": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "m2",
+                                "resultadoDeTipo": "Int",
+                                "parametros": []
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        }
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayStr",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Str",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateArray",
+                        "tipoArray": "Str",
+                        "resultadoDeTipo": "Array Str",
+                        "dimension": {
+                            "tipo": "UnaryExpression",
+                            "operador": "++",
+                            "resultadoDeTipo": "Int",
+                            "expresion": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "m2",
+                                "resultadoDeTipo": "Int",
+                                "parametros": []
+                            }
+                        }
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "arrayInt",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Array Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "10",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {}
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {}
+            ]
+        }
+    ]
+
+}

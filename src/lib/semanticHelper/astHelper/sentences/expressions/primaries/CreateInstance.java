@@ -2,12 +2,11 @@ package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 import java.util.ArrayList;
 
-import src.lib.exceptionHelper.SemanticException;
+import src.lib.Static;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 public class CreateInstance extends Primary{
@@ -16,37 +15,23 @@ public class CreateInstance extends Primary{
 
     public CreateInstance (Token id, ArrayList<Expression> params, Primary rightChained) {
         super(id, rightChained);
-        this.identifier = id;
         this.params = params;
     }
 
     @Override
-    public void checkTypes(SymbolTable symbolTable, String struct, String method){
-
-    }
-
-    @Override
-    public IDToken obtainType(SymbolTable st, String struct, String method){
-        return null;
-    }
-
-    @Override
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
-        String paramType, resultType;
         //Valida que la estructura exista
         structExist(st);
 
-        //Consolida los parametros
-        for (Expression param : params) {
-            //Consolida la expresion
-            param.consolidate(st, struct, method, this);
-            
-            // Valida que el tipo de dato del parametro sea el mismo
-            resultType = param.getResultType();
-            paramType = st.getStruct(identifier.getLexema()).getMethod("Constructor").getParamType(param.getPosition()).getLexema();
-            if (!resultType.equals(paramType)) {
-                throw new SemanticException(token, "Se esperaba un tipo de dato " + paramType + ". Se encontró " + resultType, true);
-            }
+        //si el lexema es distinto de Object
+        if (!identifier.getLexema().equals("Object")){
+            //Consolida los parametros
+            Static.consolidateParams(params, st, struct, method, st.getStruct(identifier.getLexema()).getMethod("Constructor"), identifier);
+        }
+
+        //Si tiene encadenado, lo consolida
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
         }
     }
 

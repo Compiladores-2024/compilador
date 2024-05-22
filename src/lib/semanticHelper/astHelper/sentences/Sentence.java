@@ -8,17 +8,18 @@ import src.lib.tokenHelper.Token;
 
 public abstract class Sentence {
     
-    protected Token token;
+    protected Token identifier;
+    
 
     public Sentence(Token token){
-        this.token = token;
+        this.identifier = token;
     }
 
-    public Sentence(){}
+    public Token getIdentifier() {
+        return identifier;
+    }
 
     public abstract String toJSON(String tabs);
-    
-    public abstract void checkTypes(SymbolTable symbolTable, String struct, String method);
 
     public abstract void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression);
     
