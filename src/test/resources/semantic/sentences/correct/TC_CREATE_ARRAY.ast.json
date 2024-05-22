@@ -13,7 +13,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "10",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     }

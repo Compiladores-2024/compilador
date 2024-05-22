@@ -55,7 +55,7 @@
                             "tipo": "SimpleAccess",
                             "nombreVariable": "5",
                             "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         }
                     }

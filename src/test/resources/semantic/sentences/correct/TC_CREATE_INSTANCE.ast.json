@@ -21,7 +21,7 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "1",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             },
                             {

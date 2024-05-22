@@ -12,6 +12,7 @@ import src.lib.tokenHelper.Token;
 public class Variable extends Metadata{
     private boolean isPrivate;
     private Token type;
+    private Boolean isInherited;
 
     /**
      * Constructor de la clase.
@@ -26,6 +27,12 @@ public class Variable extends Metadata{
         super(token, position);
         this.type = type;
         this.isPrivate = isPrivate;
+        this.isInherited=false;
+    }
+
+
+    public Token getTypeToken(){
+        return this.type;
     }
 
     
@@ -44,6 +51,14 @@ public class Variable extends Metadata{
      */
     public boolean isPrivate() {
         return isPrivate;
+    }
+
+    public void setIsInherited(Boolean bool){
+        this.isInherited= bool;
+    }
+
+    public Boolean isInherited(){
+        return this.isInherited.equals(true);
     }
     
     /**

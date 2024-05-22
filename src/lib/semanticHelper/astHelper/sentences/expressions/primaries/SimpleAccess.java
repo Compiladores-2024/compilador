@@ -1,5 +1,6 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
+import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
@@ -38,6 +39,11 @@ public class SimpleAccess extends Primary{
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         //Valida que exista, solo si no es una constante (literal, false, true, nil)
         String idToken = identifier.getIDToken().toString();
+
+        //si se trata de acceder a self en un metodo static es error
+        if (idToken.equals("self") && method.isStatic()){
+            throw new SemanticException(identifier, "Acceso self invalido en metodo static" + ".", true);
+        }
         if (!idToken.contains("literal") && !idToken.contains("false") && !idToken.contains("true") && !idToken.contains("nil")) {
             variableMethodExist(st, struct, method, leftExpression);
         }

@@ -69,6 +69,10 @@ public class Assignation extends Sentence{
                     throw new SemanticException(identifier, "Se esperaba una variable de tipo " + leftType + " y se encontro una de tipo " + rightType + ".", true);
                 }
             } else {
+                // si se trata de accesder a self desde start es error
+                if(leftSide.identifier.getLexema().equals("self") && method.getName().equals("start")){
+                    throw new SemanticException(identifier, "No se puede acceder a self desde start", true);
+                }
                 //Valida asignacion hereditaria, hasta llegar a Object o se encuentre herencia
                 Static.checkInherited(st, leftType, rightType, identifier);
             }

@@ -95,7 +95,7 @@ public abstract class Primary extends Expression{
                 type = struct.getReturnMethodType(identifier.getLexema(), validateStatic);
             } else {
                 //Obtiene el tipo de dato del atributo
-                type = struct.getAttributeType(identifier.getLexema(), struct.getName());
+                type = struct.getAttributeType(identifier.getLexema());
             }
         }
 

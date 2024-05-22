@@ -51,7 +51,13 @@ public class UnaryExpression extends Expression{
         //Valida que la expresion sea del tipo de dato correcto
         checkType();
 
-        setResultType(expression.getResultTypeChained());
+        // si el operador es ++ o -- se asigna literal Int como resultType
+        if (operator.equals(IDToken.oSUM_SUM) || operator.equals(IDToken.oSUB_SUB) ){
+            setResultType("literal Int");
+        }
+        else{
+            setResultType(expression.getResultTypeChained());
+        }
     }
 
     private void checkType () {
