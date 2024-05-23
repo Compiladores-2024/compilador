@@ -54,6 +54,7 @@ public abstract class Primary extends Expression{
     protected void variableMethodExist (SymbolTable st, Struct struct, Method method, Primary leftSide) {
         String type = null;
         boolean validateStatic = false;
+        String implStruct = struct.getName();
 
         //Si posee lado izquierdo, validamos atributos y metodos del tipo de resultado
         if (leftSide != null) {
@@ -95,7 +96,7 @@ public abstract class Primary extends Expression{
                 type = struct.getReturnMethodType(identifier.getLexema(), validateStatic);
             } else {
                 //Obtiene el tipo de dato del atributo
-                type = struct.getAttributeType(identifier.getLexema());
+                type = struct.getAttributeType(identifier.getLexema(), implStruct);
             }
         }
 
