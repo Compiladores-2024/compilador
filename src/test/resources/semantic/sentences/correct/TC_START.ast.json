@@ -39,11 +39,50 @@
                         "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "start",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "10",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
                 }
             ]
         }
     ],
     "bloquesDeB" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "start",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Str",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "hola",
+                        "tipoDeDato": "literal Str",
+                        "resultadoDeTipo": "literal Str",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
         {
             "nombreMetodo": "Constructor",
             "sentencias": [
@@ -55,7 +94,23 @@
         {
             "nombreMetodo": "start",
             "sentencias": [
-                {}
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "start",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "true",
+                        "tipoDeDato": "true",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    }
+                }
             ]
         }
     ]
