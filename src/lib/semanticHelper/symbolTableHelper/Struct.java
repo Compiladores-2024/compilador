@@ -83,15 +83,20 @@ public class Struct extends Metadata {
      * @param name Nombre del atributo.
      * @return Tipo de dato del atributo, solo si puede acceder.
      */
-    public String getAttributeType (String name) {
+    public String getAttributeType (String name, String implStruct) {
         String result = null;
         Variable v = variables.get(name);
         if (v != null) {
+            // si no es privado
             if ( !(v.isPrivate())){
                 result = v.getType();
             } else{
+                // si no es heredado y es privado
                 if (!(v.isInherited())){
-                    result = v.getType();
+                    // si el struct actual es igual al struct que se esta implementando
+                    if ((this.getName().equals(implStruct) )){
+                        result = v.getType();
+                    }
                 }
             }
         }
