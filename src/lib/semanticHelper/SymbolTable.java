@@ -364,7 +364,7 @@ public class SymbolTable {
      */
     public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
         Method result;
-        if (token.getIDToken().equals(IDToken.idSTART)) {
+        if (token.getIDToken().equals(IDToken.idOBJECT) && token.getLexema().equals("start")) {
             //Valida si se está generando el método start y que no se haya generado otro
             if (start == null) {
                 start = new Method(token, params, returnTypeToken, isStatic, 0);

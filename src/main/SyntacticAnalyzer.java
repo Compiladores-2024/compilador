@@ -172,20 +172,22 @@ public class SyntacticAnalyzer {
     */
     private void start() {
         Token token = currentToken;
-        match(IDToken.idSTART);
-        
-        //Agrega el metodo start
-        semanticManager.addMethod(
-            token, 
-            new ArrayList<Param>(), 
-            false, 
-            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
-        );
-        
-        bloqueMetodo(token);
-
-        if (!currentToken.getIDToken().equals(IDToken.EOF)){
-            throw throwError(createHashSet(IDToken.EOF));
+        if (currentToken.getLexema().equals("start")){
+            match(IDToken.idOBJECT);
+            
+            //Agrega el metodo start
+            semanticManager.addMethod(
+                token, 
+                new ArrayList<Param>(), 
+                false, 
+                new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+            );
+            
+            bloqueMetodo(token);
+    
+            if (!currentToken.getIDToken().equals(IDToken.EOF)){
+                throw throwError(createHashSet(IDToken.EOF));
+            }
         }
     }
 
