@@ -362,17 +362,12 @@ public class SymbolTable {
      * @param currentStruct Estructura actual a la cual hace referencia
      * @return Method
      */
-    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct) {
+    public Method addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Struct currentStruct, Boolean fromStruct) {
         Method result;
-        if (token.getIDToken().equals(IDToken.idOBJECT) && token.getLexema().equals("start")) {
-            //Valida si se está generando el método start y que no se haya generado otro
-            if (start == null) {
-                start = new Method(token, params, returnTypeToken, isStatic, 0);
-                result = start;
-            }
-            else {
-                throw new SemanticException(token, "No se permite definir más de un método start.");
-            }
+        // si fromStruct es false solo puede ser el metodo start principal
+        if (fromStruct.equals(false)) {
+            start = new Method(token, params, returnTypeToken, isStatic, 0);
+            result = start;
         } else {
             // Valida si el tipo de retorno está definido
             if (!returnTypeToken.getIDToken().toString().contains("Array") && !IDToken.typeVOID.equals(returnTypeToken.getIDToken()) && !this.structs.containsKey(returnTypeToken.getLexema())){

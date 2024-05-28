@@ -17,12 +17,15 @@ struct B{
 
 impl B{
     .(){}
-    fn m1(Str start)->void{
+    fn start(Str start)->Int{
         start="hola";
+        ret 1;
+    }
+    fn m1(Int m1)->void{
+        m1=1;
     }
 }
 start{
     Bool start;
     start=true;
 }
-

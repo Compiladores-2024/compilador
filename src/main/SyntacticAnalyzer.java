@@ -180,10 +180,11 @@ public class SyntacticAnalyzer {
                 token, 
                 new ArrayList<Param>(), 
                 false, 
-                new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+                new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn()),
+                false
             );
             
-            bloqueMetodo(token);
+            bloqueMetodo(token,false);
     
             if (!currentToken.getIDToken().equals(IDToken.EOF)){
                 throw throwError(createHashSet(IDToken.EOF));
@@ -304,10 +305,11 @@ public class SyntacticAnalyzer {
         semanticManager.addMethod(
             token, argumentosFormales(), 
             false, 
-            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn())
+            new Token(IDToken.typeVOID, "void", token.getLine(), token.getColumn()),
+            true
         );
 
-        bloqueMetodo(token);
+        bloqueMetodo(token,true);
     }
 
 
@@ -352,9 +354,9 @@ public class SyntacticAnalyzer {
         match(IDToken.sARROW_METHOD);
 
         //Agrega el método a la tabla de símbolos
-        semanticManager.addMethod(token, params, isStatic, tipoMetodo());
+        semanticManager.addMethod(token, params, isStatic, tipoMetodo(),true);
 
-        bloqueMetodo(token);
+        bloqueMetodo(token,true);
     }
 
 
@@ -383,7 +385,7 @@ public class SyntacticAnalyzer {
      * 
      * <Bloque-Método> ::= { <Decl-Var-Locales’> <Sentencia’> } | { <Sentencia’> } | { <Decl-Var-Locales’> }  
     */
-    private void bloqueMetodo(Token idBlock) {
+    private void bloqueMetodo(Token idBlock, Boolean fromStruct) {
         //Inicializa el array de sentencias
         ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
 
@@ -401,7 +403,7 @@ public class SyntacticAnalyzer {
         match(IDToken.sKEY_CLOSE);
 
         //Agrega el bloque (Aunque no posea sentencias)
-        semanticManager.addBlock(new SentenceBlock(idBlock, sentenceList));
+        semanticManager.addBlock(new SentenceBlock(idBlock, sentenceList), fromStruct);
     }
 
 
