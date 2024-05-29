@@ -18,7 +18,7 @@ public class First {
      * Primeros de Program 
      */
     public static final HashSet<IDToken> firstProgram = new HashSet<IDToken>(){{
-        add(IDToken.idSTART);
+        add(IDToken.idOBJECT); //para start
         add(IDToken.pSTRUCT);
         add(IDToken.pIMPL);
     }};
@@ -26,9 +26,7 @@ public class First {
      * Primeros de Start 
      */
     public static final HashSet<IDToken> firstStart = new HashSet<IDToken>(){{
-        add(IDToken.idSTART);
-        add(IDToken.pSTRUCT);
-        add(IDToken.pIMPL);
+        add(IDToken.idOBJECT); //para start
 
     }};
     /**

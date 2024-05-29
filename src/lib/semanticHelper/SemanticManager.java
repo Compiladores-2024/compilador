@@ -88,9 +88,9 @@ public class SemanticManager {
      * @param isStatic Booleano que avisa si es estático o no
      * @param returnTypeToken Tipo de retorno del método
      */
-    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken) {
+    public void addMethod(Token token, ArrayList<Param> params, boolean isStatic, Token returnTypeToken, Boolean fromStruct) {
         //Agrega el método a la tabla de simbolos
-        currentMethod = symbolTable.addMethod(token, params, isStatic, returnTypeToken, currentStruct);
+        currentMethod = symbolTable.addMethod(token, params, isStatic, returnTypeToken, currentStruct, fromStruct);
     }
 
 
@@ -101,10 +101,10 @@ public class SemanticManager {
      * @param block Bloque de sentencias.
      */
     //METODOS PARA INSERTAR DATOS AL AST
-    public void addBlock(SentenceBlock block){
+    public void addBlock(SentenceBlock block, Boolean fromStruct){
         //Si el bloque método es start, las sentencias no pertenecen a ninguna estructura
         this.ast.addBlock(
-            (!block.getIDBlock().equals("start")) ? currentStruct : null,
+            (! (block.getIDBlock().equals("start") && fromStruct.equals(false)) ? currentStruct : null),
             block
         );
     }

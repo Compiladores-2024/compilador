@@ -572,12 +572,7 @@ public class LexicalAnalyzer {
 
         // No es palabra reservada, entonces es id de Variable o id de Metodo
         if (idToken == null) {
-            // Valida si es el metodo especial start
-            if (currentRead.equals("start")) {
-                idToken = IDToken.idSTART;
-            } else {
-                idToken = IDToken.idOBJECT;
-            }
+            idToken = IDToken.idOBJECT;
         }
     }
 

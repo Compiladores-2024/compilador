@@ -76,7 +76,6 @@ public enum IDToken {
     //Identificadores
     /** Para identificadores de estructuras*/ idSTRUCT("id Struct"),
     /** Para identificadores de variables o metodos*/ idOBJECT("id variable o método"),
-    /** Para identificadores de metodo START */ idSTART("start"),
     
 
     //Palabras clave o reservadas
