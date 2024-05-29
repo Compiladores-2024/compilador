@@ -20,7 +20,8 @@
                                 "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 }
             ]
@@ -71,7 +72,8 @@
                         "tipo": "CreateInstance",
                         "identificador": "A",
                         "resultadoDeTipo": "A",
-                        "parámetros": []
+                        "parámetros": [],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -88,10 +90,11 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "1234",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -103,7 +106,8 @@
                         "tipo": "MethodAccess",
                         "nombreMetodo": "m1",
                         "resultadoDeTipo": "void",
-                        "parametros": []
+                        "parametros": [],
+                        "encadenado": ""
                     }
                 }
             ]

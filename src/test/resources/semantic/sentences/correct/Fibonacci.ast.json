@@ -16,7 +16,8 @@
                         "tipo": "CreateInstance",
                         "identificador": "Fibonacci",
                         "resultadoDeTipo": "Fibonacci",
-                        "parámetros": []
+                        "parámetros": [],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -37,7 +38,8 @@
                             "tipo": "MethodAccess",
                             "nombreMetodo": "in_int",
                             "resultadoDeTipo": "Int",
-                            "parametros": []
+                            "parametros": [],
+                            "encadenado": ""
                         }
                     }
                 },
@@ -58,7 +60,8 @@
                                 "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 }
             ]
@@ -85,7 +88,8 @@
                                 "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -105,7 +109,8 @@
                                 "resultadoDeTipo": "literal Str",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 }
             ]
@@ -186,7 +191,8 @@
                                 "resultadoDeTipo": "literal Str",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -206,7 +212,8 @@
                                 "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -226,7 +233,8 @@
                                 "resultadoDeTipo": "literal Str",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 }
             ]
@@ -341,7 +349,8 @@
                                             "resultadoDeTipo": "Int",
                                             "encadenado": ""
                                         }
-                                    ]
+                                    ],
+                                    "encadenado": ""
                                 },
 {
                                     "tipo": "MethodAccess",
@@ -355,7 +364,8 @@
                                             "resultadoDeTipo": "Int",
                                             "encadenado": ""
                                         }
-                                    ]
+                                    ],
+                                    "encadenado": ""
                                 }
                             ],
                             "elseBlock": {
@@ -392,7 +402,8 @@
                                                 "resultadoDeTipo": "Int",
                                                 "encadenado": ""
                                             }
-                                        ]
+                                        ],
+                                        "encadenado": ""
                                     },
 {
                                         "tipo": "Asignation",
@@ -435,7 +446,8 @@
                                                 "resultadoDeTipo": "Int",
                                                 "encadenado": ""
                                             }
-                                        ]
+                                        ],
+                                        "encadenado": ""
                                     }
                                 ],
                                 "elseBlock": [
@@ -451,7 +463,8 @@
                                                 "resultadoDeTipo": "Int",
                                                 "encadenado": ""
                                             }
-                                        ]
+                                        ],
+                                        "encadenado": ""
                                     },
 {
                                         "tipo": "Asignation",
@@ -511,7 +524,8 @@
                                                 "resultadoDeTipo": "Int",
                                                 "encadenado": ""
                                             }
-                                        ]
+                                        ],
+                                        "encadenado": ""
                                     }
                                 ]
                             }

@@ -112,7 +112,8 @@
                                     "encadenado": ""
                                 }
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -271,7 +272,8 @@
                                     "tipo": "MethodAccess",
                                     "nombreMetodo": "m1",
                                     "resultadoDeTipo": "Int",
-                                    "parametros": []
+                                    "parametros": [],
+                                    "encadenado": ""
                                 }
                             }
                         }
@@ -310,7 +312,14 @@
                                     "resultadoDeTipo": "literal Int",
                                     "encadenado": ""
                                 }
-                            ]
+                            ],
+                            "encadenado": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "length",
+                                "resultadoDeTipo": "Int",
+                                "parametros": [],
+                                "encadenado": ""
+                            }
                         }
                     }
                 },
@@ -437,7 +446,8 @@
                                     "resultadoDeTipo": "Int",
                                     "encadenado": ""
                                 }
-                            ]
+                            ],
+                            "encadenado": ""
                         }
                     },
                     "thenBlock": [

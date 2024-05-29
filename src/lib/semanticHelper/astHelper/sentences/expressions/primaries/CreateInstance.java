@@ -80,7 +80,8 @@ public class CreateInstance extends Primary{
             tabs + "    \"tipo\": \"" + "CreateInstance" + "\",\n" +
             tabs + "    \"identificador\": \"" + identifier.getLexema() +  "\",\n" +
             tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
-            tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + "\n" +
+            tabs + "    \"parámetros\": " +  (paramsJSON=="" ? ("\"\"") : paramsJSON) + ",\n" +
+            tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
         tabs + "}";
     }
 
