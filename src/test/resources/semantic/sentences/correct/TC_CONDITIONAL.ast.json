@@ -16,7 +16,8 @@
                         "tipo": "CreateInstance",
                         "identificador": "B",
                         "resultadoDeTipo": "B",
-                        "parámetros": []
+                        "parámetros": [],
+                        "encadenado": ""
                     }
                 },
                 {

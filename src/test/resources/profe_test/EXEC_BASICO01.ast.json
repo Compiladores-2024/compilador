@@ -17,10 +17,11 @@
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "12345",
                                 "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
-                        ]
+                        ],
+                        "encadenado": ""
                     }
                 }
             ]

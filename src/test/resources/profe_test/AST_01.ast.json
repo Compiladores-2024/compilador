@@ -50,7 +50,8 @@
                         "tipo": "CreateInstance",
                         "identificador": "C",
                         "resultadoDeTipo": "C",
-                        "parámetros": []
+                        "parámetros": [],
+                        "encadenado": ""
                     }
                 },
                 {
@@ -83,7 +84,8 @@
                         "tipo": "CreateInstance",
                         "identificador": "Object",
                         "resultadoDeTipo": "Object",
-                        "parámetros": []
+                        "parámetros": [],
+                        "encadenado": ""
                     }
                 },
                 {
