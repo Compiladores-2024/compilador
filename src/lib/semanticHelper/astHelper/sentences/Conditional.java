@@ -81,4 +81,13 @@ public class Conditional extends Sentence{
             tabs + "    \"elseBlock\": " + (elseBlock != null ? elseBlock.toJSON(tabs + "    ") : "[]") + "\n" +
             tabs + "}";
     }
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += sentenceThen.generateCode()
+        //asm += sentenceElse.generateCode()
+        return asm;
+    }
+
 }

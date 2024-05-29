@@ -94,4 +94,13 @@ public class Assignation extends Sentence{
             tabs + "    \"rightSide\": " + rightSide.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
+
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += leftSide.generateCode();
+        //asm += rightSide.generateCode();
+        return asm;
+    }
 }

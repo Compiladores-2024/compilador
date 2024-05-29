@@ -85,4 +85,10 @@ public class CreateInstance extends Primary{
         tabs + "}";
     }
 
+    public String generateCode(){
+        String asm="";
+
+        //asm += 
+        return asm;
+    }
 }

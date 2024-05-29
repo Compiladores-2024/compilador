@@ -55,4 +55,12 @@ public class SimpleSentence extends Primary{
     public String toJSON(String tabs) {
         return exp.toJSON(tabs);
     }
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += exp.generateCode();
+        return asm;
+    }
+
 }

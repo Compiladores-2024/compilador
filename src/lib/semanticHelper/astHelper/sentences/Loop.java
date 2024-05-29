@@ -72,4 +72,12 @@ public class Loop extends Sentence{
             tabs + "}";
     }
 
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += loopBlock.generateCode();
+        return asm;
+    }
+
 }

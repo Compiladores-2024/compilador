@@ -68,4 +68,13 @@ public class Block extends Sentence{
         }
         return blocksString;
     }
+
+    public String generateCode(){
+        String asm="";
+
+        for (Sentence sentence : sentenceList) {
+            //asm += sentence.generateCode();
+        }
+        return asm;
+    }
 }

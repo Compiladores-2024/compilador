@@ -89,4 +89,11 @@ public class Return extends Sentence{
             tabs + "}";
     }
 
+    public String generateCode(){
+        String asm="";
+
+        //asm += expression.generateCode();
+        return asm;
+    }
+
 }

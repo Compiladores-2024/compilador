@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
+import src.lib.semanticHelper.AST;
 import src.lib.semanticHelper.SemanticManager;
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.astHelper.sentences.Assignation;
 import src.lib.semanticHelper.astHelper.sentences.Block;
@@ -1579,6 +1581,15 @@ public class SyntacticAnalyzer {
             exp = expMulP(exp);
         }
         return exp;
+    }
+
+
+    public SymbolTable getSymbolTable(){
+        return semanticManager.getSymbolTable();
+    }
+
+    public AST getAST(){
+        return semanticManager.getAST();
     }
 
     /** 

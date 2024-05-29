@@ -110,4 +110,12 @@ public class UnaryExpression extends Expression{
             tabs + "    \"expresion\": " + expression.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
+
+    public String generateCode(){
+        String asm="";
+
+        
+        //asm += expression.generateCode();
+        return asm;
+    }
 }

@@ -127,4 +127,12 @@ public class SemanticManager {
         generacionIntermedias.add(ast.toJSON("    "));
         return generacionIntermedias;
     }
+
+    public SymbolTable getSymbolTable(){
+        return this.symbolTable;
+    }
+
+    public AST getAST(){
+        return this.ast;
+    }
 }

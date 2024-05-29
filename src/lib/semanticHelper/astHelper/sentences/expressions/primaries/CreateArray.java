@@ -96,4 +96,10 @@ public class CreateArray extends Primary{
             tabs + "}";
     }
     
+    public String generateCode(){
+        String asm="";
+
+        //asm += 
+        return asm;
+    }
 }

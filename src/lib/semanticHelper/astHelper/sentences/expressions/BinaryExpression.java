@@ -142,4 +142,13 @@ public class BinaryExpression extends Expression{
         tabs + "}";
     }
 
+
+    
+    public String generateCode(){
+        String asm="";
+
+        //asm += leftSide.generateCode();
+        //asm += rightSide.generateCode();
+        return asm;
+    }
 }

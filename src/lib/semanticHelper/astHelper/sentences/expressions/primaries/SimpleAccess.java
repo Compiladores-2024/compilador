@@ -74,4 +74,12 @@ public class SimpleAccess extends Primary{
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
             tabs + "}";
     }
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += 
+        return asm;
+    }
+
 }

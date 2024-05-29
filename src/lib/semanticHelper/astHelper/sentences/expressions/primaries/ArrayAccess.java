@@ -82,5 +82,12 @@ public class ArrayAccess extends Primary{
             tabs + "    \"índice\": " + indexArray.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
     }
+
+    public String generateCode(){
+        String asm="";
+
+        //asm += 
+        return asm;
+    }
     
 }
