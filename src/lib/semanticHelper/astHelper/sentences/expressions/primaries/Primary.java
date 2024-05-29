@@ -61,7 +61,10 @@ public abstract class Primary extends Expression{
             //Obtiene la estructura
             struct = st.getStruct(leftSide.getResultType());
 
-            validateStatic = leftSide.getIdentifier().getIDToken().equals(IDToken.idSTRUCT);
+            //si leftSide es distinto de CreateInstance
+            if ( !(leftSide instanceof CreateInstance)) {
+                validateStatic = leftSide.getIdentifier().getIDToken().equals(IDToken.idSTRUCT);
+            }
 
             //La estructura de tipo del lado izquierdo debe existir
             if (struct == null) {

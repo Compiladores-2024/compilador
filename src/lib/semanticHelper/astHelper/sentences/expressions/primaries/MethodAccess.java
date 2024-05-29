@@ -86,7 +86,8 @@ public class MethodAccess extends Primary{
             tabs + "    \"tipo\": \"" + "MethodAccess" + "\",\n" +
             tabs + "    \"nombreMetodo\": \"" + identifier.getLexema() +  "\",\n" +
             tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
-            tabs + "    \"parametros\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + "\n" +
+            tabs + "    \"parametros\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + ",\n" +
+            tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
         tabs + "}";
     }
 }
