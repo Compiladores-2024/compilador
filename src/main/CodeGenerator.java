@@ -1,20 +1,41 @@
 package src.main;
 
-import src.lib.semanticHelper.AST;
-import src.lib.semanticHelper.SymbolTable;
+import src.lib.Static;
+import src.lib.exceptionHelper.LexicalException;
+import src.lib.exceptionHelper.SemanticException;
+import src.lib.exceptionHelper.SyntacticException;
 
 public class CodeGenerator {
 
-    private SymbolTable st;
-    private AST ast;
+    private SyntacticAnalyzer syntacticAnalyzer;
     private String asm;
+    private String resultPath;
 
-    public CodeGenerator(SymbolTable st, AST ast){
-        this.st=st;
-        this.ast=ast;
+    public CodeGenerator(String path){
+        resultPath = path.split(".ru")[0];
+
+        //Inicializa el analizador sintactico
+        syntacticAnalyzer = new SyntacticAnalyzer(path);
     }
 
-    public String generateAsm(){
+    public void run () throws LexicalException, SyntacticException, SemanticException {
+        //Analiza el código fuente
+        syntacticAnalyzer.run();
+
+        //Genera el codigo MIPS
+        generateAsm();
+
+        //Escribe el resultado de la tabla de simbolos
+        Static.write(syntacticAnalyzer.toJSON().get(0), resultPath + ".ts.json");
+
+        //Escribe el resultado del ast
+        Static.write(syntacticAnalyzer.toJSON().get(1), resultPath + ".ast.json");
+
+        //Escribe el codigo MIPS
+        Static.write(asm, resultPath + ".asm");
+    }
+
+    private String generateAsm(){
         
         asm+=".data\n";
 

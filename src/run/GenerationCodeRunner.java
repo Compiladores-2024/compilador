@@ -5,7 +5,6 @@ import src.lib.Static;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
-import src.main.SyntacticAnalyzer;
 import src.main.CodeGenerator;
 
 /**
@@ -28,22 +27,11 @@ public class GenerationCodeRunner {
         // args = new String[] {"src/test/resources/semantic/sentences/error/TC_ERROR_OPERATION3.ru"};
         if (args.length > 0) {
             try{
-                String asm;
-                SyntacticAnalyzer syntacticAnalyzer= new SyntacticAnalyzer(args[0]);
+                CodeGenerator codeGenerator = new CodeGenerator(args[0]);
 
-                //Comienza la ejecución
-                syntacticAnalyzer.run();
+                codeGenerator.run();
 
-                // imprimir mensaje de exito semantico sentencias
-                System.out.println("CORRECTO: SEMANTICO - SENTENCIAS");
-
-                CodeGenerator codeGenerator = new CodeGenerator(syntacticAnalyzer.getSymbolTable(), syntacticAnalyzer.getAST());
-
-                asm = codeGenerator.generateAsm();
-                
-                String ruta = args[0].split(".ru")[0];
-                String asmPath = ruta+".asm"; 
-                Static.write(asm, asmPath);
+                System.out.println("CORRECTO: GENERACION DE CODIGO");
 
             }
             //Captura el error sintactico y lo muestra por pantalla 
@@ -58,7 +46,7 @@ public class GenerationCodeRunner {
             }
             //Captura cualquier otro tipo de error y lo muestra por consola
             catch (Exception e) {
-                System.out.println("Ocurrio un error al analizar sintacticamente." + e.getMessage());
+                System.out.println("Ocurrio un error al analizar." + e.getMessage());
             }
         } else {
             System.out.println(Const.ERROR_READ_SOURCE);
