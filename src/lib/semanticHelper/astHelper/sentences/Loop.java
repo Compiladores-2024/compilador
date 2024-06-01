@@ -76,6 +76,8 @@ public class Loop extends Sentence{
     public String generateCode(){
         String asm="";
 
+        
+        //asm+=condition.generateCode();
         //asm += loopBlock.generateCode();
         return asm;
     }

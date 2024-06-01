@@ -8,7 +8,7 @@ import src.lib.exceptionHelper.SyntacticException;
 public class CodeGenerator {
 
     private SyntacticAnalyzer syntacticAnalyzer;
-    private String asm;
+    private String asm="";
     private String resultPath;
 
     public CodeGenerator(String path){
@@ -23,21 +23,24 @@ public class CodeGenerator {
         syntacticAnalyzer.run();
 
         //Genera el codigo MIPS
-        generateAsm();
+        asm=generateAsm();
 
         //Escribe el resultado de la tabla de simbolos
-        Static.write(syntacticAnalyzer.toJSON().get(0), resultPath + ".ts.json");
+        //Static.write(syntacticAnalyzer.toJSON().get(0), resultPath + ".ts.json");
 
         //Escribe el resultado del ast
-        Static.write(syntacticAnalyzer.toJSON().get(1), resultPath + ".ast.json");
+        //Static.write(syntacticAnalyzer.toJSON().get(1), resultPath + ".ast.json");
 
         //Escribe el codigo MIPS
         Static.write(asm, resultPath + ".asm");
     }
 
     private String generateAsm(){
-        
-        asm+=".data\n";
+        asm+="\n.data\n";
+        asm+=generateData();
+        asm+="\n.text #put things into the text segment...\n";
+        asm+=generateCodePredefinedMethods();
+        asm+="\t.globl main\n";
 
         //incluir los cir de cada struct en .data
         
@@ -47,11 +50,34 @@ public class CodeGenerator {
         
         //añadir en asm la generacion de codigo de cada nodo del ast
 
+        
+
+        //exit
+        asm+="li $v0, 10 #exit"; //10 es exit syscall
+        asm+="syscall";
+
         return asm;
     }
 
 
-    public void generateData(){
+    public String generateData(){
+        String out="";
+        for (String sStruct : syntacticAnalyzer.getSymbolTable().getStructs().keySet()) {
+
+            String struct = sStruct.replaceAll("\\s", ""); //nombre struct sin espacios
+            String vt="\n";
+            for (String method : syntacticAnalyzer.getSymbolTable().getStruct(sStruct).getMethods().keySet()){
+                vt+= "\t" + ".word " + struct +"_" + method + "\n";
+            }
+
+            out += struct + "_vtable: ";
+            out += vt;
+
+        }
+
+        //add var de instancia
+
+        return out;
 
     }
 

@@ -432,6 +432,10 @@ public class SymbolTable {
         System.out.println("");
     }
 
+    public HashMap<String,Struct> getStructs(){
+        return this.structs;
+    }
+
     /**
      * Convierte los datos en JSON.
      * 

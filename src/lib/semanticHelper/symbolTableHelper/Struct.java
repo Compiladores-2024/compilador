@@ -398,6 +398,10 @@ public class Struct extends Metadata {
         }
     }
 
+    public HashMap<String, Method> getMethods(){
+        return this.methods;
+    }
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
