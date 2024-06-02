@@ -76,10 +76,15 @@ public class Loop extends Sentence{
     public String generateCode(){
         String asm="";
 
-        
-        //asm+=condition.generateCode();
-        //asm += loopBlock.generateCode();
+        int numWhile; //numero de while para diferenciar los labels
+        // asm += "while"+numWhile+":";
+        // asm += condition.generateCode();
+        // asm += "bne $a0, 1, endWhile" + numWhile + "#Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled endWhile\n";
+        // asm += loopBlock.generateCode();
+        // asm += "\tj while" + numWhile +  "#Jump while label\n";
+        // asm += "endWhile" + numWhile +":\n";
         return asm;
+
     }
 
 }
