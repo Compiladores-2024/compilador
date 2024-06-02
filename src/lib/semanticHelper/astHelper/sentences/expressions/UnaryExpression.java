@@ -114,8 +114,27 @@ public class UnaryExpression extends Expression{
     public String generateCode(){
         String asm="";
 
+        //instrucciones mips para la expresion
+        asm += expression.generateCode();
         
-        //asm += expression.generateCode();
+        //instrucciones mips para el operador
+        switch (operator) {
+            case oNOT:
+                asm += "\tnot $a0, $a0 #Not operator !";
+                break;
+            case oSUM_SUM:
+                asm += "\taddi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )" ;
+                break;
+            case oSUB_SUB:
+                asm += "\taddi $a0, $a0, -1  # Add immediate value -1 to $a0 (effectively decrements)" ;
+                break;
+            case oSUB:
+                asm += "\tneg $a0, $a0  #Negation operator -";  
+                break;
+            default:
+                //oSUM no realiza instruccion en mips
+                break;
+        } 
         return asm;
     }
 }
