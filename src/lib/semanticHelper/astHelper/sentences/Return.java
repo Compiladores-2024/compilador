@@ -90,10 +90,7 @@ public class Return extends Sentence{
     }
 
     public String generateCode(){
-        String asm="";
-
-        //asm += expression.generateCode();
-        return asm;
+        return "\t" + expression.generateCode() + "\n";
     }
 
 }

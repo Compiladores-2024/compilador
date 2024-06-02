@@ -70,10 +70,10 @@ public class Block extends Sentence{
     }
 
     public String generateCode(){
-        String asm="";
+        String asm = "";
 
         for (Sentence sentence : sentenceList) {
-            //asm += sentence.generateCode();
+            asm += sentence.generateCode();
         }
         return asm;
     }

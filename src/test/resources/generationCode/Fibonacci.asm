@@ -102,6 +102,7 @@
 	Fibonacci_Constructor:
 	Fibonacci_imprimo_numero:
 	Fibonacci_sucesion_fib:
+	
 	#Main
 	.globl main
 
