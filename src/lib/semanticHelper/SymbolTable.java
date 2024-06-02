@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.symbolTableHelper.*;
 import src.lib.tokenHelper.IDToken;
@@ -161,8 +162,126 @@ public class SymbolTable {
             });
         });
     }
-
     
+    public String generateCode () {
+        String code = ".data\n";
+        
+        //AGREGA LAS VIRTUAL TABLES
+        for (String sStruct : structs.keySet()) {
+           code += Static.generateVTables(structs.get(sStruct));
+        }
+    
+        //RESERVA MEMORIA PARA LOS ATRIBUTOS
+        
+        
+        //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
+        code += "\n.text #methods code\n\t#Predefined methods\n";
+        code += generatePredefinedCode();
+        return code;
+    }
+    private String generatePredefinedCode(){
+        String initFunction, endFunctionOut, endFunctionIn;
+
+        initFunction = "\t\tmove $fp, $sp #mueve el contenido de $sp a $fp\n"
+        + "\t\tsw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)\n"
+        + "\t\taddiu $sp, $sp, -4 #mueve el $sp 1 pos arriba\n";
+
+        endFunctionOut = "\t\tlw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)\n"            
+        + "\t\taddiu $sp $sp 12 # mueve el $sp \n"  //12 porque z=4*n + 8 (n cant de parametros=1)
+        + "\t\tlw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))\n"
+        + "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
+
+
+        endFunctionIn = "\t\tlw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)\n"            
+        + "\t\taddiu $sp $sp 8 # mueve el $sp \n"  //8 porque z=4*n + 8 (n cant de parametros=0)
+        + "\t\tlw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))\n"
+        + "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
+
+        // IO 
+        //METODO out str
+        String code = "\tIO_out_str:\n"
+            + initFunction
+            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
+            + "\t\tli $v0, 4 #carga el valor 4 (print string) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + endFunctionOut;
+
+        //METODO  out_int
+        code += "\tIO_out_int:\n"
+            + initFunction
+            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
+            + "\t\tli $v0, 1 #carga el valor 1 (print int) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + endFunctionOut;
+
+        //METODO  out_bool
+        code += "\tIO_out_bool:\n"
+            + initFunction
+            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
+            + "\t\tli $v0, 1 #carga el valor 1 (print int) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + endFunctionOut;
+
+
+        //METODO  out_char
+        code += "\tIO_out_char:\n"
+            + initFunction
+            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
+            + "\t\tli $v0, 11 #carga el valor 11 (print char) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + endFunctionOut;
+
+
+        //METODO  in_str
+        code += "\tIO_in_str:\n"
+            + initFunction
+            + "\t\tli $v0, 8 #carga el valor 8 (read string) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
+            + endFunctionIn;
+
+        //METODO  in_int
+        code += "\tIO_in_int:\n"
+            + initFunction
+            + "\t\tli $v0, 5 #carga el valor 5 (read int) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
+            + endFunctionIn;
+
+        //METODO  in_bool
+        code += "\tIO_in_bool:\n"
+            + initFunction
+            + "\t\tli $v0, 5 #carga el valor 5 (read int) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
+            + endFunctionIn;
+
+        //METODO  in_char
+        code += "\tIO_in_char:\n"
+            + initFunction
+            + "\t\tli $v0, 12 #carga el valor 12 (read char) en el registro $v0\n"
+            + "\t\tsyscall #syscall\n"
+            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
+            + endFunctionIn;
+
+
+        //METODO  out_array_int
+        //METODO  out_array_str
+        //METODO  out_array_bool
+        //METODO  out_array_char
+
+
+        //ARRAY
+        //METODO ARRAY LENGTH
+
+
+        //STRING
+        //METODO STRING CONCAT
+        //METODO STRING LENGTH
+
+        return code;
+    } 
+
     /** 
      * Método interno que se utiliza para agregar métodos estáticos predefinidos.
      * 

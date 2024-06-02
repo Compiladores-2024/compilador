@@ -65,7 +65,7 @@ public class SyntacticAnalyzer {
      * @throws SyntacticException Error sintáctico
      * @throws SemanticException Error semántico
      */
-    public void run () throws LexicalException, SyntacticException, SemanticException{
+    public String run () throws LexicalException, SyntacticException, SemanticException{
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
@@ -77,6 +77,9 @@ public class SyntacticAnalyzer {
 
         //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos y el ast
         semanticManager.consolidate();
+
+        //Genera el codigo y lo retorna 
+        return semanticManager.generateCode();
     }
 
     /**

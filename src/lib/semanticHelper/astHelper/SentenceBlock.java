@@ -88,6 +88,13 @@ public class SentenceBlock {
         }
     }
 
+    public String generateCode () {
+        String code = "";
+        for (Sentence sentence : sentenceList) {
+            code += sentence.generateCode();
+        }
+        return code;
+    }
     
     /** 
      * Convierte los datos en JSON.

@@ -209,4 +209,27 @@ public class Static {
             }
         }
     }
+
+    public static String generateVTables (Struct struct) {
+        //Inicializa el texto de las virtual table
+        String result=".word ";
+
+        //Obtiene el nombre de la estructura sin espacios
+        String name = struct.getName().replaceAll("\\s", "");
+        
+        //Recorre los metodos de esa estructura
+        for (String method : struct.getMethods().keySet()){
+            //Agrega el metodo a la vtable
+            result += (name + "_" + method + ", ");
+        }
+
+        //Reserva memoria solo si posee datos
+        if (!result.equals(".word ")) {
+            result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
+        } else {
+            result = "";
+        }
+        
+        return result;
+    }
 }

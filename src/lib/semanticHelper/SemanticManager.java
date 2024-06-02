@@ -33,6 +33,23 @@ public class SemanticManager {
         ast = new AST();
     }
 
+    public String generateCode () {
+        //Genera las estructuras
+        String code = symbolTable.generateCode();
+        
+        //Genera el código del programa
+        code += ast.generateCode();
+        
+        //incluir los cir de cada struct en .data
+        //incluir en .text info de vt, metodos y constructores de struts declarados, y metodos de structs predefinidos
+        //añadir en asm la generacion de codigo de cada nodo del ast
+        
+        //exit
+        code += "li $v0, 10 #exit\n"; //10 es exit syscall
+        code += "syscall";
+        
+        return code;
+    }
     
     /**
      * Método que agrega una estructura a la tabla de símbolos.<br/>

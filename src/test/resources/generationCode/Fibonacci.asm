@@ -1,20 +1,14 @@
 .data
-	Str_vtable:
-		.word Str_length, Str_concat
-	ArrayStr_vtable:
-		.word ArrayStr_length
-	ArrayInt_vtable:
-		.word ArrayInt_length
-	ArrayChar_vtable:
-		.word ArrayChar_length
-	IO_vtable:
-		.word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool
-	Fibonacci_vtable:
-		.word Fibonacci_imprimo_sucesion, Fibonacci_imprimo_numero, Fibonacci_sucesion_fib
-	ArrayBool_vtable:
-		.word ArrayBool_length
+	Str_vtable: .word Str_length, Str_concat
+	ArrayStr_vtable: .word ArrayStr_length
+	ArrayInt_vtable: .word ArrayInt_length
+	ArrayChar_vtable: .word ArrayChar_length
+	IO_vtable: .word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool
+	Fibonacci_vtable: .word Fibonacci_imprimo_sucesion, Fibonacci_imprimo_numero, Fibonacci_sucesion_fib
+	ArrayBool_vtable: .word ArrayBool_length
 
-.text #put things into the text segment...
+.text #methods code
+	#Predefined methods
 	IO_out_str:
 		move $fp, $sp #mueve el contenido de $sp a $fp
 		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
@@ -103,8 +97,14 @@
 		addiu $sp $sp 8 # mueve el $sp 
 		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
 		jr $ra          # salta a la dirección almacenada en el registro $ra
+	#Custom methods
+	Fibonacci_imprimo_sucesion:
+	Fibonacci_Constructor:
+	Fibonacci_imprimo_numero:
+	Fibonacci_sucesion_fib:
+	#Main
 	.globl main
 
-main: 
-	li $v0, 10 #exit
-	syscall
+main:
+li $v0, 10 #exit
+syscall

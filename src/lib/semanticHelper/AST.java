@@ -23,7 +23,6 @@ public class AST {
         this.blocks = new HashMap<String, HashMap<String, SentenceBlock>>();
     }
 
-    
     /** 
      * Agrega un bloque al AST.
      * @param currentStruct Estructura actual.
@@ -38,7 +37,24 @@ public class AST {
         this.blocks.get(structName).put((block.getIDBlock().equals(".") ? "Constructor" : block.getIDBlock()), block);
     }
 
+    public String generateCode () {
+        String code = "\t#Custom methods\n";
+        //Genera el codigo de los metodos
+        for (String sStruct : this.blocks.keySet()) {
+            if (!sStruct.equals("start")) {
+                for (String sMethod : this.blocks.get(sStruct).keySet()) {
+                    code += "\t" + sStruct + "_" + sMethod + ":\n" + this.blocks.get(sStruct).get(sMethod).generateCode();
+                }
+            }
+        }
 
+        //Genera el código del metodo start (MAIN)
+        code += "\t#Main\n\t.globl main\n\n";
+        code += "main:\n";
+        code += this.blocks.get("start").get("start").generateCode();
+
+        return code;
+    }
     
     /** 
      * Método que consolida el arbol sintáctico abstracto.
