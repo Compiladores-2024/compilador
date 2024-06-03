@@ -8,6 +8,7 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.semanticHelper.symbolTableHelper.Variable;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -223,9 +224,30 @@ public class Static {
             result += (name + "_" + method + ", ");
         }
 
+        
         //Reserva memoria solo si posee datos
         if (!result.equals(".word ")) {
             result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
+            
+            //Recorre las variables de esa estructura
+            for (String variable : struct.getVariables().keySet()){
+                Variable var = struct.getVariables().get(variable);
+                //agrega las variables
+                switch (var.getTypeToken().getIDToken()) {
+                    case typeINT:
+                    case typeBOOL:
+                        result += "\t\t" + name + "_" +"var" + var.getPosition() + ": " + ".word 0 \n"; //reserva var int o bool con valor 0
+                        break;
+                    case typeCHAR:
+                    case typeSTR:
+                        result += "\t\t" + "var" + var.getPosition() + ": " + ".asciiz \"\" \n"; //reserva var str o char con valor ""
+                        break;
+                    default:
+                        //Array 
+                        result += "\t\t" + "var" + var.getPosition() + ": " + ".space 8 \n"; //reserva espacio para Array
+                        break;
+                }
+            }
         } else {
             result = "";
         }

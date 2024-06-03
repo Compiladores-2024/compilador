@@ -266,18 +266,34 @@ public class SymbolTable {
 
 
         //METODO  out_array_int
+        code += "\tIO_out_array_int:\n";
+
         //METODO  out_array_str
+        code += "\tIO_out_array_str:\n";
+
         //METODO  out_array_bool
+        code += "\tIO_out_array_bool:\n";
+        
         //METODO  out_array_char
+        code += "\tIO_out_array_char:\n";
 
 
         //ARRAY
         //METODO ARRAY LENGTH
+        code += "\tArrayStr_length:\n";
+        code += "\tArrayInt_length:\n";
+        code += "\tArrayChar_length:\n";
+        code += "\tArrayBool_length:\n";
+
 
 
         //STRING
         //METODO STRING CONCAT
+        code += "\tStr_concat:\n";
+        
         //METODO STRING LENGTH
+        code += "\tStr_length:\n";
+        
 
         return code;
     } 

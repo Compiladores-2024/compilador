@@ -402,6 +402,10 @@ public class Struct extends Metadata {
         return this.methods;
     }
 
+    public HashMap<String, Variable> getVariables(){
+        return this.variables;
+    }
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
