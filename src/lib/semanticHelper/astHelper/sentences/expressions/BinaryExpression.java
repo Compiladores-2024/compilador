@@ -147,8 +147,54 @@ public class BinaryExpression extends Expression{
     public String generateCode(){
         String asm="";
 
-        //asm += leftSide.generateCode();
-        //asm += rightSide.generateCode();
+        asm += leftSide.generateCode();
+        asm += rightSide.generateCode();
+        switch (operator){
+            case oSUM:
+                asm += "\taddu $a0, $t1, $a0 # Sum";
+                break;
+            case oSUB:
+                asm +="\tsubu $a0, $t1, $a0 # Sub";
+                break;
+            case oMULT:
+                asm +="\tmul $a0, $t1, $a0 # Multiplication";
+                break;
+            case oDIV:
+                asm +="\tdiv $t1, $a0 # Divide $t1 by $a0";
+                asm +="\tmflo $a0";
+                break;
+            case oMOD:
+                asm +="\tdiv $t1, $a0 # Divide $t1 by $a0 (result in $a0, remainder in HI register)";
+                asm +="\tmfhi $a0 # Move the remainder (HI) to $a0. $a0 now contains the modulo result (remainder)";
+                break;
+            case oAND: 
+                asm +="\tand $a0, $t1, $a0 # Operation &&\n";
+                break;
+            case oOR:
+                asm +="\tor $a0, $t1, $a0 # Operation ||\n";
+                break;
+            case oMIN:
+                asm +="\tslt $a0, $t1, $a0  # Op min. Set $t0 to 1 if $a0 is less than $s1, 0 otherwise";
+                break;
+            case oMIN_EQ:
+                asm +="\tsle $a0, $a0, $t1 # Op MinEq between $a0 y $t1";
+                break;
+            case oMAX:
+                asm +="\tsgt $a0, $a0, $t1  # Op max between $a0 y $t1";
+                break;
+            case oMAX_EQ:
+                asm +="\tsge $a0, $a0, $t1 # Op MaxEq between $a0 y $t1";
+                break;
+            case oEQUAL:
+                asm +="\tseq $a0, $a0, $t1 # Op Equal between $a0 y $t1";
+                break;
+            case oNOT_EQ:
+                asm +="\tsne $a0, $a0, $t1 # Op NotEqual between $a0 y $t1";
+                break;
+
+            default:
+                break;
+            }
         return asm;
     }
 }
