@@ -34,7 +34,7 @@ public class SemanticManager {
     }
 
     public String generateCode () {
-        //Genera las estructuras
+        //Genera la definicion de datos
         String code = symbolTable.generateCode();
         
         //Genera el código del programa
@@ -45,7 +45,7 @@ public class SemanticManager {
         //añadir en asm la generacion de codigo de cada nodo del ast
         
         //exit
-        code += "li $v0, 10 #exit\n"; //10 es exit syscall
+        code += "#Exit\nli $v0, 10\n"; //10 es exit syscall
         code += "syscall";
         
         return code;

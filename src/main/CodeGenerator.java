@@ -25,10 +25,10 @@ public class CodeGenerator {
         // generateAsm();
 
         //Escribe el resultado de la tabla de simbolos
-        //Static.write(syntacticAnalyzer.toJSON().get(0), resultPath + ".ts.json");
+        Static.write(syntacticAnalyzer.toJSON().get(0), resultPath + ".ts.json");
 
         //Escribe el resultado del ast
-        //Static.write(syntacticAnalyzer.toJSON().get(1), resultPath + ".ast.json");
+        Static.write(syntacticAnalyzer.toJSON().get(1), resultPath + ".ast.json");
 
         //Escribe el codigo MIPS
         Static.write(code, resultPath + ".asm");

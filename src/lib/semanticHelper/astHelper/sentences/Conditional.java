@@ -82,16 +82,16 @@ public class Conditional extends Sentence{
             tabs + "}";
     }
 
-    public String generateCode(){
+    public String generateCode(String registerResult){
         String asm="";
 
         int numIf; //numero de if para diferenciar los labels
-        asm += condition.generateCode();
+        asm += condition.generateCode("");
         asm += "bne $a0, 1, else #Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled else\n";
-        asm += thenBlock.generateCode();
+        asm += thenBlock.generateCode("");
         asm += "\tj endIfElse #Jump endIfElse label\n";
         asm += "else: \n";
-        asm += elseBlock.generateCode();
+        asm += elseBlock.generateCode("");
         asm += "endIfElse:\n";
         return asm;
     }

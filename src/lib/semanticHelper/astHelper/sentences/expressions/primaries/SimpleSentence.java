@@ -56,7 +56,7 @@ public class SimpleSentence extends Primary{
         return exp.toJSON(tabs);
     }
 
-    public String generateCode(){
+    public String generateCode(String registerResult){
         String asm="";
 
         //asm += exp.generateCode();

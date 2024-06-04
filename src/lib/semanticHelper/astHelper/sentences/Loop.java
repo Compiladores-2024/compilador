@@ -73,7 +73,7 @@ public class Loop extends Sentence{
     }
 
 
-    public String generateCode(){
+    public String generateCode(String registerResult){
         String asm="";
 
         int numWhile; //numero de while para diferenciar los labels

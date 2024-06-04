@@ -3,7 +3,9 @@ package src.lib.semanticHelper.symbolTableHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -16,7 +18,7 @@ import src.lib.tokenHelper.Token;
 public class Method extends Metadata{
     private boolean isStatic;
     private Token returnType;
-    private int currentVarIndex;
+    private int currentVarIndex, spaceUsedInMemory;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
 
@@ -49,6 +51,7 @@ public class Method extends Metadata{
         this.isStatic = isStatic;
         this.returnType = returnType;
         this.currentVarIndex = 0;
+        this.spaceUsedInMemory = 0;
     }
 
     
@@ -59,6 +62,54 @@ public class Method extends Metadata{
      */
     public int getParamsSize () {
         return params.size();
+    }
+    public int getVariableSpaceUsed() {
+        return spaceUsedInMemory;
+    }
+
+    public String generateCode (String tabs, String struct) {
+        int space = 0;
+        String code = "";
+
+        //Agrega los temporales
+        code = "la $t0, default_string\n\n";
+
+        //Reserva memoria para el retorno, si no es el metodo start
+        if (!getName().equals("start")) {
+            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t#Return. Idx: 0\n";
+            space += 4;
+        }
+        
+        //Reserva memoria para los parametros (Solo si posee)
+        for (String param : params.keySet()) {
+            Param par = params.get(param);
+            code += Static.initStackData(par.getType().getIDToken(), space) + "\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
+            space += 4;
+        }
+        
+        //Reserva memoria para las variables locales
+        for (String variable : variables.keySet()) {
+            Variable var = variables.get(variable);
+            code += Static.initStackData(var.getTypeToken().getIDToken(), space) + "\t\t\t#Local variable " + variable + ". Idx: 4 + (4 * paramSize) + (" + var.getPosition() + " * 4)\n";
+            space += 4;
+        }
+
+        //Reserva memoria para self, RA del llamador y puntero al llamador, si no es el metodo start
+        if (!getName().equals("start")) {
+            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t#Self. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            space += 4;
+            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t#RA caller. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            space += 4;
+            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t#Resume pointer. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            space += 4;
+        }
+
+        //Mueve el puntero a la posición correspondiente
+        code += "addi $sp, $sp, -" + space + "\t\t#Update sp\n";
+
+        //Guarda el espacio utilizado (Para luego liberarlo)
+        spaceUsedInMemory = space;
+        return code;
     }
 
     /** 

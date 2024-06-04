@@ -96,11 +96,18 @@ public class Assignation extends Sentence{
     }
 
 
-    public String generateCode(){
-        String asm="";
+    public String generateCode(String registerResult){
+        String asm = "#Assignation code\n";
 
-        //asm += leftSide.generateCode();
-        //asm += rightSide.generateCode();
+        //Escribe el resultado en el temporal 0 (ES DIRECCION DE MEMORIA)
+        asm += leftSide.generateCode("$t0");
+        
+        //Escribe el resultado en el temporal 1 (ES VALOR O DIRECCION DE MEMORIA)
+        asm += rightSide.generateCode("$t1");
+
+        //Asigna el valor
+        asm = "sw $t1, 0($t0)\n";
+
         return asm;
     }
 }

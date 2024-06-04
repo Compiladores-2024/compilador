@@ -137,6 +137,55 @@ public class Struct extends Metadata {
         return methods.get(name);
     }
 
+    public String generateCode () {
+        //Inicializa el texto de las virtual table
+        String result = ".word ";
+
+        //Obtiene el nombre de la estructura sin espacios
+        String name = this.getName().replaceAll("\\s", "");
+        
+        //Recorre los metodos de esa estructura
+        for (String method : methods.keySet()){
+            //Agrega el metodo a la vtable
+            result += (name + "_" + method + ", ");
+        }
+
+        
+        //Genera la vtable solo si posee datos
+        if (!result.equals(".word ")) {
+            result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
+        } else {
+            result = "";
+        }
+
+        //Recorre las variables de esa estructura y agrega los datos
+        for (String variable : variables.keySet()){
+            Variable var = variables.get(variable);
+            
+            //agrega las variables
+            switch (var.getTypeToken().getIDToken()) {
+                case typeINT:
+                case typeBOOL:
+                    result += "\t" + name + "_" +"var" + var.getPosition() + ": " + ".word 0 \n"; //reserva var int o bool con valor 0
+                    break;
+                case typeCHAR:
+                case typeSTR:
+                    result += "\t" + "var" + var.getPosition() + ": " + ".asciiz \"\" \n"; //reserva var str o char con valor ""
+                    break;
+                case idSTRUCT:
+                case spOBJECT:
+                    result += "\t" + name + "_" +"var" + var.getPosition() + ": " + ".word 0 \n"; //reserva objetos
+                    break;
+                default:
+                    //Array 
+                    result += "\t" + "var" + var.getPosition() + ": " + ".space 8 \n"; //reserva espacio para Array
+                    break;
+            }
+        }
+        
+        return result;
+    }
+
 
     /** 
      * Agrega los métodos que hereda, este método lo llama la superclase del struct.

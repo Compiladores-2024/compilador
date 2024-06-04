@@ -19,6 +19,8 @@ public abstract class Expression extends Sentence{
     protected Primary rightChained;
     /** Posición del parámetro */
     protected int position;
+    /** Guarda un booleano que avisa si el valor es constante u offset del stack*/
+    protected boolean isOffset;
     
     /**
      * Constructor de la clase.
@@ -52,6 +54,10 @@ public abstract class Expression extends Sentence{
      */
     public String getResultType() {
         return resultType;
+    }
+
+    public boolean isOffset() {
+        return isOffset;
     }
 
     

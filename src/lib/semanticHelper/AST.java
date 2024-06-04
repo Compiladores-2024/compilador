@@ -38,7 +38,10 @@ public class AST {
     }
 
     public String generateCode () {
-        String code = "\t#Custom methods\n";
+        String code = "#Start method code\n";
+        //Genera el código del metodo start (MAIN)
+        code += this.blocks.get("start").get("start").generateCode();
+
         //Genera el codigo de los metodos
         for (String sStruct : this.blocks.keySet()) {
             if (!sStruct.equals("start")) {
@@ -47,11 +50,6 @@ public class AST {
                 }
             }
         }
-
-        //Genera el código del metodo start (MAIN)
-        code += "\t#Main\n\t.globl main\n\n";
-        code += "main:\n";
-        code += this.blocks.get("start").get("start").generateCode();
 
         return code;
     }

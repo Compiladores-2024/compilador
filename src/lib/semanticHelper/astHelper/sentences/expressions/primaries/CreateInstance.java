@@ -85,7 +85,7 @@ public class CreateInstance extends Primary{
         tabs + "}";
     }
 
-    public String generateCode(){
+    public String generateCode(String registerResult){
         String asm="";
 
         //asm += 

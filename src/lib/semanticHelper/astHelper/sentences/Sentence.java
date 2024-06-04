@@ -55,5 +55,5 @@ public abstract class Sentence {
     public abstract void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression);
     
 
-    public abstract String generateCode();
+    public abstract String generateCode(String registerResult);
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.symbolTableHelper.*;
 import src.lib.tokenHelper.IDToken;
@@ -165,18 +164,24 @@ public class SymbolTable {
     
     public String generateCode () {
         String code = ".data\n";
+
+        //AGREGA LA INICIALIZACION DE STRINGS
+        code += "\tdefault_string: .asciiz \"\"\n";
         
-        //AGREGA LAS VIRTUAL TABLES
+        //AGREGA LAS VIRTUAL TABLES DE LOS METODOS PREDEFINIDOS
         for (String sStruct : structs.keySet()) {
-           code += Static.generateVTables(structs.get(sStruct));
+            code += structs.get(sStruct).generateCode();
         }
-    
-        //RESERVA MEMORIA PARA LOS ATRIBUTOS
-        
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
-        code += "\n.text #methods code\n\t#Predefined methods\n";
+        code += "\n.text #Predefined methods code\n";
         code += generatePredefinedCode();
+
+        //Reserva los datos del metodo start
+        code += "\t#Main\n\t.globl main\n\n";
+        code += "main:\n#Start method data\n";
+        code += start.generateCode("\t", "");
+
         return code;
     }
     private String generatePredefinedCode(){

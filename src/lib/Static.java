@@ -8,7 +8,7 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.semanticHelper.symbolTableHelper.Variable;
+import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -211,47 +211,47 @@ public class Static {
         }
     }
 
-    public static String generateVTables (Struct struct) {
-        //Inicializa el texto de las virtual table
-        String result=".word ";
+    public static String getCodeDataType (IDToken id) {
+        String result;
+        switch (id) {
+            case typeINT:
+            case typeBOOL:
+                result = ": .word 0 \n"; //reserva var int o bool con valor 0
+                break;
+            case typeCHAR:
+            case typeSTR:
+                result = ": .asciiz \"\" \n"; //reserva var str o char con valor ""
+                break;
+            case idSTRUCT:
+            case spOBJECT:
+                result = ": .word 0 \n"; //reserva objetos
+                break;
+            default:
+                //Array 
+                result = ": .space 8 \n"; //reserva espacio para Array
+                break;
+        }
+        return result;
+    }
 
-        //Obtiene el nombre de la estructura sin espacios
-        String name = struct.getName().replaceAll("\\s", "");
-        
-        //Recorre los metodos de esa estructura
-        for (String method : struct.getMethods().keySet()){
-            //Agrega el metodo a la vtable
-            result += (name + "_" + method + ", ");
+
+    /**
+     * SE DEBEN COMPLETAR LOS DATOS DE LOS REGISTROS TEMPORALES CON ATERIORIDAD
+     * @param type
+     * @param index
+     * @return
+     */
+    public static String initStackData (IDToken type, int index) {
+        //Siempre inicializa con 0
+        String result = "sw $0, ";
+
+        //Si es string o char inicializa con string predefinido
+        if (type.equals(IDToken.typeCHAR) || type.equals(IDToken.typeSTR)) {
+            result = "sw $t0, ";
         }
 
-        
-        //Reserva memoria solo si posee datos
-        if (!result.equals(".word ")) {
-            result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
-            
-            //Recorre las variables de esa estructura
-            for (String variable : struct.getVariables().keySet()){
-                Variable var = struct.getVariables().get(variable);
-                //agrega las variables
-                switch (var.getTypeToken().getIDToken()) {
-                    case typeINT:
-                    case typeBOOL:
-                        result += "\t\t" + name + "_" +"var" + var.getPosition() + ": " + ".word 0 \n"; //reserva var int o bool con valor 0
-                        break;
-                    case typeCHAR:
-                    case typeSTR:
-                        result += "\t\t" + "var" + var.getPosition() + ": " + ".asciiz \"\" \n"; //reserva var str o char con valor ""
-                        break;
-                    default:
-                        //Array 
-                        result += "\t\t" + "var" + var.getPosition() + ": " + ".space 8 \n"; //reserva espacio para Array
-                        break;
-                }
-            }
-        } else {
-            result = "";
-        }
-        
+        //Agrega el puntero
+        result += index +"($sp)";
         return result;
     }
 }

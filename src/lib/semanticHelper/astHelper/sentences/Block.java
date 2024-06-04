@@ -69,11 +69,11 @@ public class Block extends Sentence{
         return blocksString;
     }
 
-    public String generateCode(){
+    public String generateCode(String registerResult){
         String asm = "";
 
         for (Sentence sentence : sentenceList) {
-            asm += sentence.generateCode();
+            asm += sentence.generateCode("$t0");
         }
         return asm;
     }

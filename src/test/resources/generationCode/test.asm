@@ -1,17 +1,13 @@
 .data
+	default_string: .asciiz ""
 	Str_vtable: .word Str_length, Str_concat
 	ArrayStr_vtable: .word ArrayStr_length
 	ArrayInt_vtable: .word ArrayInt_length
 	ArrayChar_vtable: .word ArrayChar_length
 	IO_vtable: .word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool
-	Fibonacci_vtable: .word Fibonacci_imprimo_sucesion, Fibonacci_imprimo_numero, Fibonacci_sucesion_fib
-	Fibonacci_var0: .word 0 
-	Fibonacci_var1: .word 0 
-	Fibonacci_var2: .word 0 
 	ArrayBool_vtable: .word ArrayBool_length
 
-.text #methods code
-	#Predefined methods
+.text #Predefined methods code
 	IO_out_str:
 		move $fp, $sp #mueve el contenido de $sp a $fp
 		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
@@ -110,15 +106,21 @@
 	ArrayBool_length:
 	Str_concat:
 	Str_length:
-	#Custom methods
-	Fibonacci_imprimo_sucesion:
-	Fibonacci_Constructor:
-	Fibonacci_imprimo_numero:
-	Fibonacci_sucesion_fib:
-	addi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )	
 	#Main
 	.globl main
 
 main:
-li $v0, 10 #exit
+#Start method data
+la $t0, default_string
+
+sw $0, 0($sp)			#Local variable a. Idx: 4 + (4 * paramSize) + (0 * 4)
+sw $t0, 4($sp)			#Local variable b. Idx: 4 + (4 * paramSize) + (2 * 4)
+sw $0, 8($sp)			#Local variable c. Idx: 4 + (4 * paramSize) + (3 * 4)
+sw $0, 12($sp)			#Local variable d. Idx: 4 + (4 * paramSize) + (4 * 4)
+sw $0, 16($sp)			#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
+addi $sp, $sp, -20		#Update sp
+#Start method code
+sw $t1, 0($t0)
+#Exit
+li $v0, 10
 syscall
