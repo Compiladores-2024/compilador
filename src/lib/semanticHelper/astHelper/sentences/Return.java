@@ -92,8 +92,8 @@ public class Return extends Sentence{
             tabs + "}";
     }
 
-    public String generateCode(String registerResult){
-        return "\t" + expression.generateCode(registerResult) + "\n";
+    public String generateCode(String sStruct, String sMethod){
+        return "\t" + expression.generateCode(sStruct, sMethod) + "\n";
     }
 
 }

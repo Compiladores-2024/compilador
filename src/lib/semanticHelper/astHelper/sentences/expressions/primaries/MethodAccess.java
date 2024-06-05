@@ -94,7 +94,7 @@ public class MethodAccess extends Primary{
         tabs + "}";
     }
 
-    public String generateCode(String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm="";
 
         //asm += 

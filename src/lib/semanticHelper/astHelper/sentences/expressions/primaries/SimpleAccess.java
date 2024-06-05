@@ -78,14 +78,14 @@ public class SimpleAccess extends Primary{
             tabs + "}";
     }
 
-    public String generateCode(String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm = "#Simple access code\n", id = identifier.getIDToken().toString();
         //Valida el tipo de dato (Para saber si almacena una posicion de memoria o un valor)
         if (id.contains("literal")) {
             //Valida si es entero o string
             if (id.contains("Int")) {
                 //Almacena el lexema
-                asm += "li " + registerResult + ", " + identifier.getLexema() + "\n";
+                asm += "li $t0, " + identifier.getLexema() + "\n";
             } else {
 
             }

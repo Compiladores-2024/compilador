@@ -72,11 +72,11 @@ public class Block extends Sentence{
         return blocksString;
     }
 
-    public String generateCode(String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm = "";
 
         for (Sentence sentence : sentenceList) {
-            asm += sentence.generateCode("$t0");
+            asm += sentence.generateCode(sStruct, sMethod);
         }
         return asm;
     }

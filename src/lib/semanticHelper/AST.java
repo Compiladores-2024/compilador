@@ -40,13 +40,13 @@ public class AST {
     public String generateCode () {
         String code = "#Start method code\n";
         //Genera el código del metodo start (MAIN)
-        code += this.blocks.get("start").get("start").generateCode();
+        code += this.blocks.get("start").get("start").generateCode("start", "start");
 
         //Genera el codigo de los metodos
         for (String sStruct : this.blocks.keySet()) {
             if (!sStruct.equals("start")) {
                 for (String sMethod : this.blocks.get(sStruct).keySet()) {
-                    code += "\t" + sStruct + "_" + sMethod + ":\n" + this.blocks.get(sStruct).get(sMethod).generateCode();
+                    code += "\t" + sStruct + "_" + sMethod + ":\n" + this.blocks.get(sStruct).get(sMethod).generateCode(sStruct, sMethod);
                 }
             }
         }

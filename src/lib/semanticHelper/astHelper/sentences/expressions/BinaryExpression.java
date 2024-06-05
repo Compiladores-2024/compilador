@@ -147,11 +147,11 @@ public class BinaryExpression extends Expression{
 
 
     
-    public String generateCode(String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        asm += leftSide.generateCode("$t0");
-        asm += rightSide.generateCode("$t1");
+        asm += leftSide.generateCode(sStruct, sMethod);
+        asm += rightSide.generateCode(sStruct, sMethod);
         switch (operator){
             case oSUM:
                 asm += "\taddu $a0, $t1, $a0 # Sum";
