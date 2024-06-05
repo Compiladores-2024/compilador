@@ -38,7 +38,7 @@ public class AST {
     }
 
     public String generateCode () {
-        String code = "#Start method code\n";
+        String code = "\n#Start method code\n";
         //Genera el código del metodo start (MAIN)
         code += this.blocks.get("start").get("start").generateCode("start", "start");
 

@@ -147,52 +147,61 @@ public class BinaryExpression extends Expression{
 
 
     
-    public String generateCode(String sStruct, String sMethod){
+    public String generateCode(String sStruct, String sMethod, String registerResult){
         String asm="";
 
-        asm += leftSide.generateCode(sStruct, sMethod);
-        asm += rightSide.generateCode(sStruct, sMethod);
+        //Obtiene el resultado en el registro $t0
+        asm += rightSide.generateCode(sStruct, sMethod, "");
+        
+        //Mueve el resultado al registro $t1
+        asm += "move $t1, $t0\t\t\t\t\t#Move $t0 to $t1\n";
+        
+        //Obtiene el resultado en el registro $t0
+        asm += leftSide.generateCode(sStruct, sMethod, "");
+
+        //$t0: LeftSide
+        //$t1: RightSide
         switch (operator){
             case oSUM:
-                asm += "\taddu $a0, $t1, $a0 # Sum";
+                asm += "addu $a0, $t1, $a0 # Sum";
                 break;
             case oSUB:
-                asm +="\tsubu $a0, $t1, $a0 # Sub";
+                asm +="subu $a0, $t1, $a0 # Sub";
                 break;
             case oMULT:
-                asm +="\tmul $a0, $t1, $a0 # Multiplication";
+                asm +="mul $a0, $t1, $a0 # Multiplication";
                 break;
             case oDIV:
-                asm +="\tdiv $t1, $a0 # Divide $t1 by $a0";
-                asm +="\tmflo $a0";
+                asm +="div $t1, $a0 # Divide $t1 by $a0";
+                asm +="mflo $a0";
                 break;
             case oMOD:
-                asm +="\tdiv $t1, $a0 # Divide $t1 by $a0 (result in $a0, remainder in HI register)";
-                asm +="\tmfhi $a0 # Move the remainder (HI) to $a0. $a0 now contains the modulo result (remainder)";
+                asm +="div $t1, $a0 # Divide $t1 by $a0 (result in $a0, remainder in HI register)";
+                asm +="mfhi $a0 # Move the remainder (HI) to $a0. $a0 now contains the modulo result (remainder)";
                 break;
             case oAND: 
-                asm +="\tand $a0, $t1, $a0 # Operation &&\n";
+                asm +="and $a0, $t1, $a0 # Operation &&\n";
                 break;
             case oOR:
-                asm +="\tor $a0, $t1, $a0 # Operation ||\n";
+                asm +="or $a0, $t1, $a0 # Operation ||\n";
                 break;
             case oMIN:
-                asm +="\tslt $a0, $t1, $a0  # Op min. Set $t0 to 1 if $a0 is less than $s1, 0 otherwise";
+                asm +="slt $a0, $t1, $a0  # Op min. Set $t0 to 1 if $a0 is less than $s1, 0 otherwise";
                 break;
             case oMIN_EQ:
-                asm +="\tsle $a0, $a0, $t1 # Op MinEq between $a0 y $t1";
+                asm +="sle $a0, $a0, $t1 # Op MinEq between $a0 y $t1";
                 break;
             case oMAX:
-                asm +="\tsgt $a0, $a0, $t1  # Op max between $a0 y $t1";
+                asm +="sgt $a0, $a0, $t1  # Op max between $a0 y $t1";
                 break;
             case oMAX_EQ:
-                asm +="\tsge $a0, $a0, $t1 # Op MaxEq between $a0 y $t1";
+                asm +="sge $a0, $a0, $t1 # Op MaxEq between $a0 y $t1";
                 break;
             case oEQUAL:
-                asm +="\tseq $a0, $a0, $t1 # Op Equal between $a0 y $t1";
+                asm +="seq $a0, $a0, $t1 # Op Equal between $a0 y $t1";
                 break;
             case oNOT_EQ:
-                asm +="\tsne $a0, $a0, $t1 # Op NotEqual between $a0 y $t1";
+                asm +="sne $a0, $a0, $t1 # Op NotEqual between $a0 y $t1";
                 break;
 
             default:

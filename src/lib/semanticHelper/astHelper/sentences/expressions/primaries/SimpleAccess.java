@@ -78,11 +78,32 @@ public class SimpleAccess extends Primary{
             tabs + "}";
     }
 
-    public String generateCode(String sStruct, String sMethod){
-        String asm = "";
+    public String generateCode(String sStruct, String sMethod, String registerResult){
+        String asm = "", auxString = "";
+        Method auxMethod = null;
 
         //Valida el tipo de dato (Para saber si almacena una posicion de memoria o un valor)
         switch (identifier.getIDToken()) {
+            case spIO:
+                //Obtiene el metodo al que esta llamando
+                if (rightChained != null){
+                    //Obtiene el nombre del metodo
+                    auxString = rightChained.getIdentifier().getLexema();
+
+                    //Valida que el metodo exista
+                    auxMethod = symbolTable.getStruct(identifier.getLexema()).getMethod(auxString);
+                    if (auxMethod != null) {
+                        //Genera el nombre del metodo (Estructura_nombremetodo)
+                        auxString = identifier.getLexema() + "_" + auxString;
+
+                        asm += "";
+                    } else {
+                        //ERROR, debe realizar un llamado a metodo existente
+                    }
+                } else {
+                    //ERROR, debe tener encadenado
+                }
+                break;
             case spOBJECT:
                 break;
             case typeINT:
@@ -102,7 +123,7 @@ public class SimpleAccess extends Primary{
             case typeArrayCHAR:
                 break;
             case constINT: //Asigna el lexema
-                asm += "li $t0, " + identifier.getLexema() + "\n";
+                asm += "li " + registerResult + ", " + identifier.getLexema() + "\t\t\t\t\t\t#Assign the value\n";
                 break;
             case constSTR:
                 break;
@@ -111,14 +132,14 @@ public class SimpleAccess extends Primary{
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addi $t0, $sp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\n";
+                asm += "addi " + registerResult + ", $sp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Save the memory position\n";
                 isOffset = true;
                 break;
             case pFALSE: //Asigna 0
-                asm += "li $t0, 0\n";
+                asm += "li " + registerResult + ", 0\t\t\t\t\t#Assign False (0)\n";
                 break;
             case pTRUE: //Asigna 1
-                asm += "li $t0, 1\n";
+                asm += "li " + registerResult + ", 1\t\t\t\t\t#Assign True (1)\n";
                 break;
             case pNIL:
                 break;

@@ -99,7 +99,7 @@ public class CreateArray extends Primary{
             tabs + "}";
     }
     
-    public String generateCode(String sStruct, String sMethod){
+    public String generateCode(String sStruct, String sMethod, String registerResult){
         String asm="";
 
         //asm += 

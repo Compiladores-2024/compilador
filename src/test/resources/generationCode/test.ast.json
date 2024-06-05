@@ -14,11 +14,71 @@
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "Int",
+                        "nombreVariable": "1",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
                         "encadenado": ""
                     }
+                },
+                {
+                    "tipo": "Conditional",
+                    "condicion": {
+                        "tipo": "BinaryExpression",
+                        "operador": "==",
+                        "resultadoDeTipo": "Bool",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "j",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "1",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "literal Int",
+                            "encadenado": ""
+                        }
+                    },
+                    "thenBlock": [
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "a",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Str",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "es 1",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        }
+                    ],
+                    "elseBlock": [
+{
+                            "tipo": "Asignation",
+                            "leftSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "a",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Str",
+                                "encadenado": ""
+                            },
+                            "rightSide": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "no es 1",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        }
+                    ]
                 }
             ]
         }

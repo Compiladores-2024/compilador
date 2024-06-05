@@ -113,23 +113,37 @@ main:
 #Start method data
 la $t0, default_string
 
-sw $0, 0($sp)			#Return. Idx: 0
-sw $0, 4($sp)			#Local variable a. Idx: 4 + (4 * paramSize) + (0 * 4)
-sw $0, 8($sp)			#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
-addi $sp, $sp, -12		#Update sp
+sw $0, 0($sp)					#Return. Idx: 0
+sw $t0, 8($sp)					#Local variable a. Idx: 4 + (4 * paramSize) + (1 * 4)
+sw $0, 4($sp)					#Local variable j. Idx: 4 + (4 * paramSize) + (0 * 4)
+addi $sp, $sp, -12				#Update sp
+
 #Start method code
 
 #Assignation code
-addi $t0, $sp, 4
-move $t1, $t0			#Move $t0 result to $t1
-addi $t0, $sp, 8
-lw $t1, 0($t1)			#Get right value
-sw $t1, 0($t0)			#Assign the value
+li $t0, 1						#Assign the value
+move $t1, $t0					#Move $t0 to $t1
+addi $t0, $sp, 4				#Save the memory position
+sw $t1, 0($t0)					#Assignation
 
+#Conditional code
+li $t0, 1						#Assign the value
+move $t1, $t0					#Move $t0 to $t1
+addi $t0, $sp, 4				#Save the memory position
+seq $a0, $a0, $t1 # Op Equal between $a0 y $t1bne $a0, 1, else #Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled else
 
-li $v0, 1       # Cargar el código de servicio 1 (imprimir entero) en $v0
-move $a0, $t0   # Mover el valor de $t0 a $a0 (el argumento para imprimir)
-syscall         # Llamar al sistema para imprimir el valor
+#Assignation code
+move $t1, $t0					#Move $t0 to $t1
+addi $t0, $sp, 8				#Save the memory position
+sw $t1, 0($t0)					#Assignation
+	j endIfElse #Jump endIfElse label
+else: 
+
+#Assignation code
+move $t1, $t0					#Move $t0 to $t1
+addi $t0, $sp, 8				#Save the memory position
+sw $t1, 0($t0)					#Assignation
+endIfElse:
 
 #Exit
 li $v0, 10
