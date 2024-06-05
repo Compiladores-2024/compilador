@@ -58,6 +58,9 @@ public class UnaryExpression extends Expression{
         else{
             setResultType(expression.getResultTypeChained());
         }
+        
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     private void checkType () {

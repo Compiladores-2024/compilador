@@ -77,6 +77,9 @@ public class Assignation extends Sentence{
                 Static.checkInherited(st, leftType, rightType, identifier);
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -106,7 +109,7 @@ public class Assignation extends Sentence{
         asm += rightSide.generateCode("$t1");
 
         //Asigna el valor
-        asm = "sw $t1, 0($t0)\n";
+        asm += "sw $t1, 0($t0)\t\t\t#Assign the value\n";
 
         return asm;
     }

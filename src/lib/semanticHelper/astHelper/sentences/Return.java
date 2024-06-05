@@ -73,6 +73,9 @@ public class Return extends Sentence{
                 }
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

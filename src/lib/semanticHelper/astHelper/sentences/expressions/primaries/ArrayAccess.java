@@ -64,6 +64,8 @@ public class ArrayAccess extends Primary{
             throw new SemanticException(identifier, ("La variable no es de tipo Array. Tipo detectado: " + resultType), true);
         }
 
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

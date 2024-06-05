@@ -56,6 +56,9 @@ public class SimpleAccess extends Primary{
         if (rightChained != null) {
             rightChained.consolidate(st, struct, method, this);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -76,9 +79,20 @@ public class SimpleAccess extends Primary{
     }
 
     public String generateCode(String registerResult){
-        String asm="";
+        String asm = "#Simple access code\n", id = identifier.getIDToken().toString();
+        //Valida el tipo de dato (Para saber si almacena una posicion de memoria o un valor)
+        if (id.contains("literal")) {
+            //Valida si es entero o string
+            if (id.contains("Int")) {
+                //Almacena el lexema
+                asm += "li " + registerResult + ", " + identifier.getLexema() + "\n";
+            } else {
 
-        //asm += 
+            }
+        } else {
+            //Valida si es variable, parametro o atributo
+
+        }
         return asm;
     }
 

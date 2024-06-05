@@ -54,6 +54,9 @@ public class Loop extends Sentence{
 
         //Consolida el bloque
         loopBlock.consolidate(st, struct, method, null);
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
     
     

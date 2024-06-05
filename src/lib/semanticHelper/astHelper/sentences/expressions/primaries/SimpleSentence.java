@@ -42,6 +42,9 @@ public class SimpleSentence extends Primary{
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         exp.consolidate(st, struct, method, leftExpression);
         setResultType(exp.getResultTypeChained());
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

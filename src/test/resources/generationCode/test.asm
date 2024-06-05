@@ -120,7 +120,11 @@ sw $0, 12($sp)			#Local variable d. Idx: 4 + (4 * paramSize) + (4 * 4)
 sw $0, 16($sp)			#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
 addi $sp, $sp, -20		#Update sp
 #Start method code
-sw $t1, 0($t0)
+#Assignation code
+#Simple access code
+#Simple access code
+li $t1, 1
+sw $t1, 0($t0)			#Assign the value
 #Exit
 li $v0, 10
 syscall

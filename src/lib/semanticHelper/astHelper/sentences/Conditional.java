@@ -63,6 +63,9 @@ public class Conditional extends Sentence{
         if (elseBlock != null) {
             elseBlock.consolidate(st, struct, method, null);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

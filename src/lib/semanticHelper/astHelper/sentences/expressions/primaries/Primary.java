@@ -110,6 +110,9 @@ public abstract class Primary extends Expression{
 
         //Setea el tipo de resultado
         setResultType(type);
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

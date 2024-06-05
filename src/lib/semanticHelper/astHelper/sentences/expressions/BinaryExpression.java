@@ -77,6 +77,9 @@ public class BinaryExpression extends Expression{
         checkOperation(leftSide.getResultTypeChained());
 
         setResultType(getType(leftSide.getResultTypeChained()));
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

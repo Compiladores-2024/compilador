@@ -45,6 +45,9 @@ public class Block extends Sentence{
                 sentence.consolidate(st, struct, method, null);
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
     
     
