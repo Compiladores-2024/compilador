@@ -45,7 +45,7 @@ public class SemanticManager {
         //añadir en asm la generacion de codigo de cada nodo del ast
         
         //exit
-        code += "#Exit\nli $v0, 10\n"; //10 es exit syscall
+        code += "\n#Exit\nli $v0, 10\n"; //10 es exit syscall
         code += "syscall";
         
         return code;

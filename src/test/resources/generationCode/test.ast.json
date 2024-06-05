@@ -7,16 +7,16 @@
                     "tipo": "Asignation",
                     "leftSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
+                        "nombreVariable": "j",
                         "tipoDeDato": "id variable o método",
                         "resultadoDeTipo": "Int",
                         "encadenado": ""
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "1",
-                        "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "literal Int",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
                         "encadenado": ""
                     }
                 }

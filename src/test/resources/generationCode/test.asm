@@ -113,18 +113,24 @@ main:
 #Start method data
 la $t0, default_string
 
-sw $0, 0($sp)			#Local variable a. Idx: 4 + (4 * paramSize) + (0 * 4)
-sw $t0, 4($sp)			#Local variable b. Idx: 4 + (4 * paramSize) + (2 * 4)
-sw $0, 8($sp)			#Local variable c. Idx: 4 + (4 * paramSize) + (3 * 4)
-sw $0, 12($sp)			#Local variable d. Idx: 4 + (4 * paramSize) + (4 * 4)
-sw $0, 16($sp)			#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
-addi $sp, $sp, -20		#Update sp
+sw $0, 0($sp)			#Return. Idx: 0
+sw $0, 4($sp)			#Local variable a. Idx: 4 + (4 * paramSize) + (0 * 4)
+sw $0, 8($sp)			#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
+addi $sp, $sp, -12		#Update sp
 #Start method code
+
 #Assignation code
-#Simple access code
-#Simple access code
-li $t1, 1
+addi $t0, $sp, 4
+move $t1, $t0			#Move $t0 result to $t1
+addi $t0, $sp, 8
+lw $t1, 0($t1)			#Get right value
 sw $t1, 0($t0)			#Assign the value
+
+
+li $v0, 1       # Cargar el código de servicio 1 (imprimir entero) en $v0
+move $a0, $t0   # Mover el valor de $t0 a $a0 (el argumento para imprimir)
+syscall         # Llamar al sistema para imprimir el valor
+
 #Exit
 li $v0, 10
 syscall

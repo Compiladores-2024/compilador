@@ -313,24 +313,6 @@
                 "tipo": "Int",
                 "public": "false",
                 "posicion": 1
-            },
-            {
-                "nombre": "b",
-                "tipo": "Str",
-                "public": "false",
-                "posicion": 2
-            },
-            {
-                "nombre": "c",
-                "tipo": "Bool",
-                "public": "false",
-                "posicion": 3
-            },
-            {
-                "nombre": "d",
-                "tipo": "Object",
-                "public": "false",
-                "posicion": 4
             }
         ]
     }

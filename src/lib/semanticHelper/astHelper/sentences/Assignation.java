@@ -100,17 +100,25 @@ public class Assignation extends Sentence{
 
 
     public String generateCode(String sStruct, String sMethod){
-        String asm = "#Assignation code\n";
-
-        //Escribe el resultado en el temporal 0 (ES DIRECCION DE MEMORIA)
-        asm += leftSide.generateCode(sStruct, sMethod);
+        String asm = "\n#Assignation code\n";
         
         //Escribe el resultado en el temporal 1 (ES VALOR O DIRECCION DE MEMORIA)
         asm += rightSide.generateCode(sStruct, sMethod);
 
+        //Mueve el valor al temporal 1
+        asm += "move $t1, $t0\t\t\t#Move $t0 result to $t1\n";
+        
+        //Escribe el resultado en el temporal 0 (ES DIRECCION DE MEMORIA)
+        asm += leftSide.generateCode(sStruct, sMethod);
+
+
+        //Si el lado derecho es offset, obtiene el valor
+        if (rightSide.isOffset()) {
+            asm += "lw $t1, 0($t1)\t\t\t#Get right value\n";
+        }
+        
         //Asigna el valor
         asm += "sw $t1, 0($t0)\t\t\t#Assign the value\n";
-
         return asm;
     }
 }

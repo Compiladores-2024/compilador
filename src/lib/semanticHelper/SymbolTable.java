@@ -180,7 +180,7 @@ public class SymbolTable {
         //Reserva los datos del metodo start
         code += "\t#Main\n\t.globl main\n\n";
         code += "main:\n#Start method data\n";
-        code += start.generateCode("\t", "");
+        code += start.generateCode();
 
         return code;
     }
@@ -471,7 +471,17 @@ public class SymbolTable {
         }
     }
 
+    public int getLocalVariableOffset(String sStruct, String sMethod, String name) {
+        int offset;
+        //Valida si es del metodo start
+        if (sStruct.equals("start")) {
+            offset = start.getVariableOffset(name);
+        } else {
+            offset = structs.get(sStruct).getMethod(sMethod).getVariableOffset(name);
+        }
 
+        return offset;
+    }
     
     /** 
      * Obtiene una estructura dada

@@ -29,6 +29,7 @@ public abstract class Expression extends Sentence{
     public Expression(Token token) {
         super(token);
         this.position = -1;
+        isOffset = false;
     }
     /**
      * Constructor de la clase.

@@ -79,19 +79,51 @@ public class SimpleAccess extends Primary{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        String asm = "#Simple access code\n", id = identifier.getIDToken().toString();
+        String asm = "";
+
         //Valida el tipo de dato (Para saber si almacena una posicion de memoria o un valor)
-        if (id.contains("literal")) {
-            //Valida si es entero o string
-            if (id.contains("Int")) {
-                //Almacena el lexema
+        switch (identifier.getIDToken()) {
+            case spOBJECT:
+                break;
+            case typeINT:
+                break;
+            case typeSTR:
+                break;
+            case typeBOOL:
+                break;
+            case typeCHAR:
+                break;
+            case typeArrayINT:
+                break;
+            case typeArraySTR:
+                break;
+            case typeArrayBOOL:
+                break;
+            case typeArrayCHAR:
+                break;
+            case constINT: //Asigna el lexema
                 asm += "li $t0, " + identifier.getLexema() + "\n";
-            } else {
-
-            }
-        } else {
-            //Valida si es variable, parametro o atributo
-
+                break;
+            case constSTR:
+                break;
+            case constCHAR:
+                break;
+            case idSTRUCT:
+                break;
+            case idOBJECT: //Asigna la posicion de memoria del stack
+                asm += "addi $t0, $sp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\n";
+                isOffset = true;
+                break;
+            case pFALSE: //Asigna 0
+                asm += "li $t0, 0\n";
+                break;
+            case pTRUE: //Asigna 1
+                asm += "li $t0, 1\n";
+                break;
+            case pNIL:
+                break;
+            default:
+                break;
         }
         return asm;
     }

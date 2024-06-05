@@ -66,33 +66,46 @@ public class Method extends Metadata{
     public int getVariableSpaceUsed() {
         return spaceUsedInMemory;
     }
+    public int getVariableOffset (String name) {
+        int offset = 4; //Memoria reservada para el retorno
 
-    public String generateCode (String tabs, String struct) {
+        //Si es parametro, aumenta segun su posicion
+        if (params.get(name) != null) {
+            offset += params.get(name).getPosition() * 4;
+        } else {
+            //Es variable, debe sumar todas las posiciones de los parametros y la respectiva en las variables
+            offset += (params.size() + variables.get(name).getPosition()) * 4;
+        }
+
+        return offset;
+    }
+
+    public String generateCode () {
         int space = 0;
         String code = "";
 
         //Agrega los temporales
         code = "la $t0, default_string\n\n";
 
-        //Reserva memoria para el retorno, si no es el metodo start
-        if (!getName().equals("start")) {
-            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t#Return. Idx: 0\n";
-            space += 4;
-        }
+        //Reserva memoria para el retorno
+        code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t#Return. Idx: 0\n";
+        space += 4;
         
         //Reserva memoria para los parametros (Solo si posee)
         for (String param : params.keySet()) {
             Param par = params.get(param);
-            code += Static.initStackData(par.getType().getIDToken(), space) + "\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
-            space += 4;
+            code += Static.initStackData(par.getType().getIDToken(), space + (par.getPosition() * 4)) + "\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
         }
+
+        space += params.size() * 4;
         
         //Reserva memoria para las variables locales
         for (String variable : variables.keySet()) {
             Variable var = variables.get(variable);
-            code += Static.initStackData(var.getTypeToken().getIDToken(), space) + "\t\t\t#Local variable " + variable + ". Idx: 4 + (4 * paramSize) + (" + var.getPosition() + " * 4)\n";
-            space += 4;
+            code += Static.initStackData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4) ) + "\t\t\t#Local variable " + variable + ". Idx: 4 + (4 * paramSize) + (" + var.getPosition() + " * 4)\n";
         }
+
+        space += variables.size() * 4;
 
         //Reserva memoria para self, RA del llamador y puntero al llamador, si no es el metodo start
         if (!getName().equals("start")) {
