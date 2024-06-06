@@ -191,10 +191,10 @@ public class BinaryExpression extends Expression{
                 asm += "mfhi $t0\n";
                 break;
             case oAND: 
-                asm += "and $t0, $t0, $t1\t\t\t\t# &&\n\n";
+                asm += "and $t0, $t0, $t1\t\t\t\t# &&\n";
                 break;
             case oOR:
-                asm += "or $t0, $t0, $t1\t\t\t\t# ||\n\n";
+                asm += "or $t0, $t0, $t1\t\t\t\t# ||\n";
                 break;
             case oMIN:
                 asm += "slt $t0, $t0, $t1 \t\t\t\t# <\n";

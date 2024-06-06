@@ -136,10 +136,10 @@ public class SimpleAccess extends Primary{
                 isOffset = true;
                 break;
             case pFALSE: //Asigna 0
-                asm += "li $t0, 0\t\t\t\t\t#Assign False (0)\n";
+                asm += "li $t0, 0\t\t\t\t\t\t#Assign False (0)\n";
                 break;
             case pTRUE: //Asigna 1
-                asm += "li $t0, 1\t\t\t\t\t#Assign True (1)\n";
+                asm += "li $t0, 1\t\t\t\t\t\t#Assign True (1)\n";
                 break;
             case pNIL:
                 break;
