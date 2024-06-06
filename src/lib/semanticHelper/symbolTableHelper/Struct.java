@@ -155,9 +155,13 @@ public class Struct extends Metadata {
             result += (name + "_" + method + ", ");
         }
 
+        //Genera la vtable solo si posee datos
+        if (!result.equals(".word ")) {
+            result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
+        } else {
+            result = "";
+        }
 
-
-        
         return result;
     }
 

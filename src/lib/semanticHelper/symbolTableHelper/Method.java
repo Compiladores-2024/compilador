@@ -87,17 +87,13 @@ public class Method extends Metadata{
         //Agrega los temporales y guarda el fp
         code = "move $fp, $sp\nla $t0, default_string\n\n";
 
-        //Reserva memoria para el retorno
-        code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: 0\n";
-        space += 4;
-        
-        //Reserva memoria para los parametros (Solo si posee)
-        for (String param : params.keySet()) {
-            Param par = params.get(param);
-            code += Static.initStackData(par.getType().getIDToken(), space + (par.getPosition() * 4)) + "\t\t\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
-        }
+        //Obtiene los valores de los parametros
+        // for (String param : params.keySet()) {
+        //     Param par = params.get(param);
+        //     code += Static.initStackData(par.getType().getIDToken(), space + (par.getPosition() * 4)) + "\t\t\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
+        // }
 
-        space += params.size() * 4;
+        // space += params.size() * 4;
         
         //Reserva memoria para las variables locales
         for (String variable : variables.keySet()) {
@@ -109,11 +105,13 @@ public class Method extends Metadata{
 
         //Reserva memoria para self, RA del llamador y puntero al llamador, si no es el metodo start
         if (!getName().equals("start")) {
-            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#Self. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
-            space += 4;
             code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#RA caller. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
             space += 4;
             code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#Resume pointer. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            space += 4;
+            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#Self. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            space += 4;
+            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: 0\n";
             space += 4;
         }
 

@@ -1,5 +1,6 @@
 .data
 	default_string: .asciiz ""
+	division0: .asciiz "ERROR: DIVISION POR CERO" 
 
 .text #Predefined methods code
 	#Main
@@ -78,6 +79,7 @@ sw $t0, 8($sp)
 addi $sp, $sp, 4
 lw $t0, 8($sp)					#Binary expression
 lw $t1, 4($sp)
+beq $t1, $0, ErrorDiv0 
 div $t0, $t1					# $t0 / $t1. The quotient saves in LO register
 mflo $t0
 sw $t0, 8($sp)
@@ -86,10 +88,17 @@ addi $sp, $sp, 4
 lw $t0, 8($sp)
 lw $t1, 4($sp)
 sw $t1, 0($t0)
-addi $sp, $sp, 8
-					#Assignation
+addi $sp, $sp, 8				#Assignation
 
-
-#Exit
-li $v0, 10
-syscall
+j Exit
+.text
+	ErrorDiv0:
+	li $v0, 4
+	la $a0, division0
+	syscall
+	li $v0, 10
+	syscall
+.text
+	Exit:
+	li $v0, 10
+	syscall
