@@ -149,71 +149,76 @@ public class BinaryExpression extends Expression{
     /**
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
      */
-    public String generateCode(String sStruct, String sMethod, String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        //Obtiene el resultado en el registro $t1
-        asm += rightSide.generateCode(sStruct, sMethod, "$t1");
+        //Escribe los resultados en el tope de la pila 8($sp) y 4($sp) respectivamente
+        asm += leftSide.generateCode(sStruct, sMethod);
+        asm += rightSide.generateCode(sStruct, sMethod);
+
+        //Obtiene los valores de la pila
+        asm += "lw $t0, 8($sp)\t\t\t\t\t#Binary expression\nlw $t1, 4($sp)\n";
 
         //Si es offset, obtiene el valor
         if (rightSide.isOffset()) {
             asm += "lw $t1, 0($t1)\t\t\t\t\t#Assign the value\n";
         }
         
-        //Obtiene el resultado en el registro $t0
-        asm += leftSide.generateCode(sStruct, sMethod, "$t0");
         //Si es offset, obtiene el valor
         if (leftSide.isOffset()) {
             asm += "lw $t0, 0($t0)\t\t\t\t\t#Assign the value\n";
         }
 
+        //Realiza la operacion y guarda el resultado en $t0
         switch (operator){
             case oSUM:
-                asm += "addu " + registerResult + ", $t0, $t1\t\t\t\t#Sum $t0 + $t1\n";
+                asm += "addu $t0, $t0, $t1\t\t\t\t# $t0 + $t1\n";
                 break;
             case oSUB:
-                asm += "subu " + registerResult + ", $t0, $t1\t\t\t\t#Sub $t0 - $t1\n";
+                asm += "subu $t0, $t0, $t1\t\t\t\t# $t0 - $t1\n";
                 break;
             case oMULT:
-                asm += "mul " + registerResult + ", $t0, $t1\t\t\t\t#Multiplication $t0 * $t1\n";
+                asm += "mul $t0, $t0, $t1\t\t\t\t# $t0 * $t1\n";
                 break;
             case oDIV:
                 //CAPTURAR ERROR SI RIGHTSIDE ES 0
-                asm += "div $t0, $t1\t\t\t\t#Division $t0 / $t1. The quotient saves in LO register\n";
-                asm += "mflo " + registerResult + "\n";
+                asm += "div $t0, $t1\t\t\t\t\t# $t0 / $t1. The quotient saves in LO register\n";
+                asm += "mflo $t0\n";
                 break;
             case oMOD:
                 //CAPTURAR ERROR SI RIGHTSIDE ES 0
-                asm += "div $t0, $t1\t\t\t\t#Division $t0 / $t1. The remainder saves in HI register\n";
-                asm += "mfhi " + registerResult + "\n";
+                asm += "div $t0, $t1\t\t\t\t# $t0 / $t1. The remainder saves in HI register\n";
+                asm += "mfhi $t0\n";
                 break;
             case oAND: 
-                asm += "and " + registerResult + ", $t0, $t1\t\t\t\t#Operation &&\n\n";
+                asm += "and $t0, $t0, $t1\t\t\t\t# &&\n\n";
                 break;
             case oOR:
-                asm += "or " + registerResult + ", $t0, $t1\t\t\t\t#Operation ||\n\n";
+                asm += "or $t0, $t0, $t1\t\t\t\t# ||\n\n";
                 break;
             case oMIN:
-                asm += "slt " + registerResult + ", $t0, $t1 \t\t\t\t#Op min.\n";
+                asm += "slt $t0, $t0, $t1 \t\t\t\t# <\n";
                 break;
             case oMIN_EQ:
-                asm += "sle " + registerResult + ", $t0, $t1\t\t\t\t#Op MinEq\n";
+                asm += "sle $t0, $t0, $t1\t\t\t\t# <=\n";
                 break;
             case oMAX:
-                asm += "sgt " + registerResult + ", $t0, $t1 \t\t\t\t#Op max\n";
+                asm += "sgt $t0, $t0, $t1 \t\t\t\t# >\n";
                 break;
             case oMAX_EQ:
-                asm += "sge " + registerResult + ", $t0, $t1\t\t\t\t#Op MaxEq\n";
+                asm += "sge $t0, $t0, $t1\t\t\t\t# >=\n";
                 break;
             case oEQUAL:
-                asm += "seq " + registerResult + ", $t0, $t1\t\t\t\t#Op Equal\n";
+                asm += "seq $t0, $t0, $t1\t\t\t\t# ==\n";
                 break;
             case oNOT_EQ:
-                asm += "sne " + registerResult + ", $t0, $t1\t\t\t\t#Op NotEqual\n";
+                asm += "sne $t0, $t0, $t1\t\t\t\t# !=\n";
                 break;
             default:
                 break;
             }
+        //Guarda el resultado en el stack y actualiza el sp
+        asm += "sw $t0, 8($sp)\naddi $sp, $sp, 4\n";
         return asm;
     }
 }

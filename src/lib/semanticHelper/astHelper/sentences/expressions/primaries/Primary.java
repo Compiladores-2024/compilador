@@ -17,7 +17,6 @@ import src.lib.tokenHelper.Token;
  * @since 17/05/2024
  */
 public abstract class Primary extends Expression{
-    
     /**
      * Constructor de la clase.
      * @param identifier Identificador

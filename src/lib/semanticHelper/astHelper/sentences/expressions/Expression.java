@@ -39,6 +39,7 @@ public abstract class Expression extends Sentence{
     public Expression(Token token, int position){
         super(token);
         this.position = position;
+        isOffset = false;
     }
     
     /**
@@ -90,5 +91,4 @@ public abstract class Expression extends Sentence{
     public void setPosition(int position) {
         this.position = position;
     }
-
 }

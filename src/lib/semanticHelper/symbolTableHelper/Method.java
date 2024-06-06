@@ -84,8 +84,8 @@ public class Method extends Metadata{
         int space = 0;
         String code = "";
 
-        //Agrega los temporales
-        code = "la $t0, default_string\n\n";
+        //Agrega los temporales y guarda el fp
+        code = "move $fp, $sp\nla $t0, default_string\n\n";
 
         //Reserva memoria para el retorno
         code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: 0\n";

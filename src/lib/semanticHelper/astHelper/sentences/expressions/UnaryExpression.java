@@ -114,41 +114,51 @@ public class UnaryExpression extends Expression{
         tabs + "}";
     }
 
-    public String generateCode(String sStruct, String sMethod, String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        //Obtiene la posicion de memoria de la variable
-        asm += expression.generateCode(sStruct, sMethod, "$t0");
+        //Calcula el resultado de la expresion, se guarda en el tope de la pila
+        asm += expression.generateCode(sStruct, sMethod);
         
-        //Obtiene el valor que posee la variable
-        asm += "lw $t1, 0($t0)\t\t\t\t\t#Get the value\n";
+        //Si es offset, el resultado es la posicion de memoria, sino el valor
+        if (expression.isOffset()) {
+            asm += "lw $t1, 4($sp)\t\t\t\t\t#Unary expression\n";
+            //Obtiene el valor que posee la variable
+            asm += "lw $t0, 0($t1)\n";
+        } else {
+            asm += "lw $t0, 4($sp)\t\t\t\t\t#Unary expression\n";
+        }
+
 
         //Realiza la operacion sobre el registro
         switch (operator) {
             case oNOT:
-                asm += "not $t1, $t1\t\t\t\t#Not operator !\n";
+                asm += "not $t0, $t0\t\t\t\t# Not\n";
                 break;
             case oSUM_SUM:
-                asm += "addi $t1, $t1, 1\t\t\t\t#+1\n" ;
+                asm += "addi $t0, $t0, 1\t\t\t\t# +1\n" ;
                 break;
             case oSUB_SUB:
-                asm += "addi $t1, $t1, -1\t\t\t\t#-1\n" ;
+                asm += "addi $t0, $t0, -1\t\t\t\t# -1\n" ;
                 break;
             case oSUB:
-                asm += "neg $t1, $t1\t\t\t\t#Negation operator -\n";
+                asm += "neg $t0, $t0\t\t\t\t\t# Negation\n";
                 break;
             default:
                 //oSUM no realiza instruccion en mips
                 break;
         }
 
-        //Guarda el valor en la posicion de memoria correspondiente
-        asm += "sw $t1, 0($t0)\t\t\t\t\t#Save the new value\n";
-        
-        //Si posee registro de retorno, lo guarda
-        if (!registerResult.equals("")) {
-            asm += "move " + registerResult + ", $t1\t\t\t\t\t#Return the new value\n";
+        //Guarda el valor en la posicion de memoria correspondiente, solo si es offset
+        if (expression.isOffset()) {
+            asm += "sw $t0, 0($t1)\t\t\t\t\t#Save the new value\n";
         }
+
+        //Guarda el resultado en el stack
+        asm += "sw $t0, 4($sp)\n\n";
+
+        //Deja de retornar offset
+        isOffset = false;
         return asm;
     }
 }

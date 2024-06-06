@@ -78,11 +78,11 @@ public class SimpleAccess extends Primary{
             tabs + "}";
     }
 
-    public String generateCode(String sStruct, String sMethod, String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm = "", auxString = "";
         Method auxMethod = null;
 
-        //Valida el tipo de dato (Para saber si almacena una posicion de memoria o un valor)
+        //Guarda el valor correspondiente en $t0
         switch (identifier.getIDToken()) {
             case spIO:
                 //Obtiene el metodo al que esta llamando
@@ -123,7 +123,7 @@ public class SimpleAccess extends Primary{
             case typeArrayCHAR:
                 break;
             case constINT: //Asigna el lexema
-                asm += "li " + registerResult + ", " + identifier.getLexema() + "\t\t\t\t\t\t#Assign the value\n";
+                asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign the value\n";
                 break;
             case constSTR:
                 break;
@@ -132,20 +132,23 @@ public class SimpleAccess extends Primary{
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addi " + registerResult + ", $sp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Save the memory position\n";
+                asm += "addi $t0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Saves the memory position of the variable\n";
                 isOffset = true;
                 break;
             case pFALSE: //Asigna 0
-                asm += "li " + registerResult + ", 0\t\t\t\t\t#Assign False (0)\n";
+                asm += "li $t0, 0\t\t\t\t\t#Assign False (0)\n";
                 break;
             case pTRUE: //Asigna 1
-                asm += "li " + registerResult + ", 1\t\t\t\t\t#Assign True (1)\n";
+                asm += "li $t0, 1\t\t\t\t\t#Assign True (1)\n";
                 break;
             case pNIL:
                 break;
             default:
                 break;
         }
+        
+        //Guarda el resultado en el stack y actualiza el sp
+        asm += "sw $t0, 0($sp)\naddi $sp, $sp, -4\n";
         return asm;
     }
 

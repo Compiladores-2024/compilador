@@ -101,22 +101,23 @@ public class Assignation extends Sentence{
     /**
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
      */
-    public String generateCode(String sStruct, String sMethod, String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm = "#Assignation code\n";
         
-        //Escribe el resultado en el temporal 1
-        asm += rightSide.generateCode(sStruct, sMethod, "$t1");
+        //Escribe los resultados en el tope de la pila 4($sp) y 8($sp) respectivamente
+        asm += leftSide.generateCode(sStruct, sMethod) + "\n";
+        asm += rightSide.generateCode(sStruct, sMethod) + "\n";
 
-        //Escribe el resultado en el temporal 0
-        asm += leftSide.generateCode(sStruct, sMethod, "$t0");
+        //Obtiene los valores de la pila
+        asm += "lw $t0, 8($sp)\nlw $t1, 4($sp)\n";
 
         //Si el lado derecho es offset, obtiene el valor
         if (rightSide.isOffset()) {
             asm += "lw $t1, 0($t1)\t\t\t\t\t#Get right value\n";
         }
         
-        //Asigna el valor
-        asm += "sw $t1, 0($t0)\t\t\t\t\t#Assignation\n\n";
+        //Asigna el valor a la variable
+        asm += "sw $t1, 0($t0)\naddi $sp, $sp, 8\n\t\t\t\t\t#Assignation\n\n";
         return asm;
     }
 }

@@ -91,7 +91,7 @@ public class SentenceBlock {
     public String generateCode (String sStruct, String sMethod) {
         String code = "";
         for (Sentence sentence : sentenceList) {
-            code += sentence.generateCode(sStruct, sMethod, "");
+            code += sentence.generateCode(sStruct, sMethod);
         }
         return code;
     }

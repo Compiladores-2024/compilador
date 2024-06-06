@@ -76,7 +76,7 @@ public class Loop extends Sentence{
     }
 
 
-    public String generateCode(String sStruct, String sMethod, String registerResult){
+    public String generateCode(String sStruct, String sMethod){
         String asm="";
 
         int numWhile; //numero de while para diferenciar los labels
