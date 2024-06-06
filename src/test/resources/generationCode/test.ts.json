@@ -307,6 +307,18 @@
                 "tipo": "Int",
                 "public": "false",
                 "posicion": 0
+            },
+            {
+                "nombre": "j",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 1
+            },
+            {
+                "nombre": "k",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 2
             }
         ]
     }

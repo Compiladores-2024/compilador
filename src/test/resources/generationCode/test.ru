@@ -1,8 +1,8 @@
 start {
-    Int i;
-    if(i == ++i) {
-        i = 5;
-    } else {
-        i = 6;
+    Int i, j, k;
+    i = 10;
+
+    while(i > ++j) {
+        k = k + 2;
     }
 }

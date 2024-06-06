@@ -12,11 +12,25 @@ move $fp, $sp
 la $t0, default_string
 
 sw $0, 0($sp)					#Local variable i. Idx: 4 + (4 * paramSize) + (0 * 4)
-addi $sp, $sp, -4				#Update sp
+sw $0, 4($sp)					#Local variable j. Idx: 4 + (4 * paramSize) + (1 * 4)
+sw $0, 8($sp)					#Local variable k. Idx: 4 + (4 * paramSize) + (2 * 4)
+addi $sp, $sp, -12				#Update sp
 
 #Start method code
+#Assignation code
+addi $t0, $fp, 4				#Assign the memory position of the variable
+sw $t0, 0($sp)
+addi $sp, $sp, -4
+li $t0, 10						#Assign constant
+sw $t0, 0($sp)
+addi $sp, $sp, -4
+lw $t0, 8($sp)
+lw $t1, 4($sp)
+sw $t1, 0($t0)					#Assignation
+addi $sp, $sp, 8
 
-#Conditional code
+#Loop code
+while1:
 #Binary expression - Left side
 addi $t0, $fp, 4				#Assign the memory position of the variable
 sw $t0, 0($sp)
@@ -26,7 +40,7 @@ lw $t0, 0($t0)
 sw $t0, 4($sp)
 #Binary expression - Right side
 #Unary expression
-addi $t0, $fp, 4				#Assign the memory position of the variable
+addi $t0, $fp, 8				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
 lw $t1, 4($sp)					#Get the expression result
@@ -38,41 +52,41 @@ lw $t0, 8($sp)
 lw $t1, 4($sp)
 lw $t1, 4($sp)					#Get the variable value
 lw $t1, 0($t1)
-seq $t0, $t0, $t1				# ==
+sgt $t0, $t0, $t1 				# >
 sw $t0, 8($sp)
 addi $sp, $sp, 4
 lw $t0, 4($sp)
 addi $sp, $sp, 4
 
-bne $t0, 1, else				#Then block. If $t0 != 1, jumps to else
+bne $t0, 1, endWhile1				#Conditional: $t0 != 1, jumps to endWhile
 #Assignation code
-addi $t0, $fp, 4				#Assign the memory position of the variable
+addi $t0, $fp, 12				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
-li $t0, 5						#Assign constant
+#Binary expression - Left side
+addi $t0, $fp, 12				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
+lw $t0, 4($sp)					#Get the variable value
+lw $t0, 0($t0)
+sw $t0, 4($sp)
+#Binary expression - Right side
+li $t0, 2						#Assign constant
+sw $t0, 0($sp)
+addi $sp, $sp, -4
+#Binary expression - Result
 lw $t0, 8($sp)
 lw $t1, 4($sp)
-sw $t1, 0($t0)
-addi $sp, $sp, 8				#Assignation
-
-j endIfElse
-else:							#Else block
-#Assignation code
-addi $t0, $fp, 4				#Assign the memory position of the variable
-sw $t0, 0($sp)
-addi $sp, $sp, -4
-li $t0, 6						#Assign constant
-sw $t0, 0($sp)
-addi $sp, $sp, -4
+addu $t0, $t0, $t1				# $t0 + $t1
+sw $t0, 8($sp)
+addi $sp, $sp, 4
 lw $t0, 8($sp)
 lw $t1, 4($sp)
-sw $t1, 0($t0)
-addi $sp, $sp, 8				#Assignation
+sw $t1, 0($t0)					#Assignation
+addi $sp, $sp, 8
 
-endIfElse:						#End if-else
-
+j while1						#Jump to init while
+endWhile1:
 j Exit
 .text
 	ErrorDiv0:

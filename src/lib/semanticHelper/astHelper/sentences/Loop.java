@@ -77,17 +77,22 @@ public class Loop extends Sentence{
 
 
     public String generateCode(String sStruct, String sMethod){
-        String asm="";
+        String asm="#Loop code\n";
+        //Aumenta el contador de sentencias
+        int sentenceCounter = symbolTable.addLoopSentenceCounter();
 
-        int numWhile; //numero de while para diferenciar los labels
-        // asm += "while"+numWhile+":";
-        // asm += condition.generateCode();
-        // asm += "bne $a0, 1, endWhile" + numWhile + "#Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled endWhile\n";
-        // asm += loopBlock.generateCode();
-        // asm += "\tj while" + numWhile +  "#Jump while label\n";
-        // asm += "endWhile" + numWhile +":\n";
+        asm += "while"+sentenceCounter+":\n";
+
+        //Obtiene el valor de la condicion
+        asm += condition.generateCode(sStruct, sMethod);
+        asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
+        asm += "bne $t0, 1, endWhile" + sentenceCounter + "\t\t\t\t#Conditional: $t0 != 1, jumps to endWhile\n";
+
+        //Bloque loop
+        asm += loopBlock.generateCode(sStruct, sMethod);
+        asm += "j while" + sentenceCounter +  "\t\t\t\t\t\t#Jump to init while\n";
+        asm += "endWhile" + sentenceCounter +":\n";
         return asm;
-
     }
 
 }

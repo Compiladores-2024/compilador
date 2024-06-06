@@ -31,7 +31,7 @@ public class SymbolTable {
     private HashMap<String,Token> checkDefinitionStructs;
 
     //Guarda un contador de sentencias
-    private int sentenceCounter;
+    private int conditionalCounter, loopCounter;
 
     /**
      * Constructor de la clase.<br/>
@@ -55,7 +55,8 @@ public class SymbolTable {
         structs = new HashMap<String, Struct>();
         redefinitions = new HashMap<>();
         checkDefinitionStructs = new HashMap<String, Token>();
-        sentenceCounter = 0;
+        conditionalCounter = 0;
+        loopCounter = 0;
         init();
     }
 
@@ -165,13 +166,12 @@ public class SymbolTable {
             });
         });
     }
-    
-    public int getSentenceCounter() {
-        return sentenceCounter;
-    }
 
-    public void addSentenceCounter() {
-        this.sentenceCounter++;
+    public int addConditionalSentenceCounter() {
+        return ++this.conditionalCounter;
+    }
+    public int addLoopSentenceCounter() {
+        return ++this.loopCounter;
     }
 
     public String generateCode () {

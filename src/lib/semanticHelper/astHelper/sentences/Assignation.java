@@ -117,7 +117,7 @@ public class Assignation extends Sentence{
         }
         
         //Asigna el valor a la variable
-        asm += "sw $t1, 0($t0)\naddi $sp, $sp, 8\t\t\t\t#Assignation\n\n";
+        asm += "sw $t1, 0($t0)\t\t\t\t\t#Assignation\naddi $sp, $sp, 8\n\n";
         return asm;
     }
 }

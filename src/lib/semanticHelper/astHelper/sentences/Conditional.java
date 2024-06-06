@@ -87,27 +87,26 @@ public class Conditional extends Sentence{
 
     public String generateCode(String sStruct, String sMethod){
         String asm="\n#Conditional code\n";
+        //Aumenta el contador de sentencias
+        int sentenceCounter = symbolTable.addConditionalSentenceCounter();
         
         //Obtiene el resultado del condicional
         asm += condition.generateCode(sStruct, sMethod);
         asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
-        asm += "bne $t0, 1, else\t\t\t\t#Then block. If $t0 != 1, jumps to else\n";
+        asm += "bne $t0, 1, else" + sentenceCounter + "\t\t\t\t#Conditional. $t0 != 1, jumps to else\n";
 
         //Then block
         asm += thenBlock.generateCode(sStruct, sMethod);
-        asm += "j endIfElse\n";
+        asm += "j endIfElse" + sentenceCounter + "\n";
 
         //Else block
-        asm += "else:\t\t\t\t\t\t\t#Else block\n";
+        asm += "else" + sentenceCounter + ":\t\t\t\t\t\t\t#Else block\n";
         if (elseBlock != null) {
             asm += elseBlock.generateCode(sStruct, sMethod);
         }
 
         //End if-else
-        asm += "endIfElse:\t\t\t\t\t\t#End if-else\n\n";
-
-        //Aumenta el contador de sentencias
-        symbolTable.addSentenceCounter();
+        asm += "endIfElse" + sentenceCounter + ":\t\t\t\t\t\t#End if-else\n" + (sentenceCounter > 1 ? ("j endIfElse" + (sentenceCounter - 1)) : "") + "\n\n";
         return asm;
     }
 
