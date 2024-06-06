@@ -171,12 +171,12 @@ public class SymbolTable {
         //AGREGA STRING DE ERROR DIVISION POR CERO
         code += "\tdivision0: .asciiz \"ERROR: DIVISION POR CERO\" \n";
         
-        //AGREGA LAS VIRTUAL TABLES DE LOS METODOS PREDEFINIDOS
-        // for (String sStruct : structs.keySet()) {
-        //     if (!staticStruct.contains(sStruct)){
-        //         code += "\t" + sStruct + "_vTable: " + structs.get(sStruct).generateCode();
-        //     }
-        // }
+        //AGREGA LAS VIRTUAL TABLES DE LOS STRUCTS (EXCEPTO DE LOS STRUCT PREDEFINIDOS)
+        for (String sStruct : structs.keySet()) {
+            if (!staticStruct.contains(sStruct)){
+                code += structs.get(sStruct).generateCode();
+            }
+        }
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
         code += "\n.text #Predefined methods code\n";
