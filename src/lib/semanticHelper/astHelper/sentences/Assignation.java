@@ -98,15 +98,17 @@ public class Assignation extends Sentence{
         tabs + "}";
     }
 
-
+    /**
+     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
+     */
     public String generateCode(String sStruct, String sMethod, String registerResult){
         String asm = "\n#Assignation code\n";
         
-        //Escribe el resultado en el temporal 0
-        asm += leftSide.generateCode(sStruct, sMethod, "$t0");
-
         //Escribe el resultado en el temporal 1
         asm += rightSide.generateCode(sStruct, sMethod, "$t1");
+
+        //Escribe el resultado en el temporal 0
+        asm += leftSide.generateCode(sStruct, sMethod, "$t0");
 
         //Si el lado derecho es offset, obtiene el valor
         if (rightSide.isOffset()) {

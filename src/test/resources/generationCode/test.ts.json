@@ -303,16 +303,10 @@
         "parámetros": [],
         "variables": [
             {
-                "nombre": "j",
+                "nombre": "i",
                 "tipo": "Int",
                 "public": "false",
                 "posicion": 0
-            },
-            {
-                "nombre": "a",
-                "tipo": "Str",
-                "public": "false",
-                "posicion": 1
             }
         ]
     }

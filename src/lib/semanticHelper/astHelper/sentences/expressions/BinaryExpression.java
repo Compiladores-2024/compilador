@@ -146,64 +146,71 @@ public class BinaryExpression extends Expression{
     }
 
 
-    
+    /**
+     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
+     */
     public String generateCode(String sStruct, String sMethod, String registerResult){
         String asm="";
 
-        //Obtiene el resultado en el registro $t0
-        asm += rightSide.generateCode(sStruct, sMethod, "");
-        
-        //Mueve el resultado al registro $t1
-        asm += "move $t1, $t0\t\t\t\t\t#Move $t0 to $t1\n";
-        
-        //Obtiene el resultado en el registro $t0
-        asm += leftSide.generateCode(sStruct, sMethod, "");
+        //Obtiene el resultado en el registro $t1
+        asm += rightSide.generateCode(sStruct, sMethod, "$t1");
 
-        //$t0: LeftSide
-        //$t1: RightSide
+        //Si es offset, obtiene el valor
+        if (rightSide.isOffset()) {
+            asm += "lw $t1, 0($t1)\t\t\t\t\t#Assign the value\n";
+        }
+        
+        //Obtiene el resultado en el registro $t0
+        asm += leftSide.generateCode(sStruct, sMethod, "$t0");
+        //Si es offset, obtiene el valor
+        if (leftSide.isOffset()) {
+            asm += "lw $t0, 0($t0)\t\t\t\t\t#Assign the value\n";
+        }
+
         switch (operator){
             case oSUM:
-                asm += "addu $a0, $t1, $a0 # Sum";
+                asm += "addu " + registerResult + ", $t0, $t1\t\t\t\t#Sum $t0 + $t1\n";
                 break;
             case oSUB:
-                asm +="subu $a0, $t1, $a0 # Sub";
+                asm += "subu " + registerResult + ", $t0, $t1\t\t\t\t#Sub $t0 - $t1\n";
                 break;
             case oMULT:
-                asm +="mul $a0, $t1, $a0 # Multiplication";
+                asm += "mul " + registerResult + ", $t0, $t1\t\t\t\t#Multiplication $t0 * $t1\n";
                 break;
             case oDIV:
-                asm +="div $t1, $a0 # Divide $t1 by $a0";
-                asm +="mflo $a0";
+                //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "div $t0, $t1\t\t\t\t#Division $t0 / $t1. The quotient saves in LO register\n";
+                asm += "mflo " + registerResult + "\n";
                 break;
             case oMOD:
-                asm +="div $t1, $a0 # Divide $t1 by $a0 (result in $a0, remainder in HI register)";
-                asm +="mfhi $a0 # Move the remainder (HI) to $a0. $a0 now contains the modulo result (remainder)";
+                //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "div $t0, $t1\t\t\t\t#Division $t0 / $t1. The remainder saves in HI register\n";
+                asm += "mfhi " + registerResult + "\n";
                 break;
             case oAND: 
-                asm +="and $a0, $t1, $a0 # Operation &&\n";
+                asm += "and " + registerResult + ", $t0, $t1\t\t\t\t#Operation &&\n\n";
                 break;
             case oOR:
-                asm +="or $a0, $t1, $a0 # Operation ||\n";
+                asm += "or " + registerResult + ", $t0, $t1\t\t\t\t#Operation ||\n\n";
                 break;
             case oMIN:
-                asm +="slt $a0, $t1, $a0  # Op min. Set $t0 to 1 if $a0 is less than $s1, 0 otherwise";
+                asm += "slt " + registerResult + ", $t0, $t1 \t\t\t\t#Op min.\n";
                 break;
             case oMIN_EQ:
-                asm +="sle $a0, $a0, $t1 # Op MinEq between $a0 y $t1";
+                asm += "sle " + registerResult + ", $t0, $t1\t\t\t\t#Op MinEq\n";
                 break;
             case oMAX:
-                asm +="sgt $a0, $a0, $t1  # Op max between $a0 y $t1";
+                asm += "sgt " + registerResult + ", $t0, $t1 \t\t\t\t#Op max\n";
                 break;
             case oMAX_EQ:
-                asm +="sge $a0, $a0, $t1 # Op MaxEq between $a0 y $t1";
+                asm += "sge " + registerResult + ", $t0, $t1\t\t\t\t#Op MaxEq\n";
                 break;
             case oEQUAL:
-                asm +="seq $a0, $a0, $t1 # Op Equal between $a0 y $t1";
+                asm += "seq " + registerResult + ", $t0, $t1\t\t\t\t#Op Equal\n";
                 break;
             case oNOT_EQ:
-                asm +="sne $a0, $a0, $t1 # Op NotEqual between $a0 y $t1";
+                asm += "sne " + registerResult + ", $t0, $t1\t\t\t\t#Op NotEqual\n";
                 break;
-
             default:
                 break;
             }

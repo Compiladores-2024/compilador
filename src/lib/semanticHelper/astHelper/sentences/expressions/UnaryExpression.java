@@ -118,7 +118,7 @@ public class UnaryExpression extends Expression{
         String asm="";
 
         //instrucciones mips para la expresion
-        asm += expression.generateCode(sStruct, sMethod, "");
+        asm += expression.generateCode(sStruct, sMethod, "$t0");
         
         //instrucciones mips para el operador
         switch (operator) {

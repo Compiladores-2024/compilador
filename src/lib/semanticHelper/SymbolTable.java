@@ -169,13 +169,13 @@ public class SymbolTable {
         code += "\tdefault_string: .asciiz \"\"\n";
         
         //AGREGA LAS VIRTUAL TABLES DE LOS METODOS PREDEFINIDOS
-        for (String sStruct : structs.keySet()) {
-            code += structs.get(sStruct).generateCode();
-        }
+        // for (String sStruct : structs.keySet()) {
+        //     code += structs.get(sStruct).generateCode();
+        // }
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
         code += "\n.text #Predefined methods code\n";
-        code += generatePredefinedCode();
+        // code += generatePredefinedCode();
 
         //Reserva los datos del metodo start
         code += "\t#Main\n\t.globl main\n\n";

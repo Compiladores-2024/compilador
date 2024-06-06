@@ -1,111 +1,7 @@
 .data
 	default_string: .asciiz ""
-	Str_vtable: .word Str_length, Str_concat
-	ArrayStr_vtable: .word ArrayStr_length
-	ArrayInt_vtable: .word ArrayInt_length
-	ArrayChar_vtable: .word ArrayChar_length
-	IO_vtable: .word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool
-	ArrayBool_vtable: .word ArrayBool_length
 
 .text #Predefined methods code
-	IO_out_str:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		lw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)
-		li $v0, 4 #carga el valor 4 (print string) en el registro $v0
-		syscall #syscall
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 12 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_out_int:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		lw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)
-		li $v0, 1 #carga el valor 1 (print int) en el registro $v0
-		syscall #syscall
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 12 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_out_bool:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		lw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)
-		li $v0, 1 #carga el valor 1 (print int) en el registro $v0
-		syscall #syscall
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 12 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_out_char:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		lw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)
-		li $v0, 11 #carga el valor 11 (print char) en el registro $v0
-		syscall #syscall
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 12 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_in_str:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		li $v0, 8 #carga el valor 8 (read string) en el registro $v0
-		syscall #syscall
-		move $t1,$v0 #copies the value from register $v0 to register $t1
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 8 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_in_int:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		li $v0, 5 #carga el valor 5 (read int) en el registro $v0
-		syscall #syscall
-		move $t1,$v0 #copies the value from register $v0 to register $t1
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 8 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_in_bool:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		li $v0, 5 #carga el valor 5 (read int) en el registro $v0
-		syscall #syscall
-		move $t1,$v0 #copies the value from register $v0 to register $t1
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 8 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_in_char:
-		move $fp, $sp #mueve el contenido de $sp a $fp
-		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
-		addiu $sp, $sp, -4 #mueve el $sp 1 pos arriba
-		li $v0, 12 #carga el valor 12 (read char) en el registro $v0
-		syscall #syscall
-		move $t1,$v0 #copies the value from register $v0 to register $t1
-		lw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)
-		addiu $sp $sp 8 # mueve el $sp 
-		lw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))
-		jr $ra          # salta a la dirección almacenada en el registro $ra
-	IO_out_array_int:
-	IO_out_array_str:
-	IO_out_array_bool:
-	IO_out_array_char:
-	ArrayStr_length:
-	ArrayInt_length:
-	ArrayChar_length:
-	ArrayBool_length:
-	Str_concat:
-	Str_length:
 	#Main
 	.globl main
 
@@ -114,37 +10,12 @@ main:
 la $t0, default_string
 
 sw $0, 0($sp)					#Return. Idx: 0
-sw $t0, 8($sp)					#Local variable a. Idx: 4 + (4 * paramSize) + (1 * 4)
-sw $0, 4($sp)					#Local variable j. Idx: 4 + (4 * paramSize) + (0 * 4)
-addi $sp, $sp, -12				#Update sp
+sw $0, 4($sp)					#Local variable i. Idx: 4 + (4 * paramSize) + (0 * 4)
+addi $sp, $sp, -8				#Update sp
 
 #Start method code
-
-#Assignation code
-li $t0, 1						#Assign the value
-move $t1, $t0					#Move $t0 to $t1
 addi $t0, $sp, 4				#Save the memory position
-sw $t1, 0($t0)					#Assignation
-
-#Conditional code
-li $t0, 1						#Assign the value
-move $t1, $t0					#Move $t0 to $t1
-addi $t0, $sp, 4				#Save the memory position
-seq $a0, $a0, $t1 # Op Equal between $a0 y $t1bne $a0, 1, else #Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled else
-
-#Assignation code
-move $t1, $t0					#Move $t0 to $t1
-addi $t0, $sp, 8				#Save the memory position
-sw $t1, 0($t0)					#Assignation
-	j endIfElse #Jump endIfElse label
-else: 
-
-#Assignation code
-move $t1, $t0					#Move $t0 to $t1
-addi $t0, $sp, 8				#Save the memory position
-sw $t1, 0($t0)					#Assignation
-endIfElse:
-
+	addi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )
 #Exit
 li $v0, 10
 syscall
