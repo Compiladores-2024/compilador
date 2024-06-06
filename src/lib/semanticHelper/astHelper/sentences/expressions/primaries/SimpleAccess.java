@@ -114,7 +114,7 @@ public class SimpleAccess extends Primary{
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "lw $t0, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "($fp)\t\t\t\t\t#Assign the value of the variable\n";
+                asm += "addi $t0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
                 isOffset = true;
                 break;
             case pFALSE: //Asigna 0

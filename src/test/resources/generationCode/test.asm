@@ -17,21 +17,27 @@ addi $sp, $sp, -4				#Update sp
 #Start method code
 
 #Conditional code
-lw $t0, 4($fp)					#Assign the value of the variable
+#Binary expression - Left side
+addi $t0, $fp, 4				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
-lw $t0, 4($fp)					#Assign the value of the variable
+lw $t0, 4($sp)					#Get the variable value
+lw $t0, 0($t0)
+sw $t0, 4($sp)
+#Binary expression - Right side
+#Unary expression
+addi $t0, $fp, 4				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
-lw $t1, 4($sp)					#Unary expression
+lw $t1, 4($sp)					#Get the expression result
 lw $t0, 0($t1)
 addi $t0, $t0, 1				# +1
 sw $t0, 0($t1)					#Save the new value
-sw $t0, 4($sp)
-
-lw $t0, 8($sp)					#Binary expression
+#Binary expression - Result
+lw $t0, 8($sp)
 lw $t1, 4($sp)
-lw $t0, 0($t0)					#Assign the value
+lw $t1, 4($sp)					#Get the variable value
+lw $t1, 0($t1)
 seq $t0, $t0, $t1				# ==
 sw $t0, 8($sp)
 addi $sp, $sp, 4
@@ -40,10 +46,10 @@ addi $sp, $sp, 4
 
 bne $t0, 1, else				#Then block. If $t0 != 1, jumps to else
 #Assignation code
-lw $t0, 4($fp)					#Assign the value of the variable
+addi $t0, $fp, 4				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
-li $t0, 1						#Assign constant
+li $t0, 5						#Assign constant
 sw $t0, 0($sp)
 addi $sp, $sp, -4
 lw $t0, 8($sp)
@@ -54,10 +60,10 @@ addi $sp, $sp, 8				#Assignation
 j endIfElse
 else:							#Else block
 #Assignation code
-lw $t0, 4($fp)					#Assign the value of the variable
+addi $t0, $fp, 4				#Assign the memory position of the variable
 sw $t0, 0($sp)
 addi $sp, $sp, -4
-li $t0, 2						#Assign constant
+li $t0, 6						#Assign constant
 sw $t0, 0($sp)
 addi $sp, $sp, -4
 lw $t0, 8($sp)

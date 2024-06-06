@@ -150,25 +150,28 @@ public class BinaryExpression extends Expression{
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
      */
     public String generateCode(String sStruct, String sMethod){
-        String asm="";
+        String asm="#Binary expression - Left side\n";
 
-        //Escribe los resultados en el tope de la pila 8($sp) y 4($sp) respectivamente
+        //Obtiene el valor del lado izquierdo
         asm += leftSide.generateCode(sStruct, sMethod);
-        asm += rightSide.generateCode(sStruct, sMethod);
-
-        //Obtiene los valores de la pila
-        asm += "lw $t0, 8($sp)\t\t\t\t\t#Binary expression\nlw $t1, 4($sp)\n";
-
-        //Si es offset, obtiene el valor
-        if (rightSide.isOffset()) {
-            asm += "lw $t1, 0($t1)\t\t\t\t\t#Assign the value\n";
-        }
-        
         //Si es offset, obtiene el valor
         if (leftSide.isOffset()) {
-            asm += "lw $t0, 0($t0)\t\t\t\t\t#Assign the value\n";
+            asm += "lw $t0, 4($sp)\t\t\t\t\t#Get the variable value\nlw $t0, 0($t0)\nsw $t0, 4($sp)\n";
         }
 
+        asm += "#Binary expression - Right side\n";
+
+        //Obtiene el valor del lado derecho
+        asm += rightSide.generateCode(sStruct, sMethod);
+        
+        //Obtiene los resultados
+        asm += "#Binary expression - Result\nlw $t0, 8($sp)\nlw $t1, 4($sp)\n";
+        
+        //Si es offset, obtiene el valor
+        if (rightSide.isOffset()) {
+            asm += "lw $t1, 4($sp)\t\t\t\t\t#Get the variable value\nlw $t1, 0($t1)\n";
+        }
+        
         //Realiza la operacion y guarda el resultado en $t0
         switch (operator){
             case oSUM:

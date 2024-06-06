@@ -4,6 +4,7 @@ import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
@@ -65,6 +66,11 @@ public class UnaryExpression extends Expression{
 
     private void checkType () {
         String type = expression.getResultTypeChained();
+        
+        //Valida que sea una expresion simple
+        if (!(expression instanceof SimpleAccess)) {
+            throw new SemanticException(identifier, "No se permiten operaciones unarias con expresiones compuestas.", true);
+        }
 
         //Valida que no sea un literal solo si el operador no es + o -
         if (type.contains("literal") && !operator.equals(IDToken.oSUM) && !operator.equals(IDToken.oSUB)) {
@@ -115,20 +121,12 @@ public class UnaryExpression extends Expression{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        String asm="";
+        String asm="#Unary expression\n";
 
-        //Calcula el resultado de la expresion, se guarda en el tope de la pila
+        //Calcula el resultado de la expresion, se guarda en el tope de la pila. Es la direccion de memoria
         asm += expression.generateCode(sStruct, sMethod);
-        
-        //Si es offset, el resultado es la posicion de memoria, sino el valor
-        if (expression.isOffset()) {
-            asm += "lw $t1, 4($sp)\t\t\t\t\t#Unary expression\n";
-            //Obtiene el valor que posee la variable
-            asm += "lw $t0, 0($t1)\n";
-        } else {
-            asm += "lw $t0, 4($sp)\t\t\t\t\t#Unary expression\n";
-        }
-
+        //Obtiene el resultado y la direccion de memoria
+        asm += "lw $t1, 4($sp)\t\t\t\t\t#Get the expression result\nlw $t0, 0($t1)\n";
 
         //Realiza la operacion sobre el registro
         switch (operator) {
@@ -149,16 +147,9 @@ public class UnaryExpression extends Expression{
                 break;
         }
 
-        //Guarda el valor en la posicion de memoria correspondiente, solo si es offset
-        if (expression.isOffset()) {
-            asm += "sw $t0, 0($t1)\t\t\t\t\t#Save the new value\n";
-        }
-
-        //Guarda el resultado en el stack
-        asm += "sw $t0, 4($sp)\n\n";
-
-        //Deja de retornar offset
-        isOffset = false;
+        //Guarda el valor en la posicion de memoria correspondiente
+        asm += "sw $t0, 0($t1)\t\t\t\t\t#Save the new value\n";
+        isOffset = true;
         return asm;
     }
 }
