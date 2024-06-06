@@ -117,27 +117,38 @@ public class UnaryExpression extends Expression{
     public String generateCode(String sStruct, String sMethod, String registerResult){
         String asm="";
 
-        //instrucciones mips para la expresion
+        //Obtiene la posicion de memoria de la variable
         asm += expression.generateCode(sStruct, sMethod, "$t0");
         
-        //instrucciones mips para el operador
+        //Obtiene el valor que posee la variable
+        asm += "lw $t1, 0($t0)\t\t\t\t\t#Get the value\n";
+
+        //Realiza la operacion sobre el registro
         switch (operator) {
             case oNOT:
-                asm += "\tnot $a0, $a0 #Not operator !";
+                asm += "not $t1, $t1\t\t\t\t#Not operator !\n";
                 break;
             case oSUM_SUM:
-                asm += "\taddi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )" ;
+                asm += "addi $t1, $t1, 1\t\t\t\t#+1\n" ;
                 break;
             case oSUB_SUB:
-                asm += "\taddi $a0, $a0, -1  # Add immediate value -1 to $a0 (effectively decrements)" ;
+                asm += "addi $t1, $t1, -1\t\t\t\t#-1\n" ;
                 break;
             case oSUB:
-                asm += "\tneg $a0, $a0  #Negation operator -";  
+                asm += "neg $t1, $t1\t\t\t\t#Negation operator -\n";
                 break;
             default:
                 //oSUM no realiza instruccion en mips
                 break;
-        } 
+        }
+
+        //Guarda el valor en la posicion de memoria correspondiente
+        asm += "sw $t1, 0($t0)\t\t\t\t\t#Save the new value\n";
+        
+        //Si posee registro de retorno, lo guarda
+        if (!registerResult.equals("")) {
+            asm += "move " + registerResult + ", $t1\t\t\t\t\t#Return the new value\n";
+        }
         return asm;
     }
 }

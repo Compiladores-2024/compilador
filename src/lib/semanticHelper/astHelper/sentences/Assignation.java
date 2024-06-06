@@ -102,7 +102,7 @@ public class Assignation extends Sentence{
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
      */
     public String generateCode(String sStruct, String sMethod, String registerResult){
-        String asm = "\n#Assignation code\n";
+        String asm = "#Assignation code\n";
         
         //Escribe el resultado en el temporal 1
         asm += rightSide.generateCode(sStruct, sMethod, "$t1");
@@ -116,7 +116,7 @@ public class Assignation extends Sentence{
         }
         
         //Asigna el valor
-        asm += "sw $t1, 0($t0)\t\t\t\t\t#Assignation\n";
+        asm += "sw $t1, 0($t0)\t\t\t\t\t#Assignation\n\n";
         return asm;
     }
 }

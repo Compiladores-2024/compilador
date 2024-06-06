@@ -14,8 +14,15 @@ sw $0, 4($sp)					#Local variable i. Idx: 4 + (4 * paramSize) + (0 * 4)
 addi $sp, $sp, -8				#Update sp
 
 #Start method code
+#Assignation code
+
+#Simple sentence code
+li $t0, 1						#Assign the value
+addu $t1, $t0, $t1				#Sum $t0 + $t1
 addi $t0, $sp, 4				#Save the memory position
-	addi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )
+sw $t1, 0($t0)					#Assignation
+
+
 #Exit
 li $v0, 10
 syscall
