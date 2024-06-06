@@ -79,30 +79,11 @@ public class SimpleAccess extends Primary{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        String asm = "", auxString = "";
-        Method auxMethod = null;
+        String asm = "";
 
         //Guarda el valor correspondiente en $t0
         switch (identifier.getIDToken()) {
             case spIO:
-                //Obtiene el metodo al que esta llamando
-                if (rightChained != null){
-                    //Obtiene el nombre del metodo
-                    auxString = rightChained.getIdentifier().getLexema();
-
-                    //Valida que el metodo exista
-                    auxMethod = symbolTable.getStruct(identifier.getLexema()).getMethod(auxString);
-                    if (auxMethod != null) {
-                        //Genera el nombre del metodo (Estructura_nombremetodo)
-                        auxString = identifier.getLexema() + "_" + auxString;
-
-                        asm += "";
-                    } else {
-                        //ERROR, debe realizar un llamado a metodo existente
-                    }
-                } else {
-                    //ERROR, debe tener encadenado
-                }
                 break;
             case spOBJECT:
                 break;
