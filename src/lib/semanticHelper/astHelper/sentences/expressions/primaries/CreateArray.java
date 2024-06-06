@@ -102,7 +102,19 @@ public class CreateArray extends Primary{
     public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        //asm += 
+        if (this.dimention.getResultTypeChained().equals("Int")){
+
+            //obtener dimention
+            int dimentionArray=0;
+            //int dimentionArray = this.dimention*4;
+            
+            asm += "li $v0, 9 # Allocate memory en el heap el constructor del arreglo" +"\n";
+            asm += "li $a0,"+dimentionArray + "\n";
+            asm += "syscall" + "\n";
+        
+            asm += "move $a0, $v0 # $a0 contiene el puntero al CIR del arreglo ";
+            
+        }
         return asm;
     }
 }

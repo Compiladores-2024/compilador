@@ -254,4 +254,18 @@ public class Static {
         result += index +"($sp)";
         return result;
     }
+
+    public static String initCirData (IDToken type, int index) {
+        //Siempre inicializa con 0
+        String result = "sw $0, ";
+
+        //Si es string o char inicializa con string predefinido
+        if (type.equals(IDToken.typeCHAR) || type.equals(IDToken.typeSTR)) {
+            result = "sw $t0, ";
+        }
+
+        //Agrega el puntero
+        result += index +"($v0)";
+        return result;
+    }
 }

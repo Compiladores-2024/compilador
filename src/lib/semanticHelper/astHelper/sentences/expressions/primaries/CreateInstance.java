@@ -7,6 +7,7 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
+import src.lib.semanticHelper.symbolTableHelper.Variable;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -91,7 +92,52 @@ public class CreateInstance extends Primary{
     public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        //asm += 
+        int attributesCount = symbolTable.getStruct(this.identifier.getLexema()).getVariables().size();
+        //allocate memory en heap
+
+        asm += "#create CIR\n";
+        asm += "li $v0, 9\t\t\t\t\t#syscall sbrk (allocate heap memory)\n";
+        asm += "li $a0, " + (4+attributesCount*4) +"\n"; //4 por vtable + cant de atributos
+        asm += "syscall\t\t\t\t\t\t#$v0 contains address of allocated memory"+"\n"; 
+
+        asm += "sw $v0, 0($sp)\naddi $sp, $sp, -4\n";
+        
+        asm += "#guardar referencia a vTable\n";
+        asm += "la $t0, " + this.getIdentifier().getLexema()+"_vTable" + "\n";
+        asm += "sw $t0, 0($v0)\naddi $v0, $v0, -4\n";
+        
+
+        int space =4;
+        asm += "#inicializar  variables cir \n";
+        //Reserva memoria para las variables locales
+        for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
+            Variable var = symbolTable.getStruct(this.identifier.getLexema()).getVariables().get(variable);
+            asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) +"\n";
+            space +=4;
+        }
+
+        //apilar cir
+        asm += "#apilar cir\n";
+        
+        
+        
+        //apilar parametros
+        asm += "#guardar parametros en pila\n";
+        for (int i = 0; i < this.params.size(); i++) {
+            
+        }
+
+        //llamar al constructor
+        asm +="#llamada a constructor\n";
+        asm += "jal " + this.identifier.getLexema() + "_" + "Constructor" + "\n";
+
+        //desapilar parametros
+        
+        
+        //
+
+        //El resultado deberia estar en el tope de la stack
+
         return asm;
     }
 }
