@@ -182,11 +182,13 @@ public class BinaryExpression extends Expression{
                 break;
             case oDIV:
                 //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "beq $t1, $0, ErrorDiv0 \n";
                 asm += "div $t0, $t1\t\t\t\t\t# $t0 / $t1. The quotient saves in LO register\n";
                 asm += "mflo $t0\n";
                 break;
             case oMOD:
                 //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "beq $t1, $0, ErrorDiv0 \n";
                 asm += "div $t0, $t1\t\t\t\t# $t0 / $t1. The remainder saves in HI register\n";
                 asm += "mfhi $t0\n";
                 break;

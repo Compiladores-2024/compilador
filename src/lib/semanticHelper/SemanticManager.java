@@ -40,13 +40,19 @@ public class SemanticManager {
         //Genera el código del programa
         code += ast.generateCode();
         
-        //incluir los cir de cada struct en .data
-        //incluir en .text info de vt, metodos y constructores de struts declarados, y metodos de structs predefinidos
-        //añadir en asm la generacion de codigo de cada nodo del ast
-        
+        //Codigo para generar error division por cero
+        code += ".text\n";
+        code += "\tErrorDiv0:\n";
+        code += "\tli $v0, 4" + "\n";
+        code += "\tla $a0, division0" +"\n";
+        code += "\tsyscall"+ "\n";
+        code += "\tli $v0, 10" + "\n";
+        code += "\tsyscall" + "\n";
         //exit
-        code += "\n#Exit\nli $v0, 10\n"; //10 es exit syscall
-        code += "syscall";
+        code += ".text\n";
+        code += "\tExit:\n";
+        code += "\tli $v0, 10\n"; //10 es exit syscall
+        code += "\tsyscall";
         
         return code;
     }

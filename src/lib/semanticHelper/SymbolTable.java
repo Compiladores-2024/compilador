@@ -168,9 +168,14 @@ public class SymbolTable {
         //AGREGA LA INICIALIZACION DE STRINGS
         code += "\tdefault_string: .asciiz \"\"\n";
         
+        //AGREGA STRING DE ERROR DIVISION POR CERO
+        code += "\tdivision0: .asciiz \"ERROR: DIVISION POR CERO\" \n";
+        
         //AGREGA LAS VIRTUAL TABLES DE LOS METODOS PREDEFINIDOS
         // for (String sStruct : structs.keySet()) {
-        //     code += structs.get(sStruct).generateCode();
+        //     if (!staticStruct.contains(sStruct)){
+        //         code += "\t" + sStruct + "_vTable: " + structs.get(sStruct).generateCode();
+        //     }
         // }
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
