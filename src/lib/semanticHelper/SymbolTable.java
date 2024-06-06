@@ -30,6 +30,9 @@ public class SymbolTable {
     // Estructura que se utiliza para almacenar structs que se debe chequear su declaracion.
     private HashMap<String,Token> checkDefinitionStructs;
 
+    //Guarda un contador de sentencias
+    private int sentenceCounter;
+
     /**
      * Constructor de la clase.<br/>
      * 
@@ -52,6 +55,7 @@ public class SymbolTable {
         structs = new HashMap<String, Struct>();
         redefinitions = new HashMap<>();
         checkDefinitionStructs = new HashMap<String, Token>();
+        sentenceCounter = 0;
         init();
     }
 
@@ -162,6 +166,14 @@ public class SymbolTable {
         });
     }
     
+    public int getSentenceCounter() {
+        return sentenceCounter;
+    }
+
+    public void addSentenceCounter() {
+        this.sentenceCounter++;
+    }
+
     public String generateCode () {
         String code = ".data\n";
 

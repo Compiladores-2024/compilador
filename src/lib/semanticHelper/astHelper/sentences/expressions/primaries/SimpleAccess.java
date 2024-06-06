@@ -98,13 +98,14 @@ public class SimpleAccess extends Primary{
             case typeArrayINT:
                 break;
             case typeArraySTR:
+                
                 break;
             case typeArrayBOOL:
                 break;
             case typeArrayCHAR:
                 break;
             case constINT: //Asigna el lexema
-                asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign the value\n";
+                asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant\n";
                 break;
             case constSTR:
                 break;
@@ -113,7 +114,7 @@ public class SimpleAccess extends Primary{
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addi $t0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Saves the memory position of the variable\n";
+                asm += "lw $t0, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "($fp)\t\t\t\t\t#Assign the value of the variable\n";
                 isOffset = true;
                 break;
             case pFALSE: //Asigna 0

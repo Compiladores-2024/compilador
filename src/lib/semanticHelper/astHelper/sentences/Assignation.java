@@ -105,8 +105,8 @@ public class Assignation extends Sentence{
         String asm = "#Assignation code\n";
         
         //Escribe los resultados en el tope de la pila 4($sp) y 8($sp) respectivamente
-        asm += leftSide.generateCode(sStruct, sMethod) + "\n";
-        asm += rightSide.generateCode(sStruct, sMethod) + "\n";
+        asm += leftSide.generateCode(sStruct, sMethod);
+        asm += rightSide.generateCode(sStruct, sMethod);
 
         //Obtiene los valores de la pila
         asm += "lw $t0, 8($sp)\nlw $t1, 4($sp)\n";

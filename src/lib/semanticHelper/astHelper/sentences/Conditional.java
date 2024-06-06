@@ -87,15 +87,27 @@ public class Conditional extends Sentence{
 
     public String generateCode(String sStruct, String sMethod){
         String asm="\n#Conditional code\n";
-
-        int numIf; //numero de if para diferenciar los labels
+        
+        //Obtiene el resultado del condicional
         asm += condition.generateCode(sStruct, sMethod);
-        asm += "bne $a0, 1, else #Branching Condition: If the value in $a0 is not equal to 1, the program execution jumps to the instruction labeled else\n";
+        asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
+        asm += "bne $t0, 1, else\t\t\t\t#Then block. If $t0 != 1, jumps to else\n";
+
+        //Then block
         asm += thenBlock.generateCode(sStruct, sMethod);
-        asm += "\tj endIfElse #Jump endIfElse label\n";
-        asm += "else: \n";
-        asm += elseBlock.generateCode(sStruct, sMethod);
-        asm += "endIfElse:\n";
+        asm += "j endIfElse\n";
+
+        //Else block
+        asm += "else:\t\t\t\t\t\t\t#Else block\n";
+        if (elseBlock != null) {
+            asm += elseBlock.generateCode(sStruct, sMethod);
+        }
+
+        //End if-else
+        asm += "endIfElse:\t\t\t\t\t\t#End if-else\n\n";
+
+        //Aumenta el contador de sentencias
+        symbolTable.addSentenceCounter();
         return asm;
     }
 

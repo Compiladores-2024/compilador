@@ -90,6 +90,7 @@ public class SentenceBlock {
 
     public String generateCode (String sStruct, String sMethod) {
         String code = "";
+        //Genera el codigo de las sentencias
         for (Sentence sentence : sentenceList) {
             code += sentence.generateCode(sStruct, sMethod);
         }
