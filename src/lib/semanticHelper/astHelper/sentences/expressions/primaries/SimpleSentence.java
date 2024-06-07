@@ -60,7 +60,9 @@ public class SimpleSentence extends Primary{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        return exp.generateCode(sStruct, sMethod);
+        String asm = exp.generateCode(sStruct, sMethod);
+        this.isOffset = exp.isOffset();
+        return asm;
     }
 
 }

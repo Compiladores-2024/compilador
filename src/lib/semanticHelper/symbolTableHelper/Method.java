@@ -63,7 +63,7 @@ public class Method extends Metadata{
     public int getParamsSize () {
         return params.size();
     }
-    public int getVariableSpaceUsed() {
+    public int getSizeRA() {
         return spaceUsedInMemory;
     }
     public int getVariableOffset (String name) {
@@ -116,7 +116,9 @@ public class Method extends Metadata{
         }
 
         //Mueve el puntero a la posición correspondiente
-        code += "addi $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
+        if (space > 0) {
+            code += "addi $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
+        }
 
         //Guarda el espacio utilizado (Para luego liberarlo)
         spaceUsedInMemory = space;

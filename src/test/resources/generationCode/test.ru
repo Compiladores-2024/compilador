@@ -1,8 +1,4 @@
 start {
-    Int i, j, k;
-    i = 10;
-
-    while(i > ++j) {
-        k = k + 2;
-    }
+    Int i;
+    i = 1 + (++i);
 }

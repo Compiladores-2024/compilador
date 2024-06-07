@@ -82,9 +82,15 @@ public class SentenceBlock {
             hasReturn = hasReturn || lastSentence.getIdentifier().getIDToken().equals(IDToken.pRET);
         }
 
-        //Si no posee return general, retorna error
-        if (!hasReturn && !method.getReturnType().equals("void")) {
-            throw new SemanticException(method.getMetadata(), "Falta sentencia return.", true);    
+        //Valida si no posee return
+        if (!hasReturn) {
+            //Si el metodo no es de tipo void, retorna error
+            if (!method.getReturnType().equals("void")) {
+                throw new SemanticException(method.getMetadata(), "Falta sentencia return.", true);
+            } else {
+                //Se inserta sentencia return, para eliminar el RA del stack
+                sentenceList.add(new Return(idBlock, null));
+            }
         }
     }
 

@@ -81,12 +81,12 @@ public class Loop extends Sentence{
         //Aumenta el contador de sentencias
         int sentenceCounter = symbolTable.addLoopSentenceCounter();
 
-        asm += "while"+sentenceCounter+":\n";
+        asm += "while" + sentenceCounter + ":\n";
 
-        //Obtiene el valor de la condicion
+        //Obtiene el valor de la condicion en el registro $v0
         asm += condition.generateCode(sStruct, sMethod);
-        asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
-        asm += "bne $t0, 1, endWhile" + sentenceCounter + "\t\t\t\t#Conditional: $t0 != 1, jumps to endWhile\n";
+        // asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
+        asm += "bne $v0, 1, endWhile" + sentenceCounter + "\t\t\t\t#Conditional: $v0 != 1, jumps to endWhile\n";
 
         //Bloque loop
         asm += loopBlock.generateCode(sStruct, sMethod);

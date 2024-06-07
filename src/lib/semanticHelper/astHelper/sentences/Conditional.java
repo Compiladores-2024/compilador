@@ -90,10 +90,9 @@ public class Conditional extends Sentence{
         //Aumenta el contador de sentencias
         int sentenceCounter = symbolTable.addConditionalSentenceCounter();
         
-        //Obtiene el resultado del condicional
+        //Obtiene el resultado del condicional en el registro $v0
         asm += condition.generateCode(sStruct, sMethod);
-        asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
-        asm += "bne $t0, 1, else" + sentenceCounter + "\t\t\t\t#Conditional. $t0 != 1, jumps to else\n";
+        asm += "bne $v0, 1, else" + sentenceCounter + "\t\t\t\t#Conditional. $v0 != 1, jumps to else\n";
 
         //Then block
         asm += thenBlock.generateCode(sStruct, sMethod);

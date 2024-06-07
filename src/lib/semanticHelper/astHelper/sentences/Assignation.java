@@ -102,22 +102,26 @@ public class Assignation extends Sentence{
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
      */
     public String generateCode(String sStruct, String sMethod){
-        String asm = "#Assignation code\n";
+        String asm = "#Assignation code - Left side\n";
         
-        //Escribe los resultados en el tope de la pila 4($sp) y 8($sp) respectivamente
+        //Escribe el resultado en el registro $v0 y se guarda en la pila
         asm += leftSide.generateCode(sStruct, sMethod);
+        //Guarda el resultado en la pila
+        asm += "sw $v0, 0($sp)\naddi $sp, $sp, -4\n#Assignation code - Right side\n";
+        
+        //Escribe el resultado en el registro $v0
         asm += rightSide.generateCode(sStruct, sMethod);
 
-        //Obtiene los valores de la pila
-        asm += "lw $t0, 8($sp)\nlw $t1, 4($sp)\n";
+        //Obtiene el valor de leftside
+        asm += "lw $t0, 4($sp)\n";
 
         //Si el lado derecho es offset, obtiene el valor
         if (rightSide.isOffset()) {
-            asm += "lw $t1, 0($t1)\t\t\t\t\t#Get right value\n";
+            asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the right value\n";
         }
         
-        //Asigna el valor a la variable
-        asm += "sw $t1, 0($t0)\t\t\t\t\t#Assignation\naddi $sp, $sp, 8\n\n";
+        //Asigna el valor a la variable y libera la memoria
+        asm += "sw $v0, 0($t0)\naddi $sp, $sp, 4\t\t\t\t#End Assignation\n";
         return asm;
     }
 }
