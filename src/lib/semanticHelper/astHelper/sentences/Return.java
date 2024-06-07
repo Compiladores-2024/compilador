@@ -93,7 +93,29 @@ public class Return extends Sentence{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        return "\t" + expression.generateCode(sStruct, sMethod) + "\n";
+        String asm = "";
+        int sizeRA = 0;
+
+        //Valida si posee expresion
+        if (expression != null) {
+            //Obtiene el resultado de la expresion en el registro $v0
+            asm += expression.generateCode(sStruct, sMethod);
+        }
+
+        //Si es el metodo start, salta al final del programa. Sino libera memoria
+        if (sStruct.equals("start")) {
+            asm += "j Exit\n";
+        } else {
+            //Obtiene el tamaño del RA
+            sizeRA = symbolTable.getStruct(sStruct).getMethod(sMethod).getSizeRA();
+
+            //$ra: Tendra la posicion donde seguir ejecutando codigo ($fp + sizeRA - 4 )
+            //$fp: Apuntara nuevamente al llamador ($fp + sizeRA - 8 )
+            //Libera el espacio ocupado por el RA
+            asm += "lw $ra, " + (sizeRA - 4) + "($fp)\nlw $fp, " + (sizeRA - 8) + "($fp)\naddi $sp, $sp, " + sizeRA;
+        }
+
+        return asm;
     }
 
 }

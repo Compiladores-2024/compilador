@@ -123,10 +123,10 @@ public class UnaryExpression extends Expression{
     public String generateCode(String sStruct, String sMethod){
         String asm="#Unary expression\n";
 
-        //Calcula el resultado de la expresion, se guarda en el tope de la pila. Es la direccion de memoria
+        //Calcula el resultado de la expresion, se guarda en el registro $v0. Es la direccion de memoria
         asm += expression.generateCode(sStruct, sMethod);
-        //Obtiene el resultado y la direccion de memoria
-        asm += "lw $t1, 4($sp)\t\t\t\t\t#Get the expression result\nlw $t0, 0($t1)\n";
+        //Obtiene el resultado
+        asm += "lw $t0, 0($v0)\t\t\t\t\t#Get the expression result\n";
 
         //Realiza la operacion sobre el registro
         switch (operator) {
@@ -148,8 +148,8 @@ public class UnaryExpression extends Expression{
         }
 
         //Guarda el valor en la posicion de memoria correspondiente
-        asm += "sw $t0, 0($t1)\t\t\t\t\t#Save the new value\n";
-        isOffset = true;
+        asm += "sw $t0, 0($v0)\t\t\t\t\t#Save the new value\n";
+        this.isOffset = true;
         return asm;
     }
 }

@@ -85,7 +85,7 @@ public class SimpleAccess extends Primary{
                 return asm += this.rightChained.generateCode("IO", sMethod);
             }
         }
-        //Guarda el valor correspondiente en $t0
+        //Guarda el valor correspondiente en $v0
         switch (identifier.getIDToken()) {
             case spIO:
                 break;
@@ -109,7 +109,7 @@ public class SimpleAccess extends Primary{
             case typeArrayCHAR:
                 break;
             case constINT: //Asigna el lexema
-                asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant\n";
+                asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant\n";
                 break;
             case constSTR:
                 break;
@@ -118,23 +118,20 @@ public class SimpleAccess extends Primary{
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addi $t0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
-                isOffset = true;
+                asm += "addi $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                this.isOffset = true;
                 break;
             case pFALSE: //Asigna 0
-                asm += "li $t0, 0\t\t\t\t\t\t#Assign False (0)\n";
+                asm += "li $v0, 0\t\t\t\t\t\t#Assign False (0)\n";
                 break;
             case pTRUE: //Asigna 1
-                asm += "li $t0, 1\t\t\t\t\t\t#Assign True (1)\n";
+                asm += "li $v0, 1\t\t\t\t\t\t#Assign True (1)\n";
                 break;
             case pNIL:
                 break;
             default:
                 break;
         }
-        
-        //Guarda el resultado en el stack y actualiza el sp
-        asm += "sw $t0, 0($sp)\naddi $sp, $sp, -4\n";
         return asm;
     }
 

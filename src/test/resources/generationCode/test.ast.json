@@ -13,24 +13,14 @@
                         "encadenado": ""
                     },
                     "rightSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "10",
-                        "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "literal Int",
-                        "encadenado": ""
-                    }
-                },
-                {
-                    "tipo": "Loop",
-                    "condicion": {
                         "tipo": "BinaryExpression",
-                        "operador": ">",
-                        "resultadoDeTipo": "Bool",
+                        "operador": "+",
+                        "resultadoDeTipo": "literal Int",
                         "leftSide": {
                             "tipo": "SimpleAccess",
-                            "nombreVariable": "i",
-                            "tipoDeDato": "id variable o método",
-                            "resultadoDeTipo": "Int",
+                            "nombreVariable": "1",
+                            "tipoDeDato": "literal Int",
+                            "resultadoDeTipo": "literal Int",
                             "encadenado": ""
                         },
                         "rightSide": {
@@ -39,44 +29,17 @@
                             "resultadoDeTipo": "literal Int",
                             "expresion": {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "j",
+                                "nombreVariable": "i",
                                 "tipoDeDato": "id variable o método",
                                 "resultadoDeTipo": "Int",
                                 "encadenado": ""
                             }
                         }
-                    },
-                    "bloqueLoop": [
-{
-                            "tipo": "Asignation",
-                            "leftSide": {
-                                "tipo": "SimpleAccess",
-                                "nombreVariable": "k",
-                                "tipoDeDato": "id variable o método",
-                                "resultadoDeTipo": "Int",
-                                "encadenado": ""
-                            },
-                            "rightSide": {
-                                "tipo": "BinaryExpression",
-                                "operador": "+",
-                                "resultadoDeTipo": "Int",
-                                "leftSide": {
-                                    "tipo": "SimpleAccess",
-                                    "nombreVariable": "k",
-                                    "tipoDeDato": "id variable o método",
-                                    "resultadoDeTipo": "Int",
-                                    "encadenado": ""
-                                },
-                                "rightSide": {
-                                    "tipo": "SimpleAccess",
-                                    "nombreVariable": "2",
-                                    "tipoDeDato": "literal Int",
-                                    "resultadoDeTipo": "literal Int",
-                                    "encadenado": ""
-                                }
-                            }
-                        }
-                    ]
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
                 }
             ]
         }

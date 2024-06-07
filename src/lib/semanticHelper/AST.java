@@ -41,7 +41,7 @@ public class AST {
         String code = "\n#Start method code\n";
         //Genera el código del metodo start (MAIN)
         code += this.blocks.get("start").get("start").generateCode("start", "start");
-        code += "j Exit\n";
+        // code += "j Exit\n";
         
         //Genera el codigo de los metodos
         for (String sStruct : this.blocks.keySet()) {
