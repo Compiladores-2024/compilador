@@ -80,7 +80,11 @@ public class SimpleAccess extends Primary{
 
     public String generateCode(String sStruct, String sMethod){
         String asm = "";
-
+        if (this.identifier.getLexema().equals("IO")){
+            if (this.rightChained!=null){
+                return asm += this.rightChained.generateCode("IO", sMethod);
+            }
+        }
         //Guarda el valor correspondiente en $t0
         switch (identifier.getIDToken()) {
             case spIO:

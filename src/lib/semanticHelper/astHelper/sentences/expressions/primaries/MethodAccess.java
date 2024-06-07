@@ -97,6 +97,58 @@ public class MethodAccess extends Primary{
     public String generateCode(String sStruct, String sMethod){
         String asm="";
 
+        if (sStruct.equals("IO")){
+            Expression param = params.get(0);
+            switch (param.getResultTypeChained()) {
+                case "Int":
+                    // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+                    break;
+                case "literal Int":
+                    asm += "la $a0, " + param.getIdentifier().getLexema() + "\n";
+                    asm += "jal " + "IO_" + this.identifier.getLexema() + "\n";
+                    break;
+                case "Str":
+                    // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+                    break;
+                case "literal Str":
+                    //declarar str
+                    asm += ".data\n";
+                    int countLiteralStr = symbolTable.addLiteralStrCount();
+                    asm += "literal_str_" + countLiteralStr + ":" + " .asciiz " + param.getIdentifier().getLexema() + "\n";
+                    asm += ".text\n";
+                    asm += "la $a0, " + "literal_str_" + countLiteralStr + "\n";
+                    asm += "jal IO_out_str\n"; 
+    
+                    break;
+                case "literal Char":
+                    asm += "li $a0, " + param.getIdentifier().getLexema() + "\n";
+                    asm += "jal IO_out_char\n";
+                    break;
+                case "Char":
+                    // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+                    break;
+                case "Bool":
+                    // es pTrue
+                    if (param.getIdentifier().getLexema().equals("true")){
+                        asm += "la $a0, 1\n";
+                    }
+                    else{
+                        // es pFalse
+                        if (param.getIdentifier().getLexema().equals("false")){
+                            asm += "la $a0, 0\n";
+                        }
+                        else{
+                            // es una variable de tipo Bool
+                            // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+                        }
+                    }
+                    asm += "jal IO_out_bool\n";
+                    break;
+                default:
+                    break;
+            }
+
+        }
         //asm += 
         return asm;
     }

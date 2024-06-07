@@ -31,7 +31,7 @@ public class SymbolTable {
     private HashMap<String,Token> checkDefinitionStructs;
 
     //Guarda un contador de sentencias
-    private int conditionalCounter, loopCounter;
+    private int conditionalCounter, loopCounter,literalStrCounter;
 
     /**
      * Constructor de la clase.<br/>
@@ -172,6 +172,10 @@ public class SymbolTable {
     }
     public int addLoopSentenceCounter() {
         return ++this.loopCounter;
+    }
+
+    public int addLiteralStrCount(){
+        return ++this.literalStrCounter;
     }
 
     public String generateCode () {
