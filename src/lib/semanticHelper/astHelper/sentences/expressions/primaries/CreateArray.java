@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -102,19 +103,36 @@ public class CreateArray extends Primary{
     public String generateCode(String sStruct, String sMethod){
         String asm="";
 
-        if (this.dimention.getResultTypeChained().equals("Int")){
-
-            //obtener dimention
-            int dimentionArray=0;
-            //int dimentionArray = this.dimention*4;
-            
-            asm += "li $v0, 9 # Allocate memory en el heap el constructor del arreglo" +"\n";
-            asm += "li $a0,"+dimentionArray + "\n";
-            asm += "syscall" + "\n";
+        //obtener dimention
+        int dimentionArray=0;
+        int space = 0;
+        //int dimentionArray = this.dimention*4;
         
-            asm += "move $a0, $v0 # $a0 contiene el puntero al CIR del arreglo ";
+        // asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory in the heap for the CIR\n";
+        // asm += "li $a0,"+dimentionArray + "\n";
+        // asm += "syscall\n";
+
+        // //Guarda la referencia a la vtable de Array (en el inicio del CIR)
+        // asm += "la $t0, " + "Array_vtable\n";
+        // asm += "sw $t0, 0($v0)\n";
+        // space += 4;
+
+        // //en la posicion siguiente guardar la dimension del array. 4($v0)
+        // asm += "sw $t0, " + space + "($v0)" + "\n";
+        // space += 4;
+
+        // //en las posiciones siguientes inicializar las posiciones del array
+        // for (int i = 0; i < dimentionArray; i++) {
+        //     asm += Static.initCirData(identifier.getIDToken(), space + (i * 4)) +"\n";
+        //     asm += 4;
+        // }
+
+        // //Guarda el puntero al CIR en el stack
+        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddi $sp, $sp, -4\n";
+    
+        //asm += "move $a0, $v0 # $a0 contiene el puntero al CIR del arreglo ";
             
-        }
+        
         return asm;
     }
 }
