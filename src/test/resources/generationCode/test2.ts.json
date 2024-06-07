@@ -307,6 +307,18 @@
                 "tipo": "Bool",
                 "public": "false",
                 "posicion": 0
+            },
+            {
+                "nombre": "str",
+                "tipo": "Str",
+                "public": "false",
+                "posicion": 1
+            },
+            {
+                "nombre": "chr",
+                "tipo": "Char",
+                "public": "false",
+                "posicion": 2
             }
         ]
     }

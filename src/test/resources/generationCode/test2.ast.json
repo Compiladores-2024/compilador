@@ -99,14 +99,52 @@
                         "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "bool",
-                                "tipoDeDato": "id variable o método",
+                                "nombreVariable": "false",
+                                "tipoDeDato": "false",
                                 "resultadoDeTipo": "Bool",
                                 "encadenado": ""
                             }
                         ],
                         "encadenado": ""
                     }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "str",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Str",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "literal Str",
+                        "resultadoDeTipo": "literal Str",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "chr",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Char",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "'b'",
+                        "tipoDeDato": "literal Char",
+                        "resultadoDeTipo": "literal Char",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
                 }
             ]
         }
