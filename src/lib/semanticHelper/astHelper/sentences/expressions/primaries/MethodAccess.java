@@ -111,7 +111,6 @@ public class MethodAccess extends Primary{
                             asm += "la $a0, " + param.getIdentifier().getLexema() + "\n";
                         }
                     }
-                    asm += "jal " + "IO_" + this.identifier.getLexema() + "\n";
                     break;
                 case "out_str":
                     if (param.getResultTypeChained().equals("Str")){
@@ -129,7 +128,6 @@ public class MethodAccess extends Primary{
                         }
                             
                     }
-                    asm += "jal IO_out_str\n"; 
                     break;
                 case "out_char":
                     if (param.getResultTypeChained().equals("Char")){
@@ -142,46 +140,45 @@ public class MethodAccess extends Primary{
                             asm += "li $a0, " + param.getIdentifier().getLexema() + "\n";
                         }
                     }
-                    asm += "jal IO_out_char\n";
                     break;
                 case "out_bool":
                     // es pTrue
                     if (param.getIdentifier().getLexema().equals("true")){
-                        asm += "la $a0, 1\n";
+                        asm += "li $a0, 1\n";
                     }
                     else{
                         // es pFalse
                         if (param.getIdentifier().getLexema().equals("false")){
-                            asm += "la $a0, 0\n";
+                            asm += "li $a0, 0\n";
                         }
                         else{
                             // es una variable de tipo Bool
                             // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
                         }
                     }
-                    asm += "jal IO_out_bool\n";
                     break;
                 case "out_array_int":
+                    //
                     break;
                 case "out_array_str":
+                    //
                     break;
                 case "out_array_bool":
+                    //
                     break;
                 case "out_array_char":
+                    //
                     break;
                 case "in_str":
-                    break;    
                 case "in_int":
-                    break;
                 case "in_bool":
-                    break;
                 case "in_char":
+                    //solo realizan el jal al metodo
                     break;
-
                 default:
                     break;
             }
-
+            asm += "jal " + "IO_" + this.identifier.getLexema() + "\n";
         }
         //asm += 
         return asm;
