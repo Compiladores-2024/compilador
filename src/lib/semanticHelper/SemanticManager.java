@@ -38,19 +38,18 @@ public class SemanticManager {
         String code = symbolTable.generateCode();
         
         //Genera el código del programa
-        code += ast.generateCode();
+        code += ast.generateCode(symbolTable) + "\n#### EXCEPTION AND END CODE ####\n";
         
         //Codigo para generar error division por cero
         code += ".text\n";
-        code += "\tErrorDiv0:\n";
+        code += "ErrorDiv0:\n";
         code += "\tli $v0, 4" + "\n";
         code += "\tla $a0, division0" +"\n";
         code += "\tsyscall"+ "\n";
         code += "\tli $v0, 10" + "\n";
         code += "\tsyscall" + "\n";
         //exit
-        code += ".text\n";
-        code += "\tExit:\n";
+        code += "Exit:\n";
         code += "\tli $v0, 10\n"; //10 es exit syscall
         code += "\tsyscall\n";
 

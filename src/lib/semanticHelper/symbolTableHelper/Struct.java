@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -138,31 +139,19 @@ public class Struct extends Metadata {
     }
 
     public String generateCode () {
-        //Inicializa el texto de las virtual table
-        String result = ".word ";
+        //Genera las etiquetas para los atributos
+        String code = "";
 
-        //Obtiene el nombre de la estructura sin espacios
-        String name = this.getName().replaceAll("\\s", "");
-        
-        //añade constructor
-        if (this.constructor!=null){
-            result += (name + "_" + "Constructor" + ", ");
+        //Valida si tendra seccion de datos
+        if (variables.size() > 0) {
+            code += ".data\n";
+            //Recorre las variables
+            for (String variable : variables.keySet()) {
+                code += "\t" + getName() + "_attribute_" + variable + Static.getCodeDataType(variables.get(variable).getTypeToken().getIDToken());
+            }
         }
 
-        //Recorre los metodos de esa estructura
-        for (String method : methods.keySet()){
-            //Agrega el metodo a la vtable
-            result += (name + "_" + method + ", ");
-        }
-
-        //Genera la vtable solo si posee datos
-        if (!result.equals(".word ")) {
-            result = "\t" + name + "_vtable: " + result.substring(0, result.length() - 2) + "\n";
-        } else {
-            result = "";
-        }
-
-        return result;
+        return code;
     }
 
 

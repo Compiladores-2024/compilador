@@ -179,7 +179,7 @@ public class SymbolTable {
     }
 
     public String generateCode () {
-        String code = ".data\n";
+        String code = ".data\n", aux = "";
 
         //AGREGA LA INICIALIZACION DE STRINGS
         code += "\tdefault_string: .asciiz \"\"\n";
@@ -190,17 +190,29 @@ public class SymbolTable {
         //AGREGA LAS VIRTUAL TABLES DE LOS STRUCTS (EXCEPTO DE LOS STRUCT PREDEFINIDOS)
         for (String sStruct : structs.keySet()) {
             if (!staticStruct.contains(sStruct)){
-                code += structs.get(sStruct).generateCode();
+                //Genera el string con los metodos
+                aux = String.join(", ", structs.get(sStruct).getMethods().keySet());
+
+                //Nombre de la estructura sin espacios
+                sStruct = sStruct.replaceAll("\\s", "");
+
+                //Genera la vtable
+                aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux;
+
+                //Agrega el nombre de la estructura a a todos los metodos
+                aux = aux.replaceAll(", ", ", " + sStruct + "_");
+
+                code += aux + "\n";
             }
         }
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
-        code += "\n.text #Predefined methods code\n";
+        code += "\n#### PREDEFINED METHODS CODE ####\n.text\n";
         // code += generatePredefinedCode();
 
         //Reserva los datos del metodo start
         code += "\t#Main\n\t.globl main\n\n";
-        code += "main:\n#Start method data\n";
+        code += "main:\n#### MAIN DATA ####\n";
         code += start.generateCode();
 
         return code;

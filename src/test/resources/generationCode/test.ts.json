@@ -51,6 +51,67 @@
             ]
         },
         {
+            "nombre": "A",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 2,
+            "cantidadAtributos": 1,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "m1",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": [
+                        {
+                            "nombre": "b",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "j",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 1
+                        },
+                        {
+                            "nombre": "i",
+                            "tipo": "Int",
+                            "public": "false",
+                            "posicion": 2
+                        }
+                    ]
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
             "nombre": "Array Int",
             "heredaDe": "Object",
             "constructor": [],
