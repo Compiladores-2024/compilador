@@ -30,33 +30,27 @@ li $a0, 1
 jal IO_out_bool
 li $a0, 0
 jal IO_out_bool
-#Assignation code
-addi $t0, $fp, 8				#Assign the memory position of the variable
-sw $t0, 0($sp)
+#Assignation code - Left side
+addi $v0, $fp, 8				#Assign the memory position of the variable
+sw $v0, 0($sp)
 addi $sp, $sp, -4
+#Assignation code - Right side
 .data
 literal_str_2: .asciiz "a"
 .text
-la $t0, literal_str_2
-sw $t0, 0($sp)
+la $v0, literal_str_2
+lw $t0, 4($sp)
+sw $v0, 0($t0)
+addi $sp, $sp, 4				#End Assignation
+#Assignation code - Left side
+addi $v0, $fp, 12				#Assign the memory position of the variable
+sw $v0, 0($sp)
 addi $sp, $sp, -4
-lw $t0, 8($sp)
-lw $t1, 4($sp)
-sw $t1, 0($t0)					#Assignation
-addi $sp, $sp, 8
-
-#Assignation code
-addi $t0, $fp, 12				#Assign the memory position of the variable
-sw $t0, 0($sp)
-addi $sp, $sp, -4
-li $t0, 'b'					#Assign constant char
-sw $t0, 0($sp)
-addi $sp, $sp, -4
-lw $t0, 8($sp)
-lw $t1, 4($sp)
-sw $t1, 0($t0)					#Assignation
-addi $sp, $sp, 8
-
+#Assignation code - Right side
+li $v0, 'b'					#Assign constant char
+lw $t0, 4($sp)
+sw $v0, 0($t0)
+addi $sp, $sp, 4				#End Assignation
 j Exit
 .text
 	ErrorDiv0:

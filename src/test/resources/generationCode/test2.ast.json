@@ -141,6 +141,10 @@
                         "resultadoDeTipo": "literal Char",
                         "encadenado": ""
                     }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
                 }
             ]
         }
