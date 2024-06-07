@@ -113,7 +113,7 @@ public class Assignation extends Sentence{
         asm += rightSide.generateCode(sStruct, sMethod);
 
         //Obtiene el valor de leftside
-        asm += "lw $t0, 4($sp)\n";
+        asm += "lw $t0, 4($sp)\t\t\t\t\t#Get the left value\n";
 
         //Si el lado derecho es offset, obtiene el valor
         if (rightSide.isOffset()) {

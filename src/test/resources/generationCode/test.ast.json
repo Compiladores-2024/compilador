@@ -1,43 +1,29 @@
 {
-    "bloquesDeA" : [
-        {
-            "nombreMetodo": "m1",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "0",
-                        "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "literal Int",
-                        "encadenado": ""
-                    }
-                }
-            ]
-        },
-        {
-            "nombreMetodo": "m2",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        },
-        {
-            "nombreMetodo": "Constructor",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        }
-    ],
     "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_str",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "test",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
                 {
                     "tipo": "Return",
                     "expresión": ""
