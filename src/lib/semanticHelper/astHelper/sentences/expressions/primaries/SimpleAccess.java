@@ -112,8 +112,17 @@ public class SimpleAccess extends Primary{
                 asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant\n";
                 break;
             case constSTR:
+                //definir el literal str  en .data
+                asm += ".data\n";
+                int countLiteralStr = symbolTable.addLiteralStrCount();
+                asm += "literal_str_" + countLiteralStr + ":" + " .asciiz " + identifier.getLexema() + "\n";
+                //sigue .text
+                asm += ".text\n";
+                //asigna a $t0 el literal_str creado
+                asm += "la $t0, " +"literal_str_" + countLiteralStr + "\n";
                 break;
             case constCHAR:
+                asm += "li $t0, " + identifier.getLexema() + "\t\t\t\t\t#Assign constant char\n";
                 break;
             case idSTRUCT:
                 break;
