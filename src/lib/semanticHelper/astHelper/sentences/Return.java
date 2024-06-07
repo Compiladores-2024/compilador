@@ -93,7 +93,7 @@ public class Return extends Sentence{
     }
 
     public String generateCode(String sStruct, String sMethod){
-        String asm = "";
+        String asm = "#Return code\n";
         int sizeRA = 0;
 
         //Valida si posee expresion
@@ -109,10 +109,10 @@ public class Return extends Sentence{
             //Obtiene el tamaño del RA
             sizeRA = symbolTable.getStruct(sStruct).getMethod(sMethod).getSizeRA();
 
-            //$ra: Tendra la posicion donde seguir ejecutando codigo ($fp + sizeRA - 4 )
-            //$fp: Apuntara nuevamente al llamador ($fp + sizeRA - 8 )
+            //$ra: Tendra la posicion donde seguir ejecutando codigo 8($fp)
+            //$fp: Apuntara nuevamente al llamador 4($fp)
             //Libera el espacio ocupado por el RA
-            asm += "lw $ra, " + (sizeRA - 4) + "($fp)\nlw $fp, " + (sizeRA - 8) + "($fp)\naddi $sp, $sp, " + sizeRA;
+            asm += "lw $ra, 8($fp)\nlw $fp, 4($fp)\naddi $sp, $sp, " + sizeRA;
         }
 
         return asm;

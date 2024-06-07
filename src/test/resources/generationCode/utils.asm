@@ -101,8 +101,8 @@
 		loop_String_length:
                         lb $t1, 0($a0) 					# load the next character into t1
                         beqz $t1, exit_String_length 			# check for the null character
-                        addi $a0, $a0, 1 				# increment the string pointer
-                        addi $t2, $t2, 1				# increment the count
+                        addiu $a0, $a0, 1 				# increment the string pointer
+                        addiu $t2, $t2, 1				# increment the count
                         j loop_String_length 				# return to the top of the loop
 		exit_String_length:
                  	

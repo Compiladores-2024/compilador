@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -18,7 +17,7 @@ import src.lib.tokenHelper.Token;
 public class Method extends Metadata{
     private boolean isStatic;
     private Token returnType;
-    private int currentVarIndex, spaceUsedInMemory;
+    private int currentVarIndex, sizeRA;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
 
@@ -51,7 +50,7 @@ public class Method extends Metadata{
         this.isStatic = isStatic;
         this.returnType = returnType;
         this.currentVarIndex = 0;
-        this.spaceUsedInMemory = 0;
+        this.sizeRA = 0;
     }
 
     
@@ -64,7 +63,7 @@ public class Method extends Metadata{
         return params.size();
     }
     public int getSizeRA() {
-        return spaceUsedInMemory;
+        return sizeRA;
     }
     public int getVariableOffset (String name) {
         int offset = 4; //Memoria reservada para el retorno
@@ -84,44 +83,40 @@ public class Method extends Metadata{
         int space = 0;
         String code = "";
 
-        //Agrega los temporales y guarda el fp
-        code = "move $fp, $sp\nla $t0, default_string\n\n";
-
-        //Obtiene los valores de los parametros
-        // for (String param : params.keySet()) {
-        //     Param par = params.get(param);
-        //     code += Static.initStackData(par.getType().getIDToken(), space + (par.getPosition() * 4)) + "\t\t\t\t\t#Param " + param + ". Idx: 4 + (" + par.getPosition() + " * 4)\n";
-        // }
-
-        // space += params.size() * 4;
-        
-        //Reserva memoria para las variables locales
-        for (String variable : variables.keySet()) {
-            Variable var = variables.get(variable);
-            code += Static.initStackData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4) ) + "\t\t\t\t\t#Local variable " + variable + ". Idx: 4 + (4 * paramSize) + (" + var.getPosition() + " * 4)\n";
-        }
-
-        space += variables.size() * 4;
+        //LOS PARAMETROS YA SE ENCUENTRAN EN LA STACK
+        //Agrega los temporales y guarda el $fp
+        code = "la $t0, default_string\t\t\t#For init strings\n" + 
+        "#### RA (params are in the stack) ####\n";
 
         //Reserva memoria para self, RA del llamador y puntero al llamador, si no es el metodo start
         if (!getName().equals("start")) {
-            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#RA caller. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: $fp\n";
             space += 4;
-            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#Resume pointer. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            code += "lw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
             space += 4;
-            code += Static.initStackData(IDToken.typeINT, space) + "\t\t\t\t\t#Self. Idx: 4 + (4 * paramSize) + (4 * variableSize)\n";
+            code += "lw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
             space += 4;
-            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: 0\n";
+            code += "lw $sp, " + space + "($sp)\t\t\t\t\t#Self. Idx: $fp + 12\n";
             space += 4;
         }
+
+        //Reserva memoria para las variables locales
+        for (String variable : variables.keySet()) {
+            Variable var = variables.get(variable);
+            code += Static.initStackData(var.getTypeToken().getIDToken(), 16 + (var.getPosition() * 4)) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
+            space += 4;
+        }
+
+        code += "######################################\nmove $fp, $sp\t\t\t\t\t#Set the new $fp.\n";
+
 
         //Mueve el puntero a la posición correspondiente
         if (space > 0) {
-            code += "addi $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
+            code += "addiu $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
         }
 
         //Guarda el espacio utilizado (Para luego liberarlo)
-        spaceUsedInMemory = space;
+        sizeRA = space + (params.size() * 4);
         return code;
     }
 

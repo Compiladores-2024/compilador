@@ -80,42 +80,21 @@ public class SimpleAccess extends Primary{
 
     public String generateCode(String sStruct, String sMethod){
         String asm = "";
-        if (this.identifier.getLexema().equals("IO")){
-            if (this.rightChained!=null){
-                return asm += this.rightChained.generateCode("IO", sMethod);
-            }
-        }
+        // if (this.identifier.getLexema().equals("IO")){
+        //     if (this.rightChained!=null){
+        //         return asm += this.rightChained.generateCode("IO", sMethod);
+        //     }
+        // }
         //Guarda el valor correspondiente en $v0
         switch (identifier.getIDToken()) {
-            case spIO:
-                break;
-            case spOBJECT:
-                break;
-            case typeINT:
-                break;
-            case typeSTR:
-                break;
-            case typeBOOL:
-                break;
-            case typeCHAR:
-                break;
-            case typeArrayINT:
-                break;
-            case typeArraySTR:
-                
-                break;
-            case typeArrayBOOL:
-                break;
-            case typeArrayCHAR:
-                break;
             case constINT: //Asigna el lexema
-                asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant\n";
+                asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant int\n";
                 break;
             case constSTR:
-                //definir el literal str  en .data
-                asm += ".data\n";
+                //definir el literal str en .data
+                asm += ".data\t\t\t\t\t\t\t#Assign constant string\n";
                 int countLiteralStr = symbolTable.addLiteralStrCount();
-                asm += "literal_str_" + countLiteralStr + ":" + " .asciiz " + identifier.getLexema() + "\n";
+                asm += "\tliteral_str_" + countLiteralStr + ":" + " .asciiz " + identifier.getLexema() + "\n";
                 //sigue .text
                 asm += ".text\n";
                 //asigna a $v0 el literal_str creado
@@ -124,19 +103,21 @@ public class SimpleAccess extends Primary{
             case constCHAR:
                 asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t#Assign constant char\n";
                 break;
+            case spIO:
+                asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                break;
             case idSTRUCT:
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addi $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
                 this.isOffset = true;
                 break;
+            case pNIL:
             case pFALSE: //Asigna 0
-                asm += "li $v0, 0\t\t\t\t\t\t#Assign False (0)\n";
+                asm += "li $v0, 0\t\t\t\t\t\t#Assign False or Nil (0)\n";
                 break;
             case pTRUE: //Asigna 1
                 asm += "li $v0, 1\t\t\t\t\t\t#Assign True (1)\n";
-                break;
-            case pNIL:
                 break;
             default:
                 break;

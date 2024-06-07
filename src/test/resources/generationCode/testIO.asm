@@ -12,7 +12,7 @@ move $fp, $sp
 la $t0, default_string
 
 sw $0, 0($sp)					#Local variable bool. Idx: 4 + (4 * paramSize) + (0 * 4)
-addi $sp, $sp, -4				#Update sp
+addiu $sp, $sp, -4				#Update sp
 
 #Start method code
 la $a0, 12345

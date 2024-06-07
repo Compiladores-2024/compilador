@@ -1,4 +1,3 @@
 start {
-    Int i;
-    i = 1 + (++i);
+    (IO.out_str("test"));
 }

@@ -37,22 +37,29 @@ public class AST {
         this.blocks.get(structName).put((block.getIDBlock().equals(".") ? "Constructor" : block.getIDBlock()), block);
     }
 
-    public String generateCode () {
-        String code = "\n#Start method code\n";
+    public String generateCode (SymbolTable st) {
+        String code = "#### MAIN CODE ####\n", auxString = "";
         //Genera el código del metodo start (MAIN)
-        code += this.blocks.get("start").get("start").generateCode("start", "start");
-        // code += "j Exit\n";
+        code += this.blocks.get("start").get("start").generateCode("start", "start") + "\n\n#### CUSTOM METHODS CODE ####\n";
         
-        //Genera el codigo de los metodos
+        //Recorre las estructuras
         for (String sStruct : this.blocks.keySet()) {
+            //Valida que no sea el metodo start
             if (!sStruct.equals("start")) {
+                //Agrega las etiquetas para los atributos
+                auxString = st.getStruct(sStruct).generateCode() + ".text\n#### METHOD DATA ####\n";
+
+                //Recorre los metodos de esa estructura
                 for (String sMethod : this.blocks.get(sStruct).keySet()) {
-                    code += ".text\n";
-                    code += "\t" + sStruct + "_" + sMethod + ":\n" + this.blocks.get(sStruct).get(sMethod).generateCode(sStruct, sMethod);
+                    //Genera el codigo correspondiente
+                    code += sStruct + "_" + sMethod + ":\n" +
+                        //Reserva memoria para las variables locales
+                        auxString + st.getStruct(sStruct).getMethod(sMethod).generateCode() + "#### METHOD CODE ####\n" +
+                        //Codigo del programa
+                        this.blocks.get(sStruct).get(sMethod).generateCode(sStruct, sMethod) + "\n\n";
                 }
             }
         }
-
         return code;
     }
     

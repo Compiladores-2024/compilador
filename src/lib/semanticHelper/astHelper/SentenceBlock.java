@@ -89,7 +89,9 @@ public class SentenceBlock {
                 throw new SemanticException(method.getMetadata(), "Falta sentencia return.", true);
             } else {
                 //Se inserta sentencia return, para eliminar el RA del stack
-                sentenceList.add(new Return(idBlock, null));
+                Return rt = new Return(idBlock, null);
+                rt.setSymbolTable(st);
+                sentenceList.add(rt);
             }
         }
     }
