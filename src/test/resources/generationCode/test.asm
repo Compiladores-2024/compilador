@@ -12,34 +12,9 @@ main:
 #### MAIN DATA ####
 la $t0, default_string			#For init strings
 #### RA (params are in the stack) ####
-sw $0, 0($sp)					#Local variable i. Idx: $fp + 16 + (0 * 4)
 ######################################
 move $fp, $sp					#Set the new $fp.
-addi $sp, $sp, -4				#Update sp
 #### MAIN CODE ####
-#Assignation code - Left side
-addi $v0, $fp, 4				#Assign the memory position of the variable
-sw $v0, 0($sp)
-addi $sp, $sp, -4
-#Assignation code - Right side
-#Binary expression code - Left side
-li $v0, 1						#Assign constant
-sw $v0, 0($sp)
-addi $sp, $sp, -4
-#Binary expression - Right side
-#Unary expression
-addi $v0, $fp, 4				#Assign the memory position of the variable
-lw $t0, 0($v0)					#Get the expression result
-addi $t0, $t0, 1				# +1
-sw $t0, 0($v0)					#Save the new value
-#Binary expression - Result
-lw $v0, 0($v0)					#Get the right value
-lw $t0, 4($sp)
-addu $v0, $t0, $v0				# $v0 = $t0 + $v0
-addi $sp, $sp, 4				#End Binary expression
-lw $t0, 4($sp)
-sw $v0, 0($t0)
-addi $sp, $sp, 4				#End Assignation
 #Return code
 j Exit
 
@@ -56,18 +31,17 @@ sw $0, 0($sp)					#Return. Idx: $fp
 lw $fp, 4($sp)					#RA caller. Idx: $fp + 4
 lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
 lw $sp, 12($sp)					#Self. Idx: $fp + 12
-sw $0, 0($sp)					#Local variable b. Idx: $fp + 16 + (0 * 4)
-sw $0, 8($sp)					#Local variable i. Idx: $fp + 16 + (2 * 4)
-sw $0, 4($sp)					#Local variable j. Idx: $fp + 16 + (1 * 4)
+sw $0, 16($sp)					#Local variable b. Idx: $fp + 16 + (0 * 4)
+sw $0, 20($sp)					#Local variable j. Idx: $fp + 16 + (1 * 4)
 ######################################
 move $fp, $sp					#Set the new $fp.
-addi $sp, $sp, -28				#Update sp
+addiu $sp, $sp, -24				#Update sp
 #### METHOD CODE ####
 #Return code
 li $v0, 0						#Assign constant
 lw $ra, 8($fp)
 lw $fp, 4($fp)
-addi $sp, $sp, 28
+addi $sp, $sp, 32
 
 A_m2:
 .data
@@ -82,7 +56,7 @@ lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
 lw $sp, 12($sp)					#Self. Idx: $fp + 12
 ######################################
 move $fp, $sp					#Set the new $fp.
-addi $sp, $sp, -16				#Update sp
+addiu $sp, $sp, -16				#Update sp
 #### METHOD CODE ####
 #Return code
 lw $ra, 8($fp)
@@ -102,7 +76,7 @@ lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
 lw $sp, 12($sp)					#Self. Idx: $fp + 12
 ######################################
 move $fp, $sp					#Set the new $fp.
-addi $sp, $sp, -16				#Update sp
+addiu $sp, $sp, -16				#Update sp
 #### METHOD CODE ####
 #Return code
 lw $ra, 8($fp)

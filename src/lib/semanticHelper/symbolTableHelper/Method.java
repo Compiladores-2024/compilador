@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
-import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -104,7 +103,7 @@ public class Method extends Metadata{
         //Reserva memoria para las variables locales
         for (String variable : variables.keySet()) {
             Variable var = variables.get(variable);
-            code += Static.initStackData(var.getTypeToken().getIDToken(), var.getPosition() * 4) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
+            code += Static.initStackData(var.getTypeToken().getIDToken(), 16 + (var.getPosition() * 4)) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
             space += 4;
         }
 
@@ -113,11 +112,11 @@ public class Method extends Metadata{
 
         //Mueve el puntero a la posición correspondiente
         if (space > 0) {
-            code += "addi $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
+            code += "addiu $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
         }
 
         //Guarda el espacio utilizado (Para luego liberarlo)
-        sizeRA = space;
+        sizeRA = space + (params.size() * 4);
         return code;
     }
 

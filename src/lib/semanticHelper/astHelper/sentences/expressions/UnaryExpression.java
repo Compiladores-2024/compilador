@@ -134,10 +134,10 @@ public class UnaryExpression extends Expression{
                 asm += "not $t0, $t0\t\t\t\t# Not\n";
                 break;
             case oSUM_SUM:
-                asm += "addi $t0, $t0, 1\t\t\t\t# +1\n" ;
+                asm += "addiu $t0, $t0, 1\t\t\t\t# +1\n" ;
                 break;
             case oSUB_SUB:
-                asm += "addi $t0, $t0, -1\t\t\t\t# -1\n" ;
+                asm += "addiu $t0, $t0, -1\t\t\t\t# -1\n" ;
                 break;
             case oSUB:
                 asm += "neg $t0, $t0\t\t\t\t\t# Negation\n";

@@ -224,7 +224,7 @@ public class BinaryExpression extends Expression{
                 break;
             }
         //Libera memoria
-        asm += "addi $sp, $sp, 4\t\t\t\t#End Binary expression\n";
+        asm += "addiu $sp, $sp, 4\t\t\t\t#End Binary expression\n";
         return asm;
     }
 }

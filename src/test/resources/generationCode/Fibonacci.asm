@@ -115,7 +115,7 @@
 	Fibonacci_Constructor:
 	Fibonacci_imprimo_numero:
 	Fibonacci_sucesion_fib:
-	addi $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )	
+	addiu $a0, $a0, 1  # Add immediate value +1 to $a0 (effectively increment )	
 	#Main
 	.globl main
 

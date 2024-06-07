@@ -3,14 +3,12 @@ struct A {
 }
 impl A {
     .(){}
-    fn m1 () -> Int {
-        Int b,j,i;
+    fn m1 (Str h, Char i ) -> Int {
+        Int b,j;
         ret 0;
     }
     fn m2 () -> void {}
 }
 
 start {
-    Int i;
-    i = 1 + (++i);
 }
