@@ -2,6 +2,11 @@
 	IO_false: .asciiz "false"
 	IO_true: .asciiz "true"
 	IO_newL: .asciiz "\n"
+	IO_ingresar_int: .asciiz "Ingresar valor entero: \n"
+	IO_ingresar_str: .asciiz "Ingresar valor str: \n"
+	IO_ingresar_bool: .asciiz "Ingresar valor bool (0 para false, 1 para true: \n"
+	IO_ingresar_char: .asciiz "Ingresar valor char: \n"
+	IO_buffer_str: .space 64
 .text 
 	.globl _main	
 .text
@@ -53,4 +58,47 @@
  		li $v0, 4
 		la $a0, IO_newL
  		syscall
+ 		jr $ra
+ 		
+ 	IO_in_int:
+ 	 	li $v0, 4
+		la $a0, IO_ingresar_int
+ 		syscall
+ 		li $v0, 5 #carga el valor 5 (read int) en el registro $v0
+		syscall #syscall
+ 		sw $v0, 0($sp)
+ 		addi $sp, $sp, -4
+ 		jr $ra
+ 	IO_in_str:
+ 	 	li $v0, 4
+		la $a0, IO_ingresar_str
+ 		syscall
+		la $a0, IO_buffer_str
+ 		li $v0, 8 #carga el valor 8 (read str) en el registro $v0
+ 		li $a1, 1024  #especificar tamaño del argumento de entrada
+		syscall #syscall
+ 		move $sp, $a0
+ 		addi $sp, $sp, -1024
+ 		jr $ra
+ 		
+ 	 IO_in_bool:
+ 	  	li $v0, 4
+		la $a0, IO_ingresar_bool
+ 		syscall
+ 		li $v0, 5 #carga el valor 5 (read int) en el registro $v0
+ 		li $a1, 4
+		syscall #syscall
+ 		sw $v0, 0($sp)
+ 		addi $sp, $sp, -4
+ 		jr $ra
+ 	 	
+ 	 	
+ 	  IO_in_char:
+ 	 	li $v0, 4
+		la $a0, IO_ingresar_char
+ 		syscall
+ 		li $v0, 12 #carga el valor 12 (read char) en el registro $v0
+		syscall #syscall
+ 		sw $v0, 0($sp)
+ 		addi $sp, $sp, -4
  		jr $ra
