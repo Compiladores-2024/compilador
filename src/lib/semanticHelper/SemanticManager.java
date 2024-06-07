@@ -52,7 +52,10 @@ public class SemanticManager {
         code += ".text\n";
         code += "\tExit:\n";
         code += "\tli $v0, 10\n"; //10 es exit syscall
-        code += "\tsyscall";
+        code += "\tsyscall\n";
+
+        //incluir utils.asm
+        code += ".include \"utils.asm\"";
         
         return code;
     }
