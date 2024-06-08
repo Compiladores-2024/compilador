@@ -1,24 +1,6 @@
 {
     "bloquesDeA" : [
         {
-            "nombreMetodo": "m1",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        },
-        {
-            "nombreMetodo": "m2",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        },
-        {
             "nombreMetodo": "Constructor",
             "sentencias": [
                 {
@@ -33,15 +15,19 @@
             "nombreMetodo": "start",
             "sentencias": [
                 {
-                    "tipo": "SimpleAccess",
-                    "nombreVariable": "A",
-                    "tipoDeDato": "id Struct",
-                    "resultadoDeTipo": "A",
-                    "encadenado": {
-                        "tipo": "MethodAccess",
-                        "nombreMetodo": "m1",
-                        "resultadoDeTipo": "void",
-                        "parametros": [
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "A",
+                        "resultadoDeTipo": "A",
+                        "parámetros": [
                             {
                                 "tipo": "SimpleAccess",
                                 "nombreVariable": "1",
@@ -54,13 +40,6 @@
                                 "nombreVariable": "2",
                                 "tipoDeDato": "literal Int",
                                 "resultadoDeTipo": "literal Int",
-                                "encadenado": ""
-                            },
-                            {
-                                "tipo": "SimpleAccess",
-                                "nombreVariable": "hola",
-                                "tipoDeDato": "literal Str",
-                                "resultadoDeTipo": "literal Str",
                                 "encadenado": ""
                             }
                         ],
