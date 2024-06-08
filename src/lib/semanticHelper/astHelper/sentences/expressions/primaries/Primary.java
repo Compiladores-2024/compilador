@@ -17,7 +17,7 @@ import src.lib.tokenHelper.Token;
  * @since 17/05/2024
  */
 public abstract class Primary extends Expression{
-    boolean isRightSide;
+    private String sLeftSide;
 
     /**
      * Constructor de la clase.
@@ -27,12 +27,15 @@ public abstract class Primary extends Expression{
     public Primary(Token identifier, Primary rightChained) {
         super(identifier);
         this.rightChained = rightChained;
-        this.isRightSide = false;
+        this.sLeftSide = "";
     }
 
 
-    public void setIsRightSide() {
-        this.isRightSide = true;
+    public void setLeftSide(String sStruct) {
+        this.sLeftSide = sStruct;
+    }
+    public String getsLeftSide() {
+        return sLeftSide;
     }
 
     

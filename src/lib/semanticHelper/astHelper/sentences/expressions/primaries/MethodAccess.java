@@ -95,15 +95,28 @@ public class MethodAccess extends Primary{
     }
 
     /**
-     * SIEMPRE VA A SER LADO DERECHO, POSEE LA REFERENCIA A LA VARIABLE EN $v0
+     * SIEMPRE VA A SER LADO DERECHO
+     * POSEE LA REFERENCIA A LA VARIABLE EN $v0
+     * POSEE EL NOMBRE DE LA ESTRUCTURA A LA QUE HACE REFERENCIA EN LEFTSIDE
      */
     public String generateCode(String sStruct, String sMethod){
         String asm="#Method access code\n";
 
         //Obtiene la referencia al cir
         asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the CIR reference\n";
-
         //$v0 ahora posee la direccion de memoria de la vtable
+
+        //Obtiene la posicion del metodo en la vtable. Index: (Position + 1) * 4. Porque el constructor esta primero
+        asm += "lw $t0, " + (symbolTable.getStruct(getsLeftSide()).getMethod(identifier.getLexema()).getPosition() + 1) * 4 + "($v0)\t\t\t\t\t#Get the method reference\n";
+
+        //Calcula los parametros
+        for (Expression expression : params) {
+            asm += expression.generateCode(sStruct, sMethod);
+        }
+
+        //Realiza la llamada al metodo
+        asm += "jal " + getsLeftSide() + "_" + identifier.getLexema() + "\t\t\t\t\t\t#Call method\n";
+
 
 
         if (sStruct.equals("IO")){

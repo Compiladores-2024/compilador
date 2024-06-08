@@ -94,7 +94,7 @@ public class CreateInstance extends Primary{
         int space = 4, attributesCount = symbolTable.getStruct(this.identifier.getLexema()).getVariables().size();
         
         //Reserva memoria para el struct
-        asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory in the heap for the CIR\n";
+        asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory for the CIR\n";
         asm += "li $a0, " + (4 + (attributesCount * 4) ) +"\n"; //4 por vtable + cant de atributos
         asm += "syscall\t\t\t\t\t\t\t#$v0 contains address of allocated memory\n";
         

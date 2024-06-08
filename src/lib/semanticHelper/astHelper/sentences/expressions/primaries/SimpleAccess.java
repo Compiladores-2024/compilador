@@ -125,7 +125,7 @@ public class SimpleAccess extends Primary{
 
         if (rightChained != null) {
             //Avisa que es lado derecho
-            rightChained.setIsRightSide();
+            rightChained.setLeftSide(getResultType());
 
             //Genera el codigo
             asm += rightChained.generateCode(sStruct, sMethod);

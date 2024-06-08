@@ -69,7 +69,7 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 1,
+            "cantidadMetodos": 4,
             "cantidadAtributos": 0,
             "atributos": [],
             "métodos": [
@@ -79,6 +79,41 @@
                     "retorno": "void",
                     "posicion": 0,
                     "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m2",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m3",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 2,
+                    "parámetros": [],
+                    "variables": []
+                },
+                {
+                    "nombre": "m4",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 3,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Str",
+                            "posicion": 1
+                        }
+                    ],
                     "variables": []
                 }
             ]

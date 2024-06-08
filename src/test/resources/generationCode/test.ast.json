@@ -10,7 +10,34 @@
             ]
         },
         {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
             "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m3",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m4",
             "sentencias": [
                 {
                     "tipo": "Return",
@@ -55,9 +82,24 @@
                     "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "nombreMetodo": "m1",
+                        "nombreMetodo": "m4",
                         "resultadoDeTipo": "void",
-                        "parametros": [],
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "literal Int",
+                                "encadenado": ""
+                            },
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        ],
                         "encadenado": ""
                     }
                 },
