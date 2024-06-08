@@ -119,90 +119,90 @@ public class MethodAccess extends Primary{
 
 
 
-        if (sStruct.equals("IO")){
-            Expression param = params.get(0);
-            switch (this.identifier.getLexema()) {
+        // if (sStruct.equals("IO")){
+        //     Expression param = params.get(0);
+        //     switch (this.identifier.getLexema()) {
                 
-                case "out_int":
-                    if (param.getResultTypeChained().equals("Int")){
-                        // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
-                    }
-                    else{
-                        //es literal Int
-                        if (param.getResultTypeChained().equals("literal Int")){
-                            asm += "la $a0, " + param.getIdentifier().getLexema() + "\n";
-                        }
-                    }
-                    break;
-                case "out_str":
-                    if (param.getResultTypeChained().equals("Str")){
-                        // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
-                    }
-                    else{
-                        //es literal Str
-                        if (param.getResultTypeChained().equals("literal Str")){
-                            //declarar str
-                            asm += ".data\n";
-                            int countLiteralStr = symbolTable.addLiteralStrCount();
-                            asm += "literal_str_" + countLiteralStr + ":" + " .asciiz " + param.getIdentifier().getLexema() + "\n";
-                            asm += ".text\n";
-                            asm += "la $a0, " + "literal_str_" + countLiteralStr + "\n";
-                        }
+        //         case "out_int":
+        //             if (param.getResultTypeChained().equals("Int")){
+        //                 // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+        //             }
+        //             else{
+        //                 //es literal Int
+        //                 if (param.getResultTypeChained().equals("literal Int")){
+        //                     asm += "la $a0, " + param.getIdentifier().getLexema() + "\n";
+        //                 }
+        //             }
+        //             break;
+        //         case "out_str":
+        //             if (param.getResultTypeChained().equals("Str")){
+        //                 // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+        //             }
+        //             else{
+        //                 //es literal Str
+        //                 if (param.getResultTypeChained().equals("literal Str")){
+        //                     //declarar str
+        //                     asm += ".data\n";
+        //                     int countLiteralStr = symbolTable.addLiteralStrCount();
+        //                     asm += "literal_str_" + countLiteralStr + ":" + " .asciiz " + param.getIdentifier().getLexema() + "\n";
+        //                     asm += ".text\n";
+        //                     asm += "la $a0, " + "literal_str_" + countLiteralStr + "\n";
+        //                 }
                             
-                    }
-                    break;
-                case "out_char":
-                    if (param.getResultTypeChained().equals("Char")){
-                        // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+        //             }
+        //             break;
+        //         case "out_char":
+        //             if (param.getResultTypeChained().equals("Char")){
+        //                 // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
                         
-                    }
-                    else{
-                        //es literal Char
-                        if (param.getResultTypeChained().equals("literal Char")){
-                            asm += "li $a0, " + param.getIdentifier().getLexema() + "\n";
-                        }
-                    }
-                    break;
-                case "out_bool":
-                    // es pTrue
-                    if (param.getIdentifier().getLexema().equals("true")){
-                        asm += "li $a0, 1\n";
-                    }
-                    else{
-                        // es pFalse
-                        if (param.getIdentifier().getLexema().equals("false")){
-                            asm += "li $a0, 0\n";
-                        }
-                        else{
-                            // es una variable de tipo Bool
-                            // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
-                        }
-                    }
-                    break;
-                case "out_array_int":
-                    //
-                    break;
-                case "out_array_str":
-                    //
-                    break;
-                case "out_array_bool":
-                    //
-                    break;
-                case "out_array_char":
-                    //
-                    break;
-                case "in_str":
-                case "in_int":
-                case "in_bool":
-                case "in_char":
-                    //solo realizan el jal al metodo
-                    break;
-                default:
-                    break;
-            }
-            asm += "jal " + "IO_" + this.identifier.getLexema() + "\n";
-        }
-        //asm += 
+        //             }
+        //             else{
+        //                 //es literal Char
+        //                 if (param.getResultTypeChained().equals("literal Char")){
+        //                     asm += "li $a0, " + param.getIdentifier().getLexema() + "\n";
+        //                 }
+        //             }
+        //             break;
+        //         case "out_bool":
+        //             // es pTrue
+        //             if (param.getIdentifier().getLexema().equals("true")){
+        //                 asm += "li $a0, 1\n";
+        //             }
+        //             else{
+        //                 // es pFalse
+        //                 if (param.getIdentifier().getLexema().equals("false")){
+        //                     asm += "li $a0, 0\n";
+        //                 }
+        //                 else{
+        //                     // es una variable de tipo Bool
+        //                     // hay que calcular el offset si es varLocal, parametro de un metodo o atributo de clase
+        //                 }
+        //             }
+        //             break;
+        //         case "out_array_int":
+        //             //
+        //             break;
+        //         case "out_array_str":
+        //             //
+        //             break;
+        //         case "out_array_bool":
+        //             //
+        //             break;
+        //         case "out_array_char":
+        //             //
+        //             break;
+        //         case "in_str":
+        //         case "in_int":
+        //         case "in_bool":
+        //         case "in_char":
+        //             //solo realizan el jal al metodo
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     asm += "jal " + "IO_" + this.identifier.getLexema() + "\n";
+        // }
+        // //asm += 
         return asm;
     }
 }
