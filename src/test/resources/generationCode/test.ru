@@ -1,11 +1,12 @@
 struct A {
+    Int a;
+    Str b;
 }
 impl A {
-    .(){}
-    st fn m1 (Int a, Int b, Str c) -> void {}
-    fn m2 () -> void {}
+    .(Int a, Int b){}
 }
 
 start {
-    (A.m1(1, 2, "hola"));
+    A a;
+    a = new A(1, 2);
 }

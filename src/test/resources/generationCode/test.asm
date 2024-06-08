@@ -3,9 +3,7 @@
 	division0: .asciiz "ERROR: DIVISION POR CERO" 
 	Str_vtable: .word Str_Constructor, length, Str_concat
 	ArrayStr_vtable: .word ArrayStr_Constructor, length
-	A_vtable: .word A_Constructor, m2
-	A_vtable_static: .word A_m1
-	A_struct_static: .word A_vtable_static
+	A_vtable: .word A_Constructor
 	ArrayInt_vtable: .word ArrayInt_Constructor, length
 	ArrayChar_vtable: .word ArrayChar_Constructor, length
 	Bool_vtable: .word Bool_Constructor
@@ -124,69 +122,43 @@ main:
 #### MAIN DATA ####
 la $t0, default_string			#For init strings
 #### RA (params are in the stack) ####
+sw $0, 16($sp)					#Local variable a. Idx: $fp + 16 + (0 * 4)
 ######################################
 move $fp, $sp					#Set the new $fp.
+addiu $sp, $sp, -4				#Update sp
 #### MAIN CODE ####
-la $v0, A_struct_static		#Assign the memory position of the label
-#Method access code
-lw $v0, 0($v0)					#Get the VTable reference
-lw $t0, 0($v0)					#Get the method reference
+#Assignation code - Left side
+addiu $v0, $fp, 4				#Assign the memory position of the variable
+sw $v0, 0($sp)
+addiu $sp, $sp, -4
+#Assignation code - Right side
+#Create instance code
+li $v0, 9						#Reserve memory for the CIR
+li $a0, 12
+syscall							#$v0 contains address of allocated memory
+la $t0, A_vtable
+sw $t0, 0($v0)					#Saves the vtable reference
+#Call constructor
 li $v0, 1						#Assign constant int
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
 li $v0, 2						#Assign constant int
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
-.data							#Assign constant string
-	literal_str_1: .asciiz "hola"
-.text
-la $v0, literal_str_1
-sw $v0, 0($sp)
-addiu $sp, $sp, -4
-#Call method
-jal A_m1
+jal A_Constructor
+#Assignation code - Result
+lw $t0, 4($sp)					#Get the left value
+sw $v0, 0($t0)
+addiu $sp, $sp, 4				#End Assignation
 #Return code
 j Exit
 
 
 #### CUSTOM METHODS CODE ####
-A_m1:
-.text
-#### METHOD DATA ####
-la $t0, default_string			#For init strings
-#### RA (params are in the stack) ####
-sw $0, 0($sp)					#Return. Idx: $fp
-lw $fp, 4($sp)					#RA caller. Idx: $fp + 4
-lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
-lw $sp, 12($sp)					#Self. Idx: $fp + 12
-######################################
-move $fp, $sp					#Set the new $fp.
-addiu $sp, $sp, -16				#Update sp
-#### METHOD CODE ####
-#Return code
-lw $ra, 8($fp)
-lw $fp, 4($fp)
-addiu $sp, $sp, 28
-
-A_m2:
-.text
-#### METHOD DATA ####
-la $t0, default_string			#For init strings
-#### RA (params are in the stack) ####
-sw $0, 0($sp)					#Return. Idx: $fp
-lw $fp, 4($sp)					#RA caller. Idx: $fp + 4
-lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
-lw $sp, 12($sp)					#Self. Idx: $fp + 12
-######################################
-move $fp, $sp					#Set the new $fp.
-addiu $sp, $sp, -16				#Update sp
-#### METHOD CODE ####
-#Return code
-lw $ra, 8($fp)
-lw $fp, 4($fp)
-addiu $sp, $sp, 16
-
 A_Constructor:
+.data
+	A_attribute_a: .word 0 
+	A_attribute_b: .asciiz "" 
 .text
 #### METHOD DATA ####
 la $t0, default_string			#For init strings
@@ -202,7 +174,7 @@ addiu $sp, $sp, -16				#Update sp
 #Return code
 lw $ra, 8($fp)
 lw $fp, 4($fp)
-addiu $sp, $sp, 16
+addiu $sp, $sp, 24
 
 
 #### EXCEPTION AND END CODE ####

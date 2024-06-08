@@ -59,19 +59,6 @@
                     "static": "false",
                     "retorno": "void",
                     "posicion": 0,
-                    "parámetros": [],
-                    "variables": []
-                }            
-            ],
-            "cantidadMetodos": 2,
-            "cantidadAtributos": 0,
-            "atributos": [],
-            "métodos": [
-                {
-                    "nombre": "m1",
-                    "static": "true",
-                    "retorno": "void",
-                    "posicion": 0,
                     "parámetros": [
                         {
                             "nombre": "a",
@@ -82,24 +69,28 @@
                             "nombre": "b",
                             "tipo": "Int",
                             "posicion": 1
-                        },
-                        {
-                            "nombre": "c",
-                            "tipo": "Str",
-                            "posicion": 2
                         }
                     ],
                     "variables": []
+                }            
+            ],
+            "cantidadMetodos": 0,
+            "cantidadAtributos": 2,
+            "atributos": [
+                {
+                    "nombre": "a",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
                 },
                 {
-                    "nombre": "m2",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 1,
-                    "parámetros": [],
-                    "variables": []
+                    "nombre": "b",
+                    "tipo": "Str",
+                    "public": "true",
+                    "posicion": 1
                 }
-            ]
+            ],
+            "métodos": []
         },
         {
             "nombre": "Array Int",
@@ -352,6 +343,13 @@
         "retorno": "void",
         "posicion": 0,
         "parámetros": [],
-        "variables": []
+        "variables": [
+            {
+                "nombre": "a",
+                "tipo": "A",
+                "public": "false",
+                "posicion": 0
+            }
+        ]
     }
 }

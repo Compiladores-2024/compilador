@@ -7,7 +7,6 @@ import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
-import src.lib.semanticHelper.symbolTableHelper.Variable;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -91,7 +90,7 @@ public class CreateInstance extends Primary{
 
     public String generateCode(String sStruct, String sMethod){
         String asm = "#Create instance code\n";
-        int space = 4, attributesCount = symbolTable.getStruct(this.identifier.getLexema()).getVariables().size();
+        int attributesCount = symbolTable.getStruct(this.identifier.getLexema()).getVariables().size();
         
         //Reserva memoria para el struct
         asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory for the CIR\n";
@@ -105,23 +104,27 @@ public class CreateInstance extends Primary{
         //Reserva memoria para los atributos
         // for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
         //     Variable var = symbolTable.getStruct(this.identifier.getLexema()).getVariables().get(variable);
-        //     asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) + "#Local variable\n";
+        //     asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) + "\t\t\t\t\t#Reserve attribute memory\n";
         //     space += 4;
         // }
+
+        //Calcula los parametros
+        asm += "#Call constructor\n";
+        for (int i = 0; i < this.params.size(); i++) {
+            asm += params.get(i).generateCode(sStruct, sMethod);
+            asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
+        }
+
+        //Lama al metodo constructor
+        asm += "jal " + this.identifier.getLexema() + "_" + "Constructor" + "\n";
+
 
         //Guarda el puntero al CIR en el stack
         // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddiu $sp, $sp, -4\n";
         
-        //apilar parametros
-        // asm += "#Calcula los parametros y los guarda en pila\n";
-        // for (int i = 0; i < this.params.size(); i++) {
-        //     asm += "#Param " + i + "\n";
-        //     asm += params.get(i).generateCode(sStruct, sMethod);
-        // }
 
         // //llamar al constructor
         // asm +="#Llamada a constructor\n";
-        // asm += "jal " + this.identifier.getLexema() + "_" + "Constructor" + "\n";
 
         return asm;
     }
