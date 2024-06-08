@@ -108,3 +108,23 @@
                  	
 			move $v0, $t2
 			jr $ra
+			
+			
+
+	# Procedure to copy string b to the end of string a
+	Str_concat:
+		#findEnd
+		find_end_loop:
+			lbu $t0, 0($a0)  # load byte from string a into $t0
+			beqz $t0, end_found  # if null terminator found, branch to end_found
+			addi $a0, $a0, 1  # increment address of string a
+			j find_end_loop
+			end_found:
+		string_copy_loop:
+			lbu $t0, 0($a1)  # load byte from string b into $t0
+			sb $t0, 0($a0)   # store byte from $t0 into string a
+			addi $a0, $a0, 1  # increment address of string a
+			addi $a1, $a1, 1  # increment address of string b
+			bnez $t0, string_copy_loop # if $t0 is not equal to zero, branch to string_copy_loop
+
+		jr $ra               # return to main
