@@ -119,7 +119,8 @@ public class MethodAccess extends Primary{
             asm += expression.generateCode(sStruct, sMethod);
             if (! ((expression.getResultType().contains("literal")) 
                 || (expression.getIdentifier().getLexema().equals("true")) 
-                || (expression.getIdentifier().getLexema().equals("false"))) ){
+                || (expression.getIdentifier().getLexema().equals("false"))) 
+                && (getsLeftSide().equals("IO"))  ){
                 
                 asm += "lw $v0, 0($v0)\n";
             }
