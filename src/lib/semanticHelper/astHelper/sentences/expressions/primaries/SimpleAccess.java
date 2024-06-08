@@ -104,10 +104,8 @@ public class SimpleAccess extends Primary{
                 asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t#Assign constant char\n";
                 break;
             case spIO:
-                asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
-                break;
-            case idSTRUCT:
-                asm += "idStruct\n";
+            case idSTRUCT: // Se esta llamando a un metodo estatico, guarda la referencia a la variable
+                asm += "la $v0, " + identifier.getLexema() + "_struct_static\t\t#Assign the memory position of the label\n";
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
                 asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";

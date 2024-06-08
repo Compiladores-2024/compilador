@@ -34,13 +34,13 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "nombreVariable": "A",
-                    "tipoDeDato": "id Struct",
-                    "resultadoDeTipo": "A",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "nombreMetodo": "m1",
-                        "resultadoDeTipo": "void",
+                        "nombreMetodo": "in_str",
+                        "resultadoDeTipo": "Str",
                         "parametros": [],
                         "encadenado": ""
                     }

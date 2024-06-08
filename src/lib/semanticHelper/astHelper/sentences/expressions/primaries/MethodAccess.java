@@ -102,8 +102,8 @@ public class MethodAccess extends Primary{
     public String generateCode(String sStruct, String sMethod){
         String asm="#Method access code\n";
 
-        //Obtiene la referencia al cir
-        asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the CIR reference\n";
+        //Obtiene la referencia a la vtable
+        asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the VTable reference\n";
         //$v0 ahora posee la direccion de memoria de la vtable
 
         //Obtiene la posicion del metodo en la vtable. Index: (Position + 1) * 4. Porque el constructor esta primero
@@ -115,7 +115,7 @@ public class MethodAccess extends Primary{
         }
 
         //Realiza la llamada al metodo
-        asm += "jal " + getsLeftSide() + "_" + identifier.getLexema() + "\t\t\t\t\t\t#Call method\n";
+        asm += "#Call method\njal " + getsLeftSide() + "_" + identifier.getLexema() + "\n";
 
 
 

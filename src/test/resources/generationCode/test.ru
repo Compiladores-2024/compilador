@@ -7,5 +7,5 @@ impl A {
 }
 
 start {
-    (A.m1());
+    (IO.in_str());
 }
