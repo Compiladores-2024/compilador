@@ -34,14 +34,36 @@
             "sentencias": [
                 {
                     "tipo": "SimpleAccess",
-                    "nombreVariable": "IO",
-                    "tipoDeDato": "IO",
-                    "resultadoDeTipo": "IO",
+                    "nombreVariable": "A",
+                    "tipoDeDato": "id Struct",
+                    "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "nombreMetodo": "in_str",
-                        "resultadoDeTipo": "Str",
-                        "parametros": [],
+                        "nombreMetodo": "m1",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "literal Int",
+                                "encadenado": ""
+                            },
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "2",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "literal Int",
+                                "encadenado": ""
+                            },
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "hola",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        ],
                         "encadenado": ""
                     }
                 },

@@ -72,7 +72,23 @@
                     "static": "true",
                     "retorno": "void",
                     "posicion": 0,
-                    "parámetros": [],
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        },
+                        {
+                            "nombre": "b",
+                            "tipo": "Int",
+                            "posicion": 1
+                        },
+                        {
+                            "nombre": "c",
+                            "tipo": "Str",
+                            "posicion": 2
+                        }
+                    ],
                     "variables": []
                 },
                 {

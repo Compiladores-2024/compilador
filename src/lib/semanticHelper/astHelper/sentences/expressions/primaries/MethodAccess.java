@@ -101,17 +101,23 @@ public class MethodAccess extends Primary{
      */
     public String generateCode(String sStruct, String sMethod){
         String asm="#Method access code\n";
+        Method m = symbolTable.getStruct(getsLeftSide()).getMethod(identifier.getLexema());
+        int position = 0;
 
         //Obtiene la referencia a la vtable
         asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the VTable reference\n";
         //$v0 ahora posee la direccion de memoria de la vtable
 
+        //Valida si es metodo estatico o no para calcular el offset. Tiene en cuenta el constructor
+        position = m.getPosition() + (m.isStatic() ? 0 : 1);
+        
         //Obtiene la posicion del metodo en la vtable. Index: (Position + 1) * 4. Porque el constructor esta primero
-        asm += "lw $t0, " + (symbolTable.getStruct(getsLeftSide()).getMethod(identifier.getLexema()).getPosition() + 1) * 4 + "($v0)\t\t\t\t\t#Get the method reference\n";
-
+        asm += "lw $t0, " + (position * 4) + "($v0)\t\t\t\t\t#Get the method reference\n";
+        
         //Calcula los parametros
         for (Expression expression : params) {
             asm += expression.generateCode(sStruct, sMethod);
+            asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
         }
 
         //Realiza la llamada al metodo

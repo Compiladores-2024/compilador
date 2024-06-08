@@ -127,12 +127,24 @@ la $t0, default_string			#For init strings
 ######################################
 move $fp, $sp					#Set the new $fp.
 #### MAIN CODE ####
-la $v0, IO_struct_static		#Assign the memory position of the label
+la $v0, A_struct_static		#Assign the memory position of the label
 #Method access code
 lw $v0, 0($v0)					#Get the VTable reference
-lw $t0, 12($v0)					#Get the method reference
+lw $t0, 0($v0)					#Get the method reference
+li $v0, 1						#Assign constant int
+sw $v0, 0($sp)
+addiu $sp, $sp, -4
+li $v0, 2						#Assign constant int
+sw $v0, 0($sp)
+addiu $sp, $sp, -4
+.data							#Assign constant string
+	literal_str_1: .asciiz "hola"
+.text
+la $v0, literal_str_1
+sw $v0, 0($sp)
+addiu $sp, $sp, -4
 #Call method
-jal IO_in_str
+jal A_m1
 #Return code
 j Exit
 
@@ -154,7 +166,7 @@ addiu $sp, $sp, -16				#Update sp
 #Return code
 lw $ra, 8($fp)
 lw $fp, 4($fp)
-addiu $sp, $sp, 16
+addiu $sp, $sp, 28
 
 A_m2:
 .text
