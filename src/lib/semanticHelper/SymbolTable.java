@@ -239,7 +239,7 @@ public class SymbolTable {
     }
     private String generatePredefinedCode(){
         String initFunction, endFunctionOut, endFunctionIn;
-
+        
         initFunction = "\t\tmove $fp, $sp #mueve el contenido de $sp a $fp\n"
         + "\t\tsw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)\n"
         + "\t\taddiu $sp, $sp, -4 #mueve el $sp 1 pos arriba\n";
@@ -255,9 +255,81 @@ public class SymbolTable {
         + "\t\tlw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))\n"
         + "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
 
+        //Array_Constructor
+        int space=0;
+
+        //ArrayInt_Constructor
+        String code = "\tArrayInt_Constructor:\n";
+        space=0;
+        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
+        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
+        code += "\t\tsyscall\n";
+        code += "\t\tmove $t1, $a0\t\t\t#Moves dimention a $t1\n";
+        //Guarda la referencia a la vtable (Inicio del CIR del Array)
+        code += "\t\tla $t0, ArrayInt_vtable\n";
+        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
+        space += 4;
+        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
+        //inicializar posiciones del array
+        // code += "\t\tli $t2, 0\t\t\t#Init counter\n";
+        // code += "\tloop_Array_Int_Constructor:\n";
+        // code += "\t\tbge $t2, $t1, end_loop_Array_Int_Constructor\t\t\t#branch if $t2 is greater or equal than $t1 (counter>=dimention)\n";
+        // code += "\t\tlw "
+        // code += "\t\tsw $0, " +  + "($v0)\t\t\t#Initialize int\n";
+        // code += "\t\taddi $t2, $t2, 4\t\t\t#incrementar counter\n";
+        // code += "\tend_loop_Array_Int_Constructor:\n";
+        code += "\t\tjr $ra\t\t\t# salta a la dirección almacenada en el registro $ra\n";
+
+        //ArrayStr_Constructor
+        code += "\tArrayStr_Constructor:\n";
+        space=0;
+        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
+        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
+        code += "\t\tsyscall\n";
+        //Guarda la referencia a la vtable (Inicio del CIR del Array)
+        code += "\t\tla $t0, ArrayStr_vtable\n";
+        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
+        space += 4;
+        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
+
+        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
+
+        //ArrayChar_Constructor
+        code += "\tArrayChar_Constructor:\n";
+        space=0;
+        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
+        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
+        code += "\t\tsyscall\n";
+        //Guarda la referencia a la vtable (Inicio del CIR del Array)
+        code += "\t\tla $t0, ArrayChar_vtable\n";
+        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
+        space += 4;
+        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
+
+        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
+
+        //ArrayBool_Constructor
+        code += "\tArrayBool_Constructor:\n";
+        space=0;
+        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
+        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
+        code += "\t\tsyscall\n";
+        //Guarda la referencia a la vtable (Inicio del CIR del Array)
+        code += "\t\tla $t0, ArrayBool_vtable\n";
+        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
+        space += 4;
+        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
+
+        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
+
+        //Array_length
+        code += "\tArray_length:\n";
+        code += "\t\t\n";
+
+
         // IO 
         //METODO out str
-        String code = "\tIO_out_str:\n"
+        code += "\tIO_out_str:\n"
             + initFunction
             + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
             + "\t\tli $v0, 4 #carga el valor 4 (print string) en el registro $v0\n"

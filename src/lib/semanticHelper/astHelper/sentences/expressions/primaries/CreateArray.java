@@ -104,33 +104,13 @@ public class CreateArray extends Primary{
         String asm="";
 
         //obtener dimention
-        int dimentionArray=0;
-        int space = 0;
-        //int dimentionArray = this.dimention*4;
+        asm = dimention.generateCode(sStruct, sMethod);
+        asm += "move $t1, $v0\t\t\t\t\t#Use $t1 for dimention of array\n";
+        asm += "li $t2, 4\t\t\t\t\t\t#Size of each element\n";
+        asm += "mul $t1, $t1, $t2\t\t\t\t#Calculate dimention of array\n";
+        asm += "move $a0, $t1\n";
         
-        // asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory in the heap for the CIR\n";
-        // asm += "li $a0,"+dimentionArray + "\n";
-        // asm += "syscall\n";
-
-        // //Guarda la referencia a la vtable de Array (en el inicio del CIR)
-        // asm += "la $t0, " + "Array_vtable\n";
-        // asm += "sw $t0, 0($v0)\n";
-        // space += 4;
-
-        // //en la posicion siguiente guardar la dimension del array. 4($v0)
-        // asm += "sw $t0, " + space + "($v0)" + "\n";
-        // space += 4;
-
-        // //en las posiciones siguientes inicializar las posiciones del array
-        // for (int i = 0; i < dimentionArray; i++) {
-        //     asm += Static.initCirData(identifier.getIDToken(), space + (i * 4)) +"\n";
-        //     asm += 4;
-        // }
-
-        // //Guarda el puntero al CIR en el stack
-        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddiu $sp, $sp, -4\n";
-    
-        //asm += "move $a0, $v0 # $a0 contiene el puntero al CIR del arreglo ";
+        asm += "jal Array" + type.getLexema() + "_Constructor" + "\n"; 
             
         
         return asm;
