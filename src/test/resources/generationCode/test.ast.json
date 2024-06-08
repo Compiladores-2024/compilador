@@ -26,24 +26,6 @@
                     "expresión": ""
                 }
             ]
-        },
-        {
-            "nombreMetodo": "m3",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        },
-        {
-            "nombreMetodo": "m4",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
         }
     ],
     "start" : [
@@ -51,55 +33,15 @@
             "nombreMetodo": "start",
             "sentencias": [
                 {
-                    "tipo": "Asignation",
-                    "leftSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "A",
-                        "encadenado": ""
-                    },
-                    "rightSide": {
-                        "tipo": "CreateInstance",
-                        "identificador": "A",
-                        "resultadoDeTipo": "A",
-                        "parámetros": [
-                            {
-                                "tipo": "SimpleAccess",
-                                "nombreVariable": "1",
-                                "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "literal Int",
-                                "encadenado": ""
-                            }
-                        ],
-                        "encadenado": ""
-                    }
-                },
-                {
                     "tipo": "SimpleAccess",
-                    "nombreVariable": "a",
-                    "tipoDeDato": "id variable o método",
+                    "nombreVariable": "A",
+                    "tipoDeDato": "id Struct",
                     "resultadoDeTipo": "A",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "nombreMetodo": "m4",
+                        "nombreMetodo": "m1",
                         "resultadoDeTipo": "void",
-                        "parametros": [
-                            {
-                                "tipo": "SimpleAccess",
-                                "nombreVariable": "1",
-                                "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "literal Int",
-                                "encadenado": ""
-                            },
-                            {
-                                "tipo": "SimpleAccess",
-                                "nombreVariable": "",
-                                "tipoDeDato": "literal Str",
-                                "resultadoDeTipo": "literal Str",
-                                "encadenado": ""
-                            }
-                        ],
+                        "parametros": [],
                         "encadenado": ""
                     }
                 },

@@ -179,7 +179,7 @@ public class SymbolTable {
     }
 
     public String generateCode () {
-        String code = ".data\n", aux = "";
+        String code = ".data\n", aux = "", aux1 = "";
 
         //AGREGA LA INICIALIZACION DE STRINGS
         code += "\tdefault_string: .asciiz \"\"\n";
@@ -190,19 +190,33 @@ public class SymbolTable {
         //AGREGA LAS VIRTUAL TABLES DE LOS STRUCTS (EXCEPTO DE LOS STRUCT PREDEFINIDOS)
         for (String sStruct : structs.keySet()) {
             if (!staticStruct.contains(sStruct)){
-                //Genera el string con los metodos
-                aux = String.join(", ", structs.get(sStruct).getMethods().keySet());
-
+                
+                //Genera los strings con los metodos estaticos y no estaticos
+                for (String method : structs.get(sStruct).getMethods().keySet()) {
+                    if (structs.get(sStruct).getMethod(method).isStatic()) {
+                        aux1 += method + ", ";
+                    } else {
+                        aux += method + ", ";
+                    }
+                }
+                
                 //Nombre de la estructura sin espacios
                 sStruct = sStruct.replaceAll("\\s", "");
 
+                //Elimino las comas finales y agrega los nombres de estructuras
+                if (aux.length() > 0) {
+                    aux = aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
+                }
                 //Genera la vtable
-                aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux;
+                aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux + "\n";
 
-                //Agrega el nombre de la estructura a a todos los metodos
-                aux = aux.replaceAll(", ", ", " + sStruct + "_");
+                //Valida si debe agregar la vtable de metodos estaticos
+                if (aux1.length() > 0) {
+                    aux1 = aux1.substring(0, aux1.length() - 2).replaceAll(", ", ", " + sStruct + "_");                    
+                    aux += "\t" + sStruct + "_vtable_static: .word " + aux1;
+                }
 
-                code += aux + "\n";
+                code += aux;
             }
         }
         
