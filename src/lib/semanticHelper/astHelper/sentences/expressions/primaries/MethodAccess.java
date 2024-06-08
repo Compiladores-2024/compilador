@@ -117,6 +117,12 @@ public class MethodAccess extends Primary{
         //Calcula los parametros
         for (Expression expression : params) {
             asm += expression.generateCode(sStruct, sMethod);
+            if (! ((expression.getResultType().contains("literal")) 
+                || (expression.getIdentifier().getLexema().equals("true")) 
+                || (expression.getIdentifier().getLexema().equals("false"))) ){
+                
+                asm += "lw $v0, 0($v0)\n";
+            }
             asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
         }
 
