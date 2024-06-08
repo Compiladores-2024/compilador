@@ -100,17 +100,17 @@ public class CreateInstance extends Primary{
         
         //Guarda la referencia a la vtable (Inicio del CIR)
         asm += "la $t0, " + this.getIdentifier().getLexema()+"_vtable\n";
-        asm += "sw $t0, 0($v0)\n";
+        asm += "sw $t0, 0($v0)\t\t\t\t\t#Saves the vtable reference\n";
         
         //Reserva memoria para los atributos
-        for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
-            Variable var = symbolTable.getStruct(this.identifier.getLexema()).getVariables().get(variable);
-            asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) +"\n";
-            space += 4;
-        }
+        // for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
+        //     Variable var = symbolTable.getStruct(this.identifier.getLexema()).getVariables().get(variable);
+        //     asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) + "#Local variable\n";
+        //     space += 4;
+        // }
 
         //Guarda el puntero al CIR en el stack
-        asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddi $sp, $sp, -4\n";
+        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddiu $sp, $sp, -4\n";
         
         //apilar parametros
         // asm += "#Calcula los parametros y los guarda en pila\n";

@@ -159,7 +159,7 @@ public class BinaryExpression extends Expression{
             asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the left value\n";
         }
         //Guarda el valor en la pila
-        asm += "sw $v0, 0($sp)\naddi $sp, $sp, -4\n";
+        asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
 
         
         asm += "#Binary expression - Right side\n";

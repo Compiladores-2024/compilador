@@ -122,6 +122,14 @@ public class SimpleAccess extends Primary{
             default:
                 break;
         }
+
+        if (rightChained != null) {
+            //Avisa que es lado derecho
+            rightChained.setIsRightSide();
+
+            //Genera el codigo
+            asm += rightChained.generateCode(sStruct, sMethod);
+        }
         return asm;
     }
 

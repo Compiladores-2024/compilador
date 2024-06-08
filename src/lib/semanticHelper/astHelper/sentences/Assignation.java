@@ -107,13 +107,13 @@ public class Assignation extends Sentence{
         //Escribe el resultado en el registro $v0 y se guarda en la pila
         asm += leftSide.generateCode(sStruct, sMethod);
         //Guarda el resultado en la pila
-        asm += "sw $v0, 0($sp)\naddi $sp, $sp, -4\n#Assignation code - Right side\n";
+        asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n#Assignation code - Right side\n";
         
         //Escribe el resultado en el registro $v0
         asm += rightSide.generateCode(sStruct, sMethod);
 
         //Obtiene el valor de leftside
-        asm += "lw $t0, 4($sp)\t\t\t\t\t#Get the left value\n";
+        asm += "#Assignation code - Result\nlw $t0, 4($sp)\t\t\t\t\t#Get the left value\n";
 
         //Si el lado derecho es offset, obtiene el valor
         if (rightSide.isOffset()) {
@@ -121,7 +121,7 @@ public class Assignation extends Sentence{
         }
         
         //Asigna el valor a la variable y libera la memoria
-        asm += "sw $v0, 0($t0)\naddi $sp, $sp, 4\t\t\t\t#End Assignation\n";
+        asm += "sw $v0, 0($t0)\naddiu $sp, $sp, 4\t\t\t\t#End Assignation\n";
         return asm;
     }
 }

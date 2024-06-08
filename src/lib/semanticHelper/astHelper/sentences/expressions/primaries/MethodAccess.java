@@ -94,8 +94,17 @@ public class MethodAccess extends Primary{
         tabs + "}";
     }
 
+    /**
+     * SIEMPRE VA A SER LADO DERECHO, POSEE LA REFERENCIA A LA VARIABLE EN $v0
+     */
     public String generateCode(String sStruct, String sMethod){
-        String asm="";
+        String asm="#Method access code\n";
+
+        //Obtiene la referencia al cir
+        asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the CIR reference\n";
+
+        //$v0 ahora posee la direccion de memoria de la vtable
+
 
         if (sStruct.equals("IO")){
             Expression param = params.get(0);

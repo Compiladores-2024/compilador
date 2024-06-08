@@ -128,7 +128,7 @@ public class CreateArray extends Primary{
         // }
 
         // //Guarda el puntero al CIR en el stack
-        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddi $sp, $sp, -4\n";
+        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddiu $sp, $sp, -4\n";
     
         //asm += "move $a0, $v0 # $a0 contiene el puntero al CIR del arreglo ";
             

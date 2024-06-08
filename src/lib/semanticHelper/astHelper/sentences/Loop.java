@@ -85,7 +85,7 @@ public class Loop extends Sentence{
 
         //Obtiene el valor de la condicion en el registro $v0
         asm += condition.generateCode(sStruct, sMethod);
-        // asm += "lw $t0, 4($sp)\naddi $sp, $sp, 4\n\n";
+        // asm += "lw $t0, 4($sp)\naddiu $sp, $sp, 4\n\n";
         asm += "bne $v0, 1, endWhile" + sentenceCounter + "\t\t\t\t#Conditional: $v0 != 1, jumps to endWhile\n";
 
         //Bloque loop

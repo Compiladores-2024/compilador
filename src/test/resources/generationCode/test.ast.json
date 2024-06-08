@@ -1,26 +1,63 @@
 {
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        }
+    ],
     "start" : [
         {
             "nombreMetodo": "start",
             "sentencias": [
                 {
-                    "tipo": "SimpleAccess",
-                    "nombreVariable": "IO",
-                    "tipoDeDato": "IO",
-                    "resultadoDeTipo": "IO",
-                    "encadenado": {
-                        "tipo": "MethodAccess",
-                        "nombreMetodo": "out_str",
-                        "resultadoDeTipo": "void",
-                        "parametros": [
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "A",
+                        "resultadoDeTipo": "A",
+                        "parámetros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "test",
-                                "tipoDeDato": "literal Str",
-                                "resultadoDeTipo": "literal Str",
+                                "nombreVariable": "1",
+                                "tipoDeDato": "literal Int",
+                                "resultadoDeTipo": "literal Int",
                                 "encadenado": ""
                             }
                         ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "a",
+                    "tipoDeDato": "id variable o método",
+                    "resultadoDeTipo": "A",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "m1",
+                        "resultadoDeTipo": "void",
+                        "parametros": [],
                         "encadenado": ""
                     }
                 },

@@ -17,6 +17,8 @@ import src.lib.tokenHelper.Token;
  * @since 17/05/2024
  */
 public abstract class Primary extends Expression{
+    boolean isRightSide;
+
     /**
      * Constructor de la clase.
      * @param identifier Identificador
@@ -25,6 +27,12 @@ public abstract class Primary extends Expression{
     public Primary(Token identifier, Primary rightChained) {
         super(identifier);
         this.rightChained = rightChained;
+        this.isRightSide = false;
+    }
+
+
+    public void setIsRightSide() {
+        this.isRightSide = true;
     }
 
     

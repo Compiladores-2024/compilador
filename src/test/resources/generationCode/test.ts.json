@@ -51,6 +51,39 @@
             ]
         },
         {
+            "nombre": "A",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "a",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 1,
+            "cantidadAtributos": 0,
+            "atributos": [],
+            "métodos": [
+                {
+                    "nombre": "m1",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 0,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
             "nombre": "Array Int",
             "heredaDe": "Object",
             "constructor": [],
@@ -301,6 +334,13 @@
         "retorno": "void",
         "posicion": 0,
         "parámetros": [],
-        "variables": []
+        "variables": [
+            {
+                "nombre": "a",
+                "tipo": "A",
+                "public": "false",
+                "posicion": 0
+            }
+        ]
     }
 }
