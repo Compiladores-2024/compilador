@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.symbolTableHelper.*;
 import src.lib.tokenHelper.IDToken;
@@ -194,7 +195,7 @@ public class SymbolTable {
                 aux1 = "";
     
                 //Genera los strings con los metodos estaticos y no estaticos
-                for (String method : structs.get(sStruct).getMethods().keySet()) {
+                for (String method : Static.order(structs.get(sStruct).getMethods())) {
                     if (structs.get(sStruct).getMethod(method).isStatic()) {
                         aux1 += method + ", ";
                     } else {
@@ -220,7 +221,8 @@ public class SymbolTable {
                     //Agrega la variable que referencia a la vtable static
                     aux += "\t" + sStruct + "_struct_static: .word " + sStruct + "_vtable_static\n";
                 }
-    
+
+                //Agrega las vtables
                 code += aux;
             }
         }

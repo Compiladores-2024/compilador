@@ -184,15 +184,6 @@
             ]
         },
         {
-            "nombreMetodo": "start",
-            "sentencias": [
-                {
-                    "tipo": "Return",
-                    "expresión": ""
-                }
-            ]
-        },
-        {
             "nombreMetodo": "imprimo_numero",
             "sentencias": [
                 {
@@ -554,20 +545,20 @@
                                     }
                                 ]
                             }
+                        },
+{
+                            "tipo": "UnaryExpression",
+                            "operador": "++",
+                            "resultadoDeTipo": "literal Int",
+                            "expresion": {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "i",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
                         }
                     ]
-                },
-                {
-                    "tipo": "UnaryExpression",
-                    "operador": "++",
-                    "resultadoDeTipo": "literal Int",
-                    "expresion": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "i",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "Int",
-                        "encadenado": ""
-                    }
                 },
                 {
                     "tipo": "Return",

@@ -90,16 +90,20 @@ public class CreateInstance extends Primary{
 
     public String generateCode(String sStruct, String sMethod){
         String asm = "#Create instance code\n";
-        int attributesCount = symbolTable.getStruct(this.identifier.getLexema()).getVariables().size();
-        
+        Struct oStruct = symbolTable.getStruct(this.identifier.getLexema());
+        int attributesCount = oStruct.getVariables().size();
+
+        //Avisa que posee al menos una creacion (Para reservar memoria)
+        oStruct.setHasCreate();
+
         //Reserva memoria para el struct
         asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory for the CIR\n";
         asm += "li $a0, " + (4 + (attributesCount * 4) ) +"\n"; //4 por vtable + cant de atributos
         asm += "syscall\t\t\t\t\t\t\t#$v0 contains address of allocated memory\n";
         
         //Guarda la referencia a la vtable (Inicio del CIR)
-        asm += "la $t0, " + this.getIdentifier().getLexema()+"_vtable\n";
-        asm += "sw $t0, 0($v0)\t\t\t\t\t#Saves the vtable reference\n";
+        asm += "la $t0, " + this.getIdentifier().getLexema()+"_vtable\t\t#Saves the vtable reference\n";
+        asm += "sw $t0, 0($v0)\nsw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
         
         //Reserva memoria para los atributos
         // for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
@@ -116,7 +120,7 @@ public class CreateInstance extends Primary{
         }
 
         //Lama al metodo constructor
-        asm += "jal " + this.identifier.getLexema() + "_" + "Constructor" + "\n";
+        asm += "jal " + this.identifier.getLexema() + "_Constructor\nlw $v0, 4($sp)\naddiu $sp, $sp, 4\n";
 
         return asm;
     }

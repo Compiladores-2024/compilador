@@ -23,7 +23,7 @@ public class Struct extends Metadata {
     private HashMap<String, Variable> variables;
     private HashMap<String, Method> methods;
     private HashMap<String, Struct> childrens;
-    private Boolean consolidated;
+    private Boolean consolidated, hasCreate;
 
     /**
      * Constructor de la clase.
@@ -49,6 +49,7 @@ public class Struct extends Metadata {
         countImplDefinition = 0;
         
         consolidated=false;
+        hasCreate=false;
         
         this.parent = parent;
         //Le avisa al padre que lo tiene como hijo
@@ -77,6 +78,12 @@ public class Struct extends Metadata {
 
         //Asigna al nuevo padre
         this.parent = parent;
+    }
+    public Boolean hasCreate() {
+        return hasCreate;
+    }
+    public void setHasCreate() {
+        this.hasCreate = true;
     }
 
     /** 
@@ -144,7 +151,6 @@ public class Struct extends Metadata {
 
         //Valida si tendra seccion de datos
         if (variables.size() > 0) {
-            code += ".data\n";
             //Recorre las variables
             for (String variable : variables.keySet()) {
                 code += "\t" + getName() + "_attribute_" + variable + Static.getCodeDataType(variables.get(variable).getTypeToken().getIDToken());

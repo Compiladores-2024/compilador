@@ -280,7 +280,7 @@
                     "variables": []
                 }            
             ],
-            "cantidadMetodos": 4,
+            "cantidadMetodos": 3,
             "cantidadAtributos": 3,
             "atributos": [
                 {
@@ -343,14 +343,6 @@
                             "posicion": 0
                         }
                     ],
-                    "variables": []
-                },
-                {
-                    "nombre": "start",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 3,
-                    "parámetros": [],
                     "variables": []
                 }
             ]

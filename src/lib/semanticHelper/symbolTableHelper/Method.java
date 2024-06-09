@@ -70,11 +70,11 @@ public class Method extends Metadata{
 
         //Los parametros se encuentran por debajo del $fp
         if (params.get(name) != null) {
-            offset = (params.size() - params.get(name).getPosition()) * -4;
+            offset = (params.size() - params.get(name).getPosition()) * 4;
             
         //Las variables se encuentran por encima del $fp
         } else if (variables.get(name) != null){
-            offset = 16 + (variables.get(name).getPosition() * 4);
+            offset = -16 - (variables.get(name).getPosition() * 4);
         }
 
         return offset;
@@ -89,35 +89,33 @@ public class Method extends Metadata{
         code = "la $t0, default_string\t\t\t#For init strings\n" + 
         "#### RA (params are in the stack) ####\n";
 
-        //Reserva memoria para self, RA del llamador y puntero al llamador, si no es el metodo start
-        if (!getName().equals("start")) {
-            code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: $fp\n";
-            space += 4;
-            code += "sw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
-            space += 4;
-            code += "sw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
-            space += 4;
-            code += "sw $sp, " + space + "($sp)\t\t\t\t\t#Self. Idx: $fp + 12\n";
-            space += 4;
-        }
+        //Reserva memoria para self, RA del llamador y puntero al llamador
+        code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: $fp\n";
+        space -= 4;
+        code += "sw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
+        space -= 4;
+        code += "sw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
+        space -= 4;
+        code += "sw $sp, " + space + "($sp)\t\t\t\t#Self. Idx: $fp + 12\n";
+        space -= 4;
 
         //Reserva memoria para las variables locales
         for (String variable : variables.keySet()) {
             Variable var = variables.get(variable);
-            code += Static.initStackData(var.getTypeToken().getIDToken(), 16 + (var.getPosition() * 4)) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
-            space += 4;
+            code += Static.initStackData(var.getTypeToken().getIDToken(), -(16 + (var.getPosition() * 4))) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
+            space -= 4;
         }
 
         code += "######################################\nmove $fp, $sp\t\t\t\t\t#Set the new $fp.\n";
 
 
         //Mueve el puntero a la posición correspondiente
-        if (space > 0) {
-            code += "addiu $sp, $sp, -" + space + "\t\t\t\t#Update sp\n";
+        if (space < 0) {
+            code += "addiu $sp, $sp, " + space + "\t\t\t\t#Update sp\n";
         }
 
         //Guarda el espacio utilizado (Para luego liberarlo)
-        sizeRA = space + (params.size() * 4);
+        sizeRA = (space * -1) + (params.size() * 4);
         return code;
     }
 
@@ -164,7 +162,7 @@ public class Method extends Metadata{
         String sParams = "";
 
         //Genera el string de parametros
-        for (String paramName : order(params)) {
+        for (String paramName : Static.order(params)) {
             sParams += params.get(paramName).toString() + " ";
         }
 

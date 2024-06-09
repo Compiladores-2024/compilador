@@ -1,11 +1,14 @@
 package src.lib;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import src.lib.exceptionHelper.CustomException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
+import src.lib.semanticHelper.symbolTableHelper.Metadata;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
@@ -266,6 +269,20 @@ public class Static {
 
         //Agrega el puntero
         result += index +"($v0)";
+        return result;
+    }
+
+    /**
+     * Ordena una estructura dada
+     * @param entity Estructura a ordenar
+     * @return Arreglo con elementos ordenados
+     */
+    @SuppressWarnings("unchecked")
+    static public String [] order (HashMap<String, ?> entity) {
+        String[] result = new String[entity.size()];
+        for (Metadata object : (Collection<Metadata>)entity.values()) {
+            result[object.getPosition()] = object.getName();
+        }
         return result;
     }
 }

@@ -112,7 +112,7 @@ public class Return extends Sentence{
             //$ra: Tendra la posicion donde seguir ejecutando codigo 8($fp)
             //$fp: Apuntara nuevamente al llamador 4($fp)
             //Libera el espacio ocupado por el RA y regresea a la ejecicon anterior
-            asm += "lw $ra, 8($fp)\nlw $fp, 4($fp)\naddiu $sp, $sp, " + sizeRA + "\njr $ra\n";
+            asm += "lw $ra, -8($fp)\nlw $fp, -4($fp)\naddiu $sp, $sp, " + sizeRA + "\njr $ra\n";
         }
 
         return asm;

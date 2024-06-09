@@ -38,7 +38,7 @@ public class AST {
     }
 
     public String generateCode (SymbolTable st) {
-        String code = "#### MAIN CODE ####\n", auxString = "";
+        String code = "#### MAIN CODE ####\n", methodsCode = "";
         //Genera el código del metodo start (MAIN)
         code += this.blocks.get("start").get("start").generateCode("start", "start") + "\n\n#### CUSTOM METHODS CODE ####\n";
         
@@ -46,20 +46,29 @@ public class AST {
         for (String sStruct : this.blocks.keySet()) {
             //Valida que no sea el metodo start
             if (!sStruct.equals("start")) {
-                //Agrega las etiquetas para los atributos
-                auxString = st.getStruct(sStruct).generateCode() + ".text\n#### METHOD DATA ####\n";
-
                 //Recorre los metodos de esa estructura
                 for (String sMethod : this.blocks.get(sStruct).keySet()) {
                     //Genera el codigo correspondiente
-                    code += sStruct + "_" + sMethod + ":\n" +
+                    methodsCode += sStruct + "_" + sMethod + ":\n" +
                         //Reserva memoria para las variables locales
-                        auxString + st.getStruct(sStruct).getMethod(sMethod).generateCode() + "#### METHOD CODE ####\n" +
+                        ".text\n#### METHOD DATA ####\n" + st.getStruct(sStruct).getMethod(sMethod).generateCode() + "#### METHOD CODE ####\n" +
                         //Codigo del programa
                         this.blocks.get(sStruct).get(sMethod).generateCode(sStruct, sMethod) + "\n\n";
                 }
             }
         }
+
+        //Reserva memoria para los atributos de estructuras que se utilizan
+        if (methodsCode.length() > 0) {
+            code += ".data\n";
+            for (String sStruct : st.getStructs().keySet()) {
+                if (st.getStruct(sStruct).hasCreate()) {
+                    code += st.getStruct(sStruct).generateCode();
+                }
+            }
+            code += ".text\n" + methodsCode;
+        }
+
         return code;
     }
     

@@ -21,8 +21,8 @@ impl Fibonacci {
                 j=suma;
                 (imprimo_sucesion(suma));
             }
+            (++i);
         }
-        (++i);
         ret suma;
     }
     .(){
@@ -39,9 +39,6 @@ impl Fibonacci {
         /?"el valor es: ";
         (IO.out_int(s));
         (IO.out_str("\n"));
-    }
-    fn start () -> void {
-
     }
 }
 start{
