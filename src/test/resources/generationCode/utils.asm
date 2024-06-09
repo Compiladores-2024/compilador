@@ -8,6 +8,18 @@
 	IO_ingresar_bool: .asciiz "Ingresar valor bool (0 para false, 1 para true: \n"
 	IO_ingresar_char: .asciiz "Ingresar valor char: \n"
 	IO_buffer_str: .space 1024	
+	Str_vtable: .word Str_Constructor, length, Str_concat
+	ArrayStr_vtable: .word ArrayStr_Constructor, length
+	ArrayInt_vtable: .word ArrayInt_Constructor, length
+	ArrayChar_vtable: .word ArrayChar_Constructor, length
+	Bool_vtable: .word Bool_Constructor
+	IO_vtable: .word IO_Constructor
+	IO_vtable_static: .word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool
+	IO_struct_static: .word IO_vtable_static
+	Char_vtable: .word Char_Constructor
+	Object_vtable: .word Object_Constructor
+	Int_vtable: .word Int_Constructor
+	ArrayBool_vtable: .word ArrayBool_Constructor, length
 
 .text 
 	IO_out_int:
@@ -104,4 +116,55 @@
 		move $v0, $a0
  		jr $ra
 
- 	
+ 	ArrayInt_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		move $t1, $a0			#Moves dimention a $t1
+		la $t0, ArrayInt_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra			# salta a la dirección almacenada en el registro $ra
+	ArrayStr_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayStr_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	ArrayChar_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayChar_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	ArrayBool_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayBool_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	Array_length:
+		
+	IO_out_array_int:
+	IO_out_array_str:
+	IO_out_array_bool:
+	IO_out_array_char:
+	ArrayStr_length:
+	ArrayInt_length:
+	ArrayChar_length:
+	ArrayBool_length:
+	Str_concat:
+	Str_length:
+	Str_Constructor: 
+	IO_Constructor: 
+	Bool_Constructor: 
+	Char_Constructor:
+	length: 
+	Object_Constructor: 
+	Int_Constructor:
