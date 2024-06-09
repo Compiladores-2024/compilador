@@ -1,0 +1,105 @@
+{
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "bool",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Bool",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_bool",
+                            "resultadoDeTipo": "Bool",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
+                    "tipo": "Conditional",
+                    "condicion": {
+                        "tipo": "BinaryExpression",
+                        "operador": "==",
+                        "resultadoDeTipo": "Bool",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "bool",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Bool",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "true",
+                            "tipoDeDato": "true",
+                            "resultadoDeTipo": "Bool",
+                            "encadenado": ""
+                        }
+                    },
+                    "thenBlock": [
+{
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "IO",
+                            "tipoDeDato": "IO",
+                            "resultadoDeTipo": "IO",
+                            "encadenado": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "out_int",
+                                "resultadoDeTipo": "void",
+                                "parametros": [
+                                    {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "100",
+                                        "tipoDeDato": "literal Int",
+                                        "resultadoDeTipo": "literal Int",
+                                        "encadenado": ""
+                                    }
+                                ],
+                                "encadenado": ""
+                            }
+                        }
+                    ],
+                    "elseBlock": [
+{
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "IO",
+                            "tipoDeDato": "IO",
+                            "resultadoDeTipo": "IO",
+                            "encadenado": {
+                                "tipo": "MethodAccess",
+                                "nombreMetodo": "out_int",
+                                "resultadoDeTipo": "void",
+                                "parametros": [
+                                    {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "55",
+                                        "tipoDeDato": "literal Int",
+                                        "resultadoDeTipo": "literal Int",
+                                        "encadenado": ""
+                                    }
+                                ],
+                                "encadenado": ""
+                            }
+                        }
+                    ]
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        }
+    ]
+
+}
