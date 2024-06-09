@@ -108,21 +108,15 @@ public class SimpleAccess extends Primary{
                 asm += "la $v0, " + identifier.getLexema() + "_struct_static\t\t#Assign the memory position of the label\n";
                 break;
             case idOBJECT: //Asigna la posicion de memoria del stack
+                // es atributo de struct
                 if (symbolTable.getStructs().containsKey(sStruct)){
-                    if (symbolTable.getStruct(sStruct).getMethods().containsKey(sMethod)){
-                        //si es variable local de metodo o parametro
-                        if (symbolTable.getStruct(sStruct).getMethod(sMethod).getParams().containsKey(identifier.getLexema())
-                            || symbolTable.getStruct(sStruct).getMethod(sMethod).getVariables().containsKey(identifier.getLexema())){
-                                asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
-                                this.isOffset = true;
-                        }
+                    if (symbolTable.getStruct(sStruct).getVariables().containsKey(identifier.getLexema())){
+                        asm += "la $v0, " + sStruct + "_attribute_" + identifier.getLexema() + "\n";
                     }
-                    else{
-                        // es atributo de struct
-                        if (symbolTable.getStruct(sStruct).getVariables().containsKey(identifier.getLexema())){
-                            asm += "la $v0, " + sStruct + "_attribute_" + identifier.getLexema() + "\n";
-                        }
-                    }
+                }
+                else{
+                    asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                    this.isOffset = true;
                 }
                 break;
             case pNIL:
