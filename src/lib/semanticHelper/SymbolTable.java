@@ -207,7 +207,7 @@ public class SymbolTable {
     
                 //Elimino las comas finales y agrega los nombres de estructuras
                 if (aux.length() > 0) {
-                    aux = sStruct + "_" +aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
+                    aux = sStruct + "_" + aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
                 }
                 //Genera la vtable
                 aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux + "\n";

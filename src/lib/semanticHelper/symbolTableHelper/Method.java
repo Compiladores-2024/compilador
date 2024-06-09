@@ -227,6 +227,15 @@ public class Method extends Metadata{
     }
 
 
+    public HashMap<String, Variable> getVariables(){
+        return this.variables;
+    }
+
+    public HashMap<String, Param> getParams(){
+        return this.params;
+    }
+
+
     /**
      * Reescritura del método, convierte los datos en JSON.
      * 
