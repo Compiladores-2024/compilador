@@ -17,6 +17,41 @@
 
 #### PREDEFINED METHODS CODE ####
 .text
+	ArrayInt_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		move $t1, $a0			#Moves dimention a $t1
+		la $t0, ArrayInt_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra			# salta a la dirección almacenada en el registro $ra
+	ArrayStr_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayStr_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	ArrayChar_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayChar_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	ArrayBool_Constructor:
+		li $v0, 9			#Syscall para reservar memoria en el heap
+		addi $a0, $a0, 8			#Add space para vtable y length
+		syscall
+		la $t0, ArrayBool_vtable
+		sw $t0, 0($v0)			#Saves the vtable reference
+		sw $t1, 4($v0)			#Saves the dimention en el cir
+		jr $ra          # salta a la dirección almacenada en el registro $ra
+	Array_length:
+		
 	IO_out_str:
 		move $fp, $sp #mueve el contenido de $sp a $fp
 		sw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)
@@ -128,7 +163,7 @@ move $fp, $sp					#Set the new $fp.
 addiu $sp, $sp, -4				#Update sp
 #### MAIN CODE ####
 #Assignation code - Left side
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, 16				#Assign the memory position of the variable
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
 #Assignation code - Right side
@@ -157,8 +192,8 @@ j Exit
 #### CUSTOM METHODS CODE ####
 A_Constructor:
 .data
-	A_attribute_a: .word 0 
-	A_attribute_b: .asciiz "" 
+	A_attribute_i: .word 0 
+	A_attribute_j: .word 0 
 .text
 #### METHOD DATA ####
 la $t0, default_string			#For init strings
@@ -167,14 +202,25 @@ sw $0, 0($sp)					#Return. Idx: $fp
 lw $fp, 4($sp)					#RA caller. Idx: $fp + 4
 lw $ra, 8($sp)					#Resume pointer. Idx: $fp + 8
 lw $sp, 12($sp)					#Self. Idx: $fp + 12
+sw $0, 16($sp)					#Local variable c. Idx: $fp + 16 + (0 * 4)
 ######################################
 move $fp, $sp					#Set the new $fp.
-addiu $sp, $sp, -16				#Update sp
+addiu $sp, $sp, -20				#Update sp
 #### METHOD CODE ####
+#Unary expression
+la $v0, A_attribute_j			#Assign the memory position of the variable
+lw $t0, 0($v0)					#Get the expression result
+addiu $t0, $t0, 1				# +1
+sw $t0, 0($v0)					#Save the new value
+#Unary expression
+addiu $v0, $fp, -8				#Assign the memory position of the variable
+lw $t0, 0($v0)					#Get the expression result
+addiu $t0, $t0, 1				# +1
+sw $t0, 0($v0)					#Save the new value
 #Return code
 lw $ra, 8($fp)
 lw $fp, 4($fp)
-addiu $sp, $sp, 24
+addiu $sp, $sp, 28
 
 
 #### EXCEPTION AND END CODE ####

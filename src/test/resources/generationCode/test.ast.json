@@ -4,6 +4,30 @@
             "nombreMetodo": "Constructor",
             "sentencias": [
                 {
+                    "tipo": "UnaryExpression",
+                    "operador": "++",
+                    "resultadoDeTipo": "literal Int",
+                    "expresion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "j",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "UnaryExpression",
+                    "operador": "++",
+                    "resultadoDeTipo": "literal Int",
+                    "expresion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                },
+                {
                     "tipo": "Return",
                     "expresión": ""
                 }

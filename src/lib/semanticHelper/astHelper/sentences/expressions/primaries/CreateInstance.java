@@ -118,14 +118,6 @@ public class CreateInstance extends Primary{
         //Lama al metodo constructor
         asm += "jal " + this.identifier.getLexema() + "_" + "Constructor" + "\n";
 
-
-        //Guarda el puntero al CIR en el stack
-        // asm += "sw $v0, 0($sp)\t\t\t\t\t#Saves the pointer in stack\naddiu $sp, $sp, -4\n";
-        
-
-        // //llamar al constructor
-        // asm +="#Llamada a constructor\n";
-
         return asm;
     }
 }

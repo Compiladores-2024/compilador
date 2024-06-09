@@ -596,8 +596,9 @@ public class SymbolTable {
         }
     }
 
-    public int getLocalVariableOffset(String sStruct, String sMethod, String name) {
+    public int getVariableOffset(String sStruct, String sMethod, String name) {
         int offset;
+        
         //Valida si es del metodo start
         if (sStruct.equals("start")) {
             offset = start.getVariableOffset(name);

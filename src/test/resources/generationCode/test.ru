@@ -1,9 +1,13 @@
 struct A {
-    Int a;
-    Str b;
+    Int i;
+    Int j;
 }
 impl A {
-    .(Int a, Int b){}
+    .(Int a, Int b){
+        Int c;
+        (++j);
+        (++a);
+    }
 }
 
 start {

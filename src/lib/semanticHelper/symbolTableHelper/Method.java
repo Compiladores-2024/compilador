@@ -66,14 +66,15 @@ public class Method extends Metadata{
         return sizeRA;
     }
     public int getVariableOffset (String name) {
-        int offset = 4; //Memoria reservada para el retorno
+        int offset = -1; //Asume que es atributo
 
-        //Si es parametro, aumenta segun su posicion
+        //Los parametros se encuentran por debajo del $fp
         if (params.get(name) != null) {
-            offset += params.get(name).getPosition() * 4;
-        } else {
-            //Es variable, debe sumar todas las posiciones de los parametros y la respectiva en las variables
-            offset += (params.size() + variables.get(name).getPosition()) * 4;
+            offset = (params.size() - params.get(name).getPosition()) * -4;
+            
+        //Las variables se encuentran por encima del $fp
+        } else if (variables.get(name) != null){
+            offset = 16 + (variables.get(name).getPosition() * 4);
         }
 
         return offset;

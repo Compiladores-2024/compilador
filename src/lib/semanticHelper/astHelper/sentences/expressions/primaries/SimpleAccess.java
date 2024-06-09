@@ -107,8 +107,14 @@ public class SimpleAccess extends Primary{
             case idSTRUCT: // Se esta llamando a un metodo estatico, guarda la referencia a la variable
                 asm += "la $v0, " + identifier.getLexema() + "_struct_static\t\t#Assign the memory position of the label\n";
                 break;
-            case idOBJECT: //Asigna la posicion de memoria del stack
-                asm += "addiu $v0, $fp, " + symbolTable.getLocalVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+            case idOBJECT: //Asigna la posicion de memoria del stack (parametro o variable local) o un label (atributo)
+                int offset = symbolTable.getVariableOffset(sStruct, sMethod, identifier.getLexema());
+                //Si viene con -1, es atributo de clase
+                if (offset == -1) {
+                    asm += "la $v0, " + sStruct + "_attribute_" + identifier.getLexema() + "\t\t\t#Assign the memory position of the variable\n";
+                } else {
+                    asm += "addiu $v0, $fp, " + symbolTable.getVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                }
                 this.isOffset = true;
                 break;
             case pNIL:
