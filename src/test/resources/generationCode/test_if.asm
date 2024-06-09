@@ -66,6 +66,16 @@ jal IO_out_int
 endIfElse1:						#End if-else
 
 
+la $v0, IO_struct_static		#Assign the memory position of the label
+#Method access code
+lw $v0, 0($v0)					#Get the VTable reference
+lw $t0, 40($v0)					#Get the method reference
+addiu $v0, $fp, 4				#Assign the memory position of the variable
+lw $v0, 0($v0)
+sw $v0, 0($sp)
+addiu $sp, $sp, -4
+#Call method
+jal IO_out_bool
 #Return code
 j Exit
 

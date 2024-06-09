@@ -7,4 +7,6 @@ start{
     else{
         (IO.out_int(55));
     }
+    (IO.out_bool(bool));
+
 }
