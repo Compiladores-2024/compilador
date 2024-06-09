@@ -100,8 +100,10 @@ public class MethodAccess extends Primary{
      * POSEE EL NOMBRE DE LA ESTRUCTURA A LA QUE HACE REFERENCIA EN LEFTSIDE
      */
     public String generateCode(String sStruct, String sMethod){
-        String asm="#Method access code\n";
-        Method m = symbolTable.getStruct(getsLeftSide()).getMethod(identifier.getLexema());
+        String asm="#Method access code\n",
+            //Si no posee lado derecho, se llama a metodo de la misma estructura
+            leftSide = getsLeftSide().equals("") ? sStruct : getsLeftSide();
+        Method m = symbolTable.getStruct(leftSide).getMethod(identifier.getLexema());
         int position = 0;
 
         //Obtiene la referencia a la vtable

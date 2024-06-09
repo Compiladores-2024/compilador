@@ -189,49 +189,48 @@ public class SymbolTable {
         
         //AGREGA LAS VIRTUAL TABLES DE LOS STRUCTS (EXCEPTO DE LOS STRUCT PREDEFINIDOS)
         for (String sStruct : structs.keySet()) {
-            aux = "";
-            aux1 = "";
-
-            //Genera los strings con los metodos estaticos y no estaticos
-            for (String method : structs.get(sStruct).getMethods().keySet()) {
-                if (structs.get(sStruct).getMethod(method).isStatic()) {
-                    aux1 += method + ", ";
-                } else {
-                    aux += method + ", ";
-                }
-            }
-            
-            //Nombre de la estructura sin espacios
-            sStruct = sStruct.replaceAll("\\s", "");
-
-            //Elimino las comas finales y agrega los nombres de estructuras
-            if (aux.length() > 0) {
-                aux = aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
-            }
-            //Genera la vtable
-            aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux + "\n";
-
-            //Valida si debe agregar la vtable de metodos estaticos
-            if (aux1.length() > 0) {
-                aux1 = aux1.substring(0, aux1.length() - 2).replaceAll(", ", ", " + sStruct + "_");                    
-                aux += "\t" + sStruct + "_vtable_static: .word " + sStruct + "_" + aux1 + "\n";
-
-                //Agrega la variable que referencia a la vtable static
-                aux += "\t" + sStruct + "_struct_static: .word " + sStruct + "_vtable_static\n";
-            }
-
-            code += aux;
             if (!staticStruct.contains(sStruct)){
+                aux = "";
+                aux1 = "";
+    
+                //Genera los strings con los metodos estaticos y no estaticos
+                for (String method : structs.get(sStruct).getMethods().keySet()) {
+                    if (structs.get(sStruct).getMethod(method).isStatic()) {
+                        aux1 += method + ", ";
+                    } else {
+                        aux += method + ", ";
+                    }
+                }
                 
+                //Nombre de la estructura sin espacios
+                sStruct = sStruct.replaceAll("\\s", "");
+    
+                //Elimino las comas finales y agrega los nombres de estructuras
+                if (aux.length() > 0) {
+                    aux = sStruct + "_" +aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
+                }
+                //Genera la vtable
+                aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux + "\n";
+    
+                //Valida si debe agregar la vtable de metodos estaticos
+                if (aux1.length() > 0) {
+                    aux1 = aux1.substring(0, aux1.length() - 2).replaceAll(", ", ", " + sStruct + "_");                    
+                    aux += "\t" + sStruct + "_vtable_static: .word " + sStruct + "_" + aux1 + "\n";
+    
+                    //Agrega la variable que referencia a la vtable static
+                    aux += "\t" + sStruct + "_struct_static: .word " + sStruct + "_vtable_static\n";
+                }
+    
+                code += aux;
             }
         }
         
         //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
-        code += "\n#### PREDEFINED METHODS CODE ####\n.text\n";
-        code += generatePredefinedCode();
+        // code += "\n#### PREDEFINED METHODS CODE ####\n.text\n";
+        // code += generatePredefinedCode();
 
         //Reserva los datos del metodo start
-        code += "\t#Main\n\t.globl main\n\n";
+        code += "\t#Main\n\t.text\n\t.globl main\n\n";
         code += "main:\n#### MAIN DATA ####\n";
         code += start.generateCode();
 

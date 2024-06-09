@@ -1,29 +1,66 @@
 {
-    "bloquesDeA" : [
+    "start" : [
         {
-            "nombreMetodo": "Constructor",
+            "nombreMetodo": "start",
             "sentencias": [
                 {
-                    "tipo": "UnaryExpression",
-                    "operador": "++",
-                    "resultadoDeTipo": "literal Int",
-                    "expresion": {
+                    "tipo": "Asignation",
+                    "leftSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "j",
+                        "nombreVariable": "fib",
                         "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "Int",
+                        "resultadoDeTipo": "Fibonacci",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "Fibonacci",
+                        "resultadoDeTipo": "Fibonacci",
+                        "parámetros": [],
                         "encadenado": ""
                     }
                 },
                 {
-                    "tipo": "UnaryExpression",
-                    "operador": "++",
-                    "resultadoDeTipo": "literal Int",
-                    "expresion": {
+                    "tipo": "Asignation",
+                    "leftSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
+                        "nombreVariable": "n",
                         "tipoDeDato": "id variable o método",
                         "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_int",
+                            "resultadoDeTipo": "Int",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "fib",
+                    "tipoDeDato": "id variable o método",
+                    "resultadoDeTipo": "Fibonacci",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "sucesion_fib",
+                        "resultadoDeTipo": "Int",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "n",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        ],
                         "encadenado": ""
                     }
                 },
@@ -34,36 +71,46 @@
             ]
         }
     ],
-    "start" : [
+    "bloquesDeFibonacci" : [
         {
-            "nombreMetodo": "start",
+            "nombreMetodo": "imprimo_sucesion",
             "sentencias": [
                 {
-                    "tipo": "Asignation",
-                    "leftSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "A",
-                        "encadenado": ""
-                    },
-                    "rightSide": {
-                        "tipo": "CreateInstance",
-                        "identificador": "A",
-                        "resultadoDeTipo": "A",
-                        "parámetros": [
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "1",
-                                "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "literal Int",
+                                "nombreVariable": "s",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
                                 "encadenado": ""
-                            },
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_str",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "2",
-                                "tipoDeDato": "literal Int",
-                                "resultadoDeTipo": "literal Int",
+                                "nombreVariable": "\n",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
                                 "encadenado": ""
                             }
                         ],
@@ -73,6 +120,464 @@
                 {
                     "tipo": "Return",
                     "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "i",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "j",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "suma",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "imprimo_numero",
+            "sentencias": [
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_str",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "f_",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "num",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_str",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "=",
+                                "tipoDeDato": "literal Str",
+                                "resultadoDeTipo": "literal Str",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "sucesion_fib",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "i",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "j",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "suma",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "0",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Loop",
+                    "condicion": {
+                        "tipo": "BinaryExpression",
+                        "operador": "<=",
+                        "resultadoDeTipo": "Bool",
+                        "leftSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "i",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        },
+                        "rightSide": {
+                            "tipo": "SimpleAccess",
+                            "nombreVariable": "n",
+                            "tipoDeDato": "id variable o método",
+                            "resultadoDeTipo": "Int",
+                            "encadenado": ""
+                        }
+                    },
+                    "bloqueLoop": [
+{
+                            "tipo": "Conditional",
+                            "condicion": {
+                                "tipo": "BinaryExpression",
+                                "operador": "==",
+                                "resultadoDeTipo": "Bool",
+                                "leftSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "i",
+                                    "tipoDeDato": "id variable o método",
+                                    "resultadoDeTipo": "Int",
+                                    "encadenado": ""
+                                },
+                                "rightSide": {
+                                    "tipo": "SimpleAccess",
+                                    "nombreVariable": "0",
+                                    "tipoDeDato": "literal Int",
+                                    "resultadoDeTipo": "literal Int",
+                                    "encadenado": ""
+                                }
+                            },
+                            "thenBlock": [
+{
+                                    "tipo": "MethodAccess",
+                                    "nombreMetodo": "imprimo_numero",
+                                    "resultadoDeTipo": "void",
+                                    "parametros": [
+                                        {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "i",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        }
+                                    ],
+                                    "encadenado": ""
+                                },
+{
+                                    "tipo": "MethodAccess",
+                                    "nombreMetodo": "imprimo_sucesion",
+                                    "resultadoDeTipo": "void",
+                                    "parametros": [
+                                        {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "suma",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        }
+                                    ],
+                                    "encadenado": ""
+                                }
+                            ],
+                            "elseBlock": {
+                                "tipo": "Conditional",
+                                "condicion": {
+                                    "tipo": "BinaryExpression",
+                                    "operador": "==",
+                                    "resultadoDeTipo": "Bool",
+                                    "leftSide": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "i",
+                                        "tipoDeDato": "id variable o método",
+                                        "resultadoDeTipo": "Int",
+                                        "encadenado": ""
+                                    },
+                                    "rightSide": {
+                                        "tipo": "SimpleAccess",
+                                        "nombreVariable": "1",
+                                        "tipoDeDato": "literal Int",
+                                        "resultadoDeTipo": "literal Int",
+                                        "encadenado": ""
+                                    }
+                                },
+                                "thenBlock": [
+{
+                                        "tipo": "MethodAccess",
+                                        "nombreMetodo": "imprimo_numero",
+                                        "resultadoDeTipo": "void",
+                                        "parametros": [
+                                            {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "i",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        ],
+                                        "encadenado": ""
+                                    },
+{
+                                        "tipo": "Asignation",
+                                        "leftSide": {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "suma",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        },
+                                        "rightSide": {
+                                            "tipo": "BinaryExpression",
+                                            "operador": "+",
+                                            "resultadoDeTipo": "Int",
+                                            "leftSide": {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "suma",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            },
+                                            "rightSide": {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "i",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        }
+                                    },
+{
+                                        "tipo": "MethodAccess",
+                                        "nombreMetodo": "imprimo_sucesion",
+                                        "resultadoDeTipo": "void",
+                                        "parametros": [
+                                            {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "suma",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        ],
+                                        "encadenado": ""
+                                    }
+                                ],
+                                "elseBlock": [
+{
+                                        "tipo": "MethodAccess",
+                                        "nombreMetodo": "imprimo_numero",
+                                        "resultadoDeTipo": "void",
+                                        "parametros": [
+                                            {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "i",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        ],
+                                        "encadenado": ""
+                                    },
+{
+                                        "tipo": "Asignation",
+                                        "leftSide": {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "suma",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        },
+                                        "rightSide": {
+                                            "tipo": "BinaryExpression",
+                                            "operador": "+",
+                                            "resultadoDeTipo": "Int",
+                                            "leftSide": {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "suma",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            },
+                                            "rightSide": {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "j",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        }
+                                    },
+{
+                                        "tipo": "Asignation",
+                                        "leftSide": {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "j",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        },
+                                        "rightSide": {
+                                            "tipo": "SimpleAccess",
+                                            "nombreVariable": "suma",
+                                            "tipoDeDato": "id variable o método",
+                                            "resultadoDeTipo": "Int",
+                                            "encadenado": ""
+                                        }
+                                    },
+{
+                                        "tipo": "MethodAccess",
+                                        "nombreMetodo": "imprimo_sucesion",
+                                        "resultadoDeTipo": "void",
+                                        "parametros": [
+                                            {
+                                                "tipo": "SimpleAccess",
+                                                "nombreVariable": "suma",
+                                                "tipoDeDato": "id variable o método",
+                                                "resultadoDeTipo": "Int",
+                                                "encadenado": ""
+                                            }
+                                        ],
+                                        "encadenado": ""
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "tipo": "UnaryExpression",
+                    "operador": "++",
+                    "resultadoDeTipo": "literal Int",
+                    "expresion": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "i",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "suma",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
                 }
             ]
         }

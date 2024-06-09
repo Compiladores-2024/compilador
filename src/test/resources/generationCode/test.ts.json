@@ -51,55 +51,6 @@
             ]
         },
         {
-            "nombre": "A",
-            "heredaDe": "Object",
-            "constructor": [
-                {
-                    "nombre": ".",
-                    "static": "false",
-                    "retorno": "void",
-                    "posicion": 0,
-                    "parámetros": [
-                        {
-                            "nombre": "a",
-                            "tipo": "Int",
-                            "posicion": 0
-                        },
-                        {
-                            "nombre": "b",
-                            "tipo": "Int",
-                            "posicion": 1
-                        }
-                    ],
-                    "variables": [
-                        {
-                            "nombre": "c",
-                            "tipo": "Int",
-                            "public": "false",
-                            "posicion": 0
-                        }
-                    ]
-                }            
-            ],
-            "cantidadMetodos": 0,
-            "cantidadAtributos": 2,
-            "atributos": [
-                {
-                    "nombre": "i",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 0
-                },
-                {
-                    "nombre": "j",
-                    "tipo": "Int",
-                    "public": "true",
-                    "posicion": 1
-                }
-            ],
-            "métodos": []
-        },
-        {
             "nombre": "Array Int",
             "heredaDe": "Object",
             "constructor": [],
@@ -317,6 +268,94 @@
             "métodos": []
         },
         {
+            "nombre": "Fibonacci",
+            "heredaDe": "Object",
+            "constructor": [
+                {
+                    "nombre": ".",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [],
+                    "variables": []
+                }            
+            ],
+            "cantidadMetodos": 4,
+            "cantidadAtributos": 3,
+            "atributos": [
+                {
+                    "nombre": "suma",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 0
+                },
+                {
+                    "nombre": "i",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 1
+                },
+                {
+                    "nombre": "j",
+                    "tipo": "Int",
+                    "public": "true",
+                    "posicion": 2
+                }
+            ],
+            "métodos": [
+                {
+                    "nombre": "sucesion_fib",
+                    "static": "false",
+                    "retorno": "Int",
+                    "posicion": 0,
+                    "parámetros": [
+                        {
+                            "nombre": "n",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "imprimo_numero",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 1,
+                    "parámetros": [
+                        {
+                            "nombre": "num",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "imprimo_sucesion",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 2,
+                    "parámetros": [
+                        {
+                            "nombre": "s",
+                            "tipo": "Int",
+                            "posicion": 0
+                        }
+                    ],
+                    "variables": []
+                },
+                {
+                    "nombre": "start",
+                    "static": "false",
+                    "retorno": "void",
+                    "posicion": 3,
+                    "parámetros": [],
+                    "variables": []
+                }
+            ]
+        },
+        {
             "nombre": "Int",
             "heredaDe": "Object",
             "constructor": [],
@@ -352,10 +391,16 @@
         "parámetros": [],
         "variables": [
             {
-                "nombre": "a",
-                "tipo": "A",
+                "nombre": "fib",
+                "tipo": "Fibonacci",
                 "public": "false",
                 "posicion": 0
+            },
+            {
+                "nombre": "n",
+                "tipo": "Int",
+                "public": "false",
+                "posicion": 1
             }
         ]
     }

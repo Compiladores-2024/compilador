@@ -93,11 +93,11 @@ public class Method extends Metadata{
         if (!getName().equals("start")) {
             code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: $fp\n";
             space += 4;
-            code += "lw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
+            code += "sw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
             space += 4;
-            code += "lw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
+            code += "sw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
             space += 4;
-            code += "lw $sp, " + space + "($sp)\t\t\t\t\t#Self. Idx: $fp + 12\n";
+            code += "sw $sp, " + space + "($sp)\t\t\t\t\t#Self. Idx: $fp + 12\n";
             space += 4;
         }
 
