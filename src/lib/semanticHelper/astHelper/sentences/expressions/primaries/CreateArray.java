@@ -100,6 +100,14 @@ public class CreateArray extends Primary{
             tabs + "}";
     }
     
+
+    /** 
+     * Genera código intermedio para Creación de Arrays
+     * 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm="";
 

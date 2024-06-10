@@ -72,6 +72,12 @@ public class Block extends Sentence{
         return blocksString;
     }
 
+    /**
+     * Genera código intermedio para bloques
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm = "";
 

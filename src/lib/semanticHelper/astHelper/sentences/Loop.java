@@ -75,7 +75,12 @@ public class Loop extends Sentence{
             tabs + "}";
     }
 
-
+    /**
+     * Genera código intermedio para bucles while
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm="#Loop code\n";
         //Aumenta el contador de sentencias

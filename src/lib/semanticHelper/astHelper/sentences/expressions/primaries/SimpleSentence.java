@@ -59,6 +59,13 @@ public class SimpleSentence extends Primary{
         return exp.toJSON(tabs);
     }
 
+
+    /**
+     * Genera código intermedio para sentencias simples
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm = exp.generateCode(sStruct, sMethod);
         this.isOffset = exp.isOffset();

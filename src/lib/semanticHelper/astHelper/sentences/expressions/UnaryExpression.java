@@ -120,6 +120,12 @@ public class UnaryExpression extends Expression{
         tabs + "}";
     }
 
+    /**
+     * Genera código intermedio para expresiones unarias
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm="#Unary expression\n";
 

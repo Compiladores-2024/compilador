@@ -96,6 +96,12 @@ public class SentenceBlock {
         }
     }
 
+    /**
+     * Genera código intermedio para bloques de sentencias
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode (String sStruct, String sMethod) {
         String code = "";
         //Genera el codigo de las sentencias

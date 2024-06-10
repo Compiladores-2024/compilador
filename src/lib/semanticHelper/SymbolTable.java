@@ -179,6 +179,15 @@ public class SymbolTable {
         return ++this.literalStrCounter;
     }
 
+    /**
+     * Genera código intermedio inicial.
+     * Se genera el .data inicial donde se añade un string por default, un mensaje para error de division por cero.
+     * Posteriormente se añaden las vtable. 
+     * Y finalmente el main donde se incluye el codigo del start proporcionado en el codigo .ru
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode () {
         String code = ".data\n", aux = "", aux1 = "";
 
@@ -226,10 +235,6 @@ public class SymbolTable {
                 code += aux;
             }
         }
-        
-        //AGREGA EL CÓDIGO DE LOS METODOS PREDEFINIDOS
-        // code += "\n#### PREDEFINED METHODS CODE ####\n.text\n";
-        // code += generatePredefinedCode();
 
         //Reserva los datos del metodo start
         code += "\t#Main\n\t.text\n\t.globl main\n\n";
@@ -238,196 +243,6 @@ public class SymbolTable {
 
         return code;
     }
-    private String generatePredefinedCode(){
-        String initFunction, endFunctionOut, endFunctionIn;
-        
-        initFunction = "\t\tmove $fp, $sp #mueve el contenido de $sp a $fp\n"
-        + "\t\tsw $ra, 0($sp) #copia el contenido de $ra a $sp (direccion de retorno)\n"
-        + "\t\taddiu $sp, $sp, -4 #mueve el $sp 1 pos arriba\n";
-
-        endFunctionOut = "\t\tlw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)\n"            
-        + "\t\taddiu $sp $sp 12 # mueve el $sp \n"  //12 porque z=4*n + 8 (n cant de parametros=1)
-        + "\t\tlw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))\n"
-        + "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
-
-
-        endFunctionIn = "\t\tlw $ra 4($sp)  #carga un valor de la memoria en el registro $ra. El valor se carga desde la dirección de memoria que se encuentra 4 bytes por encima del puntero de pila ($sp)\n"            
-        + "\t\taddiu $sp $sp 8 # mueve el $sp \n"  //8 porque z=4*n + 8 (n cant de parametros=0)
-        + "\t\tlw $fp 0($sp)   #Esta instrucción carga un valor de la memoria en el registro $fp. El valor se carga desde la dirección de memoria que se encuentra en la parte superior de la pila (0($sp))\n"
-        + "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
-
-        //Array_Constructor
-        int space=0;
-
-        //ArrayInt_Constructor
-        String code = "\tArrayInt_Constructor:\n";
-        space=0;
-        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
-        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
-        code += "\t\tsyscall\n";
-        code += "\t\tmove $t1, $a0\t\t\t#Moves dimention a $t1\n";
-        //Guarda la referencia a la vtable (Inicio del CIR del Array)
-        code += "\t\tla $t0, ArrayInt_vtable\n";
-        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
-        space += 4;
-        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
-        //inicializar posiciones del array
-        // code += "\t\tli $t2, 0\t\t\t#Init counter\n";
-        // code += "\tloop_Array_Int_Constructor:\n";
-        // code += "\t\tbge $t2, $t1, end_loop_Array_Int_Constructor\t\t\t#branch if $t2 is greater or equal than $t1 (counter>=dimention)\n";
-        // code += "\t\tlw "
-        // code += "\t\tsw $0, " +  + "($v0)\t\t\t#Initialize int\n";
-        // code += "\t\taddi $t2, $t2, 4\t\t\t#incrementar counter\n";
-        // code += "\tend_loop_Array_Int_Constructor:\n";
-        code += "\t\tjr $ra\t\t\t# salta a la dirección almacenada en el registro $ra\n";
-
-        //ArrayStr_Constructor
-        code += "\tArrayStr_Constructor:\n";
-        space=0;
-        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
-        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
-        code += "\t\tsyscall\n";
-        //Guarda la referencia a la vtable (Inicio del CIR del Array)
-        code += "\t\tla $t0, ArrayStr_vtable\n";
-        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
-        space += 4;
-        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
-
-        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
-
-        //ArrayChar_Constructor
-        code += "\tArrayChar_Constructor:\n";
-        space=0;
-        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
-        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
-        code += "\t\tsyscall\n";
-        //Guarda la referencia a la vtable (Inicio del CIR del Array)
-        code += "\t\tla $t0, ArrayChar_vtable\n";
-        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
-        space += 4;
-        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
-
-        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
-
-        //ArrayBool_Constructor
-        code += "\tArrayBool_Constructor:\n";
-        space=0;
-        code += "\t\tli $v0, 9\t\t\t#Syscall para reservar memoria en el heap\n";
-        code += "\t\taddi $a0, $a0, 8\t\t\t#Add space para vtable y length\n"; //ya trae en $a0 la dimention desde createArray, aca se suma 8
-        code += "\t\tsyscall\n";
-        //Guarda la referencia a la vtable (Inicio del CIR del Array)
-        code += "\t\tla $t0, ArrayBool_vtable\n";
-        code += "\t\tsw $t0, " + space + "($v0)\t\t\t#Saves the vtable reference\n";
-        space += 4;
-        code += "\t\tsw $t1, " + space + "($v0)\t\t\t#Saves the dimention en el cir\n";
-
-        code += "\t\tjr $ra          # salta a la dirección almacenada en el registro $ra\n";
-
-        //Array_length
-        code += "\tArray_length:\n";
-        code += "\t\t\n";
-
-
-        // IO 
-        //METODO out str
-        code += "\tIO_out_str:\n"
-            + initFunction
-            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
-            + "\t\tli $v0, 4 #carga el valor 4 (print string) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + endFunctionOut;
-
-        //METODO  out_int
-        code += "\tIO_out_int:\n"
-            + initFunction
-            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
-            + "\t\tli $v0, 1 #carga el valor 1 (print int) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + endFunctionOut;
-
-        //METODO  out_bool
-        code += "\tIO_out_bool:\n"
-            + initFunction
-            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
-            + "\t\tli $v0, 1 #carga el valor 1 (print int) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + endFunctionOut;
-
-
-        //METODO  out_char
-        code += "\tIO_out_char:\n"
-            + initFunction
-            + "\t\tlw $a0, 8($sp) #carga un valor de la memoria en el registro $a0. El valor se carga desde la dirección de memoria que se encuentra 8 bytes por encima del puntero de pila ($sp)\n"
-            + "\t\tli $v0, 11 #carga el valor 11 (print char) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + endFunctionOut;
-
-
-        //METODO  in_str
-        code += "\tIO_in_str:\n"
-            + initFunction
-            + "\t\tli $v0, 8 #carga el valor 8 (read string) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
-            + endFunctionIn;
-
-        //METODO  in_int
-        code += "\tIO_in_int:\n"
-            + initFunction
-            + "\t\tli $v0, 5 #carga el valor 5 (read int) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
-            + endFunctionIn;
-
-        //METODO  in_bool
-        code += "\tIO_in_bool:\n"
-            + initFunction
-            + "\t\tli $v0, 5 #carga el valor 5 (read int) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
-            + endFunctionIn;
-
-        //METODO  in_char
-        code += "\tIO_in_char:\n"
-            + initFunction
-            + "\t\tli $v0, 12 #carga el valor 12 (read char) en el registro $v0\n"
-            + "\t\tsyscall #syscall\n"
-            + "\t\tmove $t1,$v0 #copies the value from register $v0 to register $t1\n"
-            + endFunctionIn;
-
-
-        //METODO  out_array_int
-        code += "\tIO_out_array_int:\n";
-
-        //METODO  out_array_str
-        code += "\tIO_out_array_str:\n";
-
-        //METODO  out_array_bool
-        code += "\tIO_out_array_bool:\n";
-        
-        //METODO  out_array_char
-        code += "\tIO_out_array_char:\n";
-
-
-        //ARRAY
-        //METODO ARRAY LENGTH
-        code += "\tArrayStr_length:\n";
-        code += "\tArrayInt_length:\n";
-        code += "\tArrayChar_length:\n";
-        code += "\tArrayBool_length:\n";
-
-
-
-        //STRING
-        //METODO STRING CONCAT
-        code += "\tStr_concat:\n";
-        
-        //METODO STRING LENGTH
-        code += "\tStr_length:\n";
-        
-
-        return code;
-    } 
 
     /** 
      * Método interno que se utiliza para agregar métodos estáticos predefinidos.
@@ -597,6 +412,12 @@ public class SymbolTable {
         }
     }
 
+    /**
+     * Obtiene el offset de la variable o parametro
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public int getVariableOffset(String sStruct, String sMethod, String name) {
         int offset;
         

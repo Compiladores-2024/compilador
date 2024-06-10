@@ -78,14 +78,15 @@ public class SimpleAccess extends Primary{
             tabs + "}";
     }
 
+
+    /**
+     * Genera código intermedio para accesos simples
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm = "";
-        // if (this.identifier.getLexema().equals("IO")){
-        //     if (this.rightChained!=null){
-        //         return asm += this.rightChained.generateCode("IO", sMethod);
-        //     }
-        // }
-        //Guarda el valor correspondiente en $v0
         switch (identifier.getIDToken()) {
             case constINT: //Asigna el lexema
                 asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant int\n";

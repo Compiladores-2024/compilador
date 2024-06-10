@@ -88,6 +88,13 @@ public class CreateInstance extends Primary{
         tabs + "}";
     }
 
+    /** 
+     * Genera código intermedio para Creación de Instancias. Aquí se reserva memoria para los Class Instance Record CIR.
+     * 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm = "#Create instance code\n";
         Struct oStruct = symbolTable.getStruct(this.identifier.getLexema());

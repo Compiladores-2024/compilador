@@ -24,7 +24,7 @@ public class GenerationCodeRunner {
      * @param args args
      */
     public static void main(String[] args) {
-        args = new String[] {"src/test/resources/generationCode/Fibonacci.ru"};
+        // args = new String[] {"src/test/resources/generationCode/Fibonacci.ru"};
         if (args.length > 0) {
             try{
                 CodeGenerator codeGenerator = new CodeGenerator(args[0]);

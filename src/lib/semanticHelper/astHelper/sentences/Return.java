@@ -92,6 +92,12 @@ public class Return extends Sentence{
             tabs + "}";
     }
 
+    /**
+     * Genera código intermedio para expresiones return
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm = "#Return code\n";
         int sizeRA = 0;

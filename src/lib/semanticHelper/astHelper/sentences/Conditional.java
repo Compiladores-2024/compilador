@@ -85,6 +85,12 @@ public class Conditional extends Sentence{
             tabs + "}";
     }
 
+    /**
+     * Genera código intermedio para condicionales
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode(String sStruct, String sMethod){
         String asm="\n#Conditional code\n";
         //Aumenta el contador de sentencias

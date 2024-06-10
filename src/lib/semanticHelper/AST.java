@@ -37,6 +37,12 @@ public class AST {
         this.blocks.get(structName).put((block.getIDBlock().equals(".") ? "Constructor" : block.getIDBlock()), block);
     }
 
+    /**
+     * Genera código intermedio para los bloques y metodos
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode (SymbolTable st) {
         String code = "#### MAIN CODE ####\n", methodsCode = "";
         //Genera el código del metodo start (MAIN)

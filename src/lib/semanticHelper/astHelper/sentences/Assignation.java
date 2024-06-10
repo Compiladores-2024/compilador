@@ -99,7 +99,11 @@ public class Assignation extends Sentence{
     }
 
     /**
+     * Genera código intermedio para asignaciones
      * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
+     * @param sStruct
+     * @param sMethod
+     * @return String
      */
     public String generateCode(String sStruct, String sMethod){
         String asm = "#Assignation code - Left side\n";

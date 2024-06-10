@@ -145,9 +145,12 @@ public class BinaryExpression extends Expression{
         tabs + "}";
     }
 
-
     /**
-     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
+     * Genera código intermedio para expresiones binarias
+     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO.
+     * @param sStruct
+     * @param sMethod
+     * @return String
      */
     public String generateCode(String sStruct, String sMethod){
         String asm="#Binary expression code - Left side\n";

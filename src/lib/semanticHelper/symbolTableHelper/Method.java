@@ -80,6 +80,12 @@ public class Method extends Metadata{
         return offset;
     }
 
+    /**
+     * Genera código intermedio para métodos. Aqui se crean registros de activacion RA. 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode () {
         int space = 0;
         String code = "";
