@@ -4,25 +4,16 @@ struct Fibonacci {
 }
 impl Fibonacci {
     fn sucesion_fib(Int n)-> Int{
-        i=0; j=0; suma=0;
-        while (i<= n){
-            if (i==0){
-                (imprimo_numero(i));
-                (imprimo_sucesion(suma));
-            }
-            else if(i==1){
-                (imprimo_numero(i));
-                suma=suma+i;
-                (imprimo_sucesion(suma));
-            }
-            else{
-                (imprimo_numero(i));
-                suma=suma+j;
-                j=suma;
-                (imprimo_sucesion(suma));
-            }
+        Int count;
+        i=0; j=1; suma=0; count = 0;
+        while (count <= n){
+            (imprimo_numero(count));
+            (imprimo_sucesion(i));
+            suma = i + j;
+            i = j;
+            j = suma;
+            count = count + 1;
         }
-        (++i);
         ret suma;
     }
     .(){
