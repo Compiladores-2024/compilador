@@ -2,20 +2,24 @@
 	default_string: .asciiz ""
 	division0: .asciiz "ERROR: DIVISION POR CERO" 
 	#Main
-.text
+	.text
 	.globl main
 
 main:
 #### MAIN DATA ####
 la $t0, default_string			#For init strings
 #### RA (params are in the stack) ####
-sw $0, 16($sp)					#Local variable i. Idx: $fp + 16 + (0 * 4)
+sw $0, 0($sp)					#Return. Idx: $fp
+sw $fp, -4($sp)					#RA caller. Idx: $fp + 4
+sw $ra, -8($sp)					#Resume pointer. Idx: $fp + 8
+sw $sp, -12($sp)				#Self. Idx: $fp + 12
+sw $0, -16($sp)					#Local variable i. Idx: $fp + 16 + (0 * 4)
 ######################################
 move $fp, $sp					#Set the new $fp.
-addiu $sp, $sp, -4				#Update sp
+addiu $sp, $sp, -20				#Update sp
 #### MAIN CODE ####
 #Assignation code - Left side
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, -16				#Assign the memory position of the variable
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
 #Assignation code - Right side
@@ -27,7 +31,7 @@ addiu $sp, $sp, 4				#End Assignation
 #Loop code
 while1:
 #Binary expression code - Left side
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, -16				#Assign the memory position of the variable
 lw $v0, 0($v0)					#Get the left value
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
@@ -39,12 +43,12 @@ slt $v0, $t0, $v0 				# $v0 = $t0 < $v0
 addiu $sp, $sp, 4				#End Binary expression
 bne $v0, 1, endWhile1				#Conditional: $v0 != 1, jumps to endWhile
 #Assignation code - Left side
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, -16				#Assign the memory position of the variable
 sw $v0, 0($sp)
 addiu $sp, $sp, -4
 #Assignation code - Right side
 #Unary expression
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, -16				#Assign the memory position of the variable
 lw $t0, 0($v0)					#Get the expression result
 addiu $t0, $t0, 1				# +1
 sw $t0, 0($v0)					#Save the new value
@@ -59,7 +63,7 @@ la $v0, IO_struct_static		#Assign the memory position of the label
 #Method access code
 lw $v0, 0($v0)					#Get the VTable reference
 lw $t0, 24($v0)					#Get the method reference
-addiu $v0, $fp, 4				#Assign the memory position of the variable
+addiu $v0, $fp, -16				#Assign the memory position of the variable
 lw $v0, 0($v0)
 sw $v0, 0($sp)
 addiu $sp, $sp, -4

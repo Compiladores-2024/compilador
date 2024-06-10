@@ -67,6 +67,50 @@
                     }
                 },
                 {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "str",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Str",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_str",
+                            "resultadoDeTipo": "Str",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_str",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "str",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Str",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
                     "tipo": "SimpleAccess",
                     "nombreVariable": "IO",
                     "tipoDeDato": "IO",
@@ -105,23 +149,6 @@
                                 "encadenado": ""
                             }
                         ],
-                        "encadenado": ""
-                    }
-                },
-                {
-                    "tipo": "Asignation",
-                    "leftSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "str",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "Str",
-                        "encadenado": ""
-                    },
-                    "rightSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "a",
-                        "tipoDeDato": "literal Str",
-                        "resultadoDeTipo": "literal Str",
                         "encadenado": ""
                     }
                 },
@@ -195,10 +222,16 @@
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "true",
-                        "tipoDeDato": "true",
-                        "resultadoDeTipo": "Bool",
-                        "encadenado": ""
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_bool",
+                            "resultadoDeTipo": "Bool",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
                     }
                 },
                 {
@@ -233,10 +266,16 @@
                     },
                     "rightSide": {
                         "tipo": "SimpleAccess",
-                        "nombreVariable": "44",
-                        "tipoDeDato": "literal Int",
-                        "resultadoDeTipo": "literal Int",
-                        "encadenado": ""
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_int",
+                            "resultadoDeTipo": "Int",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
                     }
                 },
                 {
@@ -261,20 +300,43 @@
                     }
                 },
                 {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "chr",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Char",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "IO",
+                        "tipoDeDato": "IO",
+                        "resultadoDeTipo": "IO",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "in_char",
+                            "resultadoDeTipo": "Char",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
                     "tipo": "SimpleAccess",
                     "nombreVariable": "IO",
                     "tipoDeDato": "IO",
                     "resultadoDeTipo": "IO",
                     "encadenado": {
                         "tipo": "MethodAccess",
-                        "nombreMetodo": "out_str",
+                        "nombreMetodo": "out_char",
                         "resultadoDeTipo": "void",
                         "parametros": [
                             {
                                 "tipo": "SimpleAccess",
-                                "nombreVariable": "str",
+                                "nombreVariable": "chr",
                                 "tipoDeDato": "id variable o método",
-                                "resultadoDeTipo": "Str",
+                                "resultadoDeTipo": "Char",
                                 "encadenado": ""
                             }
                         ],

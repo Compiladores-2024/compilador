@@ -3,33 +3,18 @@
         {
             "nombreMetodo": "m1",
             "sentencias": [
-                {}
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
             ]
         },
         {
             "nombreMetodo": "Constructor",
             "sentencias": [
                 {
-                    "tipo": "Asignation",
-                    "leftSide": {
-                        "tipo": "SimpleAccess",
-                        "nombreVariable": "j",
-                        "tipoDeDato": "id variable o método",
-                        "resultadoDeTipo": "Array Int",
-                        "encadenado": ""
-                    },
-                    "rightSide": {
-                        "tipo": "CreateArray",
-                        "tipoArray": "Int",
-                        "resultadoDeTipo": "Array Int",
-                        "dimension": {
-                            "tipo": "SimpleAccess",
-                            "nombreVariable": "5",
-                            "tipoDeDato": "literal Int",
-                            "resultadoDeTipo": "literal Int",
-                            "encadenado": ""
-                        }
-                    }
+                    "tipo": "Return",
+                    "expresión": ""
                 }
             ]
         }
@@ -69,6 +54,10 @@
                         ],
                         "encadenado": ""
                     }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
                 }
             ]
         }
