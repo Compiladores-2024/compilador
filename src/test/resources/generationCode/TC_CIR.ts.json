@@ -361,7 +361,7 @@
         "parámetros": [],
         "variables": [
             {
-                "nombre": "num23",
+                "nombre": "num",
                 "tipo": "Int",
                 "public": "false",
                 "posicion": 0

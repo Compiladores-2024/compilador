@@ -2,6 +2,7 @@ package src.lib.semanticHelper;
 
 import java.util.ArrayList;
 
+import src.lib.Static;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Param;
@@ -33,6 +34,14 @@ public class SemanticManager {
         ast = new AST();
     }
 
+    /**
+     * Deriva la generacion de código intermedio a symbolTable, ast.
+     * Añade codigo para generar errores de division por cero, codigo para Exit (finalizacion del código).
+     * Y finalmente añade los métodos predefinidos.
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
     public String generateCode () {
         //Genera la definicion de datos
         String code = symbolTable.generateCode();
@@ -54,7 +63,8 @@ public class SemanticManager {
         code += "\tsyscall\n";
 
         //incluir utils.asm
-        code += ".include \"utils.asm\"";
+        // code += ".include \"utils.asm\"";
+        code += Static.generatePredefinedMethods();
         
         return code;
     }
