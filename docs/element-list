@@ -9,5 +9,3 @@ src.lib.semanticHelper.astHelper.sentences.expressions.primaries
 src.lib.semanticHelper.symbolTableHelper
 src.lib.syntaxHelper
 src.lib.tokenHelper
-src.main
-src.run
