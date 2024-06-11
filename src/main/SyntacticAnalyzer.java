@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import src.lib.exceptionHelper.LexicalException;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.exceptionHelper.SyntacticException;
+import src.lib.semanticHelper.AST;
 import src.lib.semanticHelper.SemanticManager;
+import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.astHelper.sentences.Assignation;
 import src.lib.semanticHelper.astHelper.sentences.Block;
@@ -63,7 +65,7 @@ public class SyntacticAnalyzer {
      * @throws SyntacticException Error sintáctico
      * @throws SemanticException Error semántico
      */
-    public void run () throws LexicalException, SyntacticException, SemanticException{
+    public String run () throws LexicalException, SyntacticException, SemanticException{
         //Obtiene el token inicial
         currentToken = lexicalAnalyzer.nextToken();
 
@@ -75,6 +77,9 @@ public class SyntacticAnalyzer {
 
         //Si el análisis no retorna error, ha sido correcto y consolida la tabla de símbolos y el ast
         semanticManager.consolidate();
+
+        //Genera el codigo y lo retorna 
+        return semanticManager.generateCode();
     }
 
     /**
@@ -1579,6 +1584,15 @@ public class SyntacticAnalyzer {
             exp = expMulP(exp);
         }
         return exp;
+    }
+
+
+    public SymbolTable getSymbolTable(){
+        return semanticManager.getSymbolTable();
+    }
+
+    public AST getAST(){
+        return semanticManager.getAST();
     }
 
     /** 

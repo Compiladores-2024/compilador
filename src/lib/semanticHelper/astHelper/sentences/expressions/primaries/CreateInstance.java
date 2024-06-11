@@ -55,6 +55,9 @@ public class CreateInstance extends Primary{
         if (rightChained != null) {
             rightChained.consolidate(st, struct, method, this);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -85,4 +88,47 @@ public class CreateInstance extends Primary{
         tabs + "}";
     }
 
+    /** 
+     * Genera código intermedio para Creación de Instancias. Aquí se reserva memoria para los Class Instance Record CIR.
+     * 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = "#Create instance code\n";
+        Struct oStruct = symbolTable.getStruct(this.identifier.getLexema());
+        int attributesCount = oStruct.getVariables().size();
+
+        //Avisa que posee al menos una creacion (Para reservar memoria)
+        oStruct.setHasCreate();
+
+        //Reserva memoria para el struct
+        asm += "li $v0, 9\t\t\t\t\t\t#Reserve memory for the CIR\n";
+        asm += "li $a0, " + (4 + (attributesCount * 4) ) +"\n"; //4 por vtable + cant de atributos
+        asm += "syscall\t\t\t\t\t\t\t#$v0 contains address of allocated memory\n";
+        
+        //Guarda la referencia a la vtable (Inicio del CIR)
+        asm += "la $t0, " + this.getIdentifier().getLexema()+"_vtable\t\t#Saves the vtable reference\n";
+        asm += "sw $t0, 0($v0)\nsw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
+        
+        //Reserva memoria para los atributos
+        // for (String variable : symbolTable.getStruct(this.identifier.getLexema()).getVariables().keySet()) {
+        //     Variable var = symbolTable.getStruct(this.identifier.getLexema()).getVariables().get(variable);
+        //     asm += Static.initCirData(var.getTypeToken().getIDToken(), space + (var.getPosition() * 4)) + "\t\t\t\t\t#Reserve attribute memory\n";
+        //     space += 4;
+        // }
+
+        //Calcula los parametros
+        asm += "#Call constructor\n";
+        for (int i = 0; i < this.params.size(); i++) {
+            asm += params.get(i).generateCode(sStruct, sMethod);
+            asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
+        }
+
+        //Lama al metodo constructor
+        asm += "jal " + this.identifier.getLexema() + "_Constructor\nlw $v0, 4($sp)\naddiu $sp, $sp, 4\n";
+
+        return asm;
+    }
 }

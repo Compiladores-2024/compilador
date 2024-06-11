@@ -73,6 +73,9 @@ public class Return extends Sentence{
                 }
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -87,6 +90,38 @@ public class Return extends Sentence{
             tabs + "    \"tipo\": \"" + "Return" + "\",\n" +
             tabs + "    \"expresión\": " + (expression != null ? expression.toJSON(tabs + "    ") : "\"\"") + "\n" +
             tabs + "}";
+    }
+
+    /**
+     * Genera código intermedio para expresiones return
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = "#Return code\n";
+        int sizeRA = 0;
+
+        //Valida si posee expresion
+        if (expression != null) {
+            //Obtiene el resultado de la expresion en el registro $v0
+            asm += expression.generateCode(sStruct, sMethod);
+        }
+
+        //Si es el metodo start, salta al final del programa. Sino libera memoria
+        if (sStruct.equals("start")) {
+            asm += "j Exit\n";
+        } else {
+            //Obtiene el tamaño del RA
+            sizeRA = symbolTable.getStruct(sStruct).getMethod(sMethod).getSizeRA();
+
+            //$ra: Tendra la posicion donde seguir ejecutando codigo 8($fp)
+            //$fp: Apuntara nuevamente al llamador 4($fp)
+            //Libera el espacio ocupado por el RA y regresea a la ejecicon anterior
+            asm += "lw $ra, -8($fp)\nlw $fp, -4($fp)\naddiu $sp, $sp, " + sizeRA + "\njr $ra\n";
+        }
+
+        return asm;
     }
 
 }

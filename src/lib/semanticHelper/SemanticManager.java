@@ -2,6 +2,7 @@ package src.lib.semanticHelper;
 
 import java.util.ArrayList;
 
+import src.lib.Static;
 import src.lib.semanticHelper.astHelper.SentenceBlock;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Param;
@@ -33,6 +34,40 @@ public class SemanticManager {
         ast = new AST();
     }
 
+    /**
+     * Deriva la generacion de código intermedio a symbolTable, ast.
+     * Añade codigo para generar errores de division por cero, codigo para Exit (finalizacion del código).
+     * Y finalmente añade los métodos predefinidos.
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode () {
+        //Genera la definicion de datos
+        String code = symbolTable.generateCode();
+        
+        //Genera el código del programa
+        code += ast.generateCode(symbolTable) + "\n#### EXCEPTION AND END CODE ####\n";
+        
+        //Codigo para generar error division por cero
+        code += ".text\n";
+        code += "ErrorDiv0:\n";
+        code += "\tli $v0, 4" + "\n";
+        code += "\tla $a0, division0" +"\n";
+        code += "\tsyscall"+ "\n";
+        code += "\tli $v0, 10" + "\n";
+        code += "\tsyscall" + "\n";
+        //exit
+        code += "Exit:\n";
+        code += "\tli $v0, 10\n"; //10 es exit syscall
+        code += "\tsyscall\n";
+
+        //incluir utils.asm
+        // code += ".include \"utils.asm\"";
+        code += Static.generatePredefinedMethods();
+        
+        return code;
+    }
     
     /**
      * Método que agrega una estructura a la tabla de símbolos.<br/>
@@ -126,5 +161,13 @@ public class SemanticManager {
         generacionIntermedias.add(symbolTable.toJSON());
         generacionIntermedias.add(ast.toJSON("    "));
         return generacionIntermedias;
+    }
+
+    public SymbolTable getSymbolTable(){
+        return this.symbolTable;
+    }
+
+    public AST getAST(){
+        return this.ast;
     }
 }

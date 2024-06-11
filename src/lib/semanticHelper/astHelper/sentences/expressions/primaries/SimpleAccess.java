@@ -56,6 +56,9 @@ public class SimpleAccess extends Primary{
         if (rightChained != null) {
             rightChained.consolidate(st, struct, method, this);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -74,4 +77,66 @@ public class SimpleAccess extends Primary{
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
             tabs + "}";
     }
+
+
+    /**
+     * Genera código intermedio para accesos simples
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = "";
+        switch (identifier.getIDToken()) {
+            case constINT: //Asigna el lexema
+                asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t\t#Assign constant int\n";
+                break;
+            case constSTR:
+                //definir el literal str en .data
+                asm += ".data\t\t\t\t\t\t\t#Assign constant string\n";
+                int countLiteralStr = symbolTable.addLiteralStrCount();
+                asm += "\tliteral_str_" + countLiteralStr + ":" + " .asciiz " + identifier.getLexema() + "\n";
+                //sigue .text
+                asm += ".text\n";
+                //asigna a $v0 el literal_str creado
+                asm += "la $v0, " +"literal_str_" + countLiteralStr + "\n";
+                break;
+            case constCHAR:
+                asm += "li $v0, " + identifier.getLexema() + "\t\t\t\t\t#Assign constant char\n";
+                break;
+            case spIO:
+            case idSTRUCT: // Se esta llamando a un metodo estatico, guarda la referencia a la variable
+                asm += "la $v0, " + identifier.getLexema() + "_struct_static\t\t#Assign the memory position of the label\n";
+                break;
+            case idOBJECT: //Asigna la posicion de memoria del stack (parametro o variable local) o un label (atributo)
+                int offset = symbolTable.getVariableOffset(sStruct, sMethod, identifier.getLexema());
+                //Si viene con -1, es atributo de clase
+                if (offset == -1) {
+                    asm += "la $v0, " + sStruct + "_attribute_" + identifier.getLexema() + "\t\t\t#Assign the memory position of the variable\n";
+                } else {
+                    asm += "addiu $v0, $fp, " + symbolTable.getVariableOffset(sStruct, sMethod, identifier.getLexema()) + "\t\t\t\t#Assign the memory position of the variable\n";
+                }
+                this.isOffset = true;
+                break;
+            case pNIL:
+            case pFALSE: //Asigna 0
+                asm += "li $v0, 0\t\t\t\t\t\t#Assign False or Nil (0)\n";
+                break;
+            case pTRUE: //Asigna 1
+                asm += "li $v0, 1\t\t\t\t\t\t#Assign True (1)\n";
+                break;
+            default:
+                break;
+        }
+
+        if (rightChained != null) {
+            //Avisa que es lado derecho
+            rightChained.setLeftSide(getResultType());
+
+            //Genera el codigo
+            asm += rightChained.generateCode(sStruct, sMethod);
+        }
+        return asm;
+    }
+
 }

@@ -60,6 +60,9 @@ public class MethodAccess extends Primary{
         if (rightChained != null) {
             rightChained.consolidate(st, struct, method, this);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -89,5 +92,51 @@ public class MethodAccess extends Primary{
             tabs + "    \"parametros\": " +  (paramsJSON == "" ? ("\"\"") : paramsJSON) + ",\n" +
             tabs + "    \"encadenado\": "  + (rightChained == null ? ("\"\"")  : rightChained.toJSON(tabs + "    ")) + "\n" +
         tabs + "}";
+    }
+
+    /**
+     * Genera código intermedio para Creación de Instancias
+     * SIEMPRE VA A SER LADO DERECHO
+     * POSEE LA REFERENCIA A LA VARIABLE EN $v0
+     * POSEE EL NOMBRE DE LA ESTRUCTURA A LA QUE HACE REFERENCIA EN LEFTSIDE
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="#Method access code\n",
+            //Si no posee lado derecho, se llama a metodo de la misma estructura
+            leftSide = getsLeftSide().equals("") ? sStruct : getsLeftSide();
+        Method m = symbolTable.getStruct(leftSide).getMethod(identifier.getLexema());
+        int position = 0;
+
+        //Si no posee leftside obtiene la direccion de memoria de la vtable directamente. Es self
+        if (getsLeftSide().equals("")) {
+            asm += "la $v0, " + leftSide + "_vtable\t\t\t\t\t#Get the VTable reference\n";
+        //Obtiene la referencia a la vtable. $v0 apunta a la variable
+        } else {
+            asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the VTable reference\n";
+        }
+
+        //$v0 ahora posee la direccion de memoria de la vtable
+
+        //Valida si es metodo estatico o no para calcular el offset. Tiene en cuenta el constructor
+        position = m.getPosition() + (m.isStatic() ? 0 : 1);
+        
+        //Obtiene la posicion del metodo en la vtable. Index: (Position + 1) * 4. Porque el constructor esta primero
+        asm += "lw $t0, " + (position * 4) + "($v0)\t\t\t\t\t#Get the method reference\n";
+        
+        //Calcula los parametros
+        for (Expression expression : params) {
+            asm += expression.generateCode(sStruct, sMethod);
+            if (expression.isOffset()){
+                asm += "lw $v0, 0($v0)\n";
+            }
+            asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
+        }
+
+        //Realiza la llamada al metodo
+        asm += "#Call method\njal " + leftSide + "_" + identifier.getLexema() + "\n";
+
+
+        return asm;
     }
 }

@@ -77,6 +77,9 @@ public class BinaryExpression extends Expression{
         checkOperation(leftSide.getResultTypeChained());
 
         setResultType(getType(leftSide.getResultTypeChained()));
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -142,4 +145,89 @@ public class BinaryExpression extends Expression{
         tabs + "}";
     }
 
+    /**
+     * Genera código intermedio para expresiones binarias
+     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO.
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="#Binary expression code - Left side\n";
+
+        //Obtiene el valor del lado izquierdo en el registro $v0
+        asm += leftSide.generateCode(sStruct, sMethod);
+        //Si es offset, obtiene el valor
+        if (leftSide.isOffset()) {
+            asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the left value\n";
+        }
+        //Guarda el valor en la pila
+        asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n";
+
+        
+        asm += "#Binary expression - Right side\n";
+        //Obtiene el valor del lado derecho en el registro $v0
+        asm += rightSide.generateCode(sStruct, sMethod) + "#Binary expression - Result\n";
+        //Si es offset, obtiene el valor
+        if (rightSide.isOffset()) {
+            asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the right value\n";
+        }
+
+        //Obtiene el resultado del lado izquierdo
+        asm += "lw $t0, 4($sp)\n";
+        
+        //Realiza la operacion y guarda el resultado en $v0
+        switch (operator){
+            case oSUM:
+                asm += "addu $v0, $t0, $v0\t\t\t\t# $v0 = $t0 + $v0\n";
+                break;
+            case oSUB:
+                asm += "subu $v0, $t0, $v0\t\t\t\t# $v0 = $t0 - $v0\n";
+                break;
+            case oMULT:
+                asm += "mul $v0, $t0, $v0\t\t\t\t# $v0 = $t0 * $v0\n";
+                break;
+            case oDIV:
+                //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "beq $v0, $0, ErrorDiv0 \n";
+                asm += "div $t0, $v0\t\t\t\t\t# $v0 = $t0 / $v0. The quotient saves in LO register\n";
+                asm += "mflo $v0\n";
+                break;
+            case oMOD:
+                //CAPTURAR ERROR SI RIGHTSIDE ES 0
+                asm += "beq $v0, $0, ErrorDiv0 \n";
+                asm += "div $t0, $v0\t\t\t\t# $v0 = $t0 / $v0. The remainder saves in HI register\n";
+                asm += "mfhi $v0\n";
+                break;
+            case oAND: 
+                asm += "and $v0, $t0, $v0\t\t\t\t# $v0 = $t0 && $v0\n";
+                break;
+            case oOR:
+                asm += "or $v0, $t0, $v0\t\t\t\t# $v0 = $t0 || $v0\n";
+                break;
+            case oMIN:
+                asm += "slt $v0, $t0, $v0 \t\t\t\t# $v0 = $t0 < $v0\n";
+                break;
+            case oMIN_EQ:
+                asm += "sle $v0, $t0, $v0\t\t\t\t# $v0 = $t0 <= $v0\n";
+                break;
+            case oMAX:
+                asm += "sgt $v0, $t0, $v0 \t\t\t\t# $v0 = $t0 > $v0\n";
+                break;
+            case oMAX_EQ:
+                asm += "sge $v0, $t0, $v0\t\t\t\t# $v0 = $t0 >= $v0\n";
+                break;
+            case oEQUAL:
+                asm += "seq $v0, $t0, $v0\t\t\t\t# $v0 = $t0 == $v0\n";
+                break;
+            case oNOT_EQ:
+                asm += "sne $v0, $t0, $v0\t\t\t\t# $v0 = $t0 != $v0\n";
+                break;
+            default:
+                break;
+            }
+        //Libera memoria
+        asm += "addiu $sp, $sp, 4\t\t\t\t#End Binary expression\n";
+        return asm;
+    }
 }

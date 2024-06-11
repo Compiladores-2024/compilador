@@ -16,6 +16,8 @@ import src.lib.tokenHelper.Token;
 public abstract class Sentence {
     /** Identificador de la sentencia */
     protected Token identifier;
+    /** Referencia a tabla de simbolos*/
+    protected SymbolTable symbolTable;
     
     /** 
      * Constructor de la clase
@@ -24,6 +26,10 @@ public abstract class Sentence {
      */
     public Sentence(Token token){
         this.identifier = token;
+    }
+
+    public void setSymbolTable(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
     }
 
     
@@ -54,4 +60,11 @@ public abstract class Sentence {
      */
     public abstract void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression);
     
+    /**
+     * Genera código intermedio para sentencias
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public abstract String generateCode(String sStruct, String sMethod);
 }

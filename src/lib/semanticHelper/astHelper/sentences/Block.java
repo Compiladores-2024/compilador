@@ -45,6 +45,9 @@ public class Block extends Sentence{
                 sentence.consolidate(st, struct, method, null);
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
     
     
@@ -67,5 +70,20 @@ public class Block extends Sentence{
             blocksString += tabs + "]";
         }
         return blocksString;
+    }
+
+    /**
+     * Genera código intermedio para bloques
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = "";
+
+        for (Sentence sentence : sentenceList) {
+            asm += sentence.generateCode(sStruct, sMethod);
+        }
+        return asm;
     }
 }

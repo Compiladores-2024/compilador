@@ -97,4 +97,18 @@ public class Const {
         add("literal Char");
         add("literal Bool");
     }};
+
+    /** Hash que guarda las estructuras predefinidias*/
+    public static final HashSet<String> predefinedStructs = new HashSet<String>(){{
+        add("IO");
+        add("Object");
+        add("Char");
+        add("Bool");
+        add("Int");
+        add("Str");
+        add("Array Char");
+        add("Array Bool");
+        add("Array Int");
+        add("Array Str");
+    }};
 }

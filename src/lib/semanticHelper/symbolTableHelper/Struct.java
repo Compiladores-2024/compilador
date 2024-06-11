@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.IDToken;
 import src.lib.tokenHelper.Token;
@@ -22,7 +23,7 @@ public class Struct extends Metadata {
     private HashMap<String, Variable> variables;
     private HashMap<String, Method> methods;
     private HashMap<String, Struct> childrens;
-    private Boolean consolidated;
+    private Boolean consolidated, hasCreate;
 
     /**
      * Constructor de la clase.
@@ -48,6 +49,7 @@ public class Struct extends Metadata {
         countImplDefinition = 0;
         
         consolidated=false;
+        hasCreate=false;
         
         this.parent = parent;
         //Le avisa al padre que lo tiene como hijo
@@ -76,6 +78,12 @@ public class Struct extends Metadata {
 
         //Asigna al nuevo padre
         this.parent = parent;
+    }
+    public Boolean hasCreate() {
+        return hasCreate;
+    }
+    public void setHasCreate() {
+        this.hasCreate = true;
     }
 
     /** 
@@ -135,6 +143,21 @@ public class Struct extends Metadata {
             return constructor;
         }
         return methods.get(name);
+    }
+
+    public String generateCode () {
+        //Genera las etiquetas para los atributos
+        String code = "";
+
+        //Valida si tendra seccion de datos
+        if (variables.size() > 0) {
+            //Recorre las variables
+            for (String variable : variables.keySet()) {
+                code += "\t" + getName() + "_attribute_" + variable + Static.getCodeDataType(variables.get(variable).getTypeToken().getIDToken());
+            }
+        }
+
+        return code;
     }
 
 
@@ -396,6 +419,14 @@ public class Struct extends Metadata {
                 children.consolidate(staticStructs);
             }
         }
+    }
+
+    public HashMap<String, Method> getMethods(){
+        return this.methods;
+    }
+
+    public HashMap<String, Variable> getVariables(){
+        return this.variables;
     }
 
     /**

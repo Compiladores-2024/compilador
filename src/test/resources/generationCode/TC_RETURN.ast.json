@@ -1,0 +1,127 @@
+{
+    "bloquesDeA" : [
+        {
+            "nombreMetodo": "m1",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "10",
+                        "tipoDeDato": "literal Int",
+                        "resultadoDeTipo": "literal Int",
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "v1",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    }
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "m2",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        },
+        {
+            "nombreMetodo": "Constructor",
+            "sentencias": [
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        }
+    ],
+    "start" : [
+        {
+            "nombreMetodo": "start",
+            "sentencias": [
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "CreateInstance",
+                        "identificador": "A",
+                        "resultadoDeTipo": "A",
+                        "parámetros": [],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Asignation",
+                    "leftSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "num",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "Int",
+                        "encadenado": ""
+                    },
+                    "rightSide": {
+                        "tipo": "SimpleAccess",
+                        "nombreVariable": "a",
+                        "tipoDeDato": "id variable o método",
+                        "resultadoDeTipo": "A",
+                        "encadenado": {
+                            "tipo": "MethodAccess",
+                            "nombreMetodo": "m1",
+                            "resultadoDeTipo": "Int",
+                            "parametros": [],
+                            "encadenado": ""
+                        }
+                    }
+                },
+                {
+                    "tipo": "SimpleAccess",
+                    "nombreVariable": "IO",
+                    "tipoDeDato": "IO",
+                    "resultadoDeTipo": "IO",
+                    "encadenado": {
+                        "tipo": "MethodAccess",
+                        "nombreMetodo": "out_int",
+                        "resultadoDeTipo": "void",
+                        "parametros": [
+                            {
+                                "tipo": "SimpleAccess",
+                                "nombreVariable": "num",
+                                "tipoDeDato": "id variable o método",
+                                "resultadoDeTipo": "Int",
+                                "encadenado": ""
+                            }
+                        ],
+                        "encadenado": ""
+                    }
+                },
+                {
+                    "tipo": "Return",
+                    "expresión": ""
+                }
+            ]
+        }
+    ]
+
+}

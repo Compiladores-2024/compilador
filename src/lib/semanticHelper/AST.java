@@ -23,7 +23,6 @@ public class AST {
         this.blocks = new HashMap<String, HashMap<String, SentenceBlock>>();
     }
 
-    
     /** 
      * Agrega un bloque al AST.
      * @param currentStruct Estructura actual.
@@ -38,7 +37,46 @@ public class AST {
         this.blocks.get(structName).put((block.getIDBlock().equals(".") ? "Constructor" : block.getIDBlock()), block);
     }
 
+    /**
+     * Genera código intermedio para los bloques y metodos
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode (SymbolTable st) {
+        String code = "#### MAIN CODE ####\n", methodsCode = "";
+        //Genera el código del metodo start (MAIN)
+        code += this.blocks.get("start").get("start").generateCode("start", "start") + "\n\n#### CUSTOM METHODS CODE ####\n";
+        
+        //Recorre las estructuras
+        for (String sStruct : this.blocks.keySet()) {
+            //Valida que no sea el metodo start
+            if (!sStruct.equals("start")) {
+                //Recorre los metodos de esa estructura
+                for (String sMethod : this.blocks.get(sStruct).keySet()) {
+                    //Genera el codigo correspondiente
+                    methodsCode += sStruct + "_" + sMethod + ":\n" +
+                        //Reserva memoria para las variables locales
+                        ".text\n#### METHOD DATA ####\n" + st.getStruct(sStruct).getMethod(sMethod).generateCode() + "#### METHOD CODE ####\n" +
+                        //Codigo del programa
+                        this.blocks.get(sStruct).get(sMethod).generateCode(sStruct, sMethod) + "\n\n";
+                }
+            }
+        }
 
+        //Reserva memoria para los atributos de estructuras que se utilizan
+        if (methodsCode.length() > 0) {
+            code += ".data\n";
+            for (String sStruct : st.getStructs().keySet()) {
+                if (st.getStruct(sStruct).hasCreate()) {
+                    code += st.getStruct(sStruct).generateCode();
+                }
+            }
+            code += ".text\n" + methodsCode;
+        }
+
+        return code;
+    }
     
     /** 
      * Método que consolida el arbol sintáctico abstracto.

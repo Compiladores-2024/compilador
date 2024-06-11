@@ -1,8 +1,8 @@
 package src.lib.semanticHelper.symbolTableHelper;
 
-import java.util.Collection;
 import java.util.HashMap;
 
+import src.lib.Static;
 import src.lib.tokenHelper.Token;
 
 /**
@@ -65,20 +65,6 @@ public abstract class Metadata {
         return metadata;
     }
 
-    /**
-     * Ordena una estructura dada
-     * @param entity Estructura a ordenar
-     * @return Arreglo con elementos ordenados
-     */
-    @SuppressWarnings("unchecked")
-    public String [] order (HashMap<String, ?> entity) {
-        String[] result = new String[entity.size()];
-        for (Metadata object : (Collection<Metadata>)entity.values()) {
-            result[object.getPosition()] = object.getName();
-        }
-        return result;
-    }
-
     
     /** 
      * Método que genera el JSON de una entidad dada.
@@ -92,7 +78,7 @@ public abstract class Metadata {
         String JSON = count > 0 ? "\n" : "";
 
         //Genera el json de params
-        for (String name : order(entity)) {
+        for (String name : Static.order(entity)) {
             JSON += ((Metadata)entity.get(name)).toJSON(tabs + "        ") + (count > 1 ? "," : "") + "\n";
             count--;
         }

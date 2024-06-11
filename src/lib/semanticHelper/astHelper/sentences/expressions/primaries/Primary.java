@@ -17,7 +17,8 @@ import src.lib.tokenHelper.Token;
  * @since 17/05/2024
  */
 public abstract class Primary extends Expression{
-    
+    private String sLeftSide;
+
     /**
      * Constructor de la clase.
      * @param identifier Identificador
@@ -26,6 +27,15 @@ public abstract class Primary extends Expression{
     public Primary(Token identifier, Primary rightChained) {
         super(identifier);
         this.rightChained = rightChained;
+        this.sLeftSide = "";
+    }
+
+
+    public void setLeftSide(String sStruct) {
+        this.sLeftSide = sStruct;
+    }
+    public String getsLeftSide() {
+        return sLeftSide;
     }
 
     
@@ -110,6 +120,9 @@ public abstract class Primary extends Expression{
 
         //Setea el tipo de resultado
         setResultType(type);
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     

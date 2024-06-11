@@ -63,6 +63,9 @@ public class Conditional extends Sentence{
         if (elseBlock != null) {
             elseBlock.consolidate(st, struct, method, null);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -81,4 +84,35 @@ public class Conditional extends Sentence{
             tabs + "    \"elseBlock\": " + (elseBlock != null ? elseBlock.toJSON(tabs + "    ") : "[]") + "\n" +
             tabs + "}";
     }
+
+    /**
+     * Genera código intermedio para condicionales
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="\n#Conditional code\n";
+        //Aumenta el contador de sentencias
+        int sentenceCounter = symbolTable.addConditionalSentenceCounter();
+        
+        //Obtiene el resultado del condicional en el registro $v0
+        asm += condition.generateCode(sStruct, sMethod);
+        asm += "bne $v0, 1, else" + sentenceCounter + "\t\t\t\t#Conditional. $v0 != 1, jumps to else\n";
+
+        //Then block
+        asm += thenBlock.generateCode(sStruct, sMethod);
+        asm += "j endIfElse" + sentenceCounter + "\n";
+
+        //Else block
+        asm += "else" + sentenceCounter + ":\t\t\t\t\t\t\t#Else block\n";
+        if (elseBlock != null) {
+            asm += elseBlock.generateCode(sStruct, sMethod);
+        }
+
+        //End if-else
+        asm += "endIfElse" + sentenceCounter + ":\t\t\t\t\t\t#End if-else\n" + (sentenceCounter > 1 ? ("j endIfElse" + (sentenceCounter - 1)) : "") + "\n\n";
+        return asm;
+    }
+
 }

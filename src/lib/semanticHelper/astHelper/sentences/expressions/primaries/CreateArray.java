@@ -1,6 +1,7 @@
 package src.lib.semanticHelper.astHelper.sentences.expressions.primaries;
 
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.Expression;
@@ -77,6 +78,9 @@ public class CreateArray extends Primary{
         if (rightChained != null) {
             rightChained.consolidate(st, struct, method, this);
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -96,4 +100,27 @@ public class CreateArray extends Primary{
             tabs + "}";
     }
     
+
+    /** 
+     * Genera código intermedio para Creación de Arrays
+     * 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="";
+
+        //obtener dimention
+        asm = dimention.generateCode(sStruct, sMethod);
+        asm += "move $t1, $v0\t\t\t\t\t#Use $t1 for dimention of array\n";
+        asm += "li $t2, 4\t\t\t\t\t\t#Size of each element\n";
+        asm += "mul $t1, $t1, $t2\t\t\t\t#Calculate dimention of array\n";
+        asm += "move $a0, $t1\n";
+        
+        asm += "jal Array" + type.getLexema() + "_Constructor" + "\n"; 
+            
+        
+        return asm;
+    }
 }

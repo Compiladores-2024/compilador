@@ -64,6 +64,8 @@ public class ArrayAccess extends Primary{
             throw new SemanticException(identifier, ("La variable no es de tipo Array. Tipo detectado: " + resultType), true);
         }
 
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -81,6 +83,13 @@ public class ArrayAccess extends Primary{
             tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"índice\": " + indexArray.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
+    }
+
+    public String generateCode(String sStruct, String sMethod){
+        String asm="";
+
+        //asm += 
+        return asm;
     }
     
 }

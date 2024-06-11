@@ -42,6 +42,9 @@ public class SimpleSentence extends Primary{
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         exp.consolidate(st, struct, method, leftExpression);
         setResultType(exp.getResultTypeChained());
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -55,4 +58,18 @@ public class SimpleSentence extends Primary{
     public String toJSON(String tabs) {
         return exp.toJSON(tabs);
     }
+
+
+    /**
+     * Genera código intermedio para sentencias simples
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = exp.generateCode(sStruct, sMethod);
+        this.isOffset = exp.isOffset();
+        return asm;
+    }
+
 }

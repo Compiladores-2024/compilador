@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.symbolTableHelper.*;
 import src.lib.tokenHelper.IDToken;
@@ -30,6 +31,9 @@ public class SymbolTable {
     // Estructura que se utiliza para almacenar structs que se debe chequear su declaracion.
     private HashMap<String,Token> checkDefinitionStructs;
 
+    //Guarda un contador de sentencias
+    private int conditionalCounter, loopCounter,literalStrCounter;
+
     /**
      * Constructor de la clase.<br/>
      * 
@@ -52,6 +56,8 @@ public class SymbolTable {
         structs = new HashMap<String, Struct>();
         redefinitions = new HashMap<>();
         checkDefinitionStructs = new HashMap<String, Token>();
+        conditionalCounter = 0;
+        loopCounter = 0;
         init();
     }
 
@@ -162,7 +168,82 @@ public class SymbolTable {
         });
     }
 
+    public int addConditionalSentenceCounter() {
+        return ++this.conditionalCounter;
+    }
+    public int addLoopSentenceCounter() {
+        return ++this.loopCounter;
+    }
+
+    public int addLiteralStrCount(){
+        return ++this.literalStrCounter;
+    }
+
+    /**
+     * Genera código intermedio inicial.
+     * Se genera el .data inicial donde se añade un string por default, un mensaje para error de division por cero.
+     * Posteriormente se añaden las vtable. 
+     * Y finalmente el main donde se incluye el codigo del start proporcionado en el codigo .ru
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode () {
+        String code = ".data\n", aux = "", aux1 = "";
+
+        //AGREGA LA INICIALIZACION DE STRINGS
+        code += "\tdefault_string: .asciiz \"\"\n";
+        
+        //AGREGA STRING DE ERROR DIVISION POR CERO
+        code += "\tdivision0: .asciiz \"ERROR: DIVISION POR CERO\" \n";
+        
+        //AGREGA LAS VIRTUAL TABLES DE LOS STRUCTS (EXCEPTO DE LOS STRUCT PREDEFINIDOS)
+        for (String sStruct : structs.keySet()) {
+            if (!staticStruct.contains(sStruct)){
+                aux = "";
+                aux1 = "";
     
+                //Genera los strings con los metodos estaticos y no estaticos
+                for (String method : Static.order(structs.get(sStruct).getMethods())) {
+                    if (structs.get(sStruct).getMethod(method).isStatic()) {
+                        aux1 += method + ", ";
+                    } else {
+                        aux += method + ", ";
+                    }
+                }
+                
+                //Nombre de la estructura sin espacios
+                sStruct = sStruct.replaceAll("\\s", "");
+    
+                //Elimino las comas finales y agrega los nombres de estructuras
+                if (aux.length() > 0) {
+                    aux = sStruct + "_" + aux.substring(0, aux.length() - 2).replaceAll(", ", ", " + sStruct + "_");
+                }
+                //Genera la vtable
+                aux = "\t" + sStruct + "_vtable: .word " + sStruct + "_Constructor" + (aux.length() > 0 ? ", " : "") + aux + "\n";
+    
+                //Valida si debe agregar la vtable de metodos estaticos
+                if (aux1.length() > 0) {
+                    aux1 = aux1.substring(0, aux1.length() - 2).replaceAll(", ", ", " + sStruct + "_");                    
+                    aux += "\t" + sStruct + "_vtable_static: .word " + sStruct + "_" + aux1 + "\n";
+    
+                    //Agrega la variable que referencia a la vtable static
+                    aux += "\t" + sStruct + "_struct_static: .word " + sStruct + "_vtable_static\n";
+                }
+
+                //Agrega las vtables
+                code += aux;
+            }
+        }
+
+        //Reserva los datos del metodo start
+        code += "\t#Main\n\t.text\n\t.globl main\n\n";
+        code += "main:\n#### MAIN DATA ####\n";
+        code += start.generateCode();
+
+        return code;
+    }
+
     /** 
      * Método interno que se utiliza para agregar métodos estáticos predefinidos.
      * 
@@ -331,7 +412,24 @@ public class SymbolTable {
         }
     }
 
+    /**
+     * Obtiene el offset de la variable o parametro
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public int getVariableOffset(String sStruct, String sMethod, String name) {
+        int offset;
+        
+        //Valida si es del metodo start
+        if (sStruct.equals("start")) {
+            offset = start.getVariableOffset(name);
+        } else {
+            offset = structs.get(sStruct).getMethod(sMethod).getVariableOffset(name);
+        }
 
+        return offset;
+    }
     
     /** 
      * Obtiene una estructura dada
@@ -430,6 +528,10 @@ public class SymbolTable {
         // Consolida las estructuras a partir de Object
         structs.get("Object").consolidate(staticStruct);
         System.out.println("");
+    }
+
+    public HashMap<String,Struct> getStructs(){
+        return this.structs;
     }
 
     /**

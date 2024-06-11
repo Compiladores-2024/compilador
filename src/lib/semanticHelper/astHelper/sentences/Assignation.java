@@ -77,6 +77,9 @@ public class Assignation extends Sentence{
                 Static.checkInherited(st, leftType, rightType, identifier);
             }
         }
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     
@@ -93,5 +96,36 @@ public class Assignation extends Sentence{
             tabs + "    \"leftSide\": " + leftSide.toJSON(tabs + "    ") + ",\n" +
             tabs + "    \"rightSide\": " + rightSide.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
+    }
+
+    /**
+     * Genera código intermedio para asignaciones
+     * PRIMERO OBTIENE EL LADO DERECHO PARA NO PISAR LA INFORMACION DEL LADO IZQUIERDO
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm = "#Assignation code - Left side\n";
+        
+        //Escribe el resultado en el registro $v0 y se guarda en la pila
+        asm += leftSide.generateCode(sStruct, sMethod);
+        //Guarda el resultado en la pila
+        asm += "sw $v0, 0($sp)\naddiu $sp, $sp, -4\n#Assignation code - Right side\n";
+        
+        //Escribe el resultado en el registro $v0
+        asm += rightSide.generateCode(sStruct, sMethod);
+
+        //Obtiene el valor de leftside
+        asm += "#Assignation code - Result\nlw $t0, 4($sp)\t\t\t\t\t#Get the left value\n";
+
+        //Si el lado derecho es offset, obtiene el valor
+        if (rightSide.isOffset()) {
+            asm += "lw $v0, 0($v0)\t\t\t\t\t#Get the right value\n";
+        }
+        
+        //Asigna el valor a la variable y libera la memoria
+        asm += "sw $v0, 0($t0)\naddiu $sp, $sp, 4\t\t\t\t#End Assignation\n";
+        return asm;
     }
 }

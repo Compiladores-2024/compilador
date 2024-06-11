@@ -33,10 +33,8 @@ public class SyntacticRunner {
                 //genenera json file
                 
                 String ruta = args[0].split(".ru")[0];
-                String jsonPathOutTS = ruta+".ts.json"; 
-                String jsonPathOutAST = ruta+".ast.json"; 
-                // Static.write(syntacticAnalyzer.toJSON().get(0), jsonPathOutTS);
-                Static.write(syntacticAnalyzer.toJSON().get(1), jsonPathOutAST);
+                Static.write(syntacticAnalyzer.toJSON().get(0), ruta+".ts.json");
+                Static.write(syntacticAnalyzer.toJSON().get(1), ruta+".ast.json");
 
                 // imprimir mensaje de exito semantico sentencias
                 System.out.println("CORRECTO: SEMANTICO - SENTENCIAS");

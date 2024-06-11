@@ -54,6 +54,9 @@ public class Loop extends Sentence{
 
         //Consolida el bloque
         loopBlock.consolidate(st, struct, method, null);
+
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
     
     
@@ -70,6 +73,31 @@ public class Loop extends Sentence{
             tabs + "    \"condicion\": " + condition.toJSON(tabs + "    ") + ",\n" +
             tabs + "    \"bloqueLoop\": " +  loopBlock.toJSON(tabs + "    ") + "\n" +
             tabs + "}";
+    }
+
+    /**
+     * Genera código intermedio para bucles while
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="#Loop code\n";
+        //Aumenta el contador de sentencias
+        int sentenceCounter = symbolTable.addLoopSentenceCounter();
+
+        asm += "while" + sentenceCounter + ":\n";
+
+        //Obtiene el valor de la condicion en el registro $v0
+        asm += condition.generateCode(sStruct, sMethod);
+        // asm += "lw $t0, 4($sp)\naddiu $sp, $sp, 4\n\n";
+        asm += "bne $v0, 1, endWhile" + sentenceCounter + "\t\t\t\t#Conditional: $v0 != 1, jumps to endWhile\n";
+
+        //Bloque loop
+        asm += loopBlock.generateCode(sStruct, sMethod);
+        asm += "j while" + sentenceCounter +  "\t\t\t\t\t\t#Jump to init while\n";
+        asm += "endWhile" + sentenceCounter +":\n";
+        return asm;
     }
 
 }

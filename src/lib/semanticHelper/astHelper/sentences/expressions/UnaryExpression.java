@@ -4,6 +4,7 @@ import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.semanticHelper.SymbolTable;
 import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.Primary;
+import src.lib.semanticHelper.astHelper.sentences.expressions.primaries.SimpleAccess;
 import src.lib.semanticHelper.symbolTableHelper.Method;
 import src.lib.semanticHelper.symbolTableHelper.Struct;
 import src.lib.tokenHelper.IDToken;
@@ -58,10 +59,18 @@ public class UnaryExpression extends Expression{
         else{
             setResultType(expression.getResultTypeChained());
         }
+        
+        //Setea la tabla de simbolos
+        setSymbolTable(st);
     }
 
     private void checkType () {
         String type = expression.getResultTypeChained();
+        
+        //Valida que sea una expresion simple
+        if (!(expression instanceof SimpleAccess)) {
+            throw new SemanticException(identifier, "No se permiten operaciones unarias con expresiones compuestas.", true);
+        }
 
         //Valida que no sea un literal solo si el operador no es + o -
         if (type.contains("literal") && !operator.equals(IDToken.oSUM) && !operator.equals(IDToken.oSUB)) {
@@ -109,5 +118,44 @@ public class UnaryExpression extends Expression{
             tabs + "    \"resultadoDeTipo\": \""  + resultType + "\",\n" +
             tabs + "    \"expresion\": " + expression.toJSON(tabs + "    ") + "\n" +
         tabs + "}";
+    }
+
+    /**
+     * Genera código intermedio para expresiones unarias
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode(String sStruct, String sMethod){
+        String asm="#Unary expression\n";
+
+        //Calcula el resultado de la expresion, se guarda en el registro $v0. Es la direccion de memoria
+        asm += expression.generateCode(sStruct, sMethod);
+        //Obtiene el resultado
+        asm += "lw $t0, 0($v0)\t\t\t\t\t#Get the expression result\n";
+
+        //Realiza la operacion sobre el registro
+        switch (operator) {
+            case oNOT:
+                asm += "not $t0, $t0\t\t\t\t# Not\n";
+                break;
+            case oSUM_SUM:
+                asm += "addiu $t0, $t0, 1\t\t\t\t# +1\n" ;
+                break;
+            case oSUB_SUB:
+                asm += "addiu $t0, $t0, -1\t\t\t\t# -1\n" ;
+                break;
+            case oSUB:
+                asm += "neg $t0, $t0\t\t\t\t\t# Negation\n";
+                break;
+            default:
+                //oSUM no realiza instruccion en mips
+                break;
+        }
+
+        //Guarda el valor en la posicion de memoria correspondiente
+        asm += "sw $t0, 0($v0)\t\t\t\t\t#Save the new value\n";
+        this.isOffset = true;
+        return asm;
     }
 }

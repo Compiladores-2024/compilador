@@ -3,6 +3,7 @@ package src.lib.semanticHelper.symbolTableHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import src.lib.Static;
 import src.lib.exceptionHelper.SemanticException;
 import src.lib.tokenHelper.Token;
 
@@ -16,7 +17,7 @@ import src.lib.tokenHelper.Token;
 public class Method extends Metadata{
     private boolean isStatic;
     private Token returnType;
-    private int currentVarIndex;
+    private int currentVarIndex, sizeRA;
     private HashMap<String, Param> params;
     private HashMap<String, Variable> variables;
 
@@ -49,6 +50,7 @@ public class Method extends Metadata{
         this.isStatic = isStatic;
         this.returnType = returnType;
         this.currentVarIndex = 0;
+        this.sizeRA = 0;
     }
 
     
@@ -59,6 +61,68 @@ public class Method extends Metadata{
      */
     public int getParamsSize () {
         return params.size();
+    }
+    public int getSizeRA() {
+        return sizeRA;
+    }
+    public int getVariableOffset (String name) {
+        int offset = -1; //Asume que es atributo
+
+        //Los parametros se encuentran por debajo del $fp
+        if (params.get(name) != null) {
+            offset = (params.size() - params.get(name).getPosition()) * 4;
+            
+        //Las variables se encuentran por encima del $fp
+        } else if (variables.get(name) != null){
+            offset = -16 - (variables.get(name).getPosition() * 4);
+        }
+
+        return offset;
+    }
+
+    /**
+     * Genera código intermedio para métodos. Aqui se crean registros de activacion RA. 
+     * @param sStruct
+     * @param sMethod
+     * @return String
+     */
+    public String generateCode () {
+        int space = 0;
+        String code = "";
+
+        //LOS PARAMETROS YA SE ENCUENTRAN EN LA STACK
+        //Agrega los temporales y guarda el $fp
+        code = "la $t0, default_string\t\t\t#For init strings\n" + 
+        "#### RA (params are in the stack) ####\n";
+
+        //Reserva memoria para self, RA del llamador y puntero al llamador
+        code += Static.initStackData(returnType.getIDToken(), space) + "\t\t\t\t\t#Return. Idx: $fp\n";
+        space -= 4;
+        code += "sw $fp, " + space + "($sp)\t\t\t\t\t#RA caller. Idx: $fp + 4\n";
+        space -= 4;
+        code += "sw $ra, " + space + "($sp)\t\t\t\t\t#Resume pointer. Idx: $fp + 8\n";
+        space -= 4;
+        code += "sw $sp, " + space + "($sp)\t\t\t\t#Self. Idx: $fp + 12\n";
+        space -= 4;
+
+        //Reserva memoria para las variables locales
+        for (String variable : variables.keySet()) {
+            Variable var = variables.get(variable);
+            code += Static.initStackData(var.getTypeToken().getIDToken(), -(16 + (var.getPosition() * 4))) + "\t\t\t\t\t#Local variable " + variable + ". Idx: $fp + 16 + (" + var.getPosition() + " * 4)\n";
+            space -= 4;
+        }
+
+        code += "######################################\nmove $fp, $sp\t\t\t\t\t#Set the new $fp.\n";
+
+
+        //Mueve el puntero a la posición correspondiente
+        if (space < 0) {
+            code += "addiu $sp, $sp, " + space + "\t\t\t\t#Update sp\n";
+        }
+
+        //Guarda el espacio utilizado (Para luego liberarlo)
+        sizeRA = (space * -1) + (params.size() * 4);
+        return code;
     }
 
     /** 
@@ -104,7 +168,7 @@ public class Method extends Metadata{
         String sParams = "";
 
         //Genera el string de parametros
-        for (String paramName : order(params)) {
+        for (String paramName : Static.order(params)) {
             sParams += params.get(paramName).toString() + " ";
         }
 
@@ -164,6 +228,15 @@ public class Method extends Metadata{
      */
     public String getReturnType () {
         return returnType.getLexema();
+    }
+
+
+    public HashMap<String, Variable> getVariables(){
+        return this.variables;
+    }
+
+    public HashMap<String, Param> getParams(){
+        return this.params;
     }
 
 
