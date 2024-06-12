@@ -42,6 +42,10 @@ public class SimpleSentence extends Primary{
     public void consolidate(SymbolTable st, Struct struct, Method method, Primary leftExpression) {
         exp.consolidate(st, struct, method, leftExpression);
         setResultType(exp.getResultTypeChained());
+        
+        if (rightChained != null) {
+            rightChained.consolidate(st, struct, method, this);
+        }
 
         //Setea la tabla de simbolos
         setSymbolTable(st);
@@ -68,6 +72,14 @@ public class SimpleSentence extends Primary{
      */
     public String generateCode(String sStruct, String sMethod){
         String asm = exp.generateCode(sStruct, sMethod);
+        
+        if (rightChained != null) {
+            //Si exp es offset, avisa el leftside
+            rightChained.setLeftSide(getResultType());
+
+            asm += rightChained.generateCode(sStruct, sMethod);
+        }
+
         this.isOffset = exp.isOffset();
         return asm;
     }

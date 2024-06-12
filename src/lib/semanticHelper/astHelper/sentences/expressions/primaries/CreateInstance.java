@@ -128,6 +128,7 @@ public class CreateInstance extends Primary{
 
         //Lama al metodo constructor
         asm += "jal " + this.identifier.getLexema() + "_Constructor\nlw $v0, 4($sp)\naddiu $sp, $sp, 4\n";
+        //asm += "jal " + this.identifier.getLexema() + "_Constructor\n";
 
         return asm;
     }

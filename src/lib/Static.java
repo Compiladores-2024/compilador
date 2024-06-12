@@ -304,7 +304,7 @@ public class Static {
             "	ArrayChar_vtable: .word ArrayChar_Constructor, length\n" +
             "	Bool_vtable: .word Bool_Constructor\n" +
             "	IO_vtable: .word IO_Constructor\n" +
-            "	IO_vtable_static: .word IO_out_array_int, IO_out_array_char, IO_in_str, IO_out_char, IO_out_array_str, IO_in_int, IO_out_int, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool\n" +
+            "	IO_vtable_static: .word IO_out_array_int, IO_out_array_char, IO_out_int, IO_out_char, IO_out_array_str, IO_in_int, IO_in_str, IO_in_bool, IO_out_str, IO_in_char, IO_out_bool, IO_out_array_bool\n" +
             "	IO_struct_static: .word IO_vtable_static\n" +
             "	Char_vtable: .word Char_Constructor\n" +
             "	Object_vtable: .word Object_Constructor\n" +

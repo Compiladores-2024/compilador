@@ -135,6 +135,8 @@ public class SimpleAccess extends Primary{
 
             //Genera el codigo
             asm += rightChained.generateCode(sStruct, sMethod);
+
+            this.isOffset = rightChained.isOffset();
         }
         return asm;
     }
